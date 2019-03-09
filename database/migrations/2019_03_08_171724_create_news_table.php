@@ -22,11 +22,12 @@ class CreateNewsTable extends Migration
             $table->text('sumary')->nullable();
             $table->longText('content');
             $table->string('title');
+            $table->string('image')->nullable();
             $table->unsignedInteger('type_id');
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
 
             // $table->foreign('type_id')->references('id')->on('news_types')->onDelete('cascade');
         });

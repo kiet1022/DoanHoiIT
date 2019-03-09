@@ -23,9 +23,9 @@ class CreateSocialMarksTable extends Migration
             $table->tinyInteger('mark');
             $table->unsignedInteger('activity_id');
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
 
             // $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
             // $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');

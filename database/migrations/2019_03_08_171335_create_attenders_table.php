@@ -22,9 +22,9 @@ class CreateAttendersTable extends Migration
             $table->char('student_id',20);
             $table->unsignedInteger('activity_id');
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
 
             // $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
         });

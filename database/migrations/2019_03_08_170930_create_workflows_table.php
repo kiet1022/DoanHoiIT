@@ -20,7 +20,7 @@ class CreateWorkflowsTable extends Migration
 
             $table->increments('id');
             $table->unsignedInteger('activity_id');
-            $table->char('student_id',20);
+            $table->unsignedInteger('user_id');
             $table->date('begin_date');
             $table->date('deadline');
             $table->string('content',500);

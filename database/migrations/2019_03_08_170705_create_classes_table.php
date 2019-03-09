@@ -21,9 +21,10 @@ class CreateClassesTable extends Migration
             $table->increments('id');
             $table->string('class_id')->nullable();
             $table->string('class_name')->nullable();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->timestamps();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
         });
     }
 

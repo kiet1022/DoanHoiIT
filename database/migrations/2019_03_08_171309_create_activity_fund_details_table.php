@@ -26,9 +26,9 @@ class CreateActivityFundDetailsTable extends Migration
             $table->string('payment_type');
             $table->string('name')->nullable();
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
 
             // $table->foreign('fund_id')->references('id')->on('activity_funds')->onDelete('cascade');
             // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

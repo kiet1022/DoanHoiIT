@@ -21,9 +21,9 @@ class CreateNewsTypesTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
         });
     }
 

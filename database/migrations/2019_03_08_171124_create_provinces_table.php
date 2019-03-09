@@ -18,14 +18,14 @@ class CreateProvincesTable extends Migration
             $table->collation = 'utf8_unicode_ci';
             $table->engine = 'InnoDB';
 
-            $table->increments('id');
-            $table->char('code', 20);
+            $table->char('id', 20);
             $table->string('name')->nullable();
             $table->string('type')->nullable();
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
+            $table->primary('id');
             
         });
     }

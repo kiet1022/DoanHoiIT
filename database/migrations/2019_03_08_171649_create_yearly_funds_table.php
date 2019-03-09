@@ -20,12 +20,12 @@ class CreateYearlyFundsTable extends Migration
 
             $table->increments('id');
             $table->unsignedInteger('school_year_id');
-            $table->bigInteger('semester1_value');
-            $table->bigInteger('semester2_value');
+            $table->bigInteger('semester1_value')->nullable();
+            $table->bigInteger('semester2_value')->nullable();
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
 
             // $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('cascade');
         });

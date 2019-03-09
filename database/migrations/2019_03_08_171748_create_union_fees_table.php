@@ -22,9 +22,9 @@ class CreateUnionFeesTable extends Migration
             $table->bigInteger('value');
             $table->unsignedInteger('school_year_id');
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
 
             // $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('cascade');
         });

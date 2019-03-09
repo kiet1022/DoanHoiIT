@@ -13,7 +13,7 @@ class CreateActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('activites', function (Blueprint $table) {
+        Schema::create('activities', function (Blueprint $table) {
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
             $table->engine = 'InnoDB';
@@ -28,11 +28,11 @@ class CreateActivitiesTable extends Migration
             $table->tinyInteger('practise_marks')->default(0);
             $table->tinyInteger('social_marks')->default(0);
             $table->integer('max_regis_num')->default(0);
-            $table->char('leader',20);
+            $table->unsignedInteger('leader');
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
-            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes()->nullable();
 
             // $table->foreign('leader')->references('student_id')->on('students')->onDelete('cascade');
         });

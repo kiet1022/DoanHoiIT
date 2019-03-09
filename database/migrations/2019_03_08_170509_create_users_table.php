@@ -24,11 +24,12 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->unsignedInteger('role_id');
             $table->char('student_id',20);
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by');
+            $table->unsignedInteger('level')->default(0)->comment('0: Sinh vien, 1: UV BCH, 2: Thuong truc');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes();
+            $table->softDeletes()->nullable();
 
             // $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             // $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');
