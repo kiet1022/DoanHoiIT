@@ -2,7 +2,23 @@
 @section('title')
     Trang chủ
 @endsection
+@section('style')
+    <style>
+    .no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url("{{asset('assets/img/Preloader_1.gif')}}") center no-repeat #fff;
+}
+    </style>
+@endsection
 @section('main_content')
+<div class="se-pre-con"></div>
               <!-- Content Row -->
               <div class="row">
 
@@ -274,4 +290,26 @@
     
                 </div>
               </div>
+@endsection
+@section('js')
+<script>
+    $( document ).ready(function(){
+      // $.notify("Hello World");
+      for(var i = 0 ; i < 5000; i ++){
+        console.log(i+ " ");
+        $(".se-pre-con").fadeOut("slow");
+      }
+      
+    });
+  </script>
+  <script>
+  //paste this code under the head tag or in a separate js file.
+	//Wait for window load
+	// $(window).load(function() {
+	// 	// Animate loader off screen
+	// 	$(".se-pre-con").fadeOut("slow");
+	// });
+  </script>
+
+
 @endsection
