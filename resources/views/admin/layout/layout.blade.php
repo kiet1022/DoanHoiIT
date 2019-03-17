@@ -17,6 +17,8 @@
   
   <!-- Custom styles for this template-->
   <link href="{{asset('assets/css/admin/sb-admin-2.min.css')}}" rel="stylesheet">
+  <link href="{{asset('assets/vendor/bootstrap-select-1.13.7/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('assets/vendor/animate.css-master/animate.min.css') }}">
   @yield('style')
 </head>
 
@@ -41,10 +43,10 @@
         <div class="container-fluid">
           
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-          </div>
+          </div> --}}
           @yield('main_content')
         </div>
         <!-- /.container-fluid -->
@@ -77,15 +79,9 @@
   <script src="{{asset('assets/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
   
   <!-- Custom scripts for all pages-->
-  <script src="{{asset('assets/js/admin/sb-admin-2.min.js')}}"></script>
-  
-  <!-- Page level plugins -->
-  <script src="{{asset('assets/vendor/chart.js/Chart.min.js')}}"></script>
-  
-  <!-- Page level custom scripts -->
-  <script src="{{asset('assets/js/admin/demo/chart-area-demo.js')}}"></script>
-  <script src="{{asset('assets/js/admin/demo/chart-pie-demo.js')}}"></script>
-  <script src="{{asset('assets/js/admin/bootstrap-notify-master/bootstrap-notify.js')}}"></script>
+  <script src="{{asset('assets/vendor/sb-admin-2.min.js')}}"></script>
+  <script src="{{asset('assets/vendor/bootstrap-select-1.13.7/dist/js/bootstrap-select.min.js')}}"></script>
+  <script src="{{asset('assets/vendor/bootstrap-notify-master/bootstrap-notify.min.js')}}"></script>
   @yield('js')
 </body>
 

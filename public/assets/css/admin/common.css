@@ -1,0 +1,39 @@
+.custom_panel{
+    padding: 15px;
+    background-color: white;
+    border: 1px solid #E6E9ED;
+    margin-bottom: 15px;
+}
+.page-title-header{
+    /* text-align: center; */
+    color: #325CDA;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.right{
+    float: right;
+}
+
+.common-required{
+    color: red;
+}
+.common-label-inline{
+    display: inline-block !important;
+    padding: 0;
+}
+
+.cm-inline-form{
+    margin-bottom: 10px;
+}
+
+.cm-btn-form{
+  width: 100px;
+}
+ /* Toggle */
+  .back-ground-toggle{
+    background-color: #CCCCCC;
+  }
+  .toggle-handle{
+    background-color: #ffffff !important;
+  }

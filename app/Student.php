@@ -32,4 +32,9 @@ class Student extends Model
     {
     	return $this->hasMany('App\SocialMark','student_id','id');
     }
+
+    public function class()
+    {
+    	return $this->belongsTo('App\Classes','class_id','id');
+    }
 }

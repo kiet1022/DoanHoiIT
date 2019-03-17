@@ -1,0 +1,11 @@
+<?php
+return [
+    'STUDENT_MANAGE_ROLE' => 1,
+    'ACTIVITY_MANAGE_ROLE' => 2,
+    'MARK_MANAGE_ROLE' => 3,
+    'FUNDING_MANAGE_ROLE' => 4,
+    'INTERNAL_MANAGE_ROLE' => 5,
+    'USER_MANAGE_ROLE' => 6,
+    'STATICS_MANAGE_ROLE' => 7,
+    'NEWS_MANAGE_ROLE' => 8
+];

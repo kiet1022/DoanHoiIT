@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Province extends Model
 {
-    protected $table="practise_marks";
+    protected $table="provinces";
 
     public function districts()
     {
