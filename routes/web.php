@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
+use \Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,3 +46,9 @@ Route::post('add-student','Admin\StudentManagement\StudentManageController@postA
 
 //     $value;
 // });
+
+Route::get('/test', function(){
+    // $new = Carbon::now()->format('Y-m-d');
+    // return $new;
+    dd(Auth::check());
+});

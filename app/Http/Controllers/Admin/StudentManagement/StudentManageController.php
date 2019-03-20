@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\AddNewStudentRequest;
+use \Carbon\Carbon;
 use App\SchoolYear;
 use App\Student;
 use App\User;
 use App\Role;
 use App\UserRole;
 use App\Rules\Uppercase;
+
 /**
  * StudentManageController.php
  * Created at 15/03/2019
@@ -68,8 +70,9 @@ class StudentManageController extends Controller
     * @param Request $re
     */
     public function postAddStudentList(AddNewStudentRequest $re){
-        
+
         $student = new Student;
+        $success = false;
         DB::beginTransaction();
         // Handling Add new Student
         $student->student_id = $re->sid;
@@ -101,7 +104,25 @@ class StudentManageController extends Controller
         }
         $student->is_study = $re->isStudy;
         $student->save();
-        DB::commit();
-        return redirect()->back()->with('success','Thêm sinh viên thành công');
+        $success = true;
+        if($success){
+            $user = new User;
+            $user->email = $student->student_id.config('constants.MAIL_PATTERN');
+            $user->level = 0;
+            $user->password = bcrypt(config('constants.DEFAULT_PASSWORD'));
+            $user->student_id = $student->student_id;
+            if(Auth::check()){
+                $user->created_by = Auth::user()->id;
+            }else{
+                return view('layout.403');
+            }
+            $user->save();
+            DB::commit();
+            // $new = Carbon::now()->format('Y-m-d');
+            return redirect()->back()->with('success','Thêm sinh viên thành công');
+        }else{
+            return redirect()->back()->with('fail','Thêm sinh viên thất bại');
+        }
+        
     }
 }

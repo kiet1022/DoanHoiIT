@@ -13,11 +13,18 @@ return [
     // Gender
     'MALE_OPTION' => 1,
     'FEMALE_OPTION' => 2,
-    'OTHER_GENDER_OPTION' => 0,
+    'OTHER_GENDER_OPTION' => 3,
 
     // Study status
     'STUDY_STATUS_STUDYING' => 1,
     'STUDY_STATUS_GRADUATED' => 2,
     'STUDY_STATUS_RESERVED' => 3,
     'STUDY_STATUS_LEAVED_SCHOOL' => 4,
+
+    // Mail pattern
+    'MAIL_PATTERN' => '@student.hcmute.edu.vn',
+
+    // Default password
+
+    'DEFAULT_PASSWORD' => '123456',
 ];
