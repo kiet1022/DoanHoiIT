@@ -129,3 +129,15 @@
             $('#studentWard').html(html);
         }
     }
+
+    // clear all value of input
+    function clearValue(){
+        $('input[name=sid]').val(null);
+        $('input[name=studentName]').val(null);
+        $('input[name=studentBirthday]').val(null);
+        $('input[name=studentPhone]').val(null);
+        $('input[name=studentAddress]').val(null);
+        $('input[name=unionDate]').val(null);
+        $('input[name=unionPlace]').val(null);
+        $('.cm-error').css('display','none');
+    }

@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Collection;
-
+use App\Http\Requests\AddNewStudentRequest;
 use App\SchoolYear;
 use App\Student;
 use App\User;
 use App\Role;
 use App\UserRole;
-
+use App\Rules\Uppercase;
 /**
  * StudentManageController.php
  * Created at 15/03/2019
@@ -67,7 +67,7 @@ class StudentManageController extends Controller
     * 
     * @param Request $re
     */
-    public function postAddStudentList(Request $re){
+    public function postAddStudentList(AddNewStudentRequest $re){
         
         $student = new Student;
         DB::beginTransaction();

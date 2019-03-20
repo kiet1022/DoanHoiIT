@@ -4,6 +4,8 @@ use App\Province;
 use App\Ward;
 use App\User;
 use Illuminate\Http\Request;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,3 +39,9 @@ Route::get('/hello', function(){
 Route::get('student-list','Admin\StudentManagement\StudentManageController@getStudentList')->name('get_student_list');
 Route::get('add-student','Admin\StudentManagement\StudentManageController@getAddStudentList')->name('get_add_student');
 Route::post('add-student','Admin\StudentManagement\StudentManageController@postAddStudentList')->name('post_add_student');
+
+// Route::get('/session', function(){
+//     session(['kiet'=>'dep trai']);
+
+//     $value;
+// });

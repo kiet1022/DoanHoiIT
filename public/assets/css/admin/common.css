@@ -37,3 +37,10 @@
   .toggle-handle{
     background-color: #ffffff !important;
   }
+  .cm-ul-error{
+    list-style-position: inside;
+    color: #e74a3b;
+    border: 1px solid #e74a3b;
+    border-radius: 7px;
+    margin-bottom: 0;
+  }

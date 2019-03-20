@@ -77,39 +77,6 @@ function stripUnicode($str){
 	return $str;
 }
 
-function changeCatColor($color){
-	$class ='';
-	if($color == 1 || $color == 3 || $color == 5 || $color == 7 || $color == 9) {
-		$class = 'cat-1';
-	}if($color == 11 || $color == 13 || $color == 15 || $color == 17 || $color == 19) {
-		$class = 'cat-2';
-	}if($color == 21 || $color == 23 || $color == 25) {
-		$class = 'cat-3';
-	}if($color == 2 || $color == 4 || $color == 6 || $color == 8 || $color == 10) {
-		$class = 'cat-4';
-	}if($color == 12 || $color == 14 || $color == 16 || $color == 18) {
-		$class = 'cat-5';
-	}if($color == 20 || $color == 22 || $color == 24) {
-		$class = 'cat-7';
-	}
-	return $class;
-}
-
-/**
- * Change gender for select
- */
-function changeGenderForSelect($gender){
-	$option = '';
-	if($gender == 0){
-		$option = '<option value="0" selected>Nam</option><option value="1">Nữ</option><option value="3">Khác</option>';
-	}if($gender == 1){
-		$option = '<option value="0">Nam</option><option value="1" selected>Nữ</option><option value="3">Khác</option>';
-	}if($gender == 2){
-		$option = '<option value="0">Nam</option><option value="1">Nữ</option><option value="3" selected>Khác</option>';
-	}
-	return $option;
-}
-
 /**
  * Change gender for list student
  */
@@ -125,84 +92,14 @@ function changeGenderForList($gender){
 	return $result;
 }
 
-function changeRole($role){
+function changeSelectedStatus($option, $value){
 	$result = '';
-	if($role == 1){
-		$result = 'Quản trị viên';
-	}if($role == 0){
-		$result = 'Thành viên';
-	}
-	return $result;
-}
-function changeCorrectAnswerColor($answer, $correctAnswer){
-	$result = '';
-	if(trim($answer) == trim($correctAnswer)){
-		$result = 'data-toggle="tooltip" title="Đáp án đúng" data-placement="top" class="text-danger"';
+	if($value === $option){
+		$result = 'selected';
 	}
 	return $result;
 }
 
-function changeSelectedCorrectAnswer($question){
-	$option = '';
-	if(trim($question->a) == trim($question->correct_answer)){
-		$option = '<option value="A" selected>'.$question->a.'</option><option value="B">'.$question->b.'</option><option value="C">'.$question->c.'</option><option value="D">'.$question->d.'</option>';
-	}
-	if(trim($question->b) == trim($question->correct_answer)){
-		$option = '<option value="A">'.$question->a.'</option><option value="B" selected>'.$question->b.'</option><option value="C">'.$question->c.'</option><option value="D">'.$question->d.'</option>';
-	}
-	if(trim($question->c) == trim($question->correct_answer)){
-		$option = '<option value="A">'.$question->a.'</option><option value="B">'.$question->b.'</option><option value="C" selected>'.$question->c.'</option><option value="D">'.$question->d.'</option>';
-	}
-	if(trim($question->d) == trim($question->correct_answer)){
-		$option = '<option value="A">'.$question->a.'</option><option value="B">'.$question->b.'</option><option value="C">'.$question->c.'</option><option value="D" selected>'.$question->d.'</option>';
-	}
-	return $option;
-}
 
-function checkYourAnswer($option, $answer){
-	$result = "disabled";
-	if(trim($answer) == trim($option)) {
-		$result = "checked";
-	}
-	return $result;
-}
-
-function checkCorrectQuestion($answer, $corect){
-	$result ="";
-	if(trim($answer) == trim($corect)){
-		$result = '<span style="color: #29ca8e; margin-left: 10px;"><i class="fa fa-check"></i></span>';
-	}
-	return $result;
-}
-
-function showHours($time){
-	$result = 0;
-	if($time == 60){
-		$result = 1;
-	}
-	return $result;
-}
-
-function showMinutes($time){
-	$result = 0;
-	if($time == 60){
-		$result = 60;
-	}
-	if($time == 30){
-		$result = 30;
-	}
-	if($time == 20){
-		$result = 20;
-	}
-	return $result;
-}
-
-function checkCorrectQuestionForEditTest($answer, $correct){
-	$result='';
-	if($answer == $correct){
-		$result = 'checked';
-	}
-	return $result;
-}
 
 ?>

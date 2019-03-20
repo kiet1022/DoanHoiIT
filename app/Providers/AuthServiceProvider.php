@@ -30,9 +30,5 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             }
         });
-
-        // Gate::define('Hello', function ($user) {
-        //     return $user->id === 3;
-        // });
     }
 }

@@ -36,7 +36,7 @@ return [
     'date_format' => 'The :attribute does not match the format :format.',
     'different' => 'The :attribute and :other must be different.',
     'digits' => 'The :attribute must be :digits digits.',
-    'digits_between' => 'The :attribute must be between :min and :max digits.',
+    'digits_between' => ':attribute phải từ :min đến :max chữ số.',
     'dimensions' => 'The :attribute has invalid image dimensions.',
     'distinct' => 'The :attribute field has a duplicate value.',
     'email' => 'The :attribute must be a valid email address.',
@@ -94,7 +94,7 @@ return [
     'numeric' => 'The :attribute must be a number.',
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
-    'required' => 'The :attribute field is required.',
+    'required' => 'Bạn chưa nhập :attribute.',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',
@@ -128,9 +128,7 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+
     ],
 
     /*
@@ -144,6 +142,15 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'studentName'=>'Họ Tên',
+        'email'=>'Địa chỉ Email',
+        'sid' => 'Mã số sinh viên',
+        'studentSex' =>'Giới tính',
+        'studentBirthday' => 'Ngày sinh',
+        'studentShoolYear' => 'Niên khóa',
+        'studentClass' => 'Lớp',
+        'unionDate' => 'Ngày kết nạp',
+    ],
 
 ];
