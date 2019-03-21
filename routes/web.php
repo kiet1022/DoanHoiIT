@@ -3,6 +3,7 @@ use App\District;
 use App\Province;
 use App\Ward;
 use App\User;
+use App\Student;
 use Illuminate\Http\Request;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -49,6 +50,8 @@ Route::get('exec-com-list','Admin\AdministratorsManagement\AdministratorsManagem
 Route::get('news/news-type-list','Admin\NewsManagement\NewsTypeManageController@getNewTypesList')->name('get_news_type_list');
 Route::get('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@getAddNewType')->name('get_add_new_type');
 Route::post('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@postAddNewsType')->name('post_add_news_type');
+
+Route::get('import-student','Admin\StudentManagement\StudentManageController@getImportStudent')->name('get_import_student');
 // Route::get('/session', function(){
 //     session(['kiet'=>'dep trai']);
 
@@ -56,7 +59,6 @@ Route::post('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@
 // });
 
 Route::get('/test', function(){
-    // $new = Carbon::now()->format('Y-m-d');
-    // return $new;
-    dd(Auth::check());
+    $student = Student::find('15110370');
+    dd($student);
 });

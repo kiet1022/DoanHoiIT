@@ -172,10 +172,29 @@ class StudentManageController extends Controller
                 $date_on_union=null;
             }
             $userinfo=User::where('student_id',$id)->update(['level' => $re->permistion]);
-            $student=Student::where('student_id',$id)->update(['name' => $re->studentName, 'sex' => $re->studentSex, 'birthday' => $birthday, 'address' => $re->studentAddress, 'province' => $re->studentProvince, 'district' => $re->studentDistrict, 'ward' => $re->studentWard, 'phone_no' => $re->studentPhone, 'is_youth_union_member' => $is_youth_union_member, 'is_payed_union_fee' => $is_payed_union_fee, 'is_study' => $re->isStudy, 'date_on_union' => $date_on_union, 'class_id' => $re->studentClass, 'school_year_id' => $re->studentShoolYear]);
+            $student=Student::where('student_id',$id)->update([
+            'name' => $re->studentName, 
+            'sex' => $re->studentSex, 
+            'birthday' => $birthday, 
+            'address' => $re->studentAddress, 
+            'province' => $re->studentProvince, 
+            'district' => $re->studentDistrict, 
+            'ward' => $re->studentWard, 
+            'phone_no' => $re->studentPhone, 
+            'is_youth_union_member' => $is_youth_union_member, 
+            'is_payed_union_fee' => $is_payed_union_fee, 
+            'is_study' => $re->isStudy, 
+            'date_on_union' => $date_on_union, 
+            'class_id' => $re->studentClass, 
+            'school_year_id' => $re->studentShoolYear]);
             return redirect()->back()->with('success','Sửa thông tin thành công');
         }catch(Exception $ex){
             return redirect()->back()->with('error',$ex->getMessage());
         }
     }
+
+    public function getImportStudent(){
+        return view('admin.students.import_student');
+    }
+
 }

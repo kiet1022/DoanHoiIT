@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     protected $table="students";
+    
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'student_id';
 
     public function user()
     {

@@ -25,7 +25,7 @@ class AddNewStudentRequest extends FormRequest
     {
         
         return [
-            'sid' => 'required|numeric|digits_between:7,10',
+            'sid' => 'required|unique:students,student_id|numeric|digits_between:7,10',
             'studentName' =>'required|between:3, 50',
             'studentBirthday' => 'required|bail|size:10|date',
             'unionDate' => 'bail|nullable|size:10|date',
@@ -68,6 +68,7 @@ class AddNewStudentRequest extends FormRequest
      */
     public function messages(){
         return [
+            'sid.unique' => 'MSSV đã tồn tại',
             'studentSex.required' => 'Bạn chưa chọn :attribute.',
             'studentSex.numeric' => 'Giá trị của :attribute phải là số.',
             'email.email'=>':attribute không hợp lệ.',

@@ -98,7 +98,7 @@ Danh sách sinh viên
                 </div>
               <!-- /.container-fluid -->
               <a class="btn btn-success" href="{{route('get_add_student')}}"><i class="fas fa-plus-circle"></i> Thêm 1 sinh viên</a>
-                  <button class="btn btn-info"><i class="fas fa-file-import"></i> Import Sinh viên</button>
+              <a class="btn btn-info" href="{{ route('get_import_student') }}"><i class="fas fa-file-import"></i> Import Sinh viên</a>
                   <button class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button>
         </div>
     </div>
