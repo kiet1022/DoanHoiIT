@@ -63,6 +63,6 @@ class User extends Authenticatable
     }
 
     public function student(){
-        return $this->belongsTo('App\Student', 'student_id','id');
+        return $this->belongsTo('App\Student', 'student_id','student_id');
     }
 }

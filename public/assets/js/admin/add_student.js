@@ -13,11 +13,12 @@
         // show advance uinon info
         $(function() {
             $('#toggleisUnion').change(function() {
-                
                 if($(this).prop('checked') == false){
                     $('.show-off').css('display','none');
+                    $('#toggleisUnion').val('0');
                 } else {
                     $('.show-off').removeAttr("style");
+                    $('#toggleisUnion').val('1');
                 }
             })
         })
@@ -51,6 +52,14 @@
             onstyle: 'primary',
             style: 'back-ground-toggle'
         });
+    })
+
+    $('#toggleUnionFee').change(function() {
+        if($(this).prop('checked') == false){
+            $('#toggleUnionFee').val('0');
+        } else {
+            $('#toggleUnionFee').val('1');
+        }
     })
 
     // Change class when school year change

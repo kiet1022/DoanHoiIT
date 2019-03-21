@@ -1,6 +1,6 @@
 @extends('admin.layout.layout')
 @section('title')
-Danh sách sinh viên
+Danh sách ban chấp hành
 @endsection
 @section('style')
 <link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
@@ -24,34 +24,13 @@ Danh sách sinh viên
 <div class="container-fluid">
     <div class="row">
         <div class="col page-title-header">
-                <h4>Quản lý sinh viên</h4>
+                <h4>Quản lý ban chấp hành</h4>
         </div>
     </div>
     <div class="row">
         {{-- filter condition --}}
         <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-            <form action="/action_page.php" method="POST" class="col-md-12">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="shoolyear">Khóa:</label>
-                        <select id="shoolyear" class="form-control">
-                          @foreach ($schoolYears as $sy)
-                        <option value="{{$sy->id}}">{{$sy->course}}</option>
-                          @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="class">Lớp:</label>
-                        <select id="class" class="form-control">
-                            <option>151101</option>
-                            <option>151102</option>
-                            <option>151103</option>
-                            <option>159100</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary right"><i class="fas fa-filter"></i> Lọc</button>
-            </form>
+           
         </div>
         {{-- Student list --}}
         <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
@@ -68,29 +47,34 @@ Danh sách sinh viên
                           <tr>
                             <th></th>
                             <th>MSSV</th>
-                            <th>Họ Tên</th>
-                            <th>Lớp</th>
-                            <th>Giới tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Địa chỉ</th>
-                            <th>Số điện thoại</th>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>Quyền</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach ($studentList as $list)
+                          @foreach ($user as $list)
                           <tr>
                             <td></td>
-                          <td>{{$list->student_id}}</td>
-                              <td>{{$list->name}}</td>
-                              <td>{{$list->class->class_name}}</td>
-                              <td>{!! changeGenderForList($list->sex) !!}</td>
-                              <td>{{$list->birthday}}</td>
-                              <td>{{$list->address}}</td>
-                              <td>{{$list->phone_no}}</td>
-                              <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}">Sửa</a></td>
-                            </tr>
+                            <td>{{$list->student_id}}</td>
+                            <td>{{$list->student->name}}</td>
+                            <td>{{$list->email}}</td>
+                            <td> 
+                              @if( $list->level == '1' )
+                              Thường trực
+                              @elseif( $list->level == '2' )
+                              Ủy viên BCH
+                              @elseif( $list->level == '3' )
+                              Ban cán sự lớp
+                              @endif
+
+ 
+                            </td>
+                            <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}">Sửa</a></td>
+                          </tr>
                           @endforeach
+                          
                         </tbody>
                       </table>
                     </div>

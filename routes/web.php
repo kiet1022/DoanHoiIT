@@ -40,7 +40,15 @@ Route::get('/hello', function(){
 Route::get('student-list','Admin\StudentManagement\StudentManageController@getStudentList')->name('get_student_list');
 Route::get('add-student','Admin\StudentManagement\StudentManageController@getAddStudentList')->name('get_add_student');
 Route::post('add-student','Admin\StudentManagement\StudentManageController@postAddStudentList')->name('post_add_student');
+Route::get('edit-student/{student_id}','Admin\StudentManagement\StudentManageController@getEditStudent')->name('get_edit_student');
+Route::post('edit-student/{student_id}','Admin\StudentManagement\StudentManageController@postEditStudent')->name('post_edit_student');
 
+Route::get('user-list','Admin\UserManagement\UserManageController@getUserList')->name('get_user_list');
+// Route::get('user-edit/{id}','Admin\UserManagement\UserManageController@getEditUser')->name('get_edit_user');
+Route::get('exec-com-list','Admin\AdministratorsManagement\AdministratorsManagementController@getAdminList')->name('get_ec_list');
+Route::get('news/news-type-list','Admin\NewsManagement\NewsTypeManageController@getNewTypesList')->name('get_news_type_list');
+Route::get('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@getAddNewType')->name('get_add_new_type');
+Route::post('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@postAddNewsType')->name('post_add_news_type');
 // Route::get('/session', function(){
 //     session(['kiet'=>'dep trai']);
 

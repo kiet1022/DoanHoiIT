@@ -38,8 +38,8 @@
           <div id="studentManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Thông tin sinh viên:</h6>
-              <a class="collapse-item" href="login.html">Danh sách sinh viên</a>
-              <a class="collapse-item" href="register.html">Thêm sinh viên</a>
+              <a class="collapse-item" href="{{ route('get_student_list') }}">Danh sách sinh viên</a>
+              <a class="collapse-item" href="{{route('get_add_student')}}">Thêm sinh viên</a>
               <a class="collapse-item" href="forgot-password.html">DRL - CTXH</a>
               <div class="collapse-divider"></div>
               <h6 class="collapse-header">Thông tin chi đoàn</h6>
@@ -119,7 +119,7 @@
           </a>
           <div id="internalManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="login.html">Danh sách BCH</a>
+              <a class="collapse-item" href="{{route('get_ec_list')}}">Danh sách BCH</a>
             </div>
           </div>
         </li>
@@ -132,7 +132,7 @@
           </a>
           <div id="userManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="login.html">Quản lý Users</a>
+              <a class="collapse-item" href="{{ route('get_user_list') }}">Quản lý Users</a>
               <a class="collapse-item" href="login.html">Phân quyền Users</a>
             </div>
           </div>
@@ -164,8 +164,8 @@
             <div id="newsManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Loại tin: </h6>
-                  <a class="collapse-item" href="login.html">Danh sách loại tin</a>
-                  <a class="collapse-item" href="login.html">Thêm loại tin</a>
+                  <a class="collapse-item" href="{{ route('get_news_type_list') }}">Danh sách loại tin</a>
+                  <a class="collapse-item" href="{{ route('get_add_new_type') }}">Thêm loại tin</a>
                   <h6 class="collapse-header">Bài đăng: </h6>
                   <a class="collapse-item" href="login.html">Danh sách bài đăng</a>
                   <a class="collapse-item" href="login.html">Thêm bài đăng</a>

@@ -10,7 +10,7 @@ class Student extends Model
 
     public function user()
     {
-    	return $this->hasOne('App\User','student_id','id');
+    	return $this->hasOne('App\User','student_id','student_id');
     }
 
     public function attends()
