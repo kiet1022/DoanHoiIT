@@ -6,6 +6,7 @@ Danh sách sinh viên
 <link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     .no-js #loader { display: none;  }
     .js #loader { display: block; position: absolute; left: 100px; top: 0; }
@@ -79,17 +80,17 @@ Danh sách sinh viên
                         </thead>
                         <tbody>
                           @foreach ($studentList as $list)
-                          <tr>
-                            <td></td>
-                          <td>{{$list->student_id}}</td>
-                              <td>{{$list->name}}</td>
-                              <td>{{$list->class->class_name}}</td>
-                              <td>{!! changeGenderForList($list->sex) !!}</td>
-                              <td>{{$list->birthday}}</td>
-                              <td>{{$list->address}}</td>
-                              <td>{{$list->phone_no}}</td>
-                              <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}">Sửa</a></td>
-                            </tr>
+                          <tr class="userSelected" id="{{$list->student_id}}">
+                            <td><input type="checkbox" class="sub_chk" data-id="{{$list->student_id}}"></td>
+                            <td>{{$list->student_id}}</td>
+                            <td>{{$list->name}}</td>
+                            <td>{{$list->class->class_name}}</td>
+                            <td>{!! changeGenderForList($list->sex) !!}</td>
+                            <td>{{$list->birthday}}</td>
+                            <td>{{$list->address}}</td>
+                            <td>{{$list->phone_no}}</td>
+                            <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}">Sửa</a></td>
+                          </tr>
                           @endforeach
                         </tbody>
                       </table>
@@ -99,7 +100,7 @@ Danh sách sinh viên
               <!-- /.container-fluid -->
               <a class="btn btn-success" href="{{route('get_add_student')}}"><i class="fas fa-plus-circle"></i> Thêm 1 sinh viên</a>
               <a class="btn btn-info" href="{{ route('get_import_student') }}"><i class="fas fa-file-import"></i> Import Sinh viên</a>
-                  <button class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button>
+              <button data-url="{{ url('deleteSelectedUser') }}" class="btn delete_all" id="deleteUser" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> <!-- route('delete_user',['id'=>$us->id]) -->
         </div>
     </div>
 </div>
@@ -111,6 +112,10 @@ Danh sách sinh viên
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
+<script src="{{asset('assets/js/admin/common.js')}}"></script>
+ <script type="text/javascript">
+    
+ </script>
 <script>
     $( document ).ready(function(){
         $('#dataTable').DataTable({

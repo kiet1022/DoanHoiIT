@@ -29,7 +29,7 @@ Danh sách sinh viên
                             {{-- Student ID --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="sid" class="col-md-4 common-label-inline">MSSV <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                                <input type="number" class="form-control col-md-8" id="id" name="id" placeholder="Mã số sinh viên" required disabled value="{{$student->student_id}}">
+                                <input type="number" class="form-control col-md-8" id="sid" name="sid" placeholder="Mã số sinh viên" required disabled value="{{$student->student_id}}">
                             </div>
                             
                             {{-- error --}}
@@ -59,7 +59,7 @@ Danh sách sinh viên
                                 </ul>
                             </div>
                             @endif
-                            {{-- authorities --}}
+                            <!-- {{-- authorities --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="permistion" class="col-md-4 common-label-inline">Quyền <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <select id="permistion" class="form-control col-md-8" name="permistion" required >
@@ -68,7 +68,7 @@ Danh sách sinh viên
                                     <option value="2" @if($student->user->level == 2) {{"selected"}} @endif>Ủy viên</option>
                                     <option value="3" @if($student->user->level == 3) {{"selected"}} @endif>Ban cán sự lớp</option>
                                 </select>
-                            </div>
+                            </div> -->
                             {{-- Sex --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="studentSex" class="col-md-4 common-label-inline">Giới tính <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>

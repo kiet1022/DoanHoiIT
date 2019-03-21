@@ -52,6 +52,9 @@ Route::get('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@g
 Route::post('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@postAddNewsType')->name('post_add_news_type');
 
 Route::get('import-student','Admin\StudentManagement\StudentManageController@getImportStudent')->name('get_import_student');
+
+// Route::post('deleteSelectedUser','Admin\StudentManagement\StudentManageController@deleteAll')->name('deleteSelectedUser');
+Route::delete('deleteSelectedUser', 'Admin\StudentManagement\StudentManageController@deleteAll')->name('deleteSelectedUser');
 // Route::get('/session', function(){
 //     session(['kiet'=>'dep trai']);
 

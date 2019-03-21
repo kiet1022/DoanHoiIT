@@ -44,7 +44,7 @@ class StudentManageController extends Controller
             default:
             if(Gate::allows('access',[$role, $user_role])){
                 $schoolYears = SchoolYear::where('type',2)->get();
-                $studentList = Student::all();
+                $studentList = Student::where('deleted_at',null)->get();
                 return view('admin.students.student_list',compact('schoolYears','studentList'));
             }else{
                 return view('admin.layout.403');
@@ -148,9 +148,7 @@ class StudentManageController extends Controller
         try{ 
             // $student = Student::find($id);
             $student = Student::where('student_id',$id)->first();
-            $userinfo = User::where('student_id',$id)->first();
-            $birthday= date('Y-m-d H:i:s',strtotime($re->studentBirthday));
-            $date_on_union= date('Y-m-d H:i:s',strtotime($re->unionDate));
+            // $userinfo = User::where('student_id',$id)->first();
             switch ($re->toggleisUnion) {
                 case '1':
                 $is_youth_union_member = 1;
@@ -171,11 +169,11 @@ class StudentManageController extends Controller
                 $is_payed_union_fee = 0;
                 $date_on_union=null;
             }
-            $userinfo=User::where('student_id',$id)->update(['level' => $re->permistion]);
+            // $userinfo=User::where('student_id',$id)->update(['level' => $re->permistion]);
             $student=Student::where('student_id',$id)->update([
             'name' => $re->studentName, 
             'sex' => $re->studentSex, 
-            'birthday' => $birthday, 
+            'birthday' => date('Y-m-d H:i:s',strtotime($re->studentBirthday)), 
             'address' => $re->studentAddress, 
             'province' => $re->studentProvince, 
             'district' => $re->studentDistrict, 
@@ -184,7 +182,7 @@ class StudentManageController extends Controller
             'is_youth_union_member' => $is_youth_union_member, 
             'is_payed_union_fee' => $is_payed_union_fee, 
             'is_study' => $re->isStudy, 
-            'date_on_union' => $date_on_union, 
+            'date_on_union' => date('Y-m-d H:i:s',strtotime($re->unionDate)), 
             'class_id' => $re->studentClass, 
             'school_year_id' => $re->studentShoolYear]);
             return redirect()->back()->with('success','Sửa thông tin thành công');
@@ -195,6 +193,14 @@ class StudentManageController extends Controller
 
     public function getImportStudent(){
         return view('admin.students.import_student');
+    }
+
+    public function deleteAll(Request $request)
+    {
+        $ids = $request->ids;
+        $student=Student::whereIn('student_id',explode(",",$ids))->update(['deleted_at' => now()]);
+        $user=User::whereIn('student_id',explode(",",$ids))->update(['deleted_at' => now()]);
+        return response()->json(['success'=>"Student deleted successfully."]);
     }
 
 }
