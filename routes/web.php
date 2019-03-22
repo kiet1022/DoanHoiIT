@@ -38,18 +38,26 @@ Route::get('/hello', function(){
     return view('admin.students.student_list');
 });
 
-Route::get('student-list','Admin\StudentManagement\StudentManageController@getStudentList')->name('get_student_list');
-Route::get('add-student','Admin\StudentManagement\StudentManageController@getAddStudentList')->name('get_add_student');
-Route::post('add-student','Admin\StudentManagement\StudentManageController@postAddStudentList')->name('post_add_student');
-Route::get('edit-student/{student_id}','Admin\StudentManagement\StudentManageController@getEditStudent')->name('get_edit_student');
-Route::post('edit-student/{student_id}','Admin\StudentManagement\StudentManageController@postEditStudent')->name('post_edit_student');
+Route::get('student','Admin\StudentManagement\StudentManageController@getStudentList')->name('get_student_list');
+Route::get('student/add','Admin\StudentManagement\StudentManageController@getAddStudentList')->name('get_add_student');
+Route::post('student/add','Admin\StudentManagement\StudentManageController@postAddStudentList')->name('post_add_student');
+Route::get('student/edit/{student_id}','Admin\StudentManagement\StudentManageController@getEditStudent')->name('get_edit_student');
+Route::post('student/edit/{student_id}','Admin\StudentManagement\StudentManageController@postEditStudent')->name('post_edit_student');
 
-Route::get('user-list','Admin\UserManagement\UserManageController@getUserList')->name('get_user_list');
+Route::get('user','Admin\UserManagement\UserManageController@getUserList')->name('get_user_list');
 // Route::get('user-edit/{id}','Admin\UserManagement\UserManageController@getEditUser')->name('get_edit_user');
-Route::get('exec-com-list','Admin\AdministratorsManagement\AdministratorsManagementController@getAdminList')->name('get_ec_list');
+Route::get('exec-com-list','Admin\AdministratorsManagement\AdministratorsManageController@getAdminList')->name('get_ec_list');
 Route::get('news/news-type-list','Admin\NewsManagement\NewsTypeManageController@getNewTypesList')->name('get_news_type_list');
 Route::get('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@getAddNewType')->name('get_add_new_type');
 Route::post('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@postAddNewsType')->name('post_add_news_type');
+Route::get('news','Admin\NewsManagement\NewsManageController@getNewsList')->name('get_news_list');
+Route::get('news/add','Admin\NewsManagement\NewsManageController@getAddNew')->name('get_add_new');
+Route::post('news/add','Admin\NewsManagement\NewsManageController@postAddNew')->name('post_add_new');
+Route::get('news/edit/{id}','Admin\NewsManagement\NewsManageController@getEditNew')->name('get_edit_new');
+Route::post('news/edit/{id}','Admin\NewsManagement\NewsManageController@postEditNew')->name('post_edit_new');
+
+
+
 
 Route::get('import-student','Admin\StudentManagement\StudentManageController@getImportStudent')->name('get_import_student');
 

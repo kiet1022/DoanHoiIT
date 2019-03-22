@@ -30,7 +30,7 @@ class UserManageController extends Controller
             default:
             if(Gate::allows('access',[$role, $user_role])){
                 $schoolYears = SchoolYear::where('type',2)->get();
-                $studentList = User::all();
+                $studentList = User::where('deleted_at',null)->get();
                 return view('admin.user.user_list',compact('schoolYears','studentList'));
             }else{
                 return view('admin.layout.403');

@@ -63,10 +63,10 @@ Quản lí tin tức
                     </div>
                   </div>
                 </div>
-              <!-- /.container-fluid -->
-              <a class="btn btn-success" href="{{route('get_add_student')}}"><i class="fas fa-plus-circle"></i> Thêm user</a>
-                  <button class="btn btn-info"><i class="fas fa-file-import"></i> Import Sinh viên</button>
-                  <button class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button>
+                <!-- /.container-fluid -->
+                <a class="btn btn-success" href="{{route('get_add_new_type')}}"><i class="fas fa-plus-circle"></i> Thêm loại tin</a>
+                <!-- <a class="btn btn-info"><i class="fas fa-file-import"></i> Import Sinh viên</a> -->
+                <a class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</a>
         </div>
     </div>
 </div>

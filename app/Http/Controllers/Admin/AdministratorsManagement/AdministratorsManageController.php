@@ -17,10 +17,10 @@ use App\Role;
 use App\UserRole;
 use App\Rules\Uppercase;
 
-class AdministratorsManagementController extends Controller
+class AdministratorsManageController extends Controller
 {
 	public function getAdminList(){
-        $user = User::where('level',1)->orWhere('level',2)->orWhere('level',3)->get();
+        $user = User::where('level',1)->where('deleted_at',null)->orWhere('level',2)->orWhere('level',3)->get();
         // $student = Student::where('student_id',$user->student_id)->get();
 
         // switch ($user_role) {

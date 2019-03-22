@@ -43,8 +43,17 @@ class StudentManageController extends Controller
             
             default:
             if(Gate::allows('access',[$role, $user_role])){
+                //filteration condition
+                $school_year_id=request('studentShoolYear');
+                $class_id=request('studentClass');
+
                 $schoolYears = SchoolYear::where('type',2)->get();
-                $studentList = Student::where('deleted_at',null)->get();
+                if (isset($school_year_id)&&isset($class_id)) {
+                    $studentList = Student::where('deleted_at',null)->where('school_year_id', $school_year_id)->where('class_id',$class_id)->get();
+                }else{
+                    $studentList = Student::where('deleted_at',null)->get();
+                }
+                
                 return view('admin.students.student_list',compact('schoolYears','studentList'));
             }else{
                 return view('admin.layout.403');
@@ -68,12 +77,10 @@ class StudentManageController extends Controller
     * @param Request $re
     */
     public function postAddStudentList(AddNewStudentRequest $re){
-
-        
         //Hieu edit
         $checkExist = Student::where('student_id',$re->sid)->first();
         if (isset($checkExist)) {
-            return redirect()->back()->with('fail','trùng mã sv');
+            return redirect()->back()->with('fail','MSSV đã tồn tại.');
         }else{
             $student = new Student;
             $success = false;
@@ -135,10 +142,6 @@ class StudentManageController extends Controller
             }
         }
 
-
-
-        
-        
     }
     public function getEditStudent($student_id){
         $student = Student::where('student_id',$student_id)->first();
@@ -146,7 +149,6 @@ class StudentManageController extends Controller
     }
     public function postEditStudent($id, EditStudentRequest $re){
         try{ 
-            // $student = Student::find($id);
             $student = Student::where('student_id',$id)->first();
             // $userinfo = User::where('student_id',$id)->first();
             switch ($re->toggleisUnion) {
@@ -200,7 +202,6 @@ class StudentManageController extends Controller
         $ids = $request->ids;
         $student=Student::whereIn('student_id',explode(",",$ids))->update(['deleted_at' => now()]);
         $user=User::whereIn('student_id',explode(",",$ids))->update(['deleted_at' => now()]);
-        return response()->json(['success'=>"Student deleted successfully."]);
+        return response()->json(['success'=>"Xóa sinh viên thành công"]);
     }
-
 }

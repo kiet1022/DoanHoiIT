@@ -167,8 +167,8 @@
                   <a class="collapse-item" href="{{ route('get_news_type_list') }}">Danh sách loại tin</a>
                   <a class="collapse-item" href="{{ route('get_add_new_type') }}">Thêm loại tin</a>
                   <h6 class="collapse-header">Bài đăng: </h6>
-                  <a class="collapse-item" href="login.html">Danh sách bài đăng</a>
-                  <a class="collapse-item" href="login.html">Thêm bài đăng</a>
+                  <a class="collapse-item" href="{{ route('get_news_list') }}">Danh sách bài đăng</a>
+                  <a class="collapse-item" href="{{ route('get_add_new') }}">Thêm bài đăng</a>
               </div>
             </div>
           </li>
