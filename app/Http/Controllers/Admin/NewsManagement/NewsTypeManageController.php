@@ -38,11 +38,28 @@ class NewsTypeManageController extends Controller
 			$newstype = new NewsType;
 			$newstype->name = $request->typename;
 			// $newstype->title = changeTitle($request->typename);
-            // $newstype->updated_by = Auth::user()->id;
+            // $newstype->creates = Auth::user()->id;
 			$newstype->save();
 			return redirect()->back()->with('success','Thêm loại tin thành công');
 		}catch(Exception $ex){
 			return redirect()->back()->with('error','Thêm loại tin thất bại');
 		}
 	}
+
+	public function getEditNewsType($id){
+        // $news = News::where('id',$id)->first();
+        $newsType = NewsType::find($id);
+        return view('admin.news.edit_news_type',compact('newsType'));
+    }
+    public function postEditNewsType($id, Request $re){
+        try{
+			$newsType = NewsType::find($id);
+			$newsType->name = $re->typename;
+			// $newstype->updated_by = Auth::user()->id;
+			$newsType->save();
+			return redirect()->back()->with('success','Lưu tin thành công');
+		}catch(Exception $ex){
+			return redirect()->back()->with('error','Thêm tin thất bại');
+		}
+    }
 }

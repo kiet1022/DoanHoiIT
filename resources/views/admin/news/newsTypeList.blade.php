@@ -55,7 +55,7 @@ Quản lí tin tức
                             <td>{{$list->id}}</td>
                             <td>{{$list->name}}</td>
                             <td>{{$list->created_at}}</td>
-                            <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}">Sửa</a></td>
+                            <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_news_type',['id'=>$list->id]) }}">Sửa</a></td>
                             </tr>
                           @endforeach
                         </tbody>

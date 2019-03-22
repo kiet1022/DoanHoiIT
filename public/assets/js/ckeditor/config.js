@@ -38,8 +38,8 @@ CKEDITOR.editorConfig = function( config ) {
 	config.font_names = CKEDITOR.config.font_names + ';ＭＳ Ｐゴシック' ;
 
 	//Set width, height
-	CKEDITOR.config.height = 350;
-	CKEDITOR.config.width = 'auto';
+	CKEDITOR.config.height = 450;
+	CKEDITOR.config.width = 900;
 	//CKEDITOR.config.width = 750;
 	
 };
