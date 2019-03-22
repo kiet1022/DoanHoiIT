@@ -35,6 +35,22 @@ class NewsManageController extends Controller
 			$news->content = $request->content_news;
 			$news->title = $request->title;
 			$news->type_id = intval($request->type);
+			if($request->hasFile('image')){
+				$file = $request->file('image');
+				$duoi = $file->getClientOriginalExtension();
+				if($duoi != 'jpg' && $duoi != 'png' && $duoi != 'jpeg'){
+					return redirect()->back()->with('error','Vui lòng chọn đúng định dạng hình');
+				}
+				$name = $file->getClientOriginalName();
+				$image = str_random(4)."_".$name;
+				while (file_exists("images/news/".$image)) {
+					$image = str_random(4)."_".$name;
+				}
+				$file->move("images/news",$image);
+				$news->image = $image;
+			}else{
+				$news->image = "";
+			}
 			$news->save();
 			return redirect()->back()->with('success','Thêm tin thành công');
 		}catch(Exception $ex){
@@ -54,7 +70,6 @@ class NewsManageController extends Controller
 			$news->title = $re->title;
 			$news->sumary = $re->sumary;
 			$news->content = $re->content_news;
-
 			if($re->hasFile('image')){
 				$file = $re->file('image');
 				$duoi = $file->getClientOriginalExtension();

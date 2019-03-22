@@ -16,7 +16,7 @@ Thêm loại tin
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-        <form action="{{ route('post_add_new') }}" method="POST">
+        <form action="{{ route('post_add_new') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
                 <div class="col-md-12">
@@ -45,10 +45,8 @@ Thêm loại tin
                             </div>
                             <div class="form-inline cm-inline-form">
                                 <label  class="col-md-4 common-label-inline">Hình ảnh nổi bật:</label>
-                                <input type="file" name="cc">
+                                <input type="file" name="image" id="image">
                             </div>
-                            
-                            
                         </div>
                     </div>
                 </div>

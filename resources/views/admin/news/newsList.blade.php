@@ -42,9 +42,9 @@ Quản lí tin tức
                         <thead style="background: #f8f9fc">
                           <tr>
                             <th></th>
+                            <th>Hình ảnh nổi bật</th>
                             <th>Tiêu đề</th>
                             <th>Tóm tắt</th>
-                            <th>Content</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -52,9 +52,11 @@ Quản lí tin tức
                           @foreach ($news as $list)
                           <tr>
                             <td></td>
+                             @if($list->image != "") <td><img class="featured-image" src="./images/news/{{$list->image}}"></td>
+                             @else <td><img class="featured-image" src="./images/no-image.png"></td>
+                              @endif
                             <td>{{$list->title}}</td>
                             <td>{{$list->sumary}}</td>
-                            <td>{{$list->content}}</td>
                             <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_new',['id'=>$list->id]) }}">Sửa</a></td>
                             </tr>
                           @endforeach

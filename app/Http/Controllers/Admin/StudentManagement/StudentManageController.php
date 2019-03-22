@@ -34,8 +34,12 @@ class StudentManageController extends Controller
     * @return view
     */
     public function getStudentList(){
+        if (!isset(Auth::user()->id)) {
+            return view('login'); //redirect to loginpage if no have session login
+        }
         $role = Role::where('id',config('constants.STUDENT_MANAGE_ROLE'))->first();
         $user_role = UserRole::where('user_id',Auth::user()->id)->where('role_id',$role->id)->first();
+
         switch ($user_role) {
             case null:
             return view('admin.layout.403');
@@ -68,6 +72,9 @@ class StudentManageController extends Controller
     * @return view
     */
     public function getAddStudentList(){
+        if (!isset(Auth::user()->id)) {
+            return view('login'); //redirect to loginpage if no have session login
+        }
         return view('admin.students.add_student',compact('schoolYears'));
     }
     
@@ -77,6 +84,9 @@ class StudentManageController extends Controller
     * @param Request $re
     */
     public function postAddStudentList(AddNewStudentRequest $re){
+        if (!isset(Auth::user()->id)) {
+            return view('login'); //redirect to loginpage if no have session login
+        }
         //Hieu edit
         $checkExist = Student::where('student_id',$re->sid)->first();
         if (isset($checkExist)) {
@@ -144,10 +154,16 @@ class StudentManageController extends Controller
 
     }
     public function getEditStudent($student_id){
+        if (!isset(Auth::user()->id)) {
+            return view('login'); //redirect to loginpage if no have session login
+        }
         $student = Student::where('student_id',$student_id)->first();
         return view('admin.students.edit_student',compact('student'));
     }
     public function postEditStudent($id, EditStudentRequest $re){
+        if (!isset(Auth::user()->id)) {
+            return view('login'); //redirect to loginpage if no have session login
+        }
         try{ 
             $student = Student::where('student_id',$id)->first();
             // $userinfo = User::where('student_id',$id)->first();
@@ -194,11 +210,16 @@ class StudentManageController extends Controller
     }
 
     public function getImportStudent(){
+        if (!isset(Auth::user()->id)) {
+            return view('login'); //redirect to loginpage if no have session login
+        }
         return view('admin.students.import_student');
     }
 
-    public function deleteAll(Request $request)
-    {
+    public function deleteAll(Request $request){
+        if (!isset(Auth::user()->id)) {
+            return view('login'); //redirect to loginpage if no have session login
+        }
         $ids = $request->ids;
         $student=Student::whereIn('student_id',explode(",",$ids))->update(['deleted_at' => now()]);
         $user=User::whereIn('student_id',explode(",",$ids))->update(['deleted_at' => now()]);
