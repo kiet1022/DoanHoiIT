@@ -82,6 +82,7 @@
   <script src="{{asset('assets/vendor/sb-admin-2.min.js')}}"></script>
   <script src="{{asset('assets/vendor/bootstrap-select-1.13.7/dist/js/bootstrap-select.min.js')}}"></script>
   <script src="{{asset('assets/vendor/bootstrap-notify-master/bootstrap-notify.min.js')}}"></script>
+  <script src="{{asset('assets/vendor/jquery.blockUI.js')}}"></script>
   @yield('js')
 </body>
 

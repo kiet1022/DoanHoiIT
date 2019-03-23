@@ -42,9 +42,6 @@ class StudentManageController extends Controller
     * @return view
     */
     public function getStudentList(){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
-        }
         $role = Role::where('id',config('constants.STUDENT_MANAGE_ROLE'))->first();
         $user_role = UserRole::where('user_id',Auth::user()->id)->where('role_id',$role->id)->first();
 
@@ -92,14 +89,7 @@ class StudentManageController extends Controller
     * @param Request $re
     */
     public function postAddStudentList(AddNewStudentRequest $re){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
-        }
-        //Hieu edit
-        $checkExist = Student::where('student_id',$re->sid)->first();
-        if (isset($checkExist)) {
-            return redirect()->back()->with('fail','MSSV đã tồn tại.');
-        }else{
+
             $student = new Student;
             $success = false;
             DB::beginTransaction();
@@ -158,8 +148,6 @@ class StudentManageController extends Controller
             }else{
                 return redirect()->back()->with('fail','Thêm sinh viên thất bại');
             }
-        }
-
     }
     public function getEditStudent($student_id){
         if (!isset(Auth::user()->id)) {
@@ -218,9 +206,9 @@ class StudentManageController extends Controller
     }
 
     public function getImportStudent(){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
-        }
+        // if (!isset(Auth::user()->id)) {
+        //     return view('login'); //redirect to loginpage if no have session login
+        // }
         return view('admin.students.import_student');
     }
 
@@ -235,7 +223,7 @@ class StudentManageController extends Controller
                 $studentArray = (new ImportStudent)->toArray($file)[0];
                 // skipping heading row
                 unset($studentArray[0]);
-    
+                //dd(date('Y-m-d H:i:s',strtotime($studentArray[0]['ngay_sinh'])));
                 // Loop student Array to import to db
                 foreach ($studentArray as $studentRow) {
                     $student = new Student;
@@ -253,7 +241,7 @@ class StudentManageController extends Controller
                         $student->name = trim($studentRow['ho_ten']);
                     }
                     if(!is_null($studentRow['ngay_sinh'])){
-                        $student->birthday = date('Y-m-d H:i:s',strtotime(trim($studentRow['ngay_sinh'])));
+                        $student->birthday = Carbon::createFromFormat('d/m/Y', trim($studentRow['ngay_sinh']))->format('Y-m-d');
                     }
                     if(!is_null($studentRow['gioi_tinh'])){
                         $student->sex = StudentUtil::parseSexToInt($studentRow['gioi_tinh']);

@@ -83,6 +83,8 @@ Route::post('education-program/edit/{id}','Admin\AcademicManagement\AcademicMana
 
 
 Route::get('/test', function(){
-    $a = config('constants.BLANK_STRING');
-    return $a;
+    $user = new User;
+    $user->email = '15110237@student.hcmute.edu.vn';
+    $user->password = bcrypt('15110237');
+    
 });

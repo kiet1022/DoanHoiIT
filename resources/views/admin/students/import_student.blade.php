@@ -7,21 +7,8 @@ Danh sách sinh viên
 <link href="{{asset('assets/vendor/icheck-1.x/skins/flat/green.css')}}" rel="stylesheet">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <link href="{{asset('assets/vendor/gijgo-combined-1.9.11/css/gijgo.min.css')}}" rel="stylesheet">
-<style>
-.no-js #loader { display: none;  }
-    .js #loader { display: block; position: absolute; left: 100px; top: 0; }
-    .se-pre-con {
-        position: fixed;
-        left: 0px;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background: url("{{asset('assets/img/Preloader_1.gif')}}") center no-repeat #fff;
-    }</style>
 @endsection
 @section('main_content')
-<div class="se-pre-con"></div>
 <div class="row">
     <div class="col page-title-header">
         <h4>Nhập thông tin sinh viên</h4>
@@ -101,11 +88,22 @@ Danh sách sinh viên
                 '</div>' 
             });
             @endif
-
-
+            
+            
             $(document).on('submit','form#file',function(){
-                //$(".se-pre-con").fadeOut("slow");
+                $(document).ajaxStart($.blockUI({ message: '<div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status"><span class="sr-only">Loading...</span></div>', 
+                css: {backgroundColor: 'transparent',border: 'none'} })).ajaxStop($.unblockUI);
             });
+            
+            
+            // function blockUI(isMark) {
+            //     if (isMark) {
+            //         $(document).ajaxStart($.blockUI({ message: '<i class="fa fa-spinner fa-3x fa-lg fa-spin txt-color-blueDark"></i>', theme: false })).ajaxStop($.unblockUI);
+            //     }
+            //     else {
+            //         $(document).ajaxStart($.blockUI({ message: '<i class="fa fa-spinner fa-3x fa-lg fa-spin txt-color-blueDark"></i>', theme: false, overlayCSS: { backgroundColor: 'transparent' } })).ajaxStop($.unblockUI);
+            //     }
+            // }
         </script>
         <script src="{{asset('assets/js/admin/add_student.js')}}"></script>
         
