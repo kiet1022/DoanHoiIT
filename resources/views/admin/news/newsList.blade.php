@@ -24,7 +24,7 @@ Quản lí tin tức
 <div class="container-fluid">
     <div class="row">
         <div class="col page-title-header">
-                <h4>Danh mục loại tin</h4>
+                <h4>Danh sách bài viết</h4>
         </div>
     </div>
     <div class="row">
@@ -52,9 +52,11 @@ Quản lí tin tức
                           @foreach ($news as $list)
                           <tr>
                             <td></td>
-                             @if($list->image != "") <td><img class="featured-image" src="./images/news/{{$list->image}}"></td>
-                             @else <td><img class="featured-image" src="./images/no-image.png"></td>
-                              @endif
+                            @if($list->image != "") 
+                                <td><img class="featured-image" src="./images/news/{{$list->image}}"></td>
+                            @else 
+                                <td><img class="featured-image" src="./images/no-image.png"></td>
+                            @endif
                             <td>{{$list->title}}</td>
                             <td>{{$list->sumary}}</td>
                             <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_new',['id'=>$list->id]) }}">Sửa</a></td>
@@ -94,16 +96,14 @@ Quản lí tin tức
         },
         order: [[ 1, 'asc' ]]
     });
-        });
-    </script>
-    <script>
-        //paste this code under the head tag or in a separate js file.
-        //Wait for window load
-        // $(window).load(function() {
-            // 	// Animate loader off screen
-            // 	$(".se-pre-con").fadeOut("slow");
-            // });
-        </script>
-        
-        
-        @endsection
+});
+</script>
+<script>
+//paste this code under the head tag or in a separate js file.
+//Wait for window load
+// $(window).load(function() {
+    // 	// Animate loader off screen
+    // 	$(".se-pre-con").fadeOut("slow");
+    // });
+</script>
+@endsection

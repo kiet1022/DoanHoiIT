@@ -83,8 +83,9 @@ class NewsManageController extends Controller
 				}
 				$file->move("images/news",$image);
 				$news->image = $image;
-			}else{
+			}else if($re->imgDelF==1){
 				$news->image = "";
+			}else{
 			}
 			$news->save();
 			return redirect()->back()->with('success','Lưu tin thành công');
@@ -92,4 +93,7 @@ class NewsManageController extends Controller
 			return redirect()->back()->with('error','Thêm tin thất bại');
 		}
     }
+
+
+
 }

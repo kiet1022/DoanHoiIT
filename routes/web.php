@@ -56,7 +56,8 @@ Route::post('news/add','Admin\NewsManagement\NewsManageController@postAddNew')->
 Route::get('news/edit/{id}','Admin\NewsManagement\NewsManageController@getEditNew')->name('get_edit_new');
 Route::post('news/edit/{id}','Admin\NewsManagement\NewsManageController@postEditNew')->name('post_edit_new');
 
-
+Route::get('news/edit-type/{id}','Admin\NewsManagement\NewsTypeManageController@getEditNewsType')->name('get_edit_news_type');
+Route::post('news/edit-type/{id}','Admin\NewsManagement\NewsTypeManageController@postEditNewsType')->name('post_edit_news_type');
 
 
 Route::get('import-student','Admin\StudentManagement\StudentManageController@getImportStudent')->name('get_import_student');
