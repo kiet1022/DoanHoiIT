@@ -64,11 +64,23 @@ Route::get('import-student','Admin\StudentManagement\StudentManageController@get
 Route::post('import-student','Admin\StudentManagement\StudentManageController@postImportStudent')->name('post_import_student');
 // Route::post('deleteSelectedUser','Admin\StudentManagement\StudentManageController@deleteAll')->name('deleteSelectedUser');
 Route::delete('deleteSelectedUser', 'Admin\StudentManagement\StudentManageController@deleteAll')->name('deleteSelectedUser');
-// Route::get('/session', function(){
-//     session(['kiet'=>'dep trai']);
 
-//     $value;
-// });
+
+Route::delete('news/deleteSelectedNews', 'Admin\NewsManagement\NewsManageController@deleteAll')->name('deleteSelectedNews');
+Route::delete('news/deleteSelectedNewsType', 'Admin\NewsManagement\NewsTypeManageController@deleteAll')->name('deleteSelectedNewsType');
+
+Route::get('education-program','Admin\AcademicManagement\AcademicManageController@getSchoolYearList')->name('educationProgramList');
+
+Route::get('education-program/add','Admin\AcademicManagement\AcademicManageController@getAddNew')->name('get_add_program');
+Route::post('education-program/add','Admin\AcademicManagement\AcademicManageController@postAddNew')->name('post_add_program');
+
+Route::get('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@getEditProgram')->name('get_edit_program');
+Route::post('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@postEditProgram')->name('post_edit_program');
+
+
+// Route::get('classes','Admin\ClassManagement\ClassManageController@getSchoolYearList')->name('educationProgramList');
+
+
 
 Route::get('/test', function(){
     $a = config('constants.BLANK_STRING');
