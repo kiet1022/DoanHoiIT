@@ -32,7 +32,10 @@ Danh sách sinh viên
 
 
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-        <iframe src="https://drive.google.com/file/d/0BzVTMVBotS4Xbkt3UHdIREQwYldFZzZ5Z0xQcVNqd1dod3FR/view?usp=sharing" frameborder="1"></iframe>
+        <div class="col-md-12 my-2">
+                <a href="{{asset('templates/excel/template_import_student.xlsx')}}"><h5>Tải mẫu import</h5></a>
+        </div>
+            <iframe width="100%" style="min-height: calc(100vh - 400px)" frameborder="0" scrolling="no" src="https://onedrive.live.com/embed?resid=979DCCFAB98844F4%212499&authkey=%21AK9sqbtqlTwWLB4&em=2&wdAllowInteractivity=False"></iframe>
     </div>
 </div>
 @endsection
