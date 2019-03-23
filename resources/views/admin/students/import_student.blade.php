@@ -7,8 +7,21 @@ Danh sách sinh viên
 <link href="{{asset('assets/vendor/icheck-1.x/skins/flat/green.css')}}" rel="stylesheet">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <link href="{{asset('assets/vendor/gijgo-combined-1.9.11/css/gijgo.min.css')}}" rel="stylesheet">
+<style>
+.no-js #loader { display: none;  }
+    .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+    .se-pre-con {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url("{{asset('assets/img/Preloader_1.gif')}}") center no-repeat #fff;
+    }</style>
 @endsection
 @section('main_content')
+<div class="se-pre-con"></div>
 <div class="row">
     <div class="col page-title-header">
         <h4>Nhập thông tin sinh viên</h4>
@@ -16,26 +29,27 @@ Danh sách sinh viên
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-    <form action="#" method="POST" enctype="multipart/form-data">
-        <div class="form-row">
-            <div class="col-md-6 offset-md-2">
-                    <input type="file" name="importFile" id="importFile" class="form-control" style="height: auto;">
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-success cm-btn-form">Load</button>
+        <form id="file" action="{{ route('post_import_student') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="form-row">
+                <div class="col-md-6 offset-md-2">
+                    <input type="file" name="importFile" id="importFile" class="form-control" style="height: auto;" required>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success cm-btn-form">Load</button>
+                </div>
+                
             </div>
             
-        </div>
-        
-    </form>
+        </form>
     </div>
-
-
+    
+    
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
         <div class="col-md-12 my-2">
-                <a href="{{asset('templates/excel/template_import_student.xlsx')}}"><h5>Tải mẫu import</h5></a>
+            <a href="{{asset('templates/excel/template_import_student.xlsx')}}"><h5>Tải mẫu import</h5></a>
         </div>
-            <iframe width="100%" style="min-height: calc(100vh - 400px)" frameborder="0" scrolling="no" src="https://onedrive.live.com/embed?resid=979DCCFAB98844F4%212499&authkey=%21AK9sqbtqlTwWLB4&em=2&wdAllowInteractivity=False"></iframe>
+        <iframe width="100%" style="min-height: calc(100vh - 400px)" frameborder="0" scrolling="no" src="https://onedrive.live.com/embed?resid=979DCCFAB98844F4%212499&authkey=%21AK9sqbtqlTwWLB4&em=2&wdAllowInteractivity=True"></iframe>
     </div>
 </div>
 @endsection
@@ -45,19 +59,23 @@ Danh sách sinh viên
 <script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
 
 <script>
-    // global variable
-    var classes = {!!$data["class"]!!};
-    var province = {!! $data["province"]!!}
-    var district = {!! $data["district"]!!}
-    var ward = {!! $data["ward"]!!}
     var message = '';
+    var type = '';
     @if(session('success'))
+    message = '{{session('success')}}'
+    type = 'success';
+    @endif
+    @if(session('error'))
+    message = '{{session('error')}}'
+    type = 'danger';
+    @endif
+    @if(session('success') || session('error'))
     $.notify({
         // options
-        message:'{{session('success')}}',
+        message: message,
     },{
         // settings
-        type: "success",
+        type: type,
         newest_on_top: true,
         offset: {
             x: 20,
@@ -83,6 +101,12 @@ Danh sách sinh viên
                 '</div>' 
             });
             @endif
+
+
+            $(document).on('submit','form#file',function(){
+                //$(".se-pre-con").fadeOut("slow");
+            });
         </script>
         <script src="{{asset('assets/js/admin/add_student.js')}}"></script>
+        
         @endsection

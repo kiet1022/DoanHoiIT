@@ -1,13 +1,14 @@
 <?php
 namespace App\Http\Controllers\Admin\StudentManagement;
-
+use Exception;
 use App\Http\Controllers\Controller;
-
+use App\Imports\ImportStudent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AddNewStudentRequest;
 use App\Http\Requests\EditStudentRequest;
 use \Carbon\Carbon;
@@ -17,6 +18,8 @@ use App\User;
 use App\Role;
 use App\UserRole;
 use App\Rules\Uppercase;
+use App\CommonHandle\StringUtil;
+use App\CommonHandle\StudentUtil;
 
 /**
  * StudentManageController.php
@@ -27,7 +30,12 @@ use App\Rules\Uppercase;
 
 class StudentManageController extends Controller
 {
-    
+    protected $stringUtil;
+    protected $studentUtil;
+    public function __construct(StringUtil $common, StudentUtil $studentUtil){
+        $this->stringUtil = $common;
+        $this->studentUtil = $studentUtil;
+    }
     /**
     * Get Student list page
     * 
@@ -214,6 +222,75 @@ class StudentManageController extends Controller
             return view('login'); //redirect to loginpage if no have session login
         }
         return view('admin.students.import_student');
+    }
+
+    public function postImportStudent(Request $req){
+        try {
+            if($req->hasFile('importFile')){
+                $file = $req->file('importFile');
+                $duoi = $file->getClientOriginalExtension();
+                if($duoi != 'xls' && $duoi != 'xlsx'){
+                    return redirect()->back()->with('error','Vui lòng chọn đúng định dạng file.');
+                }
+                $studentArray = (new ImportStudent)->toArray($file)[0];
+                // skipping heading row
+                unset($studentArray[0]);
+    
+                // Loop student Array to import to db
+                foreach ($studentArray as $studentRow) {
+                    $student = new Student;
+                    $user = new User;
+                    DB::beginTransaction();
+                    if(!is_null($studentRow['mssv'])){
+                        $student->student_id = trim($studentRow['mssv']);
+                        $user->student_id = trim($studentRow['mssv']);
+                        $user->email = trim($studentRow['mssv']).config('constants.MAIL_PATTERN');
+                        $user->password = Hash::make(trim($studentRow['mssv']));
+                        $user->level = 1;
+                        $user->created_by = Auth::user()->id;
+                    }
+                    if(!is_null($studentRow['ho_ten'])){
+                        $student->name = trim($studentRow['ho_ten']);
+                    }
+                    if(!is_null($studentRow['ngay_sinh'])){
+                        $student->birthday = date('Y-m-d H:i:s',strtotime(trim($studentRow['ngay_sinh'])));
+                    }
+                    if(!is_null($studentRow['gioi_tinh'])){
+                        $student->sex = StudentUtil::parseSexToInt($studentRow['gioi_tinh']);
+                    }
+                    if(!is_null($studentRow['ma_tt'])){
+                        $student->province = trim($studentRow['ma_tt']);
+                    }
+                    if(!is_null($studentRow['ma_qh'])){
+                        $student->district = trim($studentRow['ma_qh']);
+                    }
+                    if(!is_null($studentRow['nien_khoa'])){
+                        $student->school_year_id = StudentUtil::parseSchoolYearToInt($studentRow['nien_khoa']);
+                    }
+                    if(!is_null($studentRow['lop'])){
+                        $student->class_id = StudentUtil::parseClassToInt($studentRow['lop']);
+                    }
+                    if(!is_null($studentRow['dia_chi_day_du'])){
+                        $student->address = trim($studentRow['dia_chi_day_du']);
+                    }
+                    if(!is_null($studentRow['sdt'])){
+                        $student->phone_no = StringUtil::pureString($studentRow['sdt']);
+                    }
+                    if(!is_null($studentRow['cmnd'])){
+                        $student->identity_card = StringUtil::pureString($studentRow['cmnd']);
+                    }
+                    $student->save();
+                    $user->save();
+                    
+                    DB::commit();
+                }
+            }else{
+                return redirect()->back()->with('error','Vui lòng chọn file!');
+            }
+            return redirect()->back()->with('success','Import Thành công.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error','Import thất bại!');
+        }
     }
 
     public function deleteAll(Request $request){

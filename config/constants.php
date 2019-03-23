@@ -25,6 +25,8 @@ return [
     'MAIL_PATTERN' => '@student.hcmute.edu.vn',
 
     // Default password
-
     'DEFAULT_PASSWORD' => '123456',
+
+    // Blank string
+    'BLANK_STRING' => '',
 ];

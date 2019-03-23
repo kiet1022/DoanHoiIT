@@ -61,7 +61,7 @@ Route::post('news/edit-type/{id}','Admin\NewsManagement\NewsTypeManageController
 
 
 Route::get('import-student','Admin\StudentManagement\StudentManageController@getImportStudent')->name('get_import_student');
-
+Route::post('import-student','Admin\StudentManagement\StudentManageController@postImportStudent')->name('post_import_student');
 // Route::post('deleteSelectedUser','Admin\StudentManagement\StudentManageController@deleteAll')->name('deleteSelectedUser');
 Route::delete('deleteSelectedUser', 'Admin\StudentManagement\StudentManageController@deleteAll')->name('deleteSelectedUser');
 // Route::get('/session', function(){
@@ -71,6 +71,6 @@ Route::delete('deleteSelectedUser', 'Admin\StudentManagement\StudentManageContro
 // });
 
 Route::get('/test', function(){
-    $student = Student::find('15110370');
-    dd($student);
+    $a = config('constants.BLANK_STRING');
+    return $a;
 });
