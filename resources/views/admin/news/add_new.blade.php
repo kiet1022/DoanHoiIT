@@ -53,6 +53,7 @@ Thêm bài viết
             </div>
             <hr class="sidebar-divider">
             <div class="col-12 text-center">
+                <button type="button" class="btn btn-secondary cm-btn-form" onclick="javascript:history.back()">Cancel</button>
                 <button type="submit" class="btn btn-success cm-btn-form">Submit</button>
             </div>
         </form>
@@ -65,5 +66,16 @@ Thêm bài viết
 <script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
 <script src="{{asset('assets/js/ckeditor/ckeditor.js')}}"></script>
 <script src="{{asset('assets/js/admin/news.js')}}"></script>
+<script type="text/javascript">
+    //replace textarea
+if(CKEDITOR) {
+    CKEDITOR.replace('content_news', {
+        allowedContent: true
+    });
+    CKEDITOR.config.extraAllowedContent = 'audio[*]';
+    CKEDITOR.config.height = 350;
+    CKEDITOR.config.width = 350;
+}
+</script>
 
 @endsection

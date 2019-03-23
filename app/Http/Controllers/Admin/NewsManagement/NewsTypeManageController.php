@@ -38,7 +38,7 @@ class NewsTypeManageController extends Controller
 			$newstype = new NewsType;
 			$newstype->name = $request->typename;
 			// $newstype->title = changeTitle($request->typename);
-            // $newstype->creates = Auth::user()->id;
+            $newstype->created_by = Auth::user()->id;
 			$newstype->save();
 			return redirect()->back()->with('success','Thêm loại tin thành công');
 		}catch(Exception $ex){
@@ -52,6 +52,7 @@ class NewsTypeManageController extends Controller
         return view('admin.news.edit_news_type',compact('newsType'));
     }
     public function postEditNewsType($id, Request $re){
+    	// return Auth::user()->id;
         try{
 			$newsType = NewsType::find($id);
 			$newsType->name = $re->typename;
@@ -61,5 +62,14 @@ class NewsTypeManageController extends Controller
 		}catch(Exception $ex){
 			return redirect()->back()->with('error','Thêm tin thất bại');
 		}
+    }
+    public function deleteAll(Request $request){
+        if (!isset(Auth::user()->id)) {
+            return view('login'); //redirect to loginpage if no have session login
+        }
+        $ids = $request->ids;
+        $newsType=NewsType::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
+        $news=News::whereIn('type_id',explode(",",$ids))->update(['deleted_at' => now()]);
+        return response()->json(['success'=>"Xóa loại tin thành công"]);
     }
 }

@@ -23,8 +23,8 @@ Thêm loại tin
                     <div class="card">
                         <div class="card-body">                            
                             <div class="form-inline cm-inline-form">
-                                <label for="typename">Tên loại tin</label>
-                                <input type="text" class="form-control" id="typename" placeholder="Nhập tên loại tin" name='typename'>
+                                <label for="typename" class="col-md-4 common-label-inline">Tên thể loại <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
+                                <input type="text" class="form-control col-md-8" id="typename" name="typename" placeholder="" required value="">
                             </div>
                             
                             
@@ -34,6 +34,7 @@ Thêm loại tin
             </div>
             <hr class="sidebar-divider">
             <div class="col-12 text-center">
+                <button type="button" class="btn btn-secondary cm-btn-form" onclick="javascript:history.back()">Cancel</button>
                 <button type="submit" class="btn btn-success cm-btn-form">Submit</button>
                 <button id="clear" onclick="clearValue()" type="button" class="btn btn-warning cm-btn-form">Clear</button>
             </div>

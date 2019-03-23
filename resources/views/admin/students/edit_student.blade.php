@@ -46,7 +46,7 @@ Danh sách sinh viên
                             {{-- Student Name --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="studentName" class="col-md-4 common-label-inline">Họ tên <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                                <input type="text" class="form-control col-md-8" id="studentName" name="studentName" placeholder="Họ và Tên" required value="{{$student->name}}">
+                                <input type="text" class="form-control col-md-8" id="studentName" name="studentName" placeholder="Họ và Tên" required @if ($errors->any()) value="{{old('studentName')}}" @else  value="{{$student->name}}"  @endif >
                             </div>
                             
                             {{-- error --}}
@@ -94,7 +94,7 @@ Danh sách sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentBirthday" class="col-md-4 common-label-inline">Ngày sinh <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <div class="col-md-8 px-0">
-                                    <input id="studentBirthday" width="100%" class="form-control" name="studentBirthday" maxlength="10" required value="{{$student->birthday}}" >
+                                    <input id="studentBirthday" width="100%" class="form-control" name="studentBirthday" maxlength="10" required @if ($errors->any()) value="{{old('studentBirthday')}}" @else  value="{{$student->birthday}}"  @endif  >
                                 </div>
                             </div>
                             
@@ -112,7 +112,7 @@ Danh sách sinh viên
                             {{-- Address --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="studentAddress" class="col-md-4 common-label-inline">Địa chỉ:</label>
-                                <input type="text" class="form-control col-md-8" id="studentAddress" name="studentAddress" placeholder="Số nhà, tên đường" value="{{$student->address}}">
+                                <input type="text" class="form-control col-md-8" id="studentAddress" name="studentAddress" placeholder="Số nhà, tên đường" @if ($errors->any()) value="{{old('studentAddress')}}" @else  value="{{$student->address}}"  @endif>
                             </div>
                             
                             <div class="form-inline cm-inline-form">
@@ -194,7 +194,7 @@ Danh sách sinh viên
                             {{-- Phone number --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="studentPhone" class="col-md-4 common-label-inline">SDT:</label>
-                                <input type="number" class="form-control col-md-8" id="studentPhone" name="studentPhone" placeholder="Số điện thoại" maxlength="10" value="{{$student->phone_no}}">
+                                <input type="number" class="form-control col-md-8" id="studentPhone" name="studentPhone" placeholder="Số điện thoại" maxlength="10" @if ($errors->any()) value="{{old('studentPhone')}}" @else  value="{{$student->phone_no}}"  @endif >
                             </div>
                             {{-- is Union --}}
                             <div class="form-inline cm-inline-form">

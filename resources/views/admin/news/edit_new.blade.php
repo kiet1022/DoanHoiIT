@@ -64,6 +64,7 @@ Chỉnh sửa bài viết
             </div>
             <hr class="sidebar-divider">
             <div class="col-12 text-center">
+                <button type="button" class="btn btn-secondary cm-btn-form" onclick="javascript:history.back()">Cancel</button>
                 <button type="submit" class="btn btn-success cm-btn-form">Submit</button>
             </div>
         </form>
@@ -75,7 +76,39 @@ Chỉnh sửa bài viết
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
 <script src="{{asset('assets/js/ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript">
+    //replace textarea
+if(CKEDITOR) {
+    CKEDITOR.replace('content_news', {
+        allowedContent: true
+    });
+    CKEDITOR.config.extraAllowedContent = 'audio[*]';
+    CKEDITOR.config.height = 350;
+    CKEDITOR.config.width = 350;
+}
+</script>
+<script type="text/javascript">
+    // Get the modal zoom image
+var modal = document.getElementById('myModal');
 
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById('myImg');
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+  modal.style.display = "block";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+  modal.style.display = "none";
+}
+</script>
 <script src="{{asset('assets/js/admin/news.js')}}"></script>
 
 @endsection

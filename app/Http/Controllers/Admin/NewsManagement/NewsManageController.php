@@ -22,7 +22,18 @@ class NewsManageController extends Controller
 {
     public function getNewsList(){
         $news = News::where('deleted_at', null)->get();
-        return view('admin.news.newsList', compact('news'));
+        $newsType = NewsType::where('deleted_at', null)->get();
+        $type_id=request('type_id');
+        if (isset($type_id)) {
+        	if ($type_id!=0) {
+        		$news = News::where('deleted_at', null)->where('type_id', $type_id)->get();
+        		return view('admin.news.newsList', compact('news','newsType','type_id'));
+        	}
+        	else{
+        		$news = News::where('deleted_at', null)->get();
+        	}
+        }
+        return view('admin.news.newsList', compact('news','newsType','type_id'));
     }
     public function getAddNew(){
     	$newsType = NewsType::where('deleted_at', null)->get();
@@ -35,6 +46,7 @@ class NewsManageController extends Controller
 			$news->content = $request->content_news;
 			$news->title = $request->title;
 			$news->type_id = intval($request->type);
+			// $newstype->created_by = Auth::user()->id;
 			if($request->hasFile('image')){
 				$file = $request->file('image');
 				$duoi = $file->getClientOriginalExtension();
@@ -93,7 +105,12 @@ class NewsManageController extends Controller
 			return redirect()->back()->with('error','Thêm tin thất bại');
 		}
     }
-
-
-
+    public function deleteAll(Request $request){
+        if (!isset(Auth::user()->id)) {
+            return view('login'); //redirect to loginpage if no have session login
+        }
+        $ids = $request->ids;
+        $news=News::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
+        return response()->json(['success'=>"Xóa bài viết thành công"]);
+    }
 }

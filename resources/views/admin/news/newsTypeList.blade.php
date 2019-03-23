@@ -6,6 +6,7 @@ Quản lí tin tức
 <link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     .no-js #loader { display: none;  }
     .js #loader { display: block; position: absolute; left: 100px; top: 0; }
@@ -51,7 +52,7 @@ Quản lí tin tức
                         <tbody>
                           @foreach ($newsType as $list)
                           <tr>
-                            <td></td>
+                            <td id="{{$list->id}}" class="newsSelected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
                             <td>{{$list->id}}</td>
                             <td>{{$list->name}}</td>
                             <td>{{$list->created_at}}</td>
@@ -66,7 +67,9 @@ Quản lí tin tức
                 <!-- /.container-fluid -->
                 <a class="btn btn-success" href="{{route('get_add_new_type')}}"><i class="fas fa-plus-circle"></i> Thêm loại tin</a>
                 <!-- <a class="btn btn-info"><i class="fas fa-file-import"></i> Import Sinh viên</a> -->
-                <a class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</a>
+                <!-- <a class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</a> 
+                -->
+                <button data-url="{{ url('deleteSelectedNewsType') }}" class="btn delete_all" id="deleteNewsType" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>
 </div>
@@ -78,6 +81,7 @@ Quản lí tin tức
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
+ <script src="{{asset('assets/js/admin/news.js')}}"></script>
 <script>
     $( document ).ready(function(){
         $('#dataTable').DataTable({

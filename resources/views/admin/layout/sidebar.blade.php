@@ -43,7 +43,8 @@
               <a class="collapse-item" href="forgot-password.html">DRL - CTXH</a>
               <div class="collapse-divider"></div>
               <h6 class="collapse-header">Thông tin chi đoàn</h6>
-              <a class="collapse-item" href="404.html">Danh sách chi đoàn</a>
+              <a class="collapse-item" href="{{route('educationProgramList')}}">Chương trình đào tạo</a>
+              <a class="collapse-item" href="">Danh sách chi đoàn</a>
               <a class="collapse-item" href="blank.html">Danh sách đoàn viên</a>
             </div>
           </div>

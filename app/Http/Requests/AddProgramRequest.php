@@ -4,29 +4,29 @@ namespace App\Http\Requests;
 use Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditStudentRequest extends FormRequest
+class AddProgramRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+    * Determine if the user is authorized to make this request.
+    *
+    * @return bool
+    */
     public function authorize()
     {
         return true;
     }
-
+    
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+    * Get the validation rules that apply to the request.
+    *
+    * @return array
+    */
     public function rules()
     {
+        
         return [
-            'studentName' =>'required|between:3, 50',
-            // 'studentName' =>'required|regex:/^[A-ZÀÂÇÉÈÊËÎÏÔÛÙÜŸÑÆŒa-zàâçéèêëîïôûùüÿñæœ_.,() ]+$/',
-            // 'studentName' =>'required|regex:/^[\p{Latin} a-z A-Z +s]+$/',
+            'start' => 'required|min:'.date("Y"),
+            'end' =>'required|min:'.date("Y"),
             'studentBirthday' => 'required|bail|size:10|date',
             'unionDate' => 'bail|nullable|size:10|date',
             'studentShoolYear' => 'required|size:1',
@@ -60,23 +60,15 @@ class EditStudentRequest extends FormRequest
             ],
         ];
     }
-
+    
+    /**
+     * Get the messages when validate failed
+     * 
+     * @return array
+     */
     public function messages(){
         return [
-            'studentSex.required' => 'Bạn chưa chọn :attribute.',
-            'studentSex.numeric' => 'Giá trị của :attribute phải là số.',
-            'email.email'=>':attribute không hợp lệ.',
-            'sid.numeric' => ':attribute phải là số.',
-            'studentName.between' => ':attribute phải từ :min đến :max kí tự.',
-            'sid.digits_between' => ':attribute phải từ :min đến :max ký tự.',
-            'studentShoolYear.required' => 'Bạn chưa chọn :attribute.',
-            'studentShoolYear.size' => ':attribute không hợp lệ.',
-            'studentClass.required' => 'Bạn chưa chọn :attribute.',
-            'studentClass.size' => ':attribute không hợp lệ.',
-            'studentBirthday.size' => ':attribute không hợp lệ.',
-            'studentBirthday.date' => 'Định dạng :attribute không hợp lệ.',
-            'unionDate.size' => ':attribute không hợp lệ.',
-            'unionDate.date' => 'Định dạng :attribute không hợp lệ.',
+            'start.required' => 'Bạn chưa chọn :attribute.',
             
         ];
     }

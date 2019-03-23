@@ -33,6 +33,7 @@ Danh mục tin tức
             </div>
             <hr class="sidebar-divider">
             <div class="col-12 text-center">
+                <button type="button" class="btn btn-secondary cm-btn-form" onclick="javascript:history.back()">Cancel</button>
                 <button type="submit" class="btn btn-success cm-btn-form">Submit</button>
                 <button id="clear" onclick="clearValue()" type="button" class="btn btn-warning cm-btn-form">Clear</button>
             </div>
