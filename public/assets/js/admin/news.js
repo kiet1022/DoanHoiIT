@@ -17,44 +17,6 @@ $("#removeImage").on('click', function(event) {
 
 
 $(document).ready(function () {
-    $(".newsSelected").on('click', function(event) {
-        var id = $(this).attr('id');
-        var checkBox = document.getElementById("ckb_"+id+"");
-
-        var i=0;
-        $( "tr.selected" ).each(function() {
-            i++;
-        });
-        var j=0;
-        $( "input[type=checkBox]" ).each(function() {
-            if (this.checked) {
-                j++;
-            }     
-        });
-
-        if (false === event.ctrlKey) {
-            if (checkBox.checked == false) {
-                $("input.sub_chk").prop('checked',false );
-            }else{
-                $("input.sub_chk").prop('checked',false );
-                if (i==0 && j!=0) {
-                    $("#ckb_"+id+"").prop('checked', false); 
-                }else if(i==1&&j==1){
-                    $("#ckb_"+id+"").prop('checked', true); 
-                }else if(i!=0){
-                    $("#ckb_"+id+"").prop('checked', false); 
-                }
-            }
-        }
-
-        if(checkBox.checked == true)  {
-            $("#ckb_"+id+"").prop('checked',false ); 
-        } 
-        else {  
-            $("#ckb_"+id+"").prop('checked', true); 
-        }  
-
-    });
     //click button delete
     $('#deleteNews').on('click', function(e) {
         var allVals = [];  
@@ -108,10 +70,10 @@ $(document).ready(function () {
         });  
         if(allVals.length <=0)  
         {  
-            alert("Chưa có sinh viên nào được chọn!");  
+            alert("Chưa có thể loại nào được chọn!");  
         }  
         else {  
-            var check = confirm("Bạn có chắc muốn xóa những sinh viên này không?");  
+            var check = confirm("Bạn có chắc muốn xóa những thể loại này không?");  
             if(check == true){  
                 var join_selected_values = allVals.join(","); 
                 $.ajax({
@@ -126,16 +88,13 @@ $(document).ready(function () {
                             });
                             alert(data['success']);
                         } else if (data['error']) {
-                            alert('1');
                             alert(data['error']);
                         } else {
-                            alert('2');
                             alert('Có lỗi xảy ra!!');
                         }
                     },
                     error: function (data) {
                         alert('3');
-                        console.log(data.responseText);
                         alert(data.responseText);
                     }
                 });
