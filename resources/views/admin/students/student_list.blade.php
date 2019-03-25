@@ -71,11 +71,11 @@ Danh sách sinh viên
                   <th></th>
                   <th>MSSV</th>
                   <th>Họ Tên</th>
+                  <th>Khóa</th>
                   <th>Lớp</th>
                   <th>Giới tính</th>
                   <th>Ngày sinh</th>
-                  <th>Địa chỉ</th>
-                  <th>Số điện thoại</th>
+                  <th>Tình trạng</th>
                   <th></th>
                 </tr>
               </thead>
@@ -85,12 +85,16 @@ Danh sách sinh viên
                   <td id="{{$list->student_id}}" class="userSelected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->student_id}}"id="ckb_{{$list->student_id}}"></td>
                   <td>{{$list->student_id}}</td>
                   <td>{{$list->name}}</td>
+                  <td>{{$list->schoolYear->course}}</td>
                   <td>{{$list->class->class_name}}</td>
                   <td>{!! changeGenderForList($list->sex) !!}</td>
                   <td>{{$list->birthday}}</td>
-                  <td>{{$list->address}}</td>
-                  <td>{{$list->phone_no}}</td>
-                  <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}">Sửa</a></td>
+                  <td class="text-center">{!! changeStudyStatus($list->is_study)!!}</td>
+                  <td class="text-center">
+                    <a href=""><i class="fas fa-list cm-label text-info" title="Chi tiết" data-id="{{$list->student_id}}"></i></a>
+                    <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}"><i class="fas fa-edit cm-label text-primary" title="Chỉnh sửa"></i></a>
+                    <a href=""><i class="fas fa-trash cm-label text-danger" title="Xóa" data-id="{{$list->student_id}}"></i></a>
+                  </td>
                 </tr>
                 @endforeach
               </tbody>

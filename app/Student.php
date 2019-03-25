@@ -41,4 +41,8 @@ class Student extends Model
     {
     	return $this->belongsTo('App\Classes','class_id','id');
     }
+
+    public function schoolYear(){
+        return $this->belongsTo('App\SchoolYear','school_year_id','id');
+    }
 }

@@ -267,6 +267,7 @@ class StudentManageController extends Controller
                     if(!is_null($studentRow['cmnd'])){
                         $student->identity_card = StringUtil::pureString($studentRow['cmnd']);
                     }
+                    $student->created_by = Auth::user()->id;
                     $student->save();
                     $user->save();
                     

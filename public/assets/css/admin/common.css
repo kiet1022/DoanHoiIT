@@ -30,6 +30,10 @@
 .cm-btn-form{
   width: 100px;
 }
+
+.cm-label{
+  margin-right: 10px;
+}
  /* Toggle */
 .back-ground-toggle{
   background-color: #CCCCCC;
