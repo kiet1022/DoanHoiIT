@@ -109,6 +109,105 @@ Danh sách sinh viên
     </div>
   </div>
 </div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+                  {{-- Basic info --}}
+        <div class="col-md-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                Thông tin chung
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="detailSid">Mã số sinh viên:</label>
+                  <input type="text" id="detailStudentSid" value="123456789" class="form-control text-center" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="detailName">Họ tên:</label>
+                    <input type="text" id="detailName" value="123456789" class="form-control text-center" readonly>
+                  </div>
+
+                  
+                      <div class="form-group">
+                          <label for="detailSex">Giới tính:</label>
+                          <input type="text" id="detailSex" value="123456789" class="form-control text-center" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="detailBirthday">Ngày sinh:</label>
+                            <input type="text" id="detailBirthday" value="123456789" class="form-control text-center" readonly>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="detailIdentity">CMND:</label>
+                              <input type="text" id="detailIdentity" value="123456789" class="form-control text-center" readonly>
+                            </div>
+              </div>
+            </div>
+          </div>
+          
+          {{-- advanced info --}}
+          <div class="col-md-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                Thông tin chung
+              </div>
+              <div class="card-body">
+                  <div class="form-group">
+                      <label for="detailSchoolYear">Niên khóa:</label>
+                      <input type="text" id="detailSchoolYear" value="123456789" class="form-control text-center" readonly>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="detailClass">Lớp:</label>
+                        <input type="text" id="detailClass" value="123456789" class="form-control text-center" readonly>
+                      </div>
+
+                <div class="form-group">
+                  <label for="detailAddress">Trạng thái:</label>
+                  <input type="text" id="detailAddress" value="123456789" class="form-control text-center" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="detailIsUnion">Đoàn viên:</label>
+                    <input type="text" id="detailIsUnion" value="123456789" class="form-control text-center" readonly>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="detailUninonDate">Ngày vào đoàn:</label>
+                      <label class="form-control cm-label-detail text-center">Ngày vào đoàn:</label>
+                      {{-- <input type="text" id="detailUninonDate" value="123456789" class="form-control text-center" readonly> --}}
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal" style="width: 100%">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 @endsection
 @section('js')
 <!-- Page level plugins -->
