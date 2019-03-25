@@ -1,6 +1,6 @@
 $(document).ready(function () {
     //event when select checkbox
-    $(".userSelected").on('click', function(event) {
+    $(".column-selected").on('click', function(event) {
         var id = $(this).attr('id');
         var checkBox = document.getElementById("ckb_"+id+"");
 
@@ -64,10 +64,8 @@ $(document).ready(function () {
                             });
                             alert(data['success']);
                         } else if (data['error']) {
-                            alert('1');
                             alert(data['error']);
                         } else {
-                            alert('2');
                             alert('Có lỗi xảy ra!!');
                         }
                     },
@@ -83,30 +81,7 @@ $(document).ready(function () {
             }  
         }  
     });
-    //
-    // $(document).on('confirm', function (e) {
-    //     var ele = e.target;
-    //     e.preventDefault();
-    //     $.ajax({
-    //         url: ele.href,
-    //         type: 'DELETE',
-    //         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    //         success: function (data) {
-    //             if (data['success']) {
-    //                 $("#" + data['tr']).slideUp("slow");
-    //                 alert(data['success']);
-    //             } else if (data['error']) {
-    //                 alert(data['error']);
-    //             } else {
-    //                 alert('Whoops Something went wrong!!');
-    //             }
-    //         },
-    //         error: function (data) {
-    //             alert(data.responseText);
-    //         }
-    //     });
-    //     return false;
-    // });
+
 });
 
 // Change class when school year change

@@ -22,4 +22,8 @@ class SchoolYear extends Model
     {
     	return $this->hasOne('App\YearlyFund','school_year_id','id');
     }
+    public function classes()
+    {
+        return $this->hasMany('App\Classes','school_year_id','id');
+    }
 }

@@ -1,6 +1,6 @@
 @extends('admin.layout.layout')
 @section('title')
-Chương trình đào tạo
+Danh sách chi đoàn
 @endsection
 @section('style')
 <link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
@@ -26,7 +26,7 @@ Chương trình đào tạo
 <div class="container-fluid">
     <div class="row">
         <div class="col page-title-header">
-            <h4>Chương trình đào tạo</h4>
+            <h4>Danh sách chi đoàn</h4>
         </div>
     </div>
     <div class="row">
@@ -41,18 +41,18 @@ Chương trình đào tạo
                           <tr>
                             <th></th>
                             <th>Niên khóa</th>
+                            <th>Lớp</th>
                             <th>Khóa</th>
-                            <th>Thời gian đào tạo</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach ($schoolYear as $list)
+                          @foreach ($classes as $list)
                           <tr>
                             <td id="{{$list->id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
-                            <td>{{$list->name}}</td>
-                            <td> {{$list->course}}</td>
-                            <td>@if($list->type==1){{"2 năm"}} @elseif($list->type==2){{"4 năm"}} @endif</td>
+                            <td>{{$list->class_id}}</td>
+                            <td> {{$list->class_name}}</td>
+                            <td>{{$list->schoolYear->name}}</td>
                             <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_program',['id'=>$list->id]) }}">Sửa</a></td>
                             </tr>
                           @endforeach
@@ -62,7 +62,7 @@ Chương trình đào tạo
                   </div>
                 </div>
                 <!-- /.container-fluid -->
-                <a class="btn btn-success" href="{{route('get_add_program')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a>
+                <a class="btn btn-success" href="{{route('get_add_class')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a>
                 <button data-url="{{ url('deleteSelectedNews') }}" class="btn delete_all" id="deleteNews" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>
@@ -76,7 +76,6 @@ Chương trình đào tạo
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
 
- <script src="{{asset('assets/js/admin/news.js')}}"></script>
  <script src="{{asset('assets/js/admin/common.js')}}"></script>
 
 <script>

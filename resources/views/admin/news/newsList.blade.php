@@ -73,11 +73,11 @@ Quản lí tin tức
                         <tbody>
                           @foreach ($news as $list)
                           <tr>
-                            <td id="{{$list->id}}" class="newsSelected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
+                            <td id="{{$list->id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
                             @if($list->image != "") 
-                                <td><img class="featured-image" src="./images/news/{{$list->image}}"></td>
+                                <td><img class="featured-image" src="{{asset('images/news')}}/{{$list->image}}"></td>
                             @else 
-                                <td><img class="featured-image" src="./images/no-image.png"></td>
+                                <td><img class="featured-image" src="{{asset('images/no-image.png')}}"></td>
                             @endif
                             <td>{{$list->title}}</td>
                             <td>{{$list->sumary}}</td>
@@ -91,8 +91,6 @@ Quản lí tin tức
                 </div>
                 <!-- /.container-fluid -->
                 <a class="btn btn-success" href="{{route('get_add_new')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a>
-                <!-- <a class="btn btn-info"><i class="fas fa-file-import"></i> Import Sinh viên</a> -->
-                <!-- <a class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</a> -->
                 <button data-url="{{ url('deleteSelectedNews') }}" class="btn delete_all" id="deleteNews" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>
@@ -106,7 +104,8 @@ Quản lí tin tức
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
 
- <script src="{{asset('assets/js/admin/news.js')}}"></script>
+<script src="{{asset('assets/js/admin/news.js')}}"></script>
+<script src="{{asset('assets/js/admin/common.js')}}"></script>
 
 <script>
     $( document ).ready(function(){
