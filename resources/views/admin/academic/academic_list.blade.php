@@ -49,7 +49,7 @@ Chương trình đào tạo
                         <tbody>
                           @foreach ($schoolYear as $list)
                           <tr>
-                            <td id="{{$list->id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
+                            <td id="{{$list->id}}" class="newsSelected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
                             <td>{{$list->name}}</td>
                             <td> {{$list->course}}</td>
                             <td>@if($list->type==1){{"2 năm"}} @elseif($list->type==2){{"4 năm"}} @endif</td>
@@ -77,7 +77,6 @@ Chương trình đào tạo
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
 
  <script src="{{asset('assets/js/admin/news.js')}}"></script>
- <script src="{{asset('assets/js/admin/common.js')}}"></script>
 
 <script>
     $( document ).ready(function(){

@@ -67,7 +67,6 @@ class NewsTypeManageController extends Controller
         if (!isset(Auth::user()->id)) {
             return view('login'); //redirect to loginpage if no have session login
         }
-        error_log("test");
         $ids = $request->ids;
         $newsType=NewsType::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
         $news=News::whereIn('type_id',explode(",",$ids))->update(['deleted_at' => now()]);

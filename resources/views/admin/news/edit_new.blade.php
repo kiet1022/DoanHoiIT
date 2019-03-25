@@ -45,7 +45,7 @@ Chỉnh sửa bài viết
                             <div class="form-inline cm-inline-form select-image">
                                 <label  class="col-md-2 common-label-inline">Hình ảnh nổi bật:</label>
                                 @if($news->image != "") 
-                                <img id="myImg" class=" col-md-8 image-new " src="{{asset('images/news')}}/{{$news->image}}">
+                                <img id="myImg" class=" col-md-8 image-new " src="/DoanHoiIT/public/images/news/{{$news->image}}">
                                 <button id="removeImage"  type="button" class=" classic_button_next btn btn-primary">Delete Image</button>
                                 <div id="myModal" class="modal">
                                     <span class="close">&times;</span><!-- The Close Button -->

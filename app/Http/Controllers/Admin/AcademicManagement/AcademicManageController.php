@@ -36,9 +36,9 @@ class AcademicManageController extends Controller
             $schoolYear->course = $re->course;
             $schoolYear->type = ($re->type)/2;
             $schoolYear->save();
-            return redirect()->back()->with('success','Thêm khóa học thành công');
+            return redirect()->back()->with('success','Thêm loại tin thành công');
         }catch(Exception $ex){
-            return redirect()->back()->with('error','Thêm khóa học thất bại');
+            return redirect()->back()->with('error','Thêm loại tin thất bại');
         }
     }
     public function getEditProgram($id){
@@ -56,17 +56,9 @@ class AcademicManageController extends Controller
             $schoolYear->course = $re->course;
             // $newstype->updated_by = Auth::user()->id;
             $schoolYear->save();
-            return redirect()->back()->with('success','Lưu thông tin khóa học thành công');
+            return redirect()->back()->with('success','Lưu tin thành công');
         }catch(Exception $ex){
-            return redirect()->back()->with('error','Thêm khóa học thất bại');
+            return redirect()->back()->with('error','Thêm tin thất bại');
         }
-    }
-    public function delete(Request $request){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
-        }
-        $ids = $request->ids;
-        $schoolYear = SchoolYear::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
-        return response()->json(['success'=>"Xóa khóa học thành công"]);
     }
 }

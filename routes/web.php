@@ -67,7 +67,7 @@ Route::delete('deleteSelectedUser', 'Admin\StudentManagement\StudentManageContro
 
 
 Route::delete('news/deleteSelectedNews', 'Admin\NewsManagement\NewsManageController@deleteAll')->name('deleteSelectedNews');
-Route::delete('deleteSelectedNewsType', 'Admin\NewsManagement\NewsTypeManageController@deleteAll')->name('deleteSelectedNewsType');
+Route::delete('news/deleteSelectedNewsType', 'Admin\NewsManagement\NewsTypeManageController@deleteAll')->name('deleteSelectedNewsType');
 
 Route::get('education-program','Admin\AcademicManagement\AcademicManageController@getSchoolYearList')->name('educationProgramList');
 
@@ -78,9 +78,9 @@ Route::get('education-program/edit/{id}','Admin\AcademicManagement\AcademicManag
 Route::post('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@postEditProgram')->name('post_edit_program');
 
 
-Route::get('classes','Admin\ClassManagement\ClassManageController@getClassList')->name('get_class_list');
-Route::get('classes/add','Admin\ClassManagement\ClassManageController@getAddClass')->name('get_add_class');
-Route::post('classes/add','Admin\ClassManagement\ClassManageController@postAddClass')->name('post_add_class');
+// Route::get('classes','Admin\ClassManagement\ClassManageController@getSchoolYearList')->name('educationProgramList');
+
+
 
 Route::get('/test', function(){
     $user = new User;

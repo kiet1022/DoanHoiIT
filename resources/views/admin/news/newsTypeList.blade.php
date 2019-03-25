@@ -52,7 +52,7 @@ Quản lí tin tức
                         <tbody>
                           @foreach ($newsType as $list)
                           <tr>
-                            <td id="{{$list->id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
+                            <td id="{{$list->id}}" class="newsSelected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
                             <td>{{$list->id}}</td>
                             <td>{{$list->name}}</td>
                             <td>{{$list->created_at}}</td>
@@ -66,7 +66,10 @@ Quản lí tin tức
                 </div>
                 <!-- /.container-fluid -->
                 <a class="btn btn-success" href="{{route('get_add_new_type')}}"><i class="fas fa-plus-circle"></i> Thêm loại tin</a>
-                <button data-url="{{ url('deleteSelectedNewsType') }}" class="btn" id="deleteNewsType" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
+                <!-- <a class="btn btn-info"><i class="fas fa-file-import"></i> Import Sinh viên</a> -->
+                <!-- <a class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</a> 
+                -->
+                <button data-url="{{ url('deleteSelectedNewsType') }}" class="btn delete_all" id="deleteNewsType" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>
 </div>
@@ -78,32 +81,31 @@ Quản lí tin tức
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
-<script src="{{asset('assets/js/admin/news.js')}}"></script>
-<script src="{{asset('assets/js/admin/common.js')}}"></script>
+ <script src="{{asset('assets/js/admin/news.js')}}"></script>
 <script>
-$( document ).ready(function(){
-    $('#dataTable').DataTable({
-    columnDefs: [ {
-        orderable: false,
-        className: 'select-checkbox',
-        targets:   0
-    } ],
-    select: {
-        style:    'os',
-        selector: 'td:first-child'
-    },
-    order: [[ 1, 'asc' ]]
-});
+    $( document ).ready(function(){
+        $('#dataTable').DataTable({
+        columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        } ],
+        select: {
+            style:    'os',
+            selector: 'td:first-child'
+        },
+        order: [[ 1, 'asc' ]]
     });
-</script>
-<script>
-    //paste this code under the head tag or in a separate js file.
-    //Wait for window load
-    // $(window).load(function() {
-        // 	// Animate loader off screen
-        // 	$(".se-pre-con").fadeOut("slow");
-        // });
-</script>
-    
-    
-@endsection
+        });
+    </script>
+    <script>
+        //paste this code under the head tag or in a separate js file.
+        //Wait for window load
+        // $(window).load(function() {
+            // 	// Animate loader off screen
+            // 	$(".se-pre-con").fadeOut("slow");
+            // });
+        </script>
+        
+        
+        @endsection

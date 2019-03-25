@@ -82,7 +82,7 @@ Danh sách sinh viên
               <tbody>
                 @foreach ($studentList as $list)
                 <tr class="">
-                  <td id="{{$list->student_id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->student_id}}"id="ckb_{{$list->student_id}}"></td>
+                  <td id="{{$list->student_id}}" class="userSelected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->student_id}}"id="ckb_{{$list->student_id}}"></td>
                   <td>{{$list->student_id}}</td>
                   <td>{{$list->name}}</td>
                   <td>{{$list->class->class_name}}</td>
