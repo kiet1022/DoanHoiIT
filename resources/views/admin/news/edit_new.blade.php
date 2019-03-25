@@ -7,6 +7,7 @@ Chỉnh sửa bài viết
 <link href="{{asset('assets/vendor/icheck-1.x/skins/flat/green.css')}}" rel="stylesheet">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <link href="{{asset('assets/vendor/gijgo-combined-1.9.11/css/gijgo.min.css')}}" rel="stylesheet">
+<link href="{{asset('assets/css/admin/cm-news.css')}}" rel="stylesheet" type="text/css">
 @endsection
 @section('main_content')
 <div class="row">

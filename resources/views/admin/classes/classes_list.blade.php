@@ -6,6 +6,8 @@ Danh sách chi đoàn
 <link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <style>
