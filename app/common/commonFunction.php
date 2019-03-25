@@ -127,6 +127,24 @@
 		}
 		return $result;
 	}
+
+	/**
+	* Change union status
+	* 
+	*/
+	
+	function changeUnionStatus($value){
+		$result = '';
+		switch ($value) {
+			case 1:
+			$result = '<span class="badge badge-primary">Đoàn viên</span>';
+			break;
+			default:
+			$result = '<span class="badge badge-danger">Chưa vào đoàn</span>';
+			break;
+		}
+		return $result;
+	}
 	
 	
 	?>

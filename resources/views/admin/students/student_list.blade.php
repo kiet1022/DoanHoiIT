@@ -93,7 +93,7 @@ Danh sách sinh viên
                   <td>{{$list->birthday}}</td>
                   <td class="text-center">{!! changeStudyStatus($list->is_study)!!}</td>
                   <td class="text-center">
-                    <a href=""><i class="fas fa-list cm-label text-info" title="Chi tiết" data-id="{{$list->student_id}}"></i></a>
+                    <a class="cm-label text-info detailToggle" data-id="{{$list->student_id}}" data-toggle="modal"><i class="fas fa-list" title="Chi tiết"></i></a>
                     <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}"><i class="fas fa-edit cm-label text-primary" title="Chỉnh sửa"></i></a>
                     <a href=""><i class="fas fa-trash cm-label text-danger" title="Xóa" data-id="{{$list->student_id}}"></i></a>
                   </td>
@@ -113,100 +113,13 @@ Danh sách sinh viên
 </div>
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+{{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
   Launch demo modal
-</button>
+</button> --}}
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-                  {{-- Basic info --}}
-        <div class="col-md-6">
-            <div class="card mb-4">
-              <div class="card-header">
-                Thông tin chung
-              </div>
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="detailSid">Mã số sinh viên:</label>
-                  <input type="text" id="detailStudentSid" value="123456789" class="form-control text-center" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label for="detailName">Họ tên:</label>
-                    <input type="text" id="detailName" value="123456789" class="form-control text-center" readonly>
-                  </div>
-
-                  
-                      <div class="form-group">
-                          <label for="detailSex">Giới tính:</label>
-                          <input type="text" id="detailSex" value="123456789" class="form-control text-center" readonly>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="detailBirthday">Ngày sinh:</label>
-                            <input type="text" id="detailBirthday" value="123456789" class="form-control text-center" readonly>
-                          </div>
-
-                          <div class="form-group">
-                              <label for="detailIdentity">CMND:</label>
-                              <input type="text" id="detailIdentity" value="123456789" class="form-control text-center" readonly>
-                            </div>
-              </div>
-            </div>
-          </div>
-          
-          {{-- advanced info --}}
-          <div class="col-md-6">
-            <div class="card mb-4">
-              <div class="card-header">
-                Thông tin chung
-              </div>
-              <div class="card-body">
-                  <div class="form-group">
-                      <label for="detailSchoolYear">Niên khóa:</label>
-                      <input type="text" id="detailSchoolYear" value="123456789" class="form-control text-center" readonly>
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="detailClass">Lớp:</label>
-                        <input type="text" id="detailClass" value="123456789" class="form-control text-center" readonly>
-                      </div>
-
-                <div class="form-group">
-                  <label for="detailAddress">Trạng thái:</label>
-                  <input type="text" id="detailAddress" value="123456789" class="form-control text-center" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label for="detailIsUnion">Đoàn viên:</label>
-                    <input type="text" id="detailIsUnion" value="123456789" class="form-control text-center" readonly>
-                  </div>
-
-                  <div class="form-group">
-                      <label for="detailUninonDate">Ngày vào đoàn:</label>
-                      <label class="form-control cm-label-detail text-center">Ngày vào đoàn:</label>
-                      {{-- <input type="text" id="detailUninonDate" value="123456789" class="form-control text-center" readonly> --}}
-                    </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal" style="width: 100%">Đóng</button>
-      </div>
-    </div>
-  </div>
+<div class="modal animated jackInTheBox" id="studentDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  
 </div>
 
 
@@ -224,8 +137,16 @@ Danh sách sinh viên
   
 </script>
 <script>
+  var BASE_URL = 'http://localhost:8080/DoanHoiIT/public/';
   var classes = {!!$data["class"]!!};
   $( document ).ready(function(){
+    
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    
     $('#dataTable').DataTable({
       columnDefs: [ {
         orderable: false,
@@ -241,12 +162,24 @@ Danh sách sinh viên
   });
 </script>
 <script>
-  //paste this code under the head tag or in a separate js file.
-  //Wait for window load
-  // $(window).load(function() {
-    // 	// Animate loader off screen
-    // 	$(".se-pre-con").fadeOut("slow");
-    // });
-  </script>
-  
-  @endsection
+  $('.detailToggle').on('click', function(){
+    var id = $(this).data('id');
+    
+    $.ajax({
+      url: "{{ route('get_student_detail') }}",
+      method: 'GET',
+      data:{
+        'id': id
+      }
+    }).done(function(data) {
+      console.log(data);
+      $('#studentDetail').html(data);
+      $('#studentDetail').modal('show');
+    }).fail(function(xhr, status, error) {
+      console.log(this.url);
+      console.log(error);
+    });
+  });
+</script>
+
+@endsection

@@ -43,6 +43,7 @@ Route::get('student/add','Admin\StudentManagement\StudentManageController@getAdd
 Route::post('student/add','Admin\StudentManagement\StudentManageController@postAddStudentList')->name('post_add_student');
 Route::get('student/edit/{student_id}','Admin\StudentManagement\StudentManageController@getEditStudent')->name('get_edit_student');
 Route::post('student/edit/{student_id}','Admin\StudentManagement\StudentManageController@postEditStudent')->name('post_edit_student');
+Route::get('get-detail','Admin\StudentManagement\StudentManageController@getStudentDetail')->name('get_student_detail');
 
 Route::get('user','Admin\UserManagement\UserManageController@getUserList')->name('get_user_list');
 // Route::get('user-edit/{id}','Admin\UserManagement\UserManageController@getEditUser')->name('get_edit_user');

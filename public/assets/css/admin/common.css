@@ -48,3 +48,8 @@
   border-radius: 7px;
   margin-bottom: 0;
 }
+.cm-label-detail{
+  border: 1px solid #D1D3E2; 
+  border-radius: 3px; 
+  background-color: #f5f8ff
+}

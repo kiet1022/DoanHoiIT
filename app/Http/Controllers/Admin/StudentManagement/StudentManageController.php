@@ -291,4 +291,10 @@ class StudentManageController extends Controller
         $user=User::whereIn('student_id',explode(",",$ids))->update(['deleted_at' => now()]);
         return response()->json(['success'=>"Xóa sinh viên thành công"]);
     }
+
+    public function getStudentDetail(Request $req){
+        $this->data['student'] = Student::find($req->id);
+        //return $this->data;
+        return response()->view('admin.students.modal_detail', $this->data);
+    }
 }
