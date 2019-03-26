@@ -140,7 +140,7 @@
 			$result = '<span class="badge badge-primary">Đoàn viên</span>';
 			break;
 			default:
-			$result = '<span class="badge badge-danger">Chưa vào đoàn</span>';
+			$result = '<span class="badge badge-danger">Chưa kết nạp đoàn</span>';
 			break;
 		}
 		return $result;

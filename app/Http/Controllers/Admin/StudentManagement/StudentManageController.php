@@ -47,29 +47,38 @@ class StudentManageController extends Controller
 
         switch ($user_role) {
             case null:
-            return view('admin.layout.403');
+            return abort('403');
             break;
             
             default:
-            if(Gate::allows('access',[$role, $user_role])){
-                //filteration condition
-                $school_year_id=request('studentShoolYear');
-                $class_id=request('studentClass');
-
-                $schoolYears = SchoolYear::where('type',2)->get();
-                if (isset($school_year_id)&&isset($class_id)) {
-                    $studentList = Student::where('deleted_at',null)->where('school_year_id', $school_year_id)->where('class_id',$class_id)->get();
+                if(Gate::allows('access',[$role, $user_role])){
+                    $studentList = Student::where('class_id',1)->where('deleted_at',null)->get();
+                    return view('admin.students.student_list',compact('studentList'));
                 }else{
-                    $studentList = Student::where('deleted_at',null)->get();
-                }
-                
-                return view('admin.students.student_list',compact('schoolYears','studentList'));
-            }else{
-                return view('admin.layout.403');
-            }
+                    return abort(403);
             break;
         }
     }
+}
+
+    public function postFilterStudent(Request $req){
+        $this->data['studentList'] = Student::where('school_year_id',$req->studentShoolYear)->where('class_id',$req->studentClass)->where('deleted_at',null);
+        if(StringUtil::pureString($req->filterSid) != null){
+            $this->data['studentList'] = $this->data['studentList']->where('student_id','like',$req->filterSid.'%');
+        }
+        if(StringUtil::pureString($req->filterName) != null){
+            $this->data['studentList'] = $this->data['studentList']->where('name','like','%'.$req->filterName.'%');
+        }
+        if($req->filterSex != '0'){
+            $this->data['studentList'] = $this->data['studentList']->where('sex',$req->filterSex);
+        }
+        $this->data['studentList'] = $this->data['studentList']->get();
+        // if($req->filterAddress == 0){
+        //     $studentList = $studentList->where('province',$req->filterAddress);
+        // }
+        return view('admin.students.student_list')->with($this->data);
+    }
+
     
     /**
     * get add student page
@@ -206,9 +215,6 @@ class StudentManageController extends Controller
     }
 
     public function getImportStudent(){
-        // if (!isset(Auth::user()->id)) {
-        //     return view('login'); //redirect to loginpage if no have session login
-        // }
         return view('admin.students.import_student');
     }
 
@@ -223,8 +229,6 @@ class StudentManageController extends Controller
                 $studentArray = (new ImportStudent)->toArray($file)[0];
                 // skipping heading row
                 unset($studentArray[0]);
-                //dd(date('Y-m-d H:i:s',strtotime($studentArray[0]['ngay_sinh'])));
-                // Loop student Array to import to db
                 foreach ($studentArray as $studentRow) {
                     $student = new Student;
                     $user = new User;

@@ -31,30 +31,75 @@ Danh sách sinh viên
     </div>
   </div>
   <div class="row">
-    {{-- filter condition --}}
+    {{-- basic filter condition --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-      <form action="" method="get" class="col-md-12">
+    <form action="{{ route('post_filter_student') }}" method="POST" class="col-md-12">
+      @csrf
         <div class="form-row">
-          <div class="form-group col-md-5">
+          <div class="form-group col-md-3 offset-md-3">
             <label for="studentShoolYear" class="col-md-4 common-label-inline">Niên khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-            <select id="studentShoolYear" class="form-control col-md-6" name="studentShoolYear" required>
-              @foreach ($data["schoolYears"] as $sy)
+            <select id="studentShoolYear" class="form-control" name="studentShoolYear" required>
+              @foreach ($schoolYears as $sy)
               <option value="{{$sy->id}}">{{$sy->course}}</option>
               @endforeach
             </select>
           </div>
-          <div class="form-group col-md-5">
+          <div class="form-group col-md-3">
             <label for="studentClass" class="col-md-4 common-label-inline">Lớp <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-            <select id="studentClass" class="form-control col-md-6" name="studentClass" required>
-              @foreach ($data["class"] as $sy)
+            <select id="studentClass" class="form-control" name="studentClass" required>
+              @foreach ($class as $sy)
               <option value="{{$sy->id}}">{{$sy->class_name}}</option>
               @endforeach
             </select>
           </div>
-          <div class="form-group align-self-center col-md-2">
-            <button type="submit" class="btn btn-primary right"><i class="fas fa-filter"></i> Lọc</button>
+        </div>
+        {{-- advanced filter condition --}}
+        <div class="col-md-12">
+          <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Tìm kiếm nâng cao
+          </a>
+        </div>
+
+        <div class="collapse" id="collapseExample">
+          <div class="form-row">
+
+            {{-- Filter name --}}
+            <div class="form-group col-md-3">
+                <label for="filterSid">MSSV:</label>
+                <input type="number" name="filterSid" id="filterSid" class="form-control" placeholder="Nhập MSSV...">
+              </div>
+
+            {{-- Filter name --}}
+            <div class="form-group col-md-3">
+              <label for="filterName">Họ tên:</label>
+              <input type="text" name="filterName" id="filterName" class="form-control" placeholder="Nhập họ tên...">
+            </div>
+            {{-- Filter sex --}}
+            <div class="form-group col-md-3">
+              <label for="filterSex">Giới tính:</label>
+              <select name="filterSex" id="filterSex" class="form-control">
+                <option value="0">Chọn giới tính</option>
+                <option value="1">Nam</option>
+                <option value="2">Nữ</option>
+                <option value="3">Khác</option>
+              </select>
+            </div>
+            {{-- Filter Address --}}
+            <div class="form-group col-md-3">
+                <label for="filterAddress">Quê quán:</label>
+                <select name="filterAddress" id="filterAddress" class="form-control">
+                    <option value="0">Chọn quê quán</option>
+                  @foreach ($province as $pro)
+                <option value="{{ $pro->id }}">{{$pro->name}}</option>
+                  @endforeach
+                  
+                </select>
+              </div>
           </div>
         </div>
+        <div class="form-group col-md-2 offset-md-10">
+            <button type="submit" class="btn btn-primary right"><i class="fas fa-filter"></i> Lọc</button>
+          </div>
       </form>
     </div>
     {{-- Student list --}}
@@ -90,7 +135,7 @@ Danh sách sinh viên
                   <td>{{$list->schoolYear->course}}</td>
                   <td>{{$list->class->class_name}}</td>
                   <td>{!! changeGenderForList($list->sex) !!}</td>
-                  <td>{{$list->birthday}}</td>
+                  <td>{{date('d/m/Y',strtotime($list->birthday))}}</td>
                   <td class="text-center">{!! changeStudyStatus($list->is_study)!!}</td>
                   <td class="text-center">
                     <a class="cm-label text-info detailToggle" data-id="{{$list->student_id}}" data-toggle="modal"><i class="fas fa-list" title="Chi tiết"></i></a>
@@ -130,15 +175,13 @@ Danh sách sinh viên
 <script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
 <!-- Page level custom scripts -->
-{{-- <script src="js/demo/datatables-demo.js"></script> --}}
-<script src="{{asset('assets/js/admin/common.js')}}"></script>
+<script src="{{asset('assets/js/admin/student_list.js')}}"></script>
 
 <script type="text/javascript">
   
 </script>
 <script>
-  var BASE_URL = 'http://localhost:8080/DoanHoiIT/public/';
-  var classes = {!!$data["class"]!!};
+  var classes = {!!$class!!};
   $( document ).ready(function(){
     
     $.ajaxSetup({

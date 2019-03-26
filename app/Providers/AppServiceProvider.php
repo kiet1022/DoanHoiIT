@@ -32,11 +32,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        $data["schoolYears"] = SchoolYear::where('type',2)->get();
-        $data["class"] = Classes::all();
-        $data["province"] = Province::all();
-        $data["district"] = District::all();
-        $data["ward"] = Ward::all();
-        View::share('data',$data);
+        $this->data["schoolYears"] = SchoolYear::where('type',2)->get();
+        $this->data["class"] = Classes::all();
+        $this->data["province"] = Province::all();
+        $this->data["district"] = District::all();
+        $this->data["ward"] = Ward::all();
+        View::share($this->data);
     }
 }
