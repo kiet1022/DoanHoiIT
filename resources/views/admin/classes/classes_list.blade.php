@@ -55,7 +55,7 @@ Danh sách chi đoàn
                             <td>{{$list->class_id}}</td>
                             <td> {{$list->class_name}}</td>
                             <td>{{$list->schoolYear->name}}</td>
-                            <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_program',['id'=>$list->id]) }}">Sửa</a></td>
+                            <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_class',['id'=>$list->id]) }}">Sửa</a></td>
                             </tr>
                           @endforeach
                         </tbody>
@@ -64,7 +64,7 @@ Danh sách chi đoàn
                   </div>
                 </div>
                 <!-- /.container-fluid -->
-                <a class="btn btn-success" href="{{route('get_add_class')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a>
+                <a class="btn btn-success" href="{{route('get_add_class')}}"><i class="fas fa-plus-circle"></i> Thêm Lớp</a>
                 <button data-url="{{ url('deleteSelectedNews') }}" class="btn delete_all" id="deleteNews" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>

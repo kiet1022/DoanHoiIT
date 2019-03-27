@@ -34,26 +34,20 @@ class ClassManageController extends Controller
             $class->class_name = $re->name;
             $class->school_year_id = $re->schoolYear;
             $class->save();
-            return redirect()->back()->with('success','Thêm khóa học thành công');
+            return redirect()->back()->with('success','Thêm chi đoàn thành công');
         }catch(Exception $ex){
-            return redirect()->back()->with('error','Thêm khóa học thất bại');
+            return redirect()->back()->with('error','Thêm chi đoàn thất bại');
         }
     }
-    public function getEditProgram($id){
-        $schoolYear = SchoolYear::find($id);
-        $year= $schoolYear->name;
-        $arr = array();
-        $arr=explode(' - ', $year);
-        $yearStart = $arr[0];
-        $yearEnd = $arr[1]; 
-        return view('admin.academic.edit',compact('schoolYear','yearStart', 'yearEnd'));
+    public function getEditClass($id){
+        $class = Classes::find($id);
+        return view('admin.classes.edit',compact('class'));
     }
-    public function postEditProgram($id, Request $re){
+    public function postEditClass($id, Request $re){
         try{
-            $schoolYear = SchoolYear::find($id);
-            $schoolYear->course = $re->course;
-            // $newstype->updated_by = Auth::user()->id;
-            $schoolYear->save();
+            $class = Classes::find($id);
+            $class->class_name = $re->name;
+            $class->save();
             return redirect()->back()->with('success','Lưu thông tin khóa học thành công');
         }catch(Exception $ex){
             return redirect()->back()->with('error','Thêm khóa học thất bại');
@@ -64,7 +58,7 @@ class ClassManageController extends Controller
             return view('login'); //redirect to loginpage if no have session login
         }
         $ids = $request->ids;
-        $schoolYear = SchoolYear::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
-        return response()->json(['success'=>"Xóa khóa học thành công"]);
+        $classes = Classes::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
+        return response()->json(['success'=>"Xóa chi đoàn thành công"]);
     }
 }

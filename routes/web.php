@@ -77,11 +77,16 @@ Route::post('education-program/add','Admin\AcademicManagement\AcademicManageCont
 
 Route::get('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@getEditProgram')->name('get_edit_program');
 Route::post('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@postEditProgram')->name('post_edit_program');
+Route::delete('education-program/delete', 'Admin\AcademicManagement\AcademicManageController@delete')->name('delete_selected_program');
 
 
 Route::get('classes','Admin\ClassManagement\ClassManageController@getClassList')->name('get_class_list');
 Route::get('classes/add','Admin\ClassManagement\ClassManageController@getAddClass')->name('get_add_class');
 Route::post('classes/add','Admin\ClassManagement\ClassManageController@postAddClass')->name('post_add_class');
+Route::get('classes/edit/{id}','Admin\ClassManagement\ClassManageController@getEditClass')->name('get_edit_class');
+Route::post('classes/edit/{id}','Admin\ClassManagement\ClassManageController@postEditClass')->name('post_edit_class');
+Route::delete('classes/delete', 'Admin\ClassManagement\ClassManageController@deleteAll')->name('delete_selected_class');
+
 
 Route::get('/test', function(){
     $user = new User;

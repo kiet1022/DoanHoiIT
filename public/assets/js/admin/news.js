@@ -25,10 +25,10 @@ $(document).ready(function () {
         });  
         if(allVals.length <=0)  
         {  
-            alert("Chưa có sinh viên nào được chọn!");  
+            alert("Chưa có bài viết nào được chọn!");  
         }  
         else {  
-            var check = confirm("Bạn có chắc muốn xóa những sinh viên này không?");  
+            var check = confirm("Bạn có chắc muốn xóa những bài viết này không?");  
             if(check == true){  
                 var join_selected_values = allVals.join(","); 
                 $.ajax({

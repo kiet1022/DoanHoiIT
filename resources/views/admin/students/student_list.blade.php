@@ -176,7 +176,7 @@ Danh sách sinh viên
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
 <!-- Page level custom scripts -->
 <script src="{{asset('assets/js/admin/student_list.js')}}"></script>
-
+<script src="{{asset('assets/js/admin/common.js')}}"></script>
 <script type="text/javascript">
   
 </script>

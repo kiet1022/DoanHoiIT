@@ -65,7 +65,7 @@ Chương trình đào tạo
                 </div>
                 <!-- /.container-fluid -->
                 <a class="btn btn-success" href="{{route('get_add_program')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a>
-                <button data-url="{{ url('deleteSelectedNews') }}" class="btn delete_all" id="deleteNews" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
+                <button data-url="{{ url('delete_selected_program') }}" class="btn delete_all" id="deleteProgram" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>
 </div>
@@ -78,7 +78,7 @@ Chương trình đào tạo
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
 
- <script src="{{asset('assets/js/admin/news.js')}}"></script>
+ <script src="{{asset('assets/js/admin/program.js')}}"></script>
  <script src="{{asset('assets/js/admin/common.js')}}"></script>
 
 <script>

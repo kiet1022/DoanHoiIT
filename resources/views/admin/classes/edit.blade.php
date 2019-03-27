@@ -1,6 +1,6 @@
 @extends('admin.layout.layout')
 @section('title')
-Thêm chi đoàn
+Chỉnh sửa thông tin chi đoàn
 @endsection
 @section('style')
 <link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
@@ -11,12 +11,12 @@ Thêm chi đoàn
 @section('main_content')
 <div class="row">
     <div class="col page-title-header">
-        <h4>Thêm chi đoàn</h4>
+        <h4>Chỉnh sửa thông tin chi đoàn</h4>
     </div>
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-        <form action="{{ route('post_add_class') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('post_edit_class',['id'=>$class->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
                 <div class="col-md-12">
@@ -24,16 +24,13 @@ Thêm chi đoàn
                         <div class="card-body">       
                             <div class="form-inline cm-inline-form">
                                 <label for="schoolYear" class="col-md-2 common-label-inline">Khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                                <select id="schoolYear" class="form-control col-md-4" name="schoolYear">
-                                    @foreach ($schoolYear as $list)
-                                    <option value="{{$list->id}}" >{{$list->name}}  ||  {{$list->course}}</option>
-
-                                    @endforeach
+                                <select disabled id="schoolYear" class="form-control col-md-4" name="schoolYear">
+                                    <option value="{{$class->school_year_id}}" >{{$class->schoolYear->name}} </option>
                                 </select>
                             </div> 
                             <div class="form-inline cm-inline-form">
                                 <label for="name" class="col-md-2 common-label-inline">Tên chi đoàn <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                                <input type="text" class="form-control col-md-8" id="name" name="name" placeholder="" required value="{{old('name')}}">
+                                <input type="text" class="form-control col-md-8" id="name" name="name" placeholder="" required value="{{$class->class_name}}">
                             </div>     
                         </div>
                     </div>
