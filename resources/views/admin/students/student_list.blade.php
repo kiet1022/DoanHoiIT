@@ -40,7 +40,7 @@ Danh sách sinh viên
             <label for="studentShoolYear" class="col-md-4 common-label-inline">Niên khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
             <select id="studentShoolYear" class="form-control" name="studentShoolYear" required>
               @foreach ($schoolYears as $sy)
-              <option value="{{$sy->id}}">{{$sy->course}}</option>
+              <option value="{{$sy->id}}" {{ changeSelectedStatus(old('studentShoolYear'),"$sy->id") }}>{{$sy->course}}</option>
               @endforeach
             </select>
           </div>
@@ -48,51 +48,50 @@ Danh sách sinh viên
             <label for="studentClass" class="col-md-4 common-label-inline">Lớp <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
             <select id="studentClass" class="form-control" name="studentClass" required>
               @foreach ($class as $sy)
-              <option value="{{$sy->id}}">{{$sy->class_name}}</option>
+              <option value="{{$sy->id}}" {{ changeSelectedStatus(old('studentClass'),"$sy->id") }}>{{$sy->class_name}}</option>
               @endforeach
             </select>
           </div>
         </div>
         {{-- advanced filter condition --}}
-        <div class="col-md-12">
+        <div class="col-md-12 pl-0">
           <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
             Tìm kiếm nâng cao
           </a>
         </div>
 
-        <div class="collapse" id="collapseExample">
+        <div class="collapse @if ( session()->has('_old_input') ) show @endif" id="collapseExample">
           <div class="form-row">
 
             {{-- Filter name --}}
             <div class="form-group col-md-3">
                 <label for="filterSid">MSSV:</label>
-                <input type="number" name="filterSid" id="filterSid" class="form-control" placeholder="Nhập MSSV...">
+            <input type="number" name="filterSid" id="filterSid" class="form-control" placeholder="Nhập MSSV..." value="{{old('filterSid')}}">
               </div>
 
             {{-- Filter name --}}
             <div class="form-group col-md-3">
               <label for="filterName">Họ tên:</label>
-              <input type="text" name="filterName" id="filterName" class="form-control" placeholder="Nhập họ tên...">
+              <input type="text" name="filterName" id="filterName" class="form-control" placeholder="Nhập họ tên..." value="{{old('filterName')}}">
             </div>
             {{-- Filter sex --}}
             <div class="form-group col-md-3">
               <label for="filterSex">Giới tính:</label>
               <select name="filterSex" id="filterSex" class="form-control">
-                <option value="0">Chọn giới tính</option>
-                <option value="1">Nam</option>
-                <option value="2">Nữ</option>
-                <option value="3">Khác</option>
+                <option value="0" {{ changeSelectedStatus(old('filterSex'),'0') }}>Chọn giới tính</option>
+                <option value="1" {{ changeSelectedStatus(old('filterSex'),'1') }}>Nam</option>
+                <option value="2" {{ changeSelectedStatus(old('filterSex'),'2') }}>Nữ</option>
+                <option value="3" {{ changeSelectedStatus(old('filterSex'),'3') }}>Khác</option>
               </select>
             </div>
             {{-- Filter Address --}}
             <div class="form-group col-md-3">
                 <label for="filterAddress">Quê quán:</label>
                 <select name="filterAddress" id="filterAddress" class="form-control">
-                    <option value="0">Chọn quê quán</option>
+                    <option value="0" {{ changeSelectedStatus(old('filterAddress'),'0') }}>Chọn quê quán</option>
                   @foreach ($province as $pro)
-                <option value="{{ $pro->id }}">{{$pro->name}}</option>
+                <option value="{{ $pro->id }}" {{ changeSelectedStatus(old('filterAddress'),"$pro->id") }}>{{$pro->name}}</option>
                   @endforeach
-                  
                 </select>
               </div>
           </div>
