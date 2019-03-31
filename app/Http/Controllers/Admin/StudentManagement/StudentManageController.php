@@ -36,6 +36,7 @@ class StudentManageController extends Controller
     public function __construct(StringUtil $common, StudentUtil $studentUtil){
         $this->stringUtil = $common;
         $this->studentUtil = $studentUtil;
+        $this->middleware('auth');
     }
     /**
     * Get Student list page
@@ -43,6 +44,8 @@ class StudentManageController extends Controller
     * @return view
     */
     public function getStudentList(){
+        
+        // delete session if exist
         session()->forget('_old_input');
         
         $role = Role::where('id',config('constants.STUDENT_MANAGE_ROLE'))->first();
@@ -65,11 +68,11 @@ class StudentManageController extends Controller
     }
     
     /**
-     * Filter student
-     * 
-     * @param $req
-     * @return mixed
-     */
+    * Filter student
+    * 
+    * @param $req
+    * @return mixed
+    */
     public function postFilterStudent(Request $req){
         
         // Init data filter
@@ -104,9 +107,6 @@ class StudentManageController extends Controller
     * @return view
     */
     public function getAddStudentList(){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
-        }
         return view('admin.students.add_student',compact('schoolYears'));
     }
     
@@ -176,17 +176,25 @@ class StudentManageController extends Controller
             return redirect()->back()->with('fail','Thêm sinh viên thất bại');
         }
     }
+    
+    /**
+    * Get edit student page
+    * 
+    * @param $student_id Student ID
+    */
     public function getEditStudent($student_id){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
-        }
+        
         $student = Student::where('student_id',$student_id)->first();
         return view('admin.students.edit_student',compact('student'));
     }
+    
+    /**
+    * Edit Student handle
+    * 
+    * @param $id Student ID
+    * @param $re EditStudentRequest
+    */
     public function postEditStudent($id, EditStudentRequest $re){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
-        }
         try{ 
             $student = Student::where('student_id',$id)->first();
             // $userinfo = User::where('student_id',$id)->first();
@@ -232,92 +240,106 @@ class StudentManageController extends Controller
             }
         }
         
-        public function getImportStudent(){
-            return view('admin.students.import_student');
-        }
         
-        public function postImportStudent(Request $req){
-            try {
-                if($req->hasFile('importFile')){
-                    $file = $req->file('importFile');
-                    $duoi = $file->getClientOriginalExtension();
-                    if($duoi != 'xls' && $duoi != 'xlsx'){
-                        return redirect()->back()->with('error','Vui lòng chọn đúng định dạng file.');
-                    }
-                    $studentArray = (new ImportStudent)->toArray($file)[0];
-                    // skipping heading row
-                    unset($studentArray[0]);
-                    foreach ($studentArray as $studentRow) {
-                        $student = new Student;
-                        $user = new User;
-                        DB::beginTransaction();
-                        if(!is_null($studentRow['mssv'])){
-                            $student->student_id = trim($studentRow['mssv']);
-                            $user->student_id = trim($studentRow['mssv']);
-                            $user->email = trim($studentRow['mssv']).config('constants.MAIL_PATTERN');
-                            $user->password = Hash::make(trim($studentRow['mssv']));
-                            $user->level = 1;
-                            $user->created_by = Auth::user()->id;
-                        }
-                        if(!is_null($studentRow['ho_ten'])){
-                            $student->name = trim($studentRow['ho_ten']);
-                        }
-                        if(!is_null($studentRow['ngay_sinh'])){
-                            $student->birthday = Carbon::createFromFormat('d/m/Y', trim($studentRow['ngay_sinh']))->format('Y-m-d');
-                        }
-                        if(!is_null($studentRow['gioi_tinh'])){
-                            $student->sex = StudentUtil::parseSexToInt($studentRow['gioi_tinh']);
-                        }
-                        if(!is_null($studentRow['ma_tt'])){
-                            $student->province = trim($studentRow['ma_tt']);
-                        }
-                        if(!is_null($studentRow['ma_qh'])){
-                            $student->district = trim($studentRow['ma_qh']);
-                        }
-                        if(!is_null($studentRow['nien_khoa'])){
-                            $student->school_year_id = StudentUtil::parseSchoolYearToInt($studentRow['nien_khoa']);
-                        }
-                        if(!is_null($studentRow['lop'])){
-                            $student->class_id = StudentUtil::parseClassToInt($studentRow['lop']);
-                        }
-                        if(!is_null($studentRow['dia_chi_day_du'])){
-                            $student->address = trim($studentRow['dia_chi_day_du']);
-                        }
-                        if(!is_null($studentRow['sdt'])){
-                            $student->phone_no = StringUtil::pureString($studentRow['sdt']);
-                        }
-                        if(!is_null($studentRow['cmnd'])){
-                            $student->identity_card = StringUtil::pureString($studentRow['cmnd']);
-                        }
-                        $student->created_by = Auth::user()->id;
-                        $student->save();
-                        $user->save();
-                        
-                        DB::commit();
-                    }
-                }else{
-                    return redirect()->back()->with('error','Vui lòng chọn file!');
+        
+    public function getImportStudent(){
+        return view('admin.students.import_student');
+    }
+    
+    /**
+    * Import student handle
+    * 
+    * @param $req
+    */
+    public function postImportStudent(Request $req){
+        try {
+            if($req->hasFile('importFile')){
+                $file = $req->file('importFile');
+                $duoi = $file->getClientOriginalExtension();
+                if($duoi != 'xls' && $duoi != 'xlsx'){
+                    return redirect()->back()->with('error','Vui lòng chọn đúng định dạng file.');
                 }
-                return redirect()->back()->with('success','Import Thành công.');
-            } catch (Exception $e) {
-                return redirect()->back()->with('error','Import thất bại!');
+                $studentArray = (new ImportStudent)->toArray($file)[0];
+                // skipping heading row
+                unset($studentArray[0]);
+                foreach ($studentArray as $studentRow) {
+                    $student = new Student;
+                    $user = new User;
+                    DB::beginTransaction();
+                    if(!is_null($studentRow['mssv'])){
+                        $student->student_id = trim($studentRow['mssv']);
+                        $user->student_id = trim($studentRow['mssv']);
+                        $user->email = trim($studentRow['mssv']).config('constants.MAIL_PATTERN');
+                        $user->password = Hash::make(trim($studentRow['mssv']));
+                        $user->level = 1;
+                        $user->created_by = Auth::user()->id;
+                    }
+                    if(!is_null($studentRow['ho_ten'])){
+                        $student->name = trim($studentRow['ho_ten']);
+                    }
+                    if(!is_null($studentRow['ngay_sinh'])){
+                        $student->birthday = Carbon::createFromFormat('d/m/Y', trim($studentRow['ngay_sinh']))->format('Y-m-d');
+                    }
+                    if(!is_null($studentRow['gioi_tinh'])){
+                        $student->sex = StudentUtil::parseSexToInt($studentRow['gioi_tinh']);
+                    }
+                    if(!is_null($studentRow['ma_tt'])){
+                        $student->province = trim($studentRow['ma_tt']);
+                    }
+                    if(!is_null($studentRow['ma_qh'])){
+                        $student->district = trim($studentRow['ma_qh']);
+                    }
+                    if(!is_null($studentRow['nien_khoa'])){
+                        $student->school_year_id = StudentUtil::parseSchoolYearToInt($studentRow['nien_khoa']);
+                    }
+                    if(!is_null($studentRow['lop'])){
+                        $student->class_id = StudentUtil::parseClassToInt($studentRow['lop']);
+                    }
+                    if(!is_null($studentRow['dia_chi_day_du'])){
+                        $student->address = trim($studentRow['dia_chi_day_du']);
+                    }
+                    if(!is_null($studentRow['sdt'])){
+                        $student->phone_no = StringUtil::pureString($studentRow['sdt']);
+                    }
+                    if(!is_null($studentRow['cmnd'])){
+                        $student->identity_card = StringUtil::pureString($studentRow['cmnd']);
+                    }
+                    $student->created_by = Auth::user()->id;
+                    $student->save();
+                    $user->save();
+                    
+                    DB::commit();
+                }
+            }else{
+                return redirect()->back()->with('error','Vui lòng chọn file!');
             }
-        }
-        
-        public function deleteAll(Request $request){
-            if (!isset(Auth::user()->id)) {
-                return view('login'); //redirect to loginpage if no have session login
-            }
-            $ids = $request->ids;
-            $student=Student::whereIn('student_id',explode(",",$ids))->update(['deleted_at' => now()]);
-            $user=User::whereIn('student_id',explode(",",$ids))->update(['deleted_at' => now()]);
-            return response()->json(['success'=>"Xóa sinh viên thành công"]);
-        }
-        
-        public function getStudentDetail(Request $req){
-            $this->data['student'] = Student::find($req->id);
-            //return $this->data;
-            return response()->view('admin.students.modal_detail', $this->data);
+            return redirect()->back()->with('success','Import Thành công.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error','Import thất bại!');
         }
     }
     
+    /**
+    * Delete student handle
+    * 
+    * @param $req
+    */
+    public function deleteStudent(Request $req){
+        foreach($req->student_id as $sid){
+            $student = Student::find($sid);
+            $student->delete();
+        }
+        return response()->json(['message'=>'Xóa thành công.']);
+    }
+    
+    /**
+    * Get detail of student
+    * 
+    * @param $request
+    */
+    public function getStudentDetail(Request $req){
+        $this->data['student'] = Student::find($req->id);
+        return response()->view('admin.students.modal_detail', $this->data);
+    }
+        
+}

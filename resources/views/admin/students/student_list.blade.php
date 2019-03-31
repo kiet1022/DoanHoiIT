@@ -128,7 +128,7 @@ Danh sách sinh viên
               <tbody>
                 @foreach ($studentList as $list)
                 <tr class="">
-                  <td id="{{$list->student_id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->student_id}}"id="ckb_{{$list->student_id}}"></td>
+                  <td><input type="hidden" value="{{$list->student_id}}"></td>
                   <td>{{$list->student_id}}</td>
                   <td>{{$list->name}}</td>
                   <td>{{$list->schoolYear->course}}</td>
@@ -151,8 +151,7 @@ Danh sách sinh viên
       <!-- /.container-fluid -->
       <a class="btn btn-success" href="{{route('get_add_student')}}"><i class="fas fa-plus-circle"></i> Thêm 1 sinh viên</a>
       <a class="btn btn-info" href="{{ route('get_import_student') }}"><i class="fas fa-file-import"></i> Import Sinh viên</a>
-      <button data-url="{{ url('deleteSelectedUser') }}" class="btn delete_all" id="deleteUser" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> <!-- route('delete_user',['id'=>$us->id]) -->
-    </div>
+      <button onclick="deleteUser()" class="btn" id="deleteUser" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button>
   </div>
 </div>
 
@@ -175,53 +174,29 @@ Danh sách sinh viên
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
 <!-- Page level custom scripts -->
 <script src="{{asset('assets/js/admin/student_list.js')}}"></script>
-<script src="{{asset('assets/js/admin/common.js')}}"></script>
-<script type="text/javascript">
-  
-</script>
+{{-- <script src="{{asset('assets/js/admin/common.js')}}"></script> --}}
 <script>
   var classes = {!!$class!!};
-  $( document ).ready(function(){
-    
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    
-    $('#dataTable').DataTable({
-      columnDefs: [ {
-        orderable: false,
-        className: 'select-checkbox',
-        targets:   0
-      } ],
-      select: {
-        style:    'os',
-        selector: 'td:first-child'
-      },
-      order: [[ 1, 'asc' ]]
-    });
-  });
-</script>
-<script>
-  $('.detailToggle').on('click', function(){
-    var id = $(this).data('id');
-    
+
+  function deleteUser(){
+    var data = $('#dataTable').DataTable().rows( {selected:  true} ).data();
+    var student_id = [];
+    for(var i = 0; i< data.length; i++){
+      student_id.push(data[i][1]);
+    }
+
     $.ajax({
-      url: "{{ route('get_student_detail') }}",
-      method: 'GET',
+      url: "{{ route('delete_student') }}",
+      method: 'POST',
       data:{
-        'id': id
+        'student_id': student_id
       }
     }).done(function(data) {
       console.log(data);
-      $('#studentDetail').html(data);
-      $('#studentDetail').modal('show');
     }).fail(function(xhr, status, error) {
       console.log(this.url);
       console.log(error);
     });
-  });
+  }
 </script>
-
 @endsection

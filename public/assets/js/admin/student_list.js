@@ -1,48 +1,23 @@
 $(document).ready(function () {
 
-    //click button delete
-    $('.delete_all').on('click', function(e) {
-        var allVals = [];  
-        $(".sub_chk:checked").each(function() {  
-            allVals.push($(this).attr('data-id'));
-        });  
-        if(allVals.length <=0)  
-        {  
-            alert("Chưa có sinh viên nào được chọn!");  
-        }  
-        else {  
-            var check = confirm("Bạn có chắc muốn xóa những sinh viên này không?");  
-            if(check == true){  
-                var join_selected_values = allVals.join(","); 
-                $.ajax({
-                    url: $(this).data('url'),
-                    type: 'DELETE',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    data: 'ids='+join_selected_values,
-                    success: function (data) {
-                        if (data['success']) {
-                            $(".sub_chk:checked").each(function() {  
-                                $(this).parents("tr").remove();
-                            });
-                            alert(data['success']);
-                        } else if (data['error']) {
-                            alert(data['error']);
-                        } else {
-                            alert('Có lỗi xảy ra!!');
-                        }
-                    },
-                    error: function (data) {
-                        alert('3');
-                        console.log(data.responseText);
-                        alert(data.responseText);
-                    }
-                });
-                $.each(allVals, function( index, value ) {
-                    $('table tr').filter("[data-row-id='" + value + "']").remove();
-                });
-            }  
-        }  
-    });
+    $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      
+      $('#dataTable').DataTable({
+        columnDefs: [ {
+          orderable: false,
+          className: 'select-checkbox',
+          targets:   0
+        } ],
+        select: {
+          style: 'multi',
+          selector: 'td:first-child'
+        },
+        order: [[ 1, 'asc' ]]
+      });
 
 });
 
@@ -70,3 +45,23 @@ function changeClass(schoolYearId, classes){
         $('#studentClass').html(html);
     }
 }
+
+// Show student detail
+$('.detailToggle').on('click', function(){
+    var id = $(this).data('id');
+    
+    $.ajax({
+      url: "{{ route('get_student_detail') }}",
+      method: 'GET',
+      data:{
+        'id': id
+      }
+    }).done(function(data) {
+      console.log(data);
+      $('#studentDetail').html(data);
+      $('#studentDetail').modal('show');
+    }).fail(function(xhr, status, error) {
+      console.log(this.url);
+      console.log(error);
+    });
+  });

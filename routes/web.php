@@ -19,74 +19,156 @@ use \Carbon\Carbon;
 |
 */
 Auth::routes();
-Route::get('/', function(){
-    return view('login');
+Route::get('/', 'HomeController\HomeController@getLogin')->name('get_login');
+Route::post('login.php', 'HomeController\HomeController@postLogin')->name('post_login');
+Route::get('logout.php','HomeController\HomeController@logout')->name('logout');
+/*
+|--------------------------------------------------------------------------
+| Admin management Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->group(function(){
+    
+    /**
+    * Student management Routing
+    * 
+    */
+    Route::prefix('student')->group( function(){
+        
+        // list of student
+        Route::get('student-list.php','Admin\StudentManagement\StudentManageController@getStudentList')->name('get_student_list');
+        
+        // add student handling
+        Route::get('add-student.php','Admin\StudentManagement\StudentManageController@getAddStudentList')->name('get_add_student');
+        Route::post('add','Admin\StudentManagement\StudentManageController@postAddStudentList')->name('post_add_student');
+        
+        // edit student handling
+        Route::get('edit/{student_id}.php','Admin\StudentManagement\StudentManageController@getEditStudent')->name('get_edit_student');
+        Route::post('edit/{student_id}','Admin\StudentManagement\StudentManageController@postEditStudent')->name('post_edit_student');
+        
+        // Student detail
+        Route::get('detail.php','Admin\StudentManagement\StudentManageController@getStudentDetail')->name('get_student_detail');
+        
+        // Search Student
+        Route::post('filter.php','Admin\StudentManagement\StudentManageController@postFilterStudent')->name('post_filter_student');
+        
+        // Import student
+        Route::get('import-student','Admin\StudentManagement\StudentManageController@getImportStudent')->name('get_import_student');
+        Route::post('import-student','Admin\StudentManagement\StudentManageController@postImportStudent')->name('post_import_student');
+        
+        // Delete Student
+        Route::post('delete.php', 'Admin\StudentManagement\StudentManageController@deleteStudent')->name('delete_student');
+    });
+    
+    /**
+    * User management routing
+    * 
+    */
+    Route::prefix('user')->group( function(){
+        
+        // List of users
+        Route::get('user-list.php','Admin\UserManagement\UserManageController@getUserList')->name('get_user_list');
+    });
+    
+    
+    
+    /**
+    * News management routing
+    * 
+    */
+    Route::prefix('news')->group(function(){
+        
+        /**
+        * News type management routing
+        * 
+        */
+        Route::prefix('type')->group(function(){
+            
+            // List of news type
+            Route::get('list.php','Admin\NewsManagement\NewsTypeManageController@getNewTypesList')->name('get_news_type_list');
+            
+            // Add news type
+            Route::get('add.php','Admin\NewsManagement\NewsTypeManageController@getAddNewType')->name('get_add_new_type');
+            Route::post('add.php','Admin\NewsManagement\NewsTypeManageController@postAddNewsType')->name('post_add_news_type');
+            
+            // Edit news type
+            Route::get('edit-type/{id}.php','Admin\NewsManagement\NewsTypeManageController@getEditNewsType')->name('get_edit_news_type');
+            Route::post('edit-type/{id}.php','Admin\NewsManagement\NewsTypeManageController@postEditNewsType')->name('post_edit_news_type');
+            
+            // Delete news type
+            Route::delete('deleteSelectedNewsType', 'Admin\NewsManagement\NewsTypeManageController@deleteAll')->name('deleteSelectedNewsType');
+        });
+
+        /**
+         * News management
+         * 
+         */
+        Route::get('news-list.php','Admin\NewsManagement\NewsManageController@getNewsList')->name('get_news_list');
+        
+        // Add news
+        Route::get('add.php','Admin\NewsManagement\NewsManageController@getAddNew')->name('get_add_new');
+        Route::post('add.php','Admin\NewsManagement\NewsManageController@postAddNew')->name('post_add_new');
+        
+        // Edit news
+        Route::get('edit/{id}.php','Admin\NewsManagement\NewsManageController@getEditNew')->name('get_edit_new');
+        Route::post('edit/{id}.php','Admin\NewsManagement\NewsManageController@postEditNew')->name('post_edit_new');
+        
+        // Delete news
+        Route::delete('deleteSelectedNews', 'Admin\NewsManagement\NewsManageController@deleteAll')->name('deleteSelectedNews');
+        
+    });
+    
+    /**
+    * School years management routing
+    * 
+    */
+    Route::prefix('school-year')->group(function(){
+        
+        // School year list
+        Route::get('education-program','Admin\AcademicManagement\AcademicManageController@getSchoolYearList')->name('educationProgramList');
+        // Add school year
+        Route::get('education-program/add','Admin\AcademicManagement\AcademicManageController@getAddNew')->name('get_add_program');
+        Route::post('education-program/add','Admin\AcademicManagement\AcademicManageController@postAddNew')->name('post_add_program');
+        
+        // Edit school year
+        Route::get('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@getEditProgram')->name('get_edit_program');
+        Route::post('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@postEditProgram')->name('post_edit_program');
+        
+        // Delete School year
+        Route::delete('education-program/delete', 'Admin\AcademicManagement\AcademicManageController@delete')->name('delete_selected_program');
+    });
+    
+    /**
+    * Classes Management
+    * 
+    */
+    Route::prefix('classes')->group(function(){
+
+        // List of classes
+        Route::get('list.php','Admin\ClassManagement\ClassManageController@getClassList')->name('get_class_list');
+
+        // Add new class
+        Route::get('add-class.php','Admin\ClassManagement\ClassManageController@getAddClass')->name('get_add_class');
+        Route::post('add-class.php','Admin\ClassManagement\ClassManageController@postAddClass')->name('post_add_class');
+
+        // Edit class
+        Route::get('edit-class/{id}.php','Admin\ClassManagement\ClassManageController@getEditClass')->name('get_edit_class');
+        Route::post('edit-class/{id}.php','Admin\ClassManagement\ClassManageController@postEditClass')->name('post_edit_class');
+
+        // Delete class
+        Route::delete('delete-class.php', 'Admin\ClassManagement\ClassManageController@deleteAll')->name('delete_selected_class');
+    });
+
+    /**
+     * Executive committee management
+     * 
+     */
+    Route::prefix('exec-com')->group(function(){
+
+        // List of executive committee
+        Route::get('exec-com-list.php','Admin\AdministratorsManagement\AdministratorsManageController@getAdminList')->name('get_ec_list');
+    });
 });
-Route::post('/t', function (Request $re) {
-   //return $re->email;
-   if(Auth::attempt(['email'=>$re->email,'password'=>$re->password])){
-       echo 'Đã đăng nhập';
-   }else{
-       echo 'Thất bại';
-   }
-
-    //dd($dist);
-})->name('post_login');
-
-
-Route::get('/hello', function(){
-    return view('admin.students.student_list');
-});
-
-Route::get('student','Admin\StudentManagement\StudentManageController@getStudentList')->name('get_student_list');
-Route::get('student/add','Admin\StudentManagement\StudentManageController@getAddStudentList')->name('get_add_student');
-Route::post('student/add','Admin\StudentManagement\StudentManageController@postAddStudentList')->name('post_add_student');
-Route::get('student/edit/{student_id}','Admin\StudentManagement\StudentManageController@getEditStudent')->name('get_edit_student');
-Route::post('student/edit/{student_id}','Admin\StudentManagement\StudentManageController@postEditStudent')->name('post_edit_student');
-Route::get('get-detail','Admin\StudentManagement\StudentManageController@getStudentDetail')->name('get_student_detail');
-Route::post('filter','Admin\StudentManagement\StudentManageController@postFilterStudent')->name('post_filter_student');
-Route::get('user','Admin\UserManagement\UserManageController@getUserList')->name('get_user_list');
-// Route::get('user-edit/{id}','Admin\UserManagement\UserManageController@getEditUser')->name('get_edit_user');
-Route::get('exec-com-list','Admin\AdministratorsManagement\AdministratorsManageController@getAdminList')->name('get_ec_list');
-Route::get('news/news-type-list','Admin\NewsManagement\NewsTypeManageController@getNewTypesList')->name('get_news_type_list');
-Route::get('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@getAddNewType')->name('get_add_new_type');
-Route::post('news/add-news-type','Admin\NewsManagement\NewsTypeManageController@postAddNewsType')->name('post_add_news_type');
-Route::get('news','Admin\NewsManagement\NewsManageController@getNewsList')->name('get_news_list');
-Route::get('news/add','Admin\NewsManagement\NewsManageController@getAddNew')->name('get_add_new');
-Route::post('news/add','Admin\NewsManagement\NewsManageController@postAddNew')->name('post_add_new');
-Route::get('news/edit/{id}','Admin\NewsManagement\NewsManageController@getEditNew')->name('get_edit_new');
-Route::post('news/edit/{id}','Admin\NewsManagement\NewsManageController@postEditNew')->name('post_edit_new');
-
-Route::get('news/edit-type/{id}','Admin\NewsManagement\NewsTypeManageController@getEditNewsType')->name('get_edit_news_type');
-Route::post('news/edit-type/{id}','Admin\NewsManagement\NewsTypeManageController@postEditNewsType')->name('post_edit_news_type');
-
-
-Route::get('import-student','Admin\StudentManagement\StudentManageController@getImportStudent')->name('get_import_student');
-Route::post('import-student','Admin\StudentManagement\StudentManageController@postImportStudent')->name('post_import_student');
-// Route::post('deleteSelectedUser','Admin\StudentManagement\StudentManageController@deleteAll')->name('deleteSelectedUser');
-Route::delete('deleteSelectedUser', 'Admin\StudentManagement\StudentManageController@deleteAll')->name('deleteSelectedUser');
-
-
-Route::delete('news/deleteSelectedNews', 'Admin\NewsManagement\NewsManageController@deleteAll')->name('deleteSelectedNews');
-Route::delete('deleteSelectedNewsType', 'Admin\NewsManagement\NewsTypeManageController@deleteAll')->name('deleteSelectedNewsType');
-
-Route::get('education-program','Admin\AcademicManagement\AcademicManageController@getSchoolYearList')->name('educationProgramList');
-
-Route::get('education-program/add','Admin\AcademicManagement\AcademicManageController@getAddNew')->name('get_add_program');
-Route::post('education-program/add','Admin\AcademicManagement\AcademicManageController@postAddNew')->name('post_add_program');
-
-Route::get('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@getEditProgram')->name('get_edit_program');
-Route::post('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@postEditProgram')->name('post_edit_program');
-Route::delete('education-program/delete', 'Admin\AcademicManagement\AcademicManageController@delete')->name('delete_selected_program');
-
-
-Route::get('classes','Admin\ClassManagement\ClassManageController@getClassList')->name('get_class_list');
-Route::get('classes/add','Admin\ClassManagement\ClassManageController@getAddClass')->name('get_add_class');
-Route::post('classes/add','Admin\ClassManagement\ClassManageController@postAddClass')->name('post_add_class');
-Route::get('classes/edit/{id}','Admin\ClassManagement\ClassManageController@getEditClass')->name('get_edit_class');
-Route::post('classes/edit/{id}','Admin\ClassManagement\ClassManageController@postEditClass')->name('post_edit_class');
-Route::delete('classes/delete', 'Admin\ClassManagement\ClassManageController@deleteAll')->name('delete_selected_class');
-
 
 Route::get('/test', function(){
     $user = new User;
@@ -94,3 +176,6 @@ Route::get('/test', function(){
     $user->password = bcrypt('15110237');
     
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
