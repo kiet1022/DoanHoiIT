@@ -183,8 +183,8 @@ class StudentManageController extends Controller
     * @param $student_id Student ID
     */
     public function getEditStudent($student_id){
-        
-        $student = Student::where('student_id',$student_id)->first();
+        $student = Student::find($student_id);
+        //return $student;
         return view('admin.students.edit_student',compact('student'));
     }
     
@@ -329,7 +329,7 @@ class StudentManageController extends Controller
             $student = Student::find($sid);
             $student->delete();
         }
-        return response()->json(['message'=>'Xóa thành công.']);
+        return response()->json(['message'=>'success']);
     }
     
     /**

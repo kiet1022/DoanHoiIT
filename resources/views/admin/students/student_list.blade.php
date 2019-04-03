@@ -9,19 +9,6 @@ Danh sách sinh viên
 <link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<style>
-  .no-js #loader { display: none;  }
-  .js #loader { display: block; position: absolute; left: 100px; top: 0; }
-  .se-pre-con {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background: url("{{asset('assets/img/Preloader_1.gif')}}") center no-repeat #fff;
-  }
-</style>
 @endsection
 @section('main_content')
 <div class="container-fluid">
@@ -139,7 +126,7 @@ Danh sách sinh viên
                   <td class="text-center">
                     <a class="cm-label text-info detailToggle" data-id="{{$list->student_id}}" data-toggle="modal"><i class="fas fa-list" title="Chi tiết"></i></a>
                     <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}"><i class="fas fa-edit cm-label text-primary" title="Chỉnh sửa"></i></a>
-                    <a href=""><i class="fas fa-trash cm-label text-danger" title="Xóa" data-id="{{$list->student_id}}"></i></a>
+                    {{-- <a class="deleteOne" data-id="{{$list->student_id}}"><i class="fas fa-trash cm-label text-danger" title="Xóa"></i></a> --}}
                   </td>
                 </tr>
                 @endforeach
@@ -151,7 +138,7 @@ Danh sách sinh viên
       <!-- /.container-fluid -->
       <a class="btn btn-success" href="{{route('get_add_student')}}"><i class="fas fa-plus-circle"></i> Thêm 1 sinh viên</a>
       <a class="btn btn-info" href="{{ route('get_import_student') }}"><i class="fas fa-file-import"></i> Import Sinh viên</a>
-      <button onclick="deleteUser()" class="btn" id="deleteUser" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button>
+      <button onclick="deleteStudent()" class="btn" id="deleteUser" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button>
   </div>
 </div>
 
@@ -172,31 +159,11 @@ Danh sách sinh viên
 <script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
-<!-- Page level custom scripts -->
-<script src="{{asset('assets/js/admin/student_list.js')}}"></script>
 {{-- <script src="{{asset('assets/js/admin/common.js')}}"></script> --}}
 <script>
   var classes = {!!$class!!};
-
-  function deleteUser(){
-    var data = $('#dataTable').DataTable().rows( {selected:  true} ).data();
-    var student_id = [];
-    for(var i = 0; i< data.length; i++){
-      student_id.push(data[i][1]);
-    }
-
-    $.ajax({
-      url: "{{ route('delete_student') }}",
-      method: 'POST',
-      data:{
-        'student_id': student_id
-      }
-    }).done(function(data) {
-      console.log(data);
-    }).fail(function(xhr, status, error) {
-      console.log(this.url);
-      console.log(error);
-    });
-  }
 </script>
+<!-- Page level custom scripts -->
+<script src="{{asset('assets/js/admin/student_list.js')}}"></script>
+
 @endsection

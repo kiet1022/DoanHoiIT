@@ -1,6 +1,6 @@
 @extends('admin.layout.layout')
 @section('title')
-Danh sách sinh viên
+Thông tin sinh viên
 @endsection
 @section('style')
 <link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
@@ -16,7 +16,7 @@ Danh sách sinh viên
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-        <form action="{{ route('post_edit_student',['id'=>$student->student_id]) }}" method="POST">
+        <form id="formEditStudent" action="{{ route('post_edit_student',['id'=>$student->student_id]) }}" method="POST">
             @csrf
             <div class="form-row">
                 {{-- Basic info --}}
@@ -118,9 +118,9 @@ Danh sách sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentProvince" class="col-md-4 common-label-inline">Tỉnh/Thành:</label>
                                 <select id="studentProvince" class="form-control col-md-8" name="studentProvince">
-                                    @foreach ($data["province"] as $province)
-                                    <!-- <option value="{!! $province->id !!}" @if($student->provine ==$province->name) {{"selected"}}  @endif>{{ $province->name }}</option> -->
-                                    <option value="{!! $province->id!!}" @if( $student->province ==($province->id)) {{"selected"}}  @endif>{{ $province->name }}</option>
+                                    @foreach ($province as $pro)
+                                    <!-- <option value="{!! $pro->id !!}" @if($student->provine ==$pro->name) {{"selected"}}  @endif>{{ $pro->name }}</option> -->
+                                    <option value="{!! $pro->id!!}" @if( $student->pro ==($pro->id)) {{"selected"}}  @endif>{{ $pro->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -128,8 +128,8 @@ Danh sách sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentDistrict" class="col-md-4 common-label-inline">Quận/Huyện:</label>
                                 <select id="studentDistrict" class="form-control col-md-8" name="studentDistrict">
-                                    @foreach ($data["district"] as $district)
-                                    <option value="{{ $district->id }}" @if( $student->district ==($district->id)) {{"selected"}}  @endif>{{ $district->name }}</option>
+                                    @foreach ($district as $dist)
+                                    <option value="{{ $dist->id }}" @if( $student->dist ==($dist->id)) {{"selected"}}  @endif>{{ $dist->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -137,8 +137,8 @@ Danh sách sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentWard" class="col-md-4 common-label-inline">Xã/Phường/TT:</label>
                                 <select id="studentWard" class="form-control col-md-8" name="studentWard">
-                                    @foreach ($data["ward"] as $ward)
-                                    <option value="{{ $ward->id }}" @if( $student->ward ==($ward->id)) {{"selected"}}  @endif>{{ $ward->name }}</option>
+                                    @foreach ($ward as $wa)
+                                    <option value="{{ $wa->id }}" @if( $student->wa ==($wa->id)) {{"selected"}}  @endif>{{ $wa->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -157,7 +157,7 @@ Danh sách sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentShoolYear" class="col-md-4 common-label-inline">Niên khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <select id="studentShoolYear" class="form-control col-md-8" name="studentShoolYear" required>
-                                    @foreach ($data["schoolYears"] as $sy)
+                                    @foreach ($schoolYears as $sy)
                                     <option value="{{$sy->id}}"  @if($student->school_year_id == $sy->id) {{"selected"}} @endif>{{$sy->course}}</option>
                                     @endforeach
                                 </select>
@@ -176,7 +176,7 @@ Danh sách sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentClass" class="col-md-4 common-label-inline">Lớp <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <select id="studentClass" class="form-control col-md-8" name="studentClass" required>
-                                    @foreach ($data["class"] as $sy)
+                                    @foreach ($class as $sy)
                                     <option value="{{$sy->id}}" @if($student->class_id == $sy->id) {{"selected"}} @endif>{{$sy->class_name}}</option>
                                     @endforeach
                                 </select>
@@ -273,12 +273,16 @@ Danh sách sinh viên
 <script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
 
 <script>
+        $(document).on('submit','form#formEditStudent',function(){
+        $(document).ajaxStart($.blockUI({ message: '<div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status"><span class="sr-only">Loading...</span></div>', 
+        css: {backgroundColor: 'transparent',border: 'none'} })).ajaxStop($.unblockUI);
+    });
+
     // global variable
-    var classes = {!!$data["class"]!!};
-    var province = {!! $data["province"]!!}
-    var district = {!! $data["district"]!!}
-    var ward = {!! $data["ward"]!!}
-    var message = '';
+    var classes = {!!$class!!};
+    var province = {!!$province!!}
+    var district = {!!$district!!}
+    var ward = {!!$ward!!}
     @if(session('success'))
     $.notify({
         // options

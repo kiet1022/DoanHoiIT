@@ -47,7 +47,7 @@ Route::prefix('admin')->group(function(){
         Route::post('edit/{student_id}','Admin\StudentManagement\StudentManageController@postEditStudent')->name('post_edit_student');
         
         // Student detail
-        Route::get('detail.php','Admin\StudentManagement\StudentManageController@getStudentDetail')->name('get_student_detail');
+        Route::post('detail.php','Admin\StudentManagement\StudentManageController@getStudentDetail')->name('get_student_detail');
         
         // Search Student
         Route::post('filter.php','Admin\StudentManagement\StudentManageController@postFilterStudent')->name('post_filter_student');
