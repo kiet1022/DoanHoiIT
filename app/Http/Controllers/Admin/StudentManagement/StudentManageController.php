@@ -124,7 +124,7 @@ class StudentManageController extends Controller
         $student->student_id = $re->sid;
         $student->name = $re->studentName;
         $student->sex = $re->studentSex;
-        $student->birthday = date('Y-m-d H:i:s',strtotime($re->studentBirthday));
+        $student->birthday = Carbon::createFromFormat('d/m/Y', trim($re->studentBirthday))->format('Y-m-d');
         $student->phone_no = $re->studentPhone;
         $student->address = $re->studentAddress;
         $student->province = $re->studentProvince;
@@ -132,7 +132,7 @@ class StudentManageController extends Controller
         $student->ward = $re->studentWard;
         $student->school_year_id = $re->studentShoolYear;
         $student->class_id = $re->studentClass;
-        $student->date_on_union=date('Y-m-d H:i:s',strtotime($re->unionDate));
+        $student->date_on_union = Carbon::createFromFormat('d/m/Y', trim($re->unionDate))->format('Y-m-d');
         
         switch ($re->toggleisUnion) {
             case '1':
@@ -196,8 +196,8 @@ class StudentManageController extends Controller
     */
     public function postEditStudent($id, EditStudentRequest $re){
         try{ 
-            $student = Student::where('student_id',$id)->first();
-            // $userinfo = User::where('student_id',$id)->first();
+            DB::beginTransaction();
+            $student = Student::find($id);
             switch ($re->toggleisUnion) {
                 case '1':
                 $is_youth_union_member = 1;
@@ -218,25 +218,27 @@ class StudentManageController extends Controller
                 $is_payed_union_fee = 0;
                 $date_on_union=null;
             }
-            // $userinfo=User::where('student_id',$id)->update(['level' => $re->permistion]);
-            $student=Student::where('student_id',$id)->update([
-                'name' => $re->studentName, 
-                'sex' => $re->studentSex, 
-                'birthday' => date('Y-m-d H:i:s',strtotime($re->studentBirthday)), 
-                'address' => $re->studentAddress, 
-                'province' => $re->studentProvince, 
-                'district' => $re->studentDistrict, 
-                'ward' => $re->studentWard, 
-                'phone_no' => $re->studentPhone, 
-                'is_youth_union_member' => $is_youth_union_member, 
-                'is_payed_union_fee' => $is_payed_union_fee, 
-                'is_study' => $re->isStudy, 
-                'date_on_union' => date('Y-m-d H:i:s',strtotime($re->unionDate)), 
-                'class_id' => $re->studentClass, 
-                'school_year_id' => $re->studentShoolYear]);
-                return redirect()->back()->with('success','Sửa thông tin thành công');
+
+            $student->name = $re->studentName;
+            $student->sex = $re->studentSex; 
+            $student->birthday = Carbon::createFromFormat('d/m/Y', trim($re->studentBirthday))->format('Y-m-d');
+            $student->address = $re->studentAddress; 
+            $student->province = $re->studentProvince; 
+            $student->district = $re->studentDistrict; 
+            $student->ward = $re->studentWard; 
+            $student->phone_no = $re->studentPhone; 
+            $student->is_youth_union_member = $is_youth_union_member; 
+            $student->is_payed_union_fee = $is_payed_union_fee; 
+            $student->is_study = $re->isStudy; 
+            $student->date_on_union = Carbon::createFromFormat('d/m/Y', trim($re->unionDate))->format('Y-m-d');
+            $student->class_id = $re->studentClass; 
+            $student->school_year_id = $re->studentShoolYear;
+            $student->save();
+            DB::commit();
+            return redirect()->back()->with('success','Sửa thông tin thành công.');
             }catch(Exception $ex){
-                return redirect()->back()->with('error',$ex->getMessage());
+                DB::rollback();
+                return redirect()->back()->with('error', $ex->getMessage());
             }
         }
         

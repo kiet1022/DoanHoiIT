@@ -26,13 +26,15 @@
         // Union Date picker
         $('#unionDate').datepicker({
             uiLibrary: 'bootstrap4',
-            keyboardNavigation: true
+            keyboardNavigation: true,
+            format: 'd/m/Y'
         });
 
         // Birthday Date picker
         $('#studentBirthday').datepicker({
             uiLibrary: 'bootstrap4',
-            keyboardNavigation: true
+            keyboardNavigation: true,
+            format: 'd/m/Y'
         });
         
     });

@@ -1,5 +1,6 @@
 <?php
 
+use \Carbon\Carbon;
 // Mở composer.json
 // Thêm vào trong "autoload" chuỗi sau
 // "files": [
@@ -146,5 +147,7 @@
 		return $result;
 	}
 	
-	
+	function convertToStringDate($oldDate){
+		return $newDate = Carbon::createFromFormat('Y-m-d', trim($oldDate))->format('d/m/Y');
+	}
 	?>

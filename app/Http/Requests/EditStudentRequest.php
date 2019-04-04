@@ -24,9 +24,8 @@ class EditStudentRequest extends FormRequest
     public function rules()
     {
         return [
+            'sid' => 'bail|required|numeric|digits_between:7,10',
             'studentName' =>'required|between:3, 50',
-            // 'studentName' =>'required|regex:/^[A-ZÀÂÇÉÈÊËÎÏÔÛÙÜŸÑÆŒa-zàâçéèêëîïôûùüÿñæœ_.,() ]+$/',
-            // 'studentName' =>'required|regex:/^[\p{Latin} a-z A-Z +s]+$/',
             'studentBirthday' => 'required|bail|size:10|date',
             'unionDate' => 'bail|nullable|size:10|date',
             'studentShoolYear' => 'required|size:1',
@@ -61,6 +60,11 @@ class EditStudentRequest extends FormRequest
         ];
     }
 
+    /**
+     * Get the messages when validate failed
+     * 
+     * @return array
+     */
     public function messages(){
         return [
             'studentSex.required' => 'Bạn chưa chọn :attribute.',

@@ -44,7 +44,7 @@ Route::prefix('admin')->group(function(){
         
         // edit student handling
         Route::get('edit/{student_id}.php','Admin\StudentManagement\StudentManageController@getEditStudent')->name('get_edit_student');
-        Route::post('edit/{student_id}','Admin\StudentManagement\StudentManageController@postEditStudent')->name('post_edit_student');
+        Route::post('edit/{student_id}.php','Admin\StudentManagement\StudentManageController@postEditStudent')->name('post_edit_student');
         
         // Student detail
         Route::post('detail.php','Admin\StudentManagement\StudentManageController@getStudentDetail')->name('get_student_detail');
@@ -53,8 +53,8 @@ Route::prefix('admin')->group(function(){
         Route::post('filter.php','Admin\StudentManagement\StudentManageController@postFilterStudent')->name('post_filter_student');
         
         // Import student
-        Route::get('import-student','Admin\StudentManagement\StudentManageController@getImportStudent')->name('get_import_student');
-        Route::post('import-student','Admin\StudentManagement\StudentManageController@postImportStudent')->name('post_import_student');
+        Route::get('import-student.php','Admin\StudentManagement\StudentManageController@getImportStudent')->name('get_import_student');
+        Route::post('import-student.php','Admin\StudentManagement\StudentManageController@postImportStudent')->name('post_import_student');
         
         // Delete Student
         Route::post('delete.php', 'Admin\StudentManagement\StudentManageController@deleteStudent')->name('delete_student');

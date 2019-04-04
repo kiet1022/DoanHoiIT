@@ -223,6 +223,7 @@ Thêm sinh viên
                             </div>
                             
                             {{-- is Study --}}
+                            
                             <div class="form-inline cm-inline-form">
                                 <label for="isStudy" class="col-md-4 common-label-inline">Tình trạng học tập:</label>
                                 <select id="isStudy" class="form-control col-md-8" name="isStudy">
@@ -255,6 +256,15 @@ Thêm sinh viên
             </div>
         </form>
     </div>
+    {{-- Breadcrumb --}}
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb cm-breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('get_student_list') }}" class="cm-breadcrumb-a"><i class="fas fa-arrow-circle-left"></i> Quay lại</a></li>
+                {{-- <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa thông tin</li> --}}
+            </ol>
+        </nav>
+    </div>
 </div>
 @endsection
 @section('js')
@@ -276,6 +286,7 @@ Thêm sinh viên
     @if(session('success'))
     $.notify({
         // options
+        title:'<h4><i class="fas fa-check-circle"></i> Success!!!</h4>',
         message:'{{session('success')}}',
     },{
         // settings

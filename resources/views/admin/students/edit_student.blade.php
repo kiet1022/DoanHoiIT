@@ -1,3 +1,4 @@
+
 @extends('admin.layout.layout')
 @section('title')
 Thông tin sinh viên
@@ -10,7 +11,7 @@ Thông tin sinh viên
 @endsection
 @section('main_content')
 <div class="row">
-    <div class="col page-title-header">
+    <div class="col-12 page-title-header">
         <h4>Nhập thông tin sinh viên</h4>
     </div>
 </div>
@@ -29,7 +30,7 @@ Thông tin sinh viên
                             {{-- Student ID --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="sid" class="col-md-4 common-label-inline">MSSV <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                                <input type="number" class="form-control col-md-8" id="sid" name="sid" placeholder="Mã số sinh viên" required disabled value="{{$student->student_id}}">
+                                <input type="number" class="form-control col-md-8" id="sid" name="sid" placeholder="Mã số sinh viên" readonly value="{{$student->student_id}}">
                             </div>
                             
                             {{-- error --}}
@@ -59,23 +60,14 @@ Thông tin sinh viên
                                 </ul>
                             </div>
                             @endif
-                            <!-- {{-- authorities --}}
-                            <div class="form-inline cm-inline-form">
-                                <label for="permistion" class="col-md-4 common-label-inline">Quyền <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                                <select id="permistion" class="form-control col-md-8" name="permistion" required >
-                                    <option value="0" @if($student->user->level == 0) {{"selected"}} @endif>Sinh viên</option>
-                                    <option value="1" @if($student->user->level == 1) {{"selected"}} @endif>Thường trực</option>
-                                    <option value="2" @if($student->user->level == 2) {{"selected"}} @endif>Ủy viên</option>
-                                    <option value="3" @if($student->user->level == 3) {{"selected"}} @endif>Ban cán sự lớp</option>
-                                </select>
-                            </div> -->
-                            {{-- Sex --}}
+                            
+                            {{-- Student sex --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="studentSex" class="col-md-4 common-label-inline">Giới tính <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <select id="studentSex" class="form-control col-md-8" name="studentSex" required >
-                                    <option value="1" @if($student->sex == 1) {{"selected"}} @endif>Nam</option>
-                                    <option value="2" @if($student->sex == 2) {{"selected"}} @endif>Nữ</option>
-                                    <option value="3" @if($student->sex == 3) {{"selected"}} @endif>Khác</option>
+                                    <option value="1" {{changeSelectedStatus("1","$student->sex")}}>Nam</option>
+                                    <option value="2" {{changeSelectedStatus("2","$student->sex")}}>Nữ</option>
+                                    <option value="3" {{changeSelectedStatus("3","$student->sex")}}>Khác</option>
                                 </select>
                             </div>
                             
@@ -94,7 +86,7 @@ Thông tin sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentBirthday" class="col-md-4 common-label-inline">Ngày sinh <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <div class="col-md-8 px-0">
-                                    <input id="studentBirthday" width="100%" class="form-control" name="studentBirthday" maxlength="10" required @if ($errors->any()) value="{{old('studentBirthday')}}" @else  value="{{$student->birthday}}"  @endif  >
+                                <input id="studentBirthday" width="100%" class="form-control" name="studentBirthday" maxlength="10" required @if ($errors->any()) value="{{old('studentBirthday')}}" @else  value="{{ convertToStringDate($student->birthday) }}"  @endif  >
                                 </div>
                             </div>
                             
@@ -119,8 +111,7 @@ Thông tin sinh viên
                                 <label for="studentProvince" class="col-md-4 common-label-inline">Tỉnh/Thành:</label>
                                 <select id="studentProvince" class="form-control col-md-8" name="studentProvince">
                                     @foreach ($province as $pro)
-                                    <!-- <option value="{!! $pro->id !!}" @if($student->provine ==$pro->name) {{"selected"}}  @endif>{{ $pro->name }}</option> -->
-                                    <option value="{!! $pro->id!!}" @if( $student->pro ==($pro->id)) {{"selected"}}  @endif>{{ $pro->name }}</option>
+                                    <option value="{!! $pro->id!!}" {{ changeSelectedStatus("$pro->id","$student->province") }} >{{ $pro->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -129,7 +120,7 @@ Thông tin sinh viên
                                 <label for="studentDistrict" class="col-md-4 common-label-inline">Quận/Huyện:</label>
                                 <select id="studentDistrict" class="form-control col-md-8" name="studentDistrict">
                                     @foreach ($district as $dist)
-                                    <option value="{{ $dist->id }}" @if( $student->dist ==($dist->id)) {{"selected"}}  @endif>{{ $dist->name }}</option>
+                                    <option value="{{ $dist->id }}" {{ changeSelectedStatus("$dist->id","$student->district") }} >{{ $dist->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -138,14 +129,14 @@ Thông tin sinh viên
                                 <label for="studentWard" class="col-md-4 common-label-inline">Xã/Phường/TT:</label>
                                 <select id="studentWard" class="form-control col-md-8" name="studentWard">
                                     @foreach ($ward as $wa)
-                                    <option value="{{ $wa->id }}" @if( $student->wa ==($wa->id)) {{"selected"}}  @endif>{{ $wa->name }}</option>
+                                    <option value="{{ $wa->id }}" {{ changeSelectedStatus("$wa->id","$student->ward") }} >{{ $wa->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                
                 {{-- Advanced info --}}
                 <div class="col-md-6">
                     <div class="card">
@@ -158,7 +149,7 @@ Thông tin sinh viên
                                 <label for="studentShoolYear" class="col-md-4 common-label-inline">Niên khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <select id="studentShoolYear" class="form-control col-md-8" name="studentShoolYear" required>
                                     @foreach ($schoolYears as $sy)
-                                    <option value="{{$sy->id}}"  @if($student->school_year_id == $sy->id) {{"selected"}} @endif>{{$sy->course}}</option>
+                                    <option value="{{$sy->id}}" {{ changeSelectedStatus("$sy->id","$student->school_year_id") }}>{{$sy->course}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -177,7 +168,7 @@ Thông tin sinh viên
                                 <label for="studentClass" class="col-md-4 common-label-inline">Lớp <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <select id="studentClass" class="form-control col-md-8" name="studentClass" required>
                                     @foreach ($class as $sy)
-                                    <option value="{{$sy->id}}" @if($student->class_id == $sy->id) {{"selected"}} @endif>{{$sy->class_name}}</option>
+                                    <option value="{{$sy->id}}" {{ changeSelectedStatus("$sy->id","$student->class_id") }}>{{$sy->class_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -201,15 +192,15 @@ Thông tin sinh viên
                                 <label for="isUnion" class="col-md-4 common-label-inline">Đoàn viên:</label>
                                 <input id="toggleisUnion" name="toggleisUnion" type="checkbox" data-width="120" data-height="20"  @if($student->is_youth_union_member == 1) {{"checked value=1"}} @endif>
                             </div>
-
+                            
                             {{-- Union Date --}}
                             <div class="form-inline cm-inline-form show-off @if ($errors->any()) {{"show-off"}}@endif">
                                 <label for="unionDate" class="col-md-4 common-label-inline">Ngày kết nạp:</label>
                                 <div class="col-md-8 px-0">
-                                    <input id="unionDate" width="100%" class="form-control" name="unionDate" maxlength="10" value="{{$student->date_on_union}}">
+                                    <input id="unionDate" width="100%" class="form-control" name="unionDate" maxlength="10" @if ($errors->any()) value="{{old('unionDate')}}" @else value="{{ date('d/m/Y', strtotime($student->date_on_union)) }}" @endif>
                                 </div>
                             </div>
-
+                            
                             {{-- error --}}
                             @if ($errors->get('unionDate'))
                             <div class="form-inline cm-inline-form cm-error">
@@ -220,7 +211,7 @@ Thông tin sinh viên
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- UnionPlace --}}
                             <div class="form-inline cm-inline-form show-off @if ($errors->any()) {{"show-off"}}@endif">
                                 <label for="unionPlace" class="col-md-4 common-label-inline">Nơi kết nạp:</label>
@@ -231,7 +222,7 @@ Thông tin sinh viên
                                 <label for="toggleUnionFee" class="col-md-4 common-label-inline">Đoàn phí:</label>
                                 <input id="toggleUnionFee" name="toggleUnionFee" type="checkbox" data-width="120" data-height="20"   @if($student->is_payed_union_fee == 1) {{"checked  value=1"}}  @endif>
                             </div>
-
+                            
                             {{-- is Study --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="isStudy" class="col-md-4 common-label-inline">Tình trạng học tập:</label>
@@ -242,7 +233,7 @@ Thông tin sinh viên
                                     <option value="4" @if($student->is_study == 4) {{"selected"}} @endif>Đã nghỉ học</option>
                                 </select>
                             </div>
-
+                            
                             {{-- error --}}
                             @if ($errors->get('isStudy'))
                             <div class="form-inline cm-inline-form cm-error">
@@ -265,6 +256,16 @@ Thông tin sinh viên
             </div>
         </form>
     </div>
+    
+    {{-- Breadcrumb --}}
+    <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb cm-breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('get_student_list') }}" class="cm-breadcrumb-a"><i class="fas fa-arrow-circle-left"></i> Quay lại</a></li>
+                    {{-- <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa thông tin</li> --}}
+                </ol>
+            </nav>
+        </div>
 </div>
 @endsection
 @section('js')
@@ -273,11 +274,11 @@ Thông tin sinh viên
 <script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
 
 <script>
-        $(document).on('submit','form#formEditStudent',function(){
+    $(document).on('submit','form#formEditStudent',function(){
         $(document).ajaxStart($.blockUI({ message: '<div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status"><span class="sr-only">Loading...</span></div>', 
         css: {backgroundColor: 'transparent',border: 'none'} })).ajaxStop($.unblockUI);
     });
-
+    
     // global variable
     var classes = {!!$class!!};
     var province = {!!$province!!}
@@ -286,6 +287,7 @@ Thông tin sinh viên
     @if(session('success'))
     $.notify({
         // options
+        title:'<h4><i class="fas fa-check-circle"></i> Success!!!</h4>',
         message:'{{session('success')}}',
     },{
         // settings

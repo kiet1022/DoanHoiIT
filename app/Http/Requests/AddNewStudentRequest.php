@@ -25,7 +25,7 @@ class AddNewStudentRequest extends FormRequest
     {
         
         return [
-            'sid' => 'required|unique:students,student_id|numeric|digits_between:7,10',
+            'sid' => 'bail|required|unique:students,student_id|numeric|digits_between:7,10',
             'studentName' =>'required|between:3, 50',
             'studentBirthday' => 'required|bail|size:10|date',
             'unionDate' => 'bail|nullable|size:10|date',

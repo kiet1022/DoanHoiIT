@@ -12,7 +12,7 @@ class HomeController extends Controller
      */
     public function getLogin(){
         if(Auth::check()){
-            abort(404);
+            return redirect()->route('get_student_list');
         }else{
             return view('login');
         }
