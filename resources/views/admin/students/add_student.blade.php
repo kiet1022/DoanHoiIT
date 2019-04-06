@@ -6,7 +6,7 @@ Thêm sinh viên
 <link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('assets/vendor/icheck-1.x/skins/flat/green.css')}}" rel="stylesheet">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<link href="{{asset('assets/vendor/gijgo-combined-1.9.11/css/gijgo.min.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
 @endsection
 @section('main_content')
 <div class="row">
@@ -85,7 +85,7 @@ Thêm sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentBirthday" class="col-md-4 common-label-inline">Ngày sinh <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <div class="col-md-8 px-0">
-                                    <input id="studentBirthday" width="100%" class="form-control" name="studentBirthday" maxlength="10" required value="{{old('studentBirthday')}}" >
+                                        <input style="width: inherit;" id="studentBirthday" width="100%" class="form-control" name="studentBirthday" maxlength="10" required value="{{ old('studentBirthday') }}"  >
                                 </div>
                             </div>
                             
@@ -196,7 +196,7 @@ Thêm sinh viên
                             <div class="form-inline cm-inline-form show-off @if ($errors->any()) {{"show-off"}}@endif">
                                 <label for="unionDate" class="col-md-4 common-label-inline">Ngày kết nạp:</label>
                                 <div class="col-md-8 px-0">
-                                    <input id="unionDate" width="100%" class="form-control" name="unionDate" maxlength="10" value="{{old('unionDate')}}">
+                                        <input style="width: inherit;" id="unionDate" width="100%" class="form-control" name="unionDate" maxlength="10" value="{{ old('unionDate') }}">
                                 </div>
                             </div>
                             
@@ -270,7 +270,8 @@ Thêm sinh viên
 @section('js')
 <script src="{{asset('assets/vendor/icheck-1.x/icheck.js')}}"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
+<script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
+<script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
 
 <script>
     $(document).on('submit','form#formAddStudent',function(){
@@ -294,7 +295,7 @@ Thêm sinh viên
         newest_on_top: true,
         offset: {
             x: 20,
-            y: 80
+            y: 20
         },
         spacing: 10,
         z_index: 1031,

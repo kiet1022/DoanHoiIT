@@ -195,6 +195,7 @@ class StudentManageController extends Controller
     * @param $re EditStudentRequest
     */
     public function postEditStudent($id, EditStudentRequest $re){
+        //dd($re);
         try{ 
             DB::beginTransaction();
             $student = Student::find($id);

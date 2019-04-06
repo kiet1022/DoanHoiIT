@@ -148,6 +148,9 @@ use \Carbon\Carbon;
 	}
 	
 	function convertToStringDate($oldDate){
+		if(is_null($oldDate)){
+			return "";
+		}
 		return $newDate = Carbon::createFromFormat('Y-m-d', trim($oldDate))->format('d/m/Y');
 	}
 	?>

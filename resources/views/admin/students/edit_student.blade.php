@@ -7,7 +7,8 @@ Thông tin sinh viên
 <link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('assets/vendor/icheck-1.x/skins/flat/green.css')}}" rel="stylesheet">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<link href="{{asset('assets/vendor/gijgo-combined-1.9.11/css/gijgo.min.css')}}" rel="stylesheet">
+{{-- <link href="{{asset('assets/vendor/gijgo-combined-1.9.11/css/gijgo.min.css')}}" rel="stylesheet"> --}}
+<link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
 @endsection
 @section('main_content')
 <div class="row">
@@ -86,8 +87,8 @@ Thông tin sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentBirthday" class="col-md-4 common-label-inline">Ngày sinh <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <div class="col-md-8 px-0">
-                                <input id="studentBirthday" width="100%" class="form-control" name="studentBirthday" maxlength="10" required @if ($errors->any()) value="{{old('studentBirthday')}}" @else  value="{{ convertToStringDate($student->birthday) }}"  @endif  >
-                                </div>
+                                <input style="width: inherit;" id="studentBirthday" width="100%" class="form-control" name="studentBirthday" maxlength="10" required @if ($errors->any()) value="{{ old('studentBirthday') }}" @else  value="{{ convertToStringDate($student->birthday) }}"  @endif  >
+                            </div>
                             </div>
                             
                             {{-- error --}}
@@ -110,6 +111,7 @@ Thông tin sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentProvince" class="col-md-4 common-label-inline">Tỉnh/Thành:</label>
                                 <select id="studentProvince" class="form-control col-md-8" name="studentProvince">
+                                    <option value="">Vui lòng chọn tỉnh/thành</option>
                                     @foreach ($province as $pro)
                                     <option value="{!! $pro->id!!}" {{ changeSelectedStatus("$pro->id","$student->province") }} >{{ $pro->name }}</option>
                                     @endforeach
@@ -119,6 +121,7 @@ Thông tin sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentDistrict" class="col-md-4 common-label-inline">Quận/Huyện:</label>
                                 <select id="studentDistrict" class="form-control col-md-8" name="studentDistrict">
+                                        <option value="">Vui lòng chọn Quận/Huyện</option>
                                     @foreach ($district as $dist)
                                     <option value="{{ $dist->id }}" {{ changeSelectedStatus("$dist->id","$student->district") }} >{{ $dist->name }}</option>
                                     @endforeach
@@ -128,6 +131,7 @@ Thông tin sinh viên
                             <div class="form-inline cm-inline-form">
                                 <label for="studentWard" class="col-md-4 common-label-inline">Xã/Phường/TT:</label>
                                 <select id="studentWard" class="form-control col-md-8" name="studentWard">
+                                        <option value="">Vui lòng chọn Xã/Phường/TT</option>
                                     @foreach ($ward as $wa)
                                     <option value="{{ $wa->id }}" {{ changeSelectedStatus("$wa->id","$student->ward") }} >{{ $wa->name }}</option>
                                     @endforeach
@@ -197,7 +201,7 @@ Thông tin sinh viên
                             <div class="form-inline cm-inline-form show-off @if ($errors->any()) {{"show-off"}}@endif">
                                 <label for="unionDate" class="col-md-4 common-label-inline">Ngày kết nạp:</label>
                                 <div class="col-md-8 px-0">
-                                    <input id="unionDate" width="100%" class="form-control" name="unionDate" maxlength="10" @if ($errors->any()) value="{{old('unionDate')}}" @else value="{{ date('d/m/Y', strtotime($student->date_on_union)) }}" @endif>
+                                    <input style="width: inherit;" id="unionDate" width="100%" class="form-control" name="unionDate" maxlength="10" @if ($errors->any()) value="{{ old('unionDate') }}" @else value="{{ convertToStringDate($student->date_on_union) }}" @endif>
                                 </div>
                             </div>
                             
@@ -232,8 +236,7 @@ Thông tin sinh viên
                                     <option value="3" @if($student->is_study == 3) {{"selected"}} @endif>Bảo lưu</option>
                                     <option value="4" @if($student->is_study == 4) {{"selected"}} @endif>Đã nghỉ học</option>
                                 </select>
-                            </div>
-                            
+                            </div>                            
                             {{-- error --}}
                             @if ($errors->get('isStudy'))
                             <div class="form-inline cm-inline-form cm-error">
@@ -271,14 +274,15 @@ Thông tin sinh viên
 @section('js')
 <script src="{{asset('assets/vendor/icheck-1.x/icheck.js')}}"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
+{{-- <script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script> --}}
+<script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
+<script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
 
 <script>
     $(document).on('submit','form#formEditStudent',function(){
         $(document).ajaxStart($.blockUI({ message: '<div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status"><span class="sr-only">Loading...</span></div>', 
         css: {backgroundColor: 'transparent',border: 'none'} })).ajaxStop($.unblockUI);
     });
-    
     // global variable
     var classes = {!!$class!!};
     var province = {!!$province!!}
@@ -295,7 +299,7 @@ Thông tin sinh viên
         newest_on_top: true,
         offset: {
             x: 20,
-            y: 80
+            y: 20
         },
         spacing: 10,
         z_index: 1031,

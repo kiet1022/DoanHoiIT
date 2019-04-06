@@ -26,8 +26,8 @@ class EditStudentRequest extends FormRequest
         return [
             'sid' => 'bail|required|numeric|digits_between:7,10',
             'studentName' =>'required|between:3, 50',
-            'studentBirthday' => 'required|bail|size:10|date',
-            'unionDate' => 'bail|nullable|size:10|date',
+            'studentBirthday' => 'required|bail|size:10|date_format:"d/m/Y"',
+            'unionDate' => 'bail|nullable|size:10|date_format:"d/m/Y"',
             'studentShoolYear' => 'required|size:1',
             'studentClass' => 'required|size:1',
             'studentSex' => [
@@ -78,9 +78,9 @@ class EditStudentRequest extends FormRequest
             'studentClass.required' => 'Bạn chưa chọn :attribute.',
             'studentClass.size' => ':attribute không hợp lệ.',
             'studentBirthday.size' => ':attribute không hợp lệ.',
-            'studentBirthday.date' => 'Định dạng :attribute không hợp lệ.',
+            'studentBirthday.date_format' => ':attribute phải có định dạng dd/mm/yyyy',
             'unionDate.size' => ':attribute không hợp lệ.',
-            'unionDate.date' => 'Định dạng :attribute không hợp lệ.',
+            'unionDate.date_format' => ':attribute phải có định dạng dd/mm/yyyy',
             
         ];
     }
