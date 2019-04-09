@@ -36,43 +36,49 @@ Danh sách ban chấp hành
         </div>
         {{-- Student list --}}
         <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
+            
                     <!-- Begin Page Content -->      
                 <!-- DataTales Example -->
                 <div class="card mb-4">
-                  {{-- <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Danh sách sinh viên</h6>
-                  </div> --}}
+                  <div class="card-header py-3 text-center">
+                  <form action="{{ route('get_ec_list') }}" method="get">
+                    @csrf
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="submit" class="btn btn-primary" name="type" value="0">BCH Đoàn</button>
+                        <button type="submit" class="btn btn-primary" name="type" value="1">BCH Liên Chi hội</button>
+                        <button type="submit" class="btn btn-primary" name="type" value="2">Cộng tác viên</button>
+                      </div>
+                  </form>
+                  </div>
                   <div class="card-body">
                     <div class="table-responsive">
                       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead style="background: #f8f9fc">
                           <tr>
                             <th></th>
+                            <th>Hình ảnh</th>
                             <th>MSSV</th>
                             <th>Họ tên</th>
-                            <th>Email</th>
-                            <th>Quyền</th>
+                            <th>Chức vụ</th>
+                            <th>Giới tính</th>
+                            <th>SDT Liên hệ</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach ($user as $list)
+                          @foreach ($execComm as $list)
                           <tr>
                             <td></td>
                             <td>{{$list->student_id}}</td>
-                            <td>{{$list->student->name}}</td>
-                            <td>{{$list->email}}</td>
-                            <td> 
-                              @if( $list->level == '1' )
-                              Thường trực
-                              @elseif( $list->level == '2' )
-                              Ủy viên BCH
-                              @elseif( $list->level == '3' )
-                              Ban cán sự lớp
-                              @endif
-
- 
+                            <td>{{$list->student_id}}</td>
+                            <td>{{$list->ofStudent->name}}</td>
+                            <td class="text-center"> 
+                              {!! changeLevelLabel($list->level) !!}
                             </td>
+                            <td class="text-center">
+                                {!! changeGenderForList($list->ofStudent->sex) !!}
+                            </td>
+                          <td>{{ $list->ofStudent->phone_no }}</td>
                             <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}">Sửa</a></td>
                           </tr>
                           @endforeach

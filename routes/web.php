@@ -4,6 +4,7 @@ use App\Province;
 use App\Ward;
 use App\User;
 use App\Student;
+use App\ExecComm;
 use Illuminate\Http\Request;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -166,14 +167,14 @@ Route::prefix('admin')->group(function(){
     Route::prefix('exec-com')->group(function(){
 
         // List of executive committee
-        Route::get('exec-com-list.php','Admin\AdministratorsManagement\AdministratorsManageController@getAdminList')->name('get_ec_list');
+        Route::get('list.php','Admin\ExecCommManagement\ExecCommController@getExecCommList')->name('get_ec_list');
     });
 });
 
 Route::get('/test', function(){
-    $user = new User;
-    $user->email = '15110237@student.hcmute.edu.vn';
-    $user->password = bcrypt('15110237');
+    $ex = ExecComm::all()->first();
+    $re = $ex->ofStudent->name;
+    dd($re);
     
 });
 Auth::routes();

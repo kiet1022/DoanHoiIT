@@ -128,7 +128,7 @@ use \Carbon\Carbon;
 		}
 		return $result;
 	}
-
+	
 	/**
 	* Change union status
 	* 
@@ -147,10 +147,45 @@ use \Carbon\Carbon;
 		return $result;
 	}
 	
+	/**
+	* Convert Date to String
+	* 
+	*/
 	function convertToStringDate($oldDate){
 		if(is_null($oldDate)){
 			return "";
 		}
 		return $newDate = Carbon::createFromFormat('Y-m-d', trim($oldDate))->format('d/m/Y');
 	}
+	
+	/**
+	 * Change label name for ExecComm level
+	 * 
+	 */
+	function changeLevelLabel($levelCode){
+		$result = '';
+		switch ($levelCode) {
+			case 1:
+			$result = '<span class="badge badge-primary">Bí thư</span>';
+			break;
+			case 2:
+			$result = '<span class="badge badge-success">Phó bí thư</span>';
+			break;
+			case 4:
+			$result = '<span class="badge badge-primary">LCH Trưởng</span>';
+			break;
+			case 5:
+			$result = '<span class="badge badge-success">LCH Phó</span>';
+			break;
+			case 6:
+			$result = '<span class="badge badge-warning">Cộng tác viên</span>';
+			break;
+			default:
+			$result = '<span class="badge badge-info">Ủy viên BCH</span>';
+			break;
+		}
+		return $result;
+	}
+	
+	
 	?>
