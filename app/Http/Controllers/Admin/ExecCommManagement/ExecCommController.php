@@ -18,9 +18,16 @@ class ExecCommController extends Controller
         //dd($req);
         if($req->type == "1"){
             $execComm = ExecComm::where('type',1)->get();
+        }else if($req->type == "2"){
+            $execComm = ExecComm::where('type',2)->get();
         }else{
             $execComm = ExecComm::where('type',0)->get();
         }
         return view('admin.execComm.exec_comm_list',compact('execComm'));
+    }
+
+    public function getExecCommChart(){
+        $execComm = ExecComm::where('type',0)->get();
+        return view('admin.execComm.exec_comm_chart',compact('execComm'));
     }
 }

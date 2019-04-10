@@ -30,10 +30,10 @@ Danh sách ban chấp hành
         </div>
     </div>
     <div class="row">
-        {{-- filter condition --}}
-        <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-           
-        </div>
+
+      <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
+          
+      </div>
         {{-- Student list --}}
         <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
             
@@ -92,15 +92,23 @@ Danh sách ban chấp hành
               <a class="btn btn-success" href="{{route('get_add_student')}}"><i class="fas fa-plus-circle"></i> Thêm 1 sinh viên</a>
                   <button class="btn btn-info"><i class="fas fa-file-import"></i> Import Sinh viên</button>
                   <button class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button>
+                  <a class="btn btn-success" href="{{route('get_ec_chart')}}"><i class="fas fa-plus-circle"></i> Sơ đồ</a>
+                  
         </div>
     </div>
 </div>
+
+{{-- <!-- Modal -->
+<div class="modal animated jackInTheBox" id="studentDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div style="width:100%; height:700px;" id="orgchart"></div>
+  </div> --}}
 @endsection
 @section('js')
  <!-- Page level plugins -->
 <script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
+<script src="{{ asset('assets/vendor/orgchart.js') }}"></script>
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
 <script>
@@ -115,18 +123,17 @@ Danh sách ban chấp hành
             style:    'os',
             selector: 'td:first-child'
         },
-        order: [[ 1, 'asc' ]]
+        order: [[ 1, 'asc' ]],
+        "pageLength": 25,
+        "language": {
+            "lengthMenu": "Hiển thị _MENU_ dòng trên trang",
+            "zeroRecords": "Không có dữ liệu.",
+            "info": "Trang _PAGE_/_PAGES_",
+            "infoEmpty": "Không tồn tại dữ liệu.",
+            "infoFiltered": "(đã lọc từ _MAX_ dòng)",
+            "search": "Tìm kiếm"
+        }
     });
         });
-    </script>
-    <script>
-        //paste this code under the head tag or in a separate js file.
-        //Wait for window load
-        // $(window).load(function() {
-            // 	// Animate loader off screen
-            // 	$(".se-pre-con").fadeOut("slow");
-            // });
-        </script>
-        
-        
-        @endsection
+    </script>   
+@endsection

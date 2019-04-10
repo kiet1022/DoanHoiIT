@@ -168,6 +168,7 @@ Route::prefix('admin')->group(function(){
 
         // List of executive committee
         Route::get('list.php','Admin\ExecCommManagement\ExecCommController@getExecCommList')->name('get_ec_list');
+        Route::get('chart.php','Admin\ExecCommManagement\ExecCommController@getExecCommChart')->name('get_ec_chart');
     });
 });
 
