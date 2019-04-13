@@ -1,0 +1,28 @@
+/*partial*/
+.node.BT rect {
+   fill: #ffffff;
+}
+
+.node.assistant rect {
+   fill: #ffffff;
+}
+
+.node.UV rect {
+   fill: #ffffff;
+}
+
+
+.node.BT line {
+   stroke: #4e73df;
+   stroke-width: 10;
+}
+
+.node.assistant line {
+   stroke: #1cc88a;
+   stroke-width: 10;
+}
+
+.node.UV line {
+   stroke: #36b9cc;
+   stroke-width: 10;
+}

@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ExecComm extends Model
+class AssociationEc extends Model
 {
-    protected $table="exec_comm";
+    protected $table="association_ec";
 
     public function ofStudent()
     {

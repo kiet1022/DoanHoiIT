@@ -168,14 +168,34 @@ Route::prefix('admin')->group(function(){
 
         // List of executive committee
         Route::get('list.php','Admin\ExecCommManagement\ExecCommController@getExecCommList')->name('get_ec_list');
-        Route::get('chart.php','Admin\ExecCommManagement\ExecCommController@getExecCommChart')->name('get_ec_chart');
+
+        // Exec Comm Chart
+        Route::get('chart/type={type}.php','Admin\ExecCommManagement\ExecCommController@getExecCommChart')->name('get_ec_chart');
+
+        // get edit exec comm
+        Route::post('edit.php','Admin\ExecCommManagement\ExecCommController@getExecCommDetail')->name('get_exec_edit');
+
+        // Check info
+        Route::post('check.php','Admin\ExecCommManagement\ExecCommController@checkInfo')->name('check_info');
+
+        // Save exec Comm info
+        Route::post('save-info.php','Admin\ExecCommManagement\ExecCommController@saveInfo')->name('save-info');
     });
 });
 
 Route::get('/test', function(){
-    $ex = ExecComm::all()->first();
-    $re = $ex->ofStudent->name;
-    dd($re);
+    $student = new Student;
+    $student->student_id = "16110294";
+    $student->name = "Nguyễn Thị Kim Dung";
+    $student->class_id = 7;
+    $student->school_year_id = 2;
+    $student->birthday = "1998-09-22";
+    $student->save();
+    $user = new User;
+    $user->student_id = $student->student_id;
+    $user->email = $student->student_id."@student.hcmute.edu.vn";
+    $user->password = bcrypt($student->student_id);
+    $user->save();
     
 });
 Auth::routes();

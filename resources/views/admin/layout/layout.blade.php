@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   {{-- <base href="{{asset('')}}"> --}}
   <title>@yield('title')</title>
   <link rel="shortcut icon" href="{{asset('images/icon.ico')}}"> 
@@ -83,6 +84,13 @@
   <script src="{{asset('assets/vendor/bootstrap-select-1.13.7/dist/js/bootstrap-select.min.js')}}"></script>
   <script src="{{asset('assets/vendor/bootstrap-notify-master/bootstrap-notify.min.js')}}"></script>
   <script src="{{asset('assets/vendor/jquery.blockUI.js')}}"></script>
+  <script>
+      $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+  </script>
   @yield('js')
 </body>
 

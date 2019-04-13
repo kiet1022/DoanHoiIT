@@ -29,4 +29,13 @@ return [
 
     // Blank string
     'BLANK_STRING' => '',
+
+    // Exec Comm Type
+    'EXEC_COMM_TYPE' => '0',
+    'ASSOCIA_EC_TYPE' => '1',
+    'COLLABORATOR_TYPE' => '2',
+
+    // Ajax Handle Status
+    'SUCCESS'=>'success',
+    'ERROR'=>'error'
 ];

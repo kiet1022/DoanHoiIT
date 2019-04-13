@@ -1,38 +1,32 @@
 @extends('admin.layout.layout')
 @section('title')
-Sơ đồ Ban chấp hành Đoàn Khoa
+Sơ đồ Ban chấp hành
 @endsection
 @section('style')
 <link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
-
-<style>
-    .no-js #loader { display: none;  }
-    .js #loader { display: block; position: absolute; left: 100px; top: 0; }
-    .se-pre-con {
-        position: fixed;
-        left: 0px;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background: url("{{asset('assets/img/Preloader_1.gif')}}") center no-repeat #fff;
-    }
-</style>
+<link href="{{asset('assets/css/admin/execComm/exec_comm_chart.css')}}" rel="stylesheet">
 @endsection
 @section('main_content')
 <div class="container-fluid">
     <div class="row">
         <div class="col page-title-header">
-                <h4>Sơ đồ Ban chấp hành Đoàn Khoa</h4>
+                <h4>Sơ đồ @if($commType == "0")Ban chấp hành Đoàn Khoa @elseif($commType == "1")Ban chấp hành Liên chi hội @endif</h4>
         </div>
     </div>
     <div class="row">
 
       <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
             <div style="width:100%; height:700px;" id="orgchart"></div>
+            <a href="{{ route('get_ec_list') }}" class="cm-breadcrumb-a"><i class="fas fa-arrow-circle-left"></i> Quay lại</a>
+            <span> | </span>
+            @if($commType == "1")
+            <a class="cm-breadcrumb-a" href="{{ route('get_ec_chart',["type"=>"0"]) }}">Sơ đồ BCH Đoàn Khoa <i class="fas fa-arrow-circle-right"></i></a>
+            @elseif($commType == "0")
+            <a class="cm-breadcrumb-a" href="{{ route('get_ec_chart',["type"=>"1"]) }}">Sơ đồ BCH Liên chi hội <i class="fas fa-arrow-circle-right"></i></a>
+            @endif
       </div>
     </div>
 </div>
@@ -76,48 +70,139 @@ Sơ đồ Ban chấp hành Đoàn Khoa
         var bithuArr = [];
         var phoBithuArr = [];
         var uvBCHArr = [];
-        @forEach($execComm as $comm)
-            if("{!! $comm->level !!}" == "1"){
-                bithuArr.push({
-                    "name":"{!! $comm->ofStudent->name !!}",
-                    "MSSV":"{!! $comm->ofStudent->student_id !!}",
-                    "level":"Bí thư"});
-            } else if ("{!! $comm->level !!}" == "2"){
-                phoBithuArr.push({
-                    "name":"{!! $comm->ofStudent->name !!}",
-                    "MSSV":"{!! $comm->ofStudent->student_id !!}",
-                    "level":"Phó Bí thư"});
-            } else {
-                uvBCHArr.push({
-                    "name":"{!! $comm->ofStudent->name !!}",
-                    "MSSV":"{!! $comm->ofStudent->student_id !!}",
-                    "level":"Ủy viên BCH"});
-            }
-            
-        @endforEach
+
+        /**
+        * Render Chart
+        */
+
+        // BCH Đoàn
+        @if($commType == "0")
+            @forEach($execComm as $comm)
+                if("{!! $comm->level !!}" == "1"){
+                    bithuArr.push({
+                        "name":"{!! $comm->ofStudent->name !!}",
+                        "MSSV":"{!! $comm->ofStudent->student_id !!}",
+                        "level":"Bí thư",
+                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
+                } else if ("{!! $comm->level !!}" == "2" || "{!! $comm->level !!}" == "3"){
+                    phoBithuArr.push({
+                        "name":"{!! $comm->ofStudent->name !!}",
+                        "MSSV":"{!! $comm->ofStudent->student_id !!}",
+                        "level":"Phó Bí thư",
+                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
+                } else {
+                    uvBCHArr.push({
+                        "name":"{!! $comm->ofStudent->name !!}",
+                        "MSSV":"{!! $comm->ofStudent->student_id !!}",
+                        "level":"Ủy viên BCH",
+                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
+                }
+                
+            @endforEach
+        @elseif($commType == "1")
+
+        // BCH LCH
+            @forEach($execComm as $comm)
+                if("{!! $comm->level !!}" == "2" || "{!! $comm->level !!}" == "3"){
+                    bithuArr.push({
+                        "name":"{!! $comm->ofStudent->name !!}",
+                        "MSSV":"{!! $comm->ofStudent->student_id !!}",
+                        "level":"LCH Trưởng",
+                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
+                } else if ("{!! $comm->level !!}" == "4"){
+                    phoBithuArr.push({
+                        "name":"{!! $comm->ofStudent->name !!}",
+                        "MSSV":"{!! $comm->ofStudent->student_id !!}",
+                        "level":"LCH Phó",
+                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
+                } else {
+                    uvBCHArr.push({
+                        "name":"{!! $comm->ofStudent->name !!}",
+                        "MSSV":"{!! $comm->ofStudent->student_id !!}",
+                        "level":"Ủy viên BCH",
+                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
+                }
+                
+            @endforEach
+        @endif
+    
+    // init chart
     var chart = new OrgChart(document.getElementById("orgchart"), {
             nodeBinding: {
                 field_0: "name",
                 field_1: "title",
-                field_2: "phone",
+                field_2: "mssv",
+                field_3: "phone",
                 img_0: "img"
             },
-            template: "mila"
+            template: "ula",
+            toolbar: true,
+        layout: BALKANGraph.tree,
+        scaleInitial: BALKANGraph.match.boundary,
+        align: BALKANGraph.ORIENTATION,
+        menu: {
+            pdf: { text: "Export PDF" },
+            png: { text: "Export PNG" },
+            svg: { text: "Export SVG" },
+            csv: { text: "Export CSV" }
+        },
         });
+
+    // pass data to nodes
         var j = 1;
         for(var i = 0; i < bithuArr.length; i++){
-            chart.add({ id: j, name: bithuArr[0].name, img: "{{asset('assets/img/avatar.jpg')}}", title:"Bí thư", phone:"0346356275"});
+            chart.add({ 
+              id: j, 
+              name: bithuArr[0].name, 
+              img: "{{asset('assets/img/avatar.jpg')}}", 
+              title: bithuArr[i].level, 
+              phone: bithuArr[i].phone,
+              mssv: bithuArr[i].MSSV});
             j++;
         }
         for(var i = 0; i < phoBithuArr.length; i++){
-            chart.add({ id: j,pid: 1, tags: ["assistant"], name: phoBithuArr[i].name, img: "{{asset('assets/img/avatar.jpg')}}", title: phoBithuArr[i].level})
-            j++;
-        }        
-        for(var i = 0; i < uvBCHArr.length; i++){
-            chart.add({ id: j, pid: 1, name: uvBCHArr[i].name,img: "{{asset('assets/img/avatar.jpg')}}" , title: uvBCHArr[i].level});
+            chart.add({ 
+              id: j,
+              pid: 1, 
+              tags: ["assistant"], 
+              name: phoBithuArr[i].name, 
+              img: "{{asset('assets/img/avatar.jpg')}}", 
+              title: phoBithuArr[i].level, 
+              phone: phoBithuArr[i].phone,
+              mssv: phoBithuArr[i].MSSV})
             j++;
         }
+        for(var i = 0; i < uvBCHArr.length; i++){
+            chart.add({ 
+              id: j, 
+              pid: 1, 
+              name: uvBCHArr[i].name,
+              img: "{{asset('assets/img/avatar.jpg')}}" , 
+              title: uvBCHArr[i].level, 
+              phone: uvBCHArr[i].phone,
+              mssv: uvBCHArr[i].MSSV});
+            j++;
+        }
+        
+    // assign tag name for node
+        for (var i = 0; i < chart.config.nodes.length; i++) {
+        var node = chart.config.nodes[i];
+        switch (node.title) {
+            case "Bí thư":
+            case "LCH Trưởng":
+                node.tags = ["BT"];
+                break;
+            case "Phó Bí thư":
+            case "LCH Phó":
+                node.tags = ["assistant"];
+                break;
+            case "Ủy viên BCH":
+                node.tags = ["UV"];
+                break;
+        }
+    // draw chart
         chart.draw(BALKANGraph.action.init);
+    }
             
     </script>
         

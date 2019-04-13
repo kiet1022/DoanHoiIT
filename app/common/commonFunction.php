@@ -159,30 +159,34 @@ use \Carbon\Carbon;
 	}
 	
 	/**
-	 * Change label name for ExecComm level
-	 * 
-	 */
-	function changeLevelLabel($levelCode){
+	* Change label name for ExecComm level
+	* 
+	*/
+	function changeLevelLabel($levelCode, $commType){
 		$result = '';
+		// commType = "0" BCH Đoàn
+		// commType = "1" BCH LCH
 		switch ($levelCode) {
 			case 1:
+			if($commType == "0"){
 				$result = '<span class="badge badge-primary">Bí thư</span>';
-				break;
-			case 2:
-				$result = '<span class="badge badge-success">Phó bí thư</span>';
-				break;
-			case 4:
+			}else {
 				$result = '<span class="badge badge-primary">LCH Trưởng</span>';
-				break;
-			case 5:
+			}
+			break;
+			case 2:
+			if($commType == "0"){
+				$result = '<span class="badge badge-success">Phó bí thư</span>';
+			}else {
 				$result = '<span class="badge badge-success">LCH Phó</span>';
-				break;
-			case 6:
-				$result = '<span class="badge badge-warning">Cộng tác viên</span>';
-				break;
+			}
+			break;
+			case 3:
+				$result = '<span class="badge badge-success">Phó bí thư (LCH Trưởng)</span>';
+			break;
 			default:
-				$result = '<span class="badge badge-info">Ủy viên BCH</span>';
-				break;
+			$result = '<span class="badge badge-info">Ủy viên BCH</span>';
+			break;
 		}
 		return $result;
 	}

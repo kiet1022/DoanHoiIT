@@ -61,3 +61,11 @@
 .cm-breadcrumb{
   background-color: #f8f9fc;
 }
+
+/* block UI */
+.blockUI.blockOverlay{
+  z-index: 9000 !important;
+}
+.blockUI.blockMsg.blockPage{
+  z-index: 9001 !important;
+}
