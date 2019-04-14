@@ -17,6 +17,7 @@ use App\User;
 use App\Role;
 use App\UserRole;
 use App\Rules\Uppercase;
+use Exception;
 
 class NewsTypeManageController extends Controller
 {
@@ -25,52 +26,57 @@ class NewsTypeManageController extends Controller
         return view('admin.news.newsTypeList', compact('newsType'));
     }
     public function getAddNewType(){
-        return view('admin.news.add_new_type');
+        // return view('admin.news.add_new_type');
+            return response()->view('admin.news.add_new_type_modal');
     }
     public function postAddNewsType(Request $request){
-		// $this->validate($request,[
-		// 	'typename'=>'required|min:6'
-		// ],[
-		// 	'typename.required'=>'Bạn chưa nhập tên loại tin',
-		// 	'typename.min'=>'Tên loại tin phải có ít nhất 6 ký tự',
-		// ]);
-		try{
-			$newstype = new NewsType;
-			$newstype->name = $request->typename;
-			// $newstype->title = changeTitle($request->typename);
-            $newstype->created_by = Auth::user()->id;
-			$newstype->save();
-			return redirect()->back()->with('success','Thêm loại tin thành công');
-		}catch(Exception $ex){
-			return redirect()->back()->with('error','Thêm loại tin thất bại');
-		}
+        $newstype = new NewsType;
+        // $success = false;
+        // DB::beginTransaction();
+        // // Handling add new type
+        // $newstype->name =  $request->typename;
+        // $newstype->created_by = Auth::user()->id;
+        // $newstype->save();
+        // $success = true;
+        // if($success){
+        //     // DB::commit();
+        //     return redirect()->back()->with('success','Thêm loại tin thành công');
+        // }else{
+        //     return redirect()->back()->with('fail','Thêm loại tin thất bại');
+        // }
+        $newstype->name =  $request->typename;
+        // $newstype->created_by = Auth::user()->id;
+        $newstype->save();
+        $success = true;
+        return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu thông tin thành công!"]);
 	}
 
 	public function getEditNewsType($id){
-        // $news = News::where('id',$id)->first();
         $newsType = NewsType::find($id);
         return view('admin.news.edit_news_type',compact('newsType'));
     }
     public function postEditNewsType($id, Request $re){
-    	// return Auth::user()->id;
-        try{
-			$newsType = NewsType::find($id);
-			$newsType->name = $re->typename;
-			// $newstype->updated_by = Auth::user()->id;
-			$newsType->save();
-			return redirect()->back()->with('success','Lưu tin thành công');
-		}catch(Exception $ex){
-			return redirect()->back()->with('error','Thêm tin thất bại');
-		}
+        try{ 
+            DB::beginTransaction();
+            $newsType = NewsType::find($id);
+
+            $newsType->name = $re->typename;
+            $newsType->save();
+            DB::commit();
+            return redirect()->back()->with('success','Sửa loại tin thành công.');
+        }
+        catch(Exception $ex){
+            DB::rollback();
+            return redirect()->back()->with('error', $ex->getMessage());
+        }
     }
     public function deleteAll(Request $request){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
+        foreach($request->id as $sid){
+            $newsType = NewsType::find($sid);
+            $newsType->delete();
+            $news = News::where('type_id',$sid);
+            $news->delete();
         }
-        error_log("test");
-        $ids = $request->ids;
-        $newsType=NewsType::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
-        $news=News::whereIn('type_id',explode(",",$ids))->update(['deleted_at' => now()]);
-        return response()->json(['success'=>"Xóa loại tin thành công"]);
+        return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa loại tin thành công!"]);
     }
 }

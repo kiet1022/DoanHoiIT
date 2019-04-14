@@ -48,11 +48,6 @@ Thêm loại tin
 <script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
 
 <script>
-    // global variable
-    var classes = {!!$data["class"]!!};
-    var province = {!! $data["province"]!!}
-    var district = {!! $data["district"]!!}
-    var ward = {!! $data["ward"]!!}
     var message = '';
     @if(session('success'))
     $.notify({

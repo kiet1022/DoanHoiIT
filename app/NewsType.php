@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class NewsType extends Model
 {
+	use SoftDeletes;
     protected $table="news_types";
 
     public function news()
