@@ -79,9 +79,6 @@ Danh sách ban chấp hành
         </div>
       </div>
       <!-- /.container-fluid -->
-      <a class="btn btn-success" href="{{route('get_add_student')}}"><i class="fas fa-plus-circle"></i> Thêm 1 sinh viên</a>
-      <button class="btn btn-info"><i class="fas fa-file-import"></i> Import Sinh viên</button>
-      <button class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button>
       <a class="btn btn-success" href="{{route('get_ec_chart',["type"=>$commType])}}"><i class="fas fa-plus-circle"></i> Sơ đồ</a>
       
     </div>

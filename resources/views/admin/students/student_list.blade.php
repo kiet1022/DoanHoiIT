@@ -162,6 +162,7 @@ Danh sách sinh viên
 {{-- <script src="{{asset('assets/js/admin/common.js')}}"></script> --}}
 <script>
   var classes = {!!$class!!};
+  var BASE_URL = "{{ asset('admin/student/') }}"
 </script>
 <!-- Page level custom scripts -->
 <script src="{{asset('assets/js/admin/student_list.js')}}"></script>

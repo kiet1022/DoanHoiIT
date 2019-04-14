@@ -20,7 +20,7 @@ $(document).ready(function () {
   });
 });
 
-var BASE_URL = 'http://localhost:8080/DoanHoiIT/public/admin/student/';
+//var BASE_URL = 'http://localhost:8080/DoanHoiIT/public/admin/student/';
 
 // Change class when school year change
 $('#studentShoolYear').change(function(){
@@ -52,7 +52,7 @@ $('.detailToggle').on('click', function(){
   var id = $(this).data('id');
   
   $.ajax({
-    url: BASE_URL + "detail.php",
+    url: BASE_URL + "/detail.php",
     method: 'POST',
     data:{
       id: id
@@ -116,7 +116,7 @@ function deleteStudent(){
     }
     
     $.ajax({
-      url: BASE_URL + "delete.php",
+      url: BASE_URL + "/delete.php",
       method: 'POST',
       data:{
         'student_id': student_id
