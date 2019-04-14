@@ -32,8 +32,8 @@ $( document ).ready(function(){
 
 
 
-var BASE_URL = 'http://localhost:8080/DoanHoiIT/public/admin/student/';
-var EXEC_URL = 'http://localhost:8080/DoanHoiIT/public/admin/exec-com/'
+// var BASE_URL = 'http://localhost:8080/DoanHoiIT/public/admin/student/';
+// var EXEC_URL = 'http://localhost:8080/DoanHoiIT/public/admin/exec-com/'
 // Show student detail
 $('.detailToggle').on('click', function(){
     var id = $(this).data('id');

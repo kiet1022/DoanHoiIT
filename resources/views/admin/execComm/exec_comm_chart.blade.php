@@ -83,44 +83,63 @@ Sơ đồ Ban chấp hành
                         "name":"{!! $comm->ofStudent->name !!}",
                         "MSSV":"{!! $comm->ofStudent->student_id !!}",
                         "level":"Bí thư",
-                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
-                } else if ("{!! $comm->level !!}" == "2" || "{!! $comm->level !!}" == "3"){
+                        "phone": "{!! $comm->ofStudent->phone_no !!}",
+                        "image": "{{ $comm->ofStudent->image }}"
+                    });
+                } else if ("{!! $comm->level !!}" == "2"){
                     phoBithuArr.push({
                         "name":"{!! $comm->ofStudent->name !!}",
                         "MSSV":"{!! $comm->ofStudent->student_id !!}",
                         "level":"Phó Bí thư",
-                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
-                } else {
+                        "phone": "{!! $comm->ofStudent->phone_no !!}",
+                        "image": "{{ $comm->ofStudent->image }}"
+                });
+                } else if("{!! $comm->level !!}" == "3"){
+                    phoBithuArr.push({
+                        "name":"{!! $comm->ofStudent->name !!}",
+                        "MSSV":"{!! $comm->ofStudent->student_id !!}",
+                        "level":"Phó Bí thư (LCH Trưởng)",
+                        "phone": "{!! $comm->ofStudent->phone_no !!}",
+                        "image": "{{ $comm->ofStudent->image }}"
+                });
+                }else {
                     uvBCHArr.push({
                         "name":"{!! $comm->ofStudent->name !!}",
                         "MSSV":"{!! $comm->ofStudent->student_id !!}",
                         "level":"Ủy viên BCH",
-                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
+                        "phone": "{!! $comm->ofStudent->phone_no !!}",
+                        "image": "{{ $comm->ofStudent->image }}"
+                });
                 }
                 
             @endforEach
         @elseif($commType == "1")
-
         // BCH LCH
             @forEach($execComm as $comm)
-                if("{!! $comm->level !!}" == "2" || "{!! $comm->level !!}" == "3"){
+                if("{!! $comm->level !!}" == "1"){
                     bithuArr.push({
                         "name":"{!! $comm->ofStudent->name !!}",
                         "MSSV":"{!! $comm->ofStudent->student_id !!}",
                         "level":"LCH Trưởng",
-                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
-                } else if ("{!! $comm->level !!}" == "4"){
+                        "phone": "{!! $comm->ofStudent->phone_no !!}",
+                        "image": "{{ $comm->ofStudent->image }}"
+                });
+                } else if ("{!! $comm->level !!}" == "2"){
                     phoBithuArr.push({
                         "name":"{!! $comm->ofStudent->name !!}",
                         "MSSV":"{!! $comm->ofStudent->student_id !!}",
                         "level":"LCH Phó",
-                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
+                        "phone": "{!! $comm->ofStudent->phone_no !!}",
+                        "image": "{{ $comm->ofStudent->image }}"
+                });
                 } else {
                     uvBCHArr.push({
                         "name":"{!! $comm->ofStudent->name !!}",
                         "MSSV":"{!! $comm->ofStudent->student_id !!}",
                         "level":"Ủy viên BCH",
-                        "phone": "{!! $comm->ofStudent->phone_no !!}"});
+                        "phone": "{!! $comm->ofStudent->phone_no !!}",
+                        "image": "{{ $comm->ofStudent->image }}"
+                });
                 }
                 
             @endforEach
@@ -135,7 +154,7 @@ Sơ đồ Ban chấp hành
                 field_3: "phone",
                 img_0: "img"
             },
-            template: "ula",
+            template: "rony",
             toolbar: true,
         layout: BALKANGraph.tree,
         scaleInitial: BALKANGraph.match.boundary,
@@ -150,34 +169,49 @@ Sơ đồ Ban chấp hành
 
     // pass data to nodes
         var j = 1;
+        var BASE_IMAGE_URL = "{{asset('assets/img/students/')}}";
+        var IMAGE_NOT_AVAILABLE = "{{asset('assets/img/image-not-available.png')}}";
+
+        function checkExistImage(img){
+            var result;
+            if(img === "null"){
+                result = IMAGE_NOT_AVAILABLE;
+            }else {
+                result = BASE_IMAGE_URL+"/"+img;
+            }
+            return result;
+        }
         for(var i = 0; i < bithuArr.length; i++){
+            var img = checkExistImage(bithuArr[i].image);
             chart.add({ 
               id: j, 
               name: bithuArr[0].name, 
-              img: "{{asset('assets/img/avatar.jpg')}}", 
+              img: img,
               title: bithuArr[i].level, 
               phone: bithuArr[i].phone,
               mssv: bithuArr[i].MSSV});
             j++;
         }
         for(var i = 0; i < phoBithuArr.length; i++){
+            var img = checkExistImage(phoBithuArr[i].image);
             chart.add({ 
               id: j,
               pid: 1, 
               tags: ["assistant"], 
               name: phoBithuArr[i].name, 
-              img: "{{asset('assets/img/avatar.jpg')}}", 
+              img: img, 
               title: phoBithuArr[i].level, 
               phone: phoBithuArr[i].phone,
               mssv: phoBithuArr[i].MSSV})
             j++;
         }
         for(var i = 0; i < uvBCHArr.length; i++){
+            var img = checkExistImage(uvBCHArr[i].image);
             chart.add({ 
               id: j, 
               pid: 1, 
               name: uvBCHArr[i].name,
-              img: "{{asset('assets/img/avatar.jpg')}}" , 
+              img: img,
               title: uvBCHArr[i].level, 
               phone: uvBCHArr[i].phone,
               mssv: uvBCHArr[i].MSSV});
@@ -205,6 +239,4 @@ Sơ đồ Ban chấp hành
     }
             
     </script>
-        
-        
-        @endsection
+@endsection

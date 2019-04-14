@@ -106,6 +106,10 @@ Danh sách ban chấp hành
   <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
   <script src="{{ asset('assets/vendor/orgchart.js') }}"></script>
 <script src="{{ asset('assets/js/common.js') }}"></script>
+<script>
+  var BASE_URL = "{{ asset('admin/student') }}"+"/";
+var EXEC_URL = "{{ asset('admin/exec-com') }}"+"/";
+</script>
   <script src="{{ asset('assets/js/admin/execComm/exec_comm_list.js') }}"></script>
   <!-- Page level custom scripts -->
   {{-- <script src="js/demo/datatables-demo.js"></script> --}}  

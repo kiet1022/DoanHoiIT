@@ -51,15 +51,25 @@ class ExecCommController extends Controller
         */
         public function getExecCommChart($type){
             
-            $this->data["commType"] = "0";
-            if($type == "1"){
-                $this->data["execComm"] = ExecComm::with(['ofStudent'])->where('type',1)->orWhere('type',3)->get();
-                $this->data["commType"] = $type;
-            }else if($type == "2"){
-                $this->data["execComm"] = ExecComm::with(['ofStudent'])->where('type',2)->get();
-                $this->data["commType"] = $type;
+        // check if client pass different commType
+        if (!in_array($type, [
+            config('constants.EXEC_COMM_TYPE'), 
+            config('constants.ASSOCIA_EC_TYPE'), 
+            config('constants.COLLABORATOR_TYPE'),
+            config('constants.BLANK_SPACE')
+            ])) {
+                abort(404);
+            }
+            
+            $this->data["commType"] = config('constants.EXEC_COMM_TYPE');
+            if($type == config('constants.ASSOCIA_EC_TYPE')){
+                $this->data["execComm"] = AssociationEc::with(['ofStudent'])->get();
+                $this->data["commType"] = config('constants.ASSOCIA_EC_TYPE');
+            }else if($type == config('constants.COLLABORATOR_TYPE')){
+                $this->data["execComm"] = Collaborator::with(['ofStudent'])->get();
+                $this->data["commType"] = config('constants.COLLABORATOR_TYPE');
             }else{
-                $this->data["execComm"] = ExecComm::with(['ofStudent'])->where('type',0)->orWhere('type',3)->get();
+                $this->data["execComm"] = ExecComm::with(['ofStudent'])->get();
             }
             
             return view('admin.execComm.exec_comm_chart')->with($this->data);
