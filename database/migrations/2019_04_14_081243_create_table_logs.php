@@ -21,6 +21,7 @@ class CreateTableLogs extends Migration
             $table->increments('id');
             $table->char('student_id',20);
             $table->string('student_name');
+            $table->string('role')->nullable();
             $table->text('action');
             $table->text('old_data');
             $table->text('new_data');
