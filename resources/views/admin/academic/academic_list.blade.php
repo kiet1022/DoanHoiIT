@@ -42,6 +42,7 @@ Chương trình đào tạo
                         <thead style="background: #f8f9fc">
                           <tr>
                             <th></th>
+                            <th style="display: none;"></th>
                             <th>Niên khóa</th>
                             <th>Khóa</th>
                             <th>Thời gian đào tạo</th>
@@ -51,7 +52,8 @@ Chương trình đào tạo
                         <tbody>
                           @foreach ($schoolYear as $list)
                           <tr>
-                            <td id="{{$list->id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
+                            <td></td>
+                            <td style="display: none;">{{$list->id}}</td>
                             <td>{{$list->name}}</td>
                             <td> {{$list->course}}</td>
                             <td>@if($list->type==1){{"2 năm"}} @elseif($list->type==2){{"4 năm"}} @endif</td>

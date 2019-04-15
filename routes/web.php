@@ -90,14 +90,15 @@ Route::prefix('admin')->group(function(){
             
             // Add news type
             Route::get('add.php','Admin\NewsManagement\NewsTypeManageController@getAddNewType')->name('get_add_new_type');
-            Route::post('add.php','Admin\NewsManagement\NewsTypeManageController@postAddNewsType')->name('post_add_news_type');
+            Route::post('addType.php','Admin\NewsManagement\NewsTypeManageController@postAddNewsType')->name('post_add_news_type');
             
             // Edit news type
             Route::get('edit-type/{id}.php','Admin\NewsManagement\NewsTypeManageController@getEditNewsType')->name('get_edit_news_type');
             Route::post('edit-type/{id}.php','Admin\NewsManagement\NewsTypeManageController@postEditNewsType')->name('post_edit_news_type');
             
             // Delete news type
-            Route::delete('deleteSelectedNewsType', 'Admin\NewsManagement\NewsTypeManageController@deleteAll')->name('deleteSelectedNewsType');
+            // Route::delete('deleteSelectedNewsType', 'Admin\NewsManagement\NewsTypeManageController@deleteAll')->name('deleteSelectedNewsType');
+            Route::post('delete.php', 'Admin\NewsManagement\NewsTypeManageController@deleteAll')->name('deleteSelectedNewsType');
         });
 
         /**
@@ -115,7 +116,7 @@ Route::prefix('admin')->group(function(){
         Route::post('edit/{id}.php','Admin\NewsManagement\NewsManageController@postEditNew')->name('post_edit_new');
         
         // Delete news
-        Route::delete('deleteSelectedNews', 'Admin\NewsManagement\NewsManageController@deleteAll')->name('deleteSelectedNews');
+        Route::post('delete.php', 'Admin\NewsManagement\NewsManageController@deleteAll')->name('deleteSelectedNews');
         
     });
     
@@ -157,7 +158,7 @@ Route::prefix('admin')->group(function(){
         Route::post('edit-class/{id}.php','Admin\ClassManagement\ClassManageController@postEditClass')->name('post_edit_class');
 
         // Delete class
-        Route::delete('delete-class.php', 'Admin\ClassManagement\ClassManageController@deleteAll')->name('delete_selected_class');
+        Route::post('delete.php', 'Admin\ClassManagement\ClassManageController@delete')->name('delete_selected_class');
     });
 
     /**

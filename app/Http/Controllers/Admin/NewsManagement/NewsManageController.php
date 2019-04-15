@@ -17,7 +17,7 @@ use App\User;
 use App\Role;
 use App\UserRole;
 use App\Rules\Uppercase;
-
+use Exception;
 class NewsManageController extends Controller
 {
     public function getNewsList(){
@@ -106,11 +106,11 @@ class NewsManageController extends Controller
 		}
     }
     public function deleteAll(Request $request){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
+        foreach($request->id as $sid){
+            $news = News::find($sid);
+            $news->delete();
         }
-        $ids = $request->ids;
-        $news=News::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
-        return response()->json(['success'=>"Xóa bài viết thành công"]);
+        return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa bài viết thành công!"]);
+
     }
 }

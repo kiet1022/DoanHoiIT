@@ -42,7 +42,7 @@ Danh sách chi đoàn
                         <thead style="background: #f8f9fc">
                           <tr>
                             <th></th>
-                            <th>Niên khóa</th>
+                            <th style="display: none;">ID</th>
                             <th>Lớp</th>
                             <th>Khóa</th>
                             <th></th>
@@ -51,8 +51,8 @@ Danh sách chi đoàn
                         <tbody>
                           @foreach ($classes as $list)
                           <tr>
-                            <td id="{{$list->id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
-                            <td>{{$list->class_id}}</td>
+                            <td></td>
+                            <td style="display: none;">{{$list->id}}</td>
                             <td> {{$list->class_name}}</td>
                             <td>{{$list->schoolYear->name}}</td>
                             <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_class',['id'=>$list->id]) }}">Sửa</a></td>
@@ -65,7 +65,7 @@ Danh sách chi đoàn
                 </div>
                 <!-- /.container-fluid -->
                 <a class="btn btn-success" href="{{route('get_add_class')}}"><i class="fas fa-plus-circle"></i> Thêm Lớp</a>
-                <button data-url="{{ url('deleteSelectedNews') }}" class="btn delete_all" id="deleteNews" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
+                <button onclick="deleteClass()"  class="btn delete_all" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>
 </div>
@@ -78,24 +78,12 @@ Danh sách chi đoàn
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
 
- <script src="{{asset('assets/js/admin/common.js')}}"></script>
-
 <script>
-    $( document ).ready(function(){
-        $('#dataTable').DataTable({
-        columnDefs: [ {
-            orderable: false,
-            className: 'select-checkbox',
-            targets:   0
-        } ],
-        select: {
-            style:    'os',
-            selector: 'td:first-child'
-        },
-        order: [[ 1, 'asc' ]]
-    });
-});
+  var BASE_URL = "{{ asset('admin/classes/') }}"
 </script>
+<!-- Page level custom scripts -->
+<script src="{{ asset('assets/js/common.js') }}"></script>
+<script src="{{asset('assets/js/admin/class_list.js')}}"></script>
 <script>
 //paste this code under the head tag or in a separate js file.
 //Wait for window load

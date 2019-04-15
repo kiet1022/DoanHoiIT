@@ -29,6 +29,8 @@ Quản lí tin tức
         <div class="col page-title-header">
                 <h4>Danh mục loại tin</h4>
         </div>
+
+            <button class="btn btn-primary right" ><i ></i> thêm loại tin</button>
     </div>
     <div class="row">
         {{-- User list --}}
@@ -54,7 +56,7 @@ Quản lí tin tức
                         <tbody>
                           @foreach ($newsType as $list)
                           <tr>
-                            <td id="{{$list->id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
+                            <td> <input type="hidden" value="{{$list->id}}"></td>
                             <td>{{$list->id}}</td>
                             <td>{{$list->name}}</td>
                             <td>{{$list->created_at}}</td>
@@ -66,11 +68,15 @@ Quản lí tin tức
                     </div>
                   </div>
                 </div>
-                <!-- /.container-fluid -->
-                <a class="btn btn-success" href="{{route('get_add_new_type')}}"><i class="fas fa-plus-circle"></i> Thêm loại tin</a>
-                <button data-url="{{ url('deleteSelectedNewsType') }}" class="btn" id="deleteNewsType" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
+                <!-- /.container-fluid -->  <!-- href="{{route('get_add_new_type')}}" -->
+                <a class="btn btn-success" id="addType"><i class="fas fa-plus-circle"></i> Thêm loại tin</a>
+                <button onclick="deleteType()" class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>
+
+    <!-- add new type Modal -->
+<div class="modal animated jackInTheBox" id="formAddType" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  
 </div>
 @endsection
 @section('js')
@@ -80,32 +86,11 @@ Quản lí tin tức
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
-<script src="{{asset('assets/js/admin/news.js')}}"></script>
-<script src="{{asset('assets/js/admin/common.js')}}"></script>
+<!-- Page level custom scripts -->
 <script>
-$( document ).ready(function(){
-    $('#dataTable').DataTable({
-    columnDefs: [ {
-        orderable: false,
-        className: 'select-checkbox',
-        targets:   0
-    } ],
-    select: {
-        style:    'os',
-        selector: 'td:first-child'
-    },
-    order: [[ 1, 'asc' ]]
-});
-    });
+  var BASE_URL = "{{ asset('admin/news/type/') }}"
 </script>
-<script>
-    //paste this code under the head tag or in a separate js file.
-    //Wait for window load
-    // $(window).load(function() {
-        // 	// Animate loader off screen
-        // 	$(".se-pre-con").fadeOut("slow");
-        // });
-</script>
-    
+<script src="{{ asset('assets/js/common.js') }}"></script>
+<script src="{{asset('assets/js/admin/new_type.js')}}"></script>
     
 @endsection

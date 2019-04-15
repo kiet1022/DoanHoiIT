@@ -49,6 +49,7 @@ Quản lí tin tức
                     <div class="form-group col-md-1"><br>
                         <button type="submit" class="btn btn-primary right"><i class="fas fa-filter"></i> Lọc</button>
                     </div>
+
                 </div>
                 
             </form>
@@ -58,15 +59,14 @@ Quản lí tin tức
                     <!-- Begin Page Content -->      
                 <!-- DataTales Example -->
                 <div class="card mb-4">
-                  {{-- <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Danh sách sinh viên</h6>
-                  </div> --}}
                   <div class="card-body">
                     <div class="table-responsive">
                       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead style="background: #f8f9fc">
                           <tr>
                             <th></th>
+                            <th>ID</th>
+                            <th>Loại tin</th>
                             <th>Hình ảnh nổi bật</th>
                             <th>Tiêu đề</th>
                             <th>Tóm tắt</th>
@@ -76,11 +76,13 @@ Quản lí tin tức
                         <tbody>
                           @foreach ($news as $list)
                           <tr>
-                            <td id="{{$list->id}}" class="column-selected"><input disabled="" type="checkbox" class="sub_chk hidden" data-id="{{$list->id}}"id="ckb_{{$list->id}}"></td>
+                            <td><input type="hidden" value="{{$list->id}}"></td>
+                            <td>{{$list->id}}</td>
+                            <td>{{$list->ofType->name}}</td>
                             @if($list->image != "") 
                                 <td><img class="featured-image" src="{{asset('images/news')}}/{{$list->image}}"></td>
                             @else 
-                                <td><img class="featured-image" src="{{asset('images/no-image.png')}}"></td>
+                                <td><img class="featured-image" src="{{asset('assets/img/image-not-available.png')}}"></td>
                             @endif
                             <td>{{$list->title}}</td>
                             <td>{{$list->sumary}}</td>
@@ -94,7 +96,7 @@ Quản lí tin tức
                 </div>
                 <!-- /.container-fluid -->
                 <a class="btn btn-success" href="{{route('get_add_new')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a>
-                <button data-url="{{ url('deleteSelectedNews') }}" class="btn delete_all" id="deleteNews" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
+                <button onclick="deleteNew()" class="btn delete_all" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>
 </div>
@@ -107,25 +109,12 @@ Quản lí tin tức
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
 
-<script src="{{asset('assets/js/admin/news.js')}}"></script>
-<script src="{{asset('assets/js/admin/common.js')}}"></script>
-
 <script>
-    $( document ).ready(function(){
-        $('#dataTable').DataTable({
-        columnDefs: [ {
-            orderable: false,
-            className: 'select-checkbox',
-            targets:   0
-        } ],
-        select: {
-            style:    'os',
-            selector: 'td:first-child'
-        },
-        order: [[ 1, 'asc' ]]
-    });
-});
+  var BASE_URL = "{{ asset('admin/news/') }}"
 </script>
+<!-- Page level custom scripts -->
+<script src="{{ asset('assets/js/common.js') }}"></script>
+<script src="{{asset('assets/js/admin/news.js')}}"></script>
 <script>
 //paste this code under the head tag or in a separate js file.
 //Wait for window load

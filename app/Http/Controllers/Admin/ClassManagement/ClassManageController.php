@@ -54,11 +54,16 @@ class ClassManageController extends Controller
         }
     }
     public function delete(Request $request){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
+        // if (!isset(Auth::user()->id)) {
+        //     return view('login'); //redirect to loginpage if no have session login
+        // }
+        // $ids = $request->ids;
+        // $classes = Classes::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
+        // return response()->json(['success'=>"Xóa chi đoàn thành công"]);
+        foreach($request->id as $sid){
+            $classes = Classes::find($sid);
+            $classes->delete();
         }
-        $ids = $request->ids;
-        $classes = Classes::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
-        return response()->json(['success'=>"Xóa chi đoàn thành công"]);
+        return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa chi đoàn thành công!"]);
     }
 }
