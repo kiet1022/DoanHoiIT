@@ -38,7 +38,7 @@ Quản lí tin tức
             <form action="" method="get" class="col-md-12">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="type_id" class="col-md-4 common-label-inline">Niên khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
+                        <label for="type_id" class="col-md-4 common-label-inline">Phân loại:</label>
                         <select id="type_id" class="form-control col-md-8" name="type_id" required>
                             <option value="0">Tất cả bài viết</option>
                             @foreach ($newsType as $sy)

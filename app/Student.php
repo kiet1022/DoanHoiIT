@@ -52,4 +52,12 @@ class Student extends Model
     public function execComm(){
         return $this->hasOne('App\ExecComm','student_id','student_id');
     }
+
+    public function association(){
+        return $this->hasOne('App\ExecComm','student_id','student_id');
+    }
+
+    public function collaborator(){
+        return $this->hasOne('App\ExecComm','student_id','student_id');
+    }
 }

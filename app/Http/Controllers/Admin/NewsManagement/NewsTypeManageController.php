@@ -18,6 +18,7 @@ use App\Role;
 use App\UserRole;
 use App\Rules\Uppercase;
 use Exception;
+use App\Log;
 
 class NewsTypeManageController extends Controller
 {
@@ -45,25 +46,35 @@ class NewsTypeManageController extends Controller
         //     return redirect()->back()->with('fail','Thêm loại tin thất bại');
         // }
         $newstype->name =  $request->typename;
-        // $newstype->created_by = Auth::user()->id;
+        $newstype->created_by = Auth::user()->id;
         $newstype->save();
+        // Create Log
+        $oldData = " ";
+        $newData = "Type: ".$request->typename."<br>";
+        Log::AddToLog('Thêm loại tin',$oldData,$newData);
         $success = true;
         return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu thông tin thành công!"]);
 	}
 
-	public function getEditNewsType($id){
-        $newsType = NewsType::find($id);
-        return view('admin.news.edit_news_type',compact('newsType'));
+	public function getEditNewsType(Request $req){
+        $newsType = NewsType::find($req->id);
+        return response()->view('admin.news.edit_new_type_modal',compact('newsType'));
+        // return response()->view('admin.news.edit_new_type_modal', $newsType);
     }
-    public function postEditNewsType($id, Request $re){
+    public function postEditNewsType( Request $re){
         try{ 
             DB::beginTransaction();
-            $newsType = NewsType::find($id);
+            $newsType = NewsType::find($re->id);
+
+            // Create Log
+            $oldData = "Old Type: ".$newsType->name. "";
+            $newData = "New Type: ".$re->typename."<br>";
+            Log::AddToLog('Chỉnh sửa loại tin',$oldData,$newData);
 
             $newsType->name = $re->typename;
             $newsType->save();
             DB::commit();
-            return redirect()->back()->with('success','Sửa loại tin thành công.');
+            return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Sửa thông tin thành công!"]);
         }
         catch(Exception $ex){
             DB::rollback();
@@ -71,12 +82,26 @@ class NewsTypeManageController extends Controller
         }
     }
     public function deleteAll(Request $request){
+        $deleteType = "Xóa loại tin: ";
         foreach($request->id as $sid){
             $newsType = NewsType::find($sid);
+            $newsType->updated_by = Auth::user()->id;
+            $newsType->updated_at = time();
+            $newsType->save();
             $newsType->delete();
-            $news = News::where('type_id',$sid);
-            $news->delete();
+            $news = News::where('type_id',$sid)->get();
+            foreach ($news as $new) {
+                $new->updated_by = Auth::user()->id;
+                $new->updated_at = time();
+                $new->save();
+                $new->delete();
+            }
+            // Create Log
+            $oldData = "";
+            $deleteType .= "".$sid.", ";
+            
         }
+        Log::AddToLog('Xóa loại tin',$oldData,$deleteType);
         return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa loại tin thành công!"]);
     }
 }

@@ -14,6 +14,7 @@ use App\User;
 use App\Role;
 use App\UserRole;
 use App\Rules\Uppercase;
+use App\Log;
 
 class AcademicManageController extends Controller
 {
@@ -24,49 +25,83 @@ class AcademicManageController extends Controller
     }
 
     public function getAddNew(){
-        return view('admin.academic.add');
+        // return view('admin.academic.add');
+        return response()->view('admin.academic.add-modal');
     }
     public function postAddNew(Request $re){
-        try{
-            $schoolYear = new SchoolYear;
-            $start=$re->start;
-            $end=$re->end;
+        $schoolYear = new SchoolYear;
+        $start=$re->start;
+        $end=$re->end;
 
-            $schoolYear->name = $start." - ".$end;
-            $schoolYear->course = $re->course;
-            $schoolYear->type = ($re->type)/2;
-            $schoolYear->save();
-            return redirect()->back()->with('success','Thêm khóa học thành công');
-        }catch(Exception $ex){
-            return redirect()->back()->with('error','Thêm khóa học thất bại');
-        }
+        $schoolYear->name = $start." - ".$end;
+        $schoolYear->course = $re->course;
+        $schoolYear->type = ($re->type)/2;
+        $schoolYear->created_by = Auth::user()->id;
+        $schoolYear->save();
+        $success = true;
+        // Create Log
+        $newData = "Name: ".$start." - ".$end."<br>
+                    Course: ".$re->course."";
+        Log::AddToLog('Thêm chương trình đào tạo', "",$newData);
+
+        return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Thêm chương trình đào tạo thành công!"]);
     }
-    public function getEditProgram($id){
-        $schoolYear = SchoolYear::find($id);
+    public function getEditProgram(Request $req){
+        $schoolYear = SchoolYear::find($req->id);
         $year= $schoolYear->name;
         $arr = array();
         $arr=explode(' - ', $year);
         $yearStart = $arr[0];
         $yearEnd = $arr[1]; 
-        return view('admin.academic.edit',compact('schoolYear','yearStart', 'yearEnd'));
+        return response()->view('admin.academic.edit-modal',compact('schoolYear','yearStart', 'yearEnd'));
+
     }
-    public function postEditProgram($id, Request $re){
-        try{
-            $schoolYear = SchoolYear::find($id);
-            $schoolYear->course = $re->course;
-            // $newstype->updated_by = Auth::user()->id;
-            $schoolYear->save();
-            return redirect()->back()->with('success','Lưu thông tin khóa học thành công');
-        }catch(Exception $ex){
-            return redirect()->back()->with('error','Thêm khóa học thất bại');
-        }
+
+    public function postEditProgram( Request $re){
+        DB::beginTransaction();
+        $schoolYear = SchoolYear::find($re->id);
+            // Create Log
+        $oldData ="Name: ".$schoolYear->name."<br>
+                    Course: ".$schoolYear->course."";
+
+        $schoolYear->course = $re->course;
+        $schoolYear->updated_by = Auth::user()->id;
+        $schoolYear->updated_at = time();
+        $schoolYear->save();
+
+        $newData = "Course: ".$re->course."";
+
+        Log::AddToLog('Sửa chương trình đào tạo', $oldData, $newData);
+        DB::commit();
+
+        return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu chương trình đào tạo thành công"]);
+
     }
     public function delete(Request $request){
-        if (!isset(Auth::user()->id)) {
-            return view('login'); //redirect to loginpage if no have session login
+        // if (!isset(Auth::user()->id)) {
+        //     return view('login'); //redirect to loginpage if no have session login
+        // }
+        // $ids = $request->ids;
+        // $schoolYear = SchoolYear::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
+        // return response()->json(['success'=>"Xóa chương trình đào tạo thành công"]);
+        $deleteType = "Xóa chương trình đào tạo: ";
+        foreach($request->id as $sid){
+            $schoolYear = SchoolYear::find($sid);
+            $schoolYear->updated_by = Auth::user()->id;
+            $schoolYear->updated_at = time();
+            $schoolYear->save();
+            $schoolYear->delete();
+            // $news = News::where('type_id',$sid)->get();
+            // foreach ($news as $new) {
+            //     $new->updated_by = Auth::user()->id;
+            //     $new->updated_at = time();
+            //     $new->save();
+            //     $new->delete();
+            // }
+            // Create Log
+            $deleteType .= "".$sid.", ";
         }
-        $ids = $request->ids;
-        $schoolYear = SchoolYear::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
-        return response()->json(['success'=>"Xóa khóa học thành công"]);
+        Log::AddToLog('Xóa chương trình đào tạo', "",$deleteType);
+        return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa chương trình đào tạo thành công!"]);
     }
 }

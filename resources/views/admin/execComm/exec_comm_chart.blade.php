@@ -20,7 +20,7 @@ Sơ đồ Ban chấp hành
 
       <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
             <div style="width:100%; height:700px;" id="orgchart"></div>
-            <a href="{{ route('get_ec_list') }}" class="cm-breadcrumb-a"><i class="fas fa-arrow-circle-left"></i> Quay lại</a>
+            <a href="{{ URL::previous() }}" class="cm-breadcrumb-a"><i class="fas fa-arrow-circle-left"></i> Quay lại</a>
             <span> | </span>
             @if($commType == "1")
             <a class="cm-breadcrumb-a" href="{{ route('get_ec_chart',["type"=>"0"]) }}">Sơ đồ BCH Đoàn Khoa <i class="fas fa-arrow-circle-right"></i></a>

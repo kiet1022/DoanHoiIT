@@ -3,11 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class SchoolYear extends Model
 {
     protected $table="school_years";
-
+    use SoftDeletes;
     public function students()
     {
     	return $this->hasMany('App\Student','school_year_id','id');

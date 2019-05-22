@@ -260,7 +260,7 @@ Thêm sinh viên
     <div class="col-md-12">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb cm-breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('get_student_list') }}" class="cm-breadcrumb-a"><i class="fas fa-arrow-circle-left"></i> Quay lại</a></li>
+                <li class="breadcrumb-item"><a href="{{ URL::previous() }}" class="cm-breadcrumb-a"><i class="fas fa-arrow-circle-left"></i> Quay lại</a></li>
                 {{-- <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa thông tin</li> --}}
             </ol>
         </nav>

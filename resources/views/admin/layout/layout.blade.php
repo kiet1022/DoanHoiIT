@@ -20,6 +20,7 @@
   <link href="{{asset('assets/css/admin/sb-admin-2.min.css')}}" rel="stylesheet">
   <link href="{{asset('assets/vendor/bootstrap-select-1.13.7/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('assets/vendor/animate.css-master/animate.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap4-dialog/css/bootstrap-dialog.min.css') }}" >
   @yield('style')
 </head>
 
@@ -83,7 +84,9 @@
   <script src="{{asset('assets/vendor/sb-admin-2.min.js')}}"></script>
   <script src="{{asset('assets/vendor/bootstrap-select-1.13.7/dist/js/bootstrap-select.min.js')}}"></script>
   <script src="{{asset('assets/vendor/bootstrap-notify-master/bootstrap-notify.min.js')}}"></script>
+  <script src="{{asset('assets/vendor/bootstrap4-dialog/js/bootstrap-dialog.min.js')}}"></script>
   <script src="{{asset('assets/vendor/jquery.blockUI.js')}}"></script>
+  <script src="{{ asset('assets/js/common.js') }}"></script>
   <script>
       $.ajaxSetup({
     headers: {

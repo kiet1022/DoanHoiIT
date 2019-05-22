@@ -57,7 +57,11 @@ Chương trình đào tạo
                             <td>{{$list->name}}</td>
                             <td> {{$list->course}}</td>
                             <td>@if($list->type==1){{"2 năm"}} @elseif($list->type==2){{"4 năm"}} @endif</td>
-                            <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_program',['id'=>$list->id]) }}">Sửa</a></td>
+                            <td><i class="far fa-edit"></i> 
+                                <!-- <a href="{{ route('get_edit_program',['id'=>$list->id]) }}">Sửa</a> -->
+                                <a class="editToggle" data-id="{{$list->id}}"  data-toggle="modal" href="">Sửa</a>
+                                
+                            </td>
                             </tr>
                           @endforeach
                         </tbody>
@@ -66,10 +70,16 @@ Chương trình đào tạo
                   </div>
                 </div>
                 <!-- /.container-fluid -->
-                <a class="btn btn-success" href="{{route('get_add_program')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a>
-                <button data-url="{{ url('delete_selected_program') }}" class="btn delete_all" id="deleteProgram" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
+                <!-- <a class="btn btn-success" href="{{route('get_add_program')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a> -->
+                <a class="btn btn-success" id="addProgram"><i class="fas fa-plus-circle"></i> Thêm chương trình đào tạo</a>
+                <button onclick="deleteProgram()" class="btn delete_all" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>
+    <!-- add academic Modal -->
+<div class="modal animated jackInTheBox" id="formAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+</div>
+ <!-- edit academic Modal -->
+<div class="modal animated jackInTheBox" id="formEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 </div>
 @endsection
 @section('js')
@@ -79,26 +89,10 @@ Chương trình đào tạo
 <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
-
- <script src="{{asset('assets/js/admin/program.js')}}"></script>
- <script src="{{asset('assets/js/admin/common.js')}}"></script>
-
 <script>
-    $( document ).ready(function(){
-        $('#dataTable').DataTable({
-        columnDefs: [ {
-            orderable: false,
-            className: 'select-checkbox',
-            targets:   0
-        } ],
-        select: {
-            style:    'os',
-            selector: 'td:first-child'
-        },
-        order: [[ 1, 'asc' ]]
-    });
-});
+  var BASE_URL = "{{ asset('admin/school-year/education-program/') }}"
 </script>
+<script src="{{asset('assets/js/admin/program.js')}}"></script>
 <script>
 //paste this code under the head tag or in a separate js file.
 //Wait for window load

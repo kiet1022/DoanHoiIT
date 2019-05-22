@@ -37,5 +37,12 @@ return [
 
     // Ajax Handle Status
     'SUCCESS'=>'success',
-    'ERROR'=>'error'
+    'ERROR'=>'error',
+    'WARNING'=>'warning',
+
+
+    // Trash Type
+    'TRASH_ACTIVITIES' => '1',
+    'TRASH_STUDENTS' => '2',
+    'TRASH_NEWS' => '3',
 ];

@@ -29,8 +29,6 @@ Quản lí tin tức
         <div class="col page-title-header">
                 <h4>Danh mục loại tin</h4>
         </div>
-
-            <button class="btn btn-primary right" ><i ></i> thêm loại tin</button>
     </div>
     <div class="row">
         {{-- User list --}}
@@ -60,10 +58,14 @@ Quản lí tin tức
                             <td>{{$list->id}}</td>
                             <td>{{$list->name}}</td>
                             <td>{{$list->created_at}}</td>
-                            <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_news_type',['id'=>$list->id]) }}">Sửa</a></td>
+                            <td>
+                                <i class="far fa-edit"></i> 
+                                <!-- <a href="{{ route('get_edit_news_type',['id'=>$list->id]) }}">Sửa</a> -->
+                                <a class="editToggle" data-id="{{$list->id}}" data-toggle="modal" href="">Sửa</a>
+                            </td>
                             </tr>
                           @endforeach
-                        </tbody>
+                        </tbody>  
                       </table>
                     </div>
                   </div>
@@ -74,9 +76,10 @@ Quản lí tin tức
         </div>
     </div>
 
+    <!-- edit new type Modal -->
+<div class="modal animated jackInTheBox" id="formEditType" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
     <!-- add new type Modal -->
 <div class="modal animated jackInTheBox" id="formAddType" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  
 </div>
 @endsection
 @section('js')

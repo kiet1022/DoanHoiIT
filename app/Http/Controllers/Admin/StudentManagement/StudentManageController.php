@@ -18,8 +18,8 @@ use App\User;
 use App\Role;
 use App\UserRole;
 use App\Rules\Uppercase;
-use App\CommonHandle\StringUtil;
-use App\CommonHandle\StudentUtil;
+use StringUtil;
+use StudentUtil;
 
 /**
 * StudentManageController.php

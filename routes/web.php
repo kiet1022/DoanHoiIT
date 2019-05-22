@@ -93,8 +93,8 @@ Route::prefix('admin')->group(function(){
             Route::post('addType.php','Admin\NewsManagement\NewsTypeManageController@postAddNewsType')->name('post_add_news_type');
             
             // Edit news type
-            Route::get('edit-type/{id}.php','Admin\NewsManagement\NewsTypeManageController@getEditNewsType')->name('get_edit_news_type');
-            Route::post('edit-type/{id}.php','Admin\NewsManagement\NewsTypeManageController@postEditNewsType')->name('post_edit_news_type');
+            Route::post('edit.php','Admin\NewsManagement\NewsTypeManageController@getEditNewsType')->name('get_edit_news_type');
+            Route::post('saveType.php','Admin\NewsManagement\NewsTypeManageController@postEditNewsType')->name('post_edit_news_type');
             
             // Delete news type
             // Route::delete('deleteSelectedNewsType', 'Admin\NewsManagement\NewsTypeManageController@deleteAll')->name('deleteSelectedNewsType');
@@ -109,7 +109,7 @@ Route::prefix('admin')->group(function(){
         
         // Add news
         Route::get('add.php','Admin\NewsManagement\NewsManageController@getAddNew')->name('get_add_new');
-        Route::post('add.php','Admin\NewsManagement\NewsManageController@postAddNew')->name('post_add_new');
+        Route::post('addNew.php','Admin\NewsManagement\NewsManageController@postAddNew')->name('post_add_new');
         
         // Edit news
         Route::get('edit/{id}.php','Admin\NewsManagement\NewsManageController@getEditNew')->name('get_edit_new');
@@ -129,15 +129,17 @@ Route::prefix('admin')->group(function(){
         // School year list
         Route::get('education-program','Admin\AcademicManagement\AcademicManageController@getSchoolYearList')->name('educationProgramList');
         // Add school year
-        Route::get('education-program/add','Admin\AcademicManagement\AcademicManageController@getAddNew')->name('get_add_program');
-        Route::post('education-program/add','Admin\AcademicManagement\AcademicManageController@postAddNew')->name('post_add_program');
+        // Route::get('education-program/add','Admin\AcademicManagement\AcademicManageController@getAddNew')->name('get_add_program');
+        Route::get('education-program/add.php','Admin\AcademicManagement\AcademicManageController@getAddNew')->name('get_add_program');
+        Route::post('education-program/addProgram.php','Admin\AcademicManagement\AcademicManageController@postAddNew')->name('post_add_program');
         
         // Edit school year
-        Route::get('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@getEditProgram')->name('get_edit_program');
-        Route::post('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@postEditProgram')->name('post_edit_program');
-        
+        // Route::get('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@getEditProgram')->name('get_edit_program');
+        // Route::post('education-program/edit/{id}','Admin\AcademicManagement\AcademicManageController@postEditProgram')->name('post_edit_program');
+        Route::post('education-program/edit.php','Admin\AcademicManagement\AcademicManageController@getEditProgram')->name('get_edit_program');
+        Route::post('education-program/save.php','Admin\AcademicManagement\AcademicManageController@postEditProgram')->name('post_edit_program');
         // Delete School year
-        Route::delete('education-program/delete', 'Admin\AcademicManagement\AcademicManageController@delete')->name('delete_selected_program');
+        Route::post('education-program/delete.php', 'Admin\AcademicManagement\AcademicManageController@delete')->name('delete_selected_program');
     });
     
     /**
@@ -150,12 +152,12 @@ Route::prefix('admin')->group(function(){
         Route::get('list.php','Admin\ClassManagement\ClassManageController@getClassList')->name('get_class_list');
 
         // Add new class
-        Route::get('add-class.php','Admin\ClassManagement\ClassManageController@getAddClass')->name('get_add_class');
+        Route::get('add.php','Admin\ClassManagement\ClassManageController@getAddClass')->name('get_add_class');
         Route::post('add-class.php','Admin\ClassManagement\ClassManageController@postAddClass')->name('post_add_class');
 
         // Edit class
-        Route::get('edit-class/{id}.php','Admin\ClassManagement\ClassManageController@getEditClass')->name('get_edit_class');
-        Route::post('edit-class/{id}.php','Admin\ClassManagement\ClassManageController@postEditClass')->name('post_edit_class');
+        Route::post('edit-class.php','Admin\ClassManagement\ClassManageController@getEditClass')->name('get_edit_class');
+        Route::post('save-class.php','Admin\ClassManagement\ClassManageController@postEditClass')->name('post_edit_class');
 
         // Delete class
         Route::post('delete.php', 'Admin\ClassManagement\ClassManageController@delete')->name('delete_selected_class');
@@ -182,23 +184,98 @@ Route::prefix('admin')->group(function(){
         // Save exec Comm info
         Route::post('save-info.php','Admin\ExecCommManagement\ExecCommController@saveInfo')->name('save-info');
     });
+
+    /**
+     * Logs management
+     * 
+     */
+    Route::prefix('activities')->group(function(){
+
+        // Show logs page
+        Route::get('logs.php','Admin\ActivityManagement\LogController@getActivityLog')->name('get_logs');
+
+        // filter log
+        Route::post('filtered.php','Admin\ActivityManagement\LogController@filterActivityLog')->name('filter_logs');
+        
+        // Get add activity page
+        Route::get('add.php','Admin\ActivityManagement\ActivityController@getAddActivity')->name('get_add_activity');
+
+        // Post add new activity
+        Route::post('add.php','Admin\ActivityManagement\ActivityController@postAddActivity')->name('post_add_activity');
+
+        // get Activity list
+        Route::get('list.php','Admin\ActivityManagement\ActivityController@getListActivity')->name('get_list_activity');
+
+        //get Activity detail
+        Route::post('detail.php','Admin\ActivityManagement\ActivityController@activityDetail')->name('get_activity_detail');
+
+        // Filter Activity
+        Route::post('filter.php','Admin\ActivityManagement\ActivityController@filterActivity')->name('filter_activity');
+
+        // Get edit activity page
+        Route::get('edit/{id}-activity.php','Admin\ActivityManagement\ActivityController@getEditActivity')->name('get_edit_activity');
+
+        // Post edit activity
+        Route::post('edit/{id}-activity.php','Admin\ActivityManagement\ActivityController@postEditActivity')->name('post_edit_activity');
+
+        // Delete Student
+        Route::post('delete.php', 'Admin\ActivityManagement\ActivityController@deleteActivity')->name('delete_activity');
+
+        Route::prefix('funding')->group(function(){
+
+            // add activity funding
+            Route::get('add/{id}.php','Admin\ActivityManagement\ActivityController@getAddActivityFund')->name('get_add_activity_funding');
+
+            // add activity handle
+            Route::post('add.php','Admin\ActivityManagement\ActivityController@postAddActivityFund')->name('post_add_activity_funding');
+
+            // Get edit activity funding
+            Route::get('edit/{id}.php','Admin\ActivityManagement\ActivityController@getEditActivityFund')->name('get_edit_activity_funding');
+
+            // Post edit activity funding
+            Route::post('edit/{id}.php','Admin\ActivityManagement\ActivityController@postEditActivityFund')->name('post_edit_activity_funding');
+
+            // Ajax load activity by year and semester
+            Route::post('load-activities.php','Admin\ActivityManagement\ActivityController@loadActivity')->name('load_activity');
+
+            // Delete all activity funding detail
+            Route::post('delete-activity-funding.php','Admin\ActivityManagement\ActivityController@deleteActivityFunding')->name('delete_activity_funding');
+        });
+    });
+
+    Route::prefix('trash')->group(function(){
+
+        // Trash bin
+        Route::get('list.php','Admin\TrashManagement\TrashController@getTrashBin')->name('trash_bin');
+
+        // Change Trash type
+        Route::post('type.php','Admin\TrashManagement\TrashController@changeTrashType')->name('trash_type');
+
+        // Restore the trash
+        Route::post('restore.php','Admin\TrashManagement\TrashController@restoreTrash')->name('restore_trash');
+    });
 });
 
 Route::get('/test', function(){
-    $student = new Student;
-    $student->student_id = "16110294";
-    $student->name = "Nguyễn Thị Kim Dung";
-    $student->class_id = 7;
-    $student->school_year_id = 2;
-    $student->birthday = "1998-09-22";
-    $student->save();
-    $user = new User;
-    $user->student_id = $student->student_id;
-    $user->email = $student->student_id."@student.hcmute.edu.vn";
-    $user->password = bcrypt($student->student_id);
-    $user->save();
+    // $student = new Student;
+    // $student->student_id = "16110294";
+    // $student->name = "Nguyễn Thị Kim Dung";
+    // $student->class_id = 7;
+    // $student->school_year_id = 2;
+    // $student->birthday = "1998-09-22";
+    // $student->save();
+    // $user = new User;
+    // $user->student_id = $student->student_id;
+    // $user->email = $student->student_id."@student.hcmute.edu.vn";
+    // $user->password = bcrypt($student->student_id);
+    // $user->save();
     
 });
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('testt', function(){
+    //$a = '';
+    //return StringUtil::pureString($a);
+});

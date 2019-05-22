@@ -55,7 +55,7 @@ Chỉnh sửa bài viết
                                 </div>
                                 <div class="form-inline cm-inline-form" id="selectImage"></div>
                                 @else
-                                <input type="file" name="image" id="image" onchange="loadFile(event)">
+                                <input type="file" name="image" id="image" onchange="loadFile(event)" accept='image/*'>
                                 <img class="image-new" id="output"/>
                                 @endif
                             </div>

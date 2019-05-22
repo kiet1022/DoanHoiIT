@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class ActivityFund extends Model
 {
     protected $table="activity_funds";
-
+    use SoftDeletes;
+    
     public function activity()
     {
     	return $this->belongsTo('App\Activity','activity_id','id');

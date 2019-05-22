@@ -1,65 +1,94 @@
-//load preview image
-var loadFile = function(event) {
-    var output = document.getElementById('output');
-    output.src = URL.createObjectURL(event.target.files[0]);
-};
-
-//click delete current img
-$("#removeImage").on('click', function(event) {
-    var r = confirm("Bạn có chắc muốn xóa ảnh nổi bật của tin này?");
-    if (r == true) {
-        $("#myImg").remove();
-        $("#removeImage").remove();
-        $("#selectImage").html('<input type="file" name="image" id="image" onchange="loadFile(event)"><input type="hidden" name="imgDelF" id="imgDelF" > <br><img class="image-new" id="output"/>');
-        $("#imgDelF").val('1');
-    } 
+$(document).ready(function () {
+  
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+  
+  $('#dataTable').DataTable({
+    columnDefs: [ {
+      orderable: false,
+      className: 'select-checkbox',
+      targets:   0
+    } ],
+    select: {
+      style: 'multi',
+      selector: 'td:first-child'
+    },
+    order: [[ 1, 'asc' ]]
+  });
 });
 
 
 $(document).ready(function () {
-    //click button delete
-    $('#deleteProgram').on('click', function(e) {
-        var allVals = [];  
-        $(".sub_chk:checked").each(function() {  
-            allVals.push($(this).attr('data-id'));
-        });  
-        if(allVals.length <=0)  
-        {  
-            alert("Chưa có chương trình đào tạo nào được chọn!");  
-        }  
-        else {  
-            var check = confirm("Bạn có chắc muốn xóa những chương trình đào tạo này không?");  
-            if(check == true){  
-                var join_selected_values = allVals.join(","); 
-                $.ajax({
-                    url: $(this).data('url'),
-                    type: 'DELETE',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    data: 'ids='+join_selected_values,
-                    success: function (data) {
-                        if (data['success']) {
-                            $(".sub_chk:checked").each(function() {  
-                                $(this).parents("tr").remove();
-                            });
-                            alert(data['success']);
-                        } else if (data['error']) {
-                            alert('1');
-                            alert(data['error']);
-                        } else {
-                            alert('2');
-                            alert('Có lỗi xảy ra!!');
-                        }
-                    },
-                    error: function (data) {
-                        alert('3');
-                        console.log(data.responseText);
-                        alert(data.responseText);
-                    }
-                });
-                $.each(allVals, function( index, value ) {
-                    $('table tr').filter("[data-row-id='" + value + "']").remove();
-                });
-            }  
-        }  
+    // Show add modal
+    $('#addProgram').on('click', function(){
+        // alert('hello');
+        $.ajax({
+            url: BASE_URL + "/add.php",
+        }).done(function(data) {
+            console.log(data);
+            $('#formAdd').html(data);
+            $('#formAdd').modal('show');
+        }).fail(function(xhr, status, error) {
+            console.log('lala');
+            console.log(this.url);
+            console.log(error);
+        });
+    });
+    // Show edit modal
+    $('.editToggle').on('click', function(){
+        var id = $(this).data('id');
+        $.ajax({    
+            url: BASE_URL + "/edit.php",
+            method: 'POST',
+            data:{
+                id: id,
+            }
+        }).done(function(data) {
+            $('#formEdit').html(data);
+            $('#formEdit').modal('show');
+        }).fail(function(xhr, status, error) {
+            console.log('lala');
+            console.log(this.url);
+            console.log(error);
+        });
     });
 });
+// Delete type
+function deleteProgram(){
+  
+  if($('#dataTable').DataTable().rows( {selected:  true} ).count() <= 0 ){
+    showNotify('warning', 'Vui lòng chọn ít nhất một chương trình đào tạo!');
+  }else{
+    var data = $('#dataTable').DataTable().rows( {selected:  true} ).data();
+    var id = [];
+    for(var i = 0; i< data.length; i++){
+      id.push(data[i][1]);
+    }
+    alert(id);
+    blockUI(true);
+    $.ajax({
+      url: BASE_URL + "/delete.php",
+      method: 'POST',
+      data:{
+        'id': id
+      }
+    }).done(function(data) {
+      blockUI(false);
+      $('#dataTable').DataTable().rows( {selected:  true} ).remove().draw();
+      showNotify(data.status, data.message);
+
+    }).fail(function(xhr, status, error) {
+      
+      blockUI(false);
+      showNotify('error', 'Xóa thất bại!');
+      console.log(this.url);
+      console.log(error);
+      console.log(xhr);
+      console.log(status);
+    });
+    
+  }
+}

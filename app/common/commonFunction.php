@@ -155,7 +155,7 @@ use \Carbon\Carbon;
 		if(is_null($oldDate)){
 			return "";
 		}
-		return $newDate = Carbon::createFromFormat('Y-m-d', trim($oldDate))->format('d/m/Y');
+		return Carbon::createFromFormat('Y-m-d', trim($oldDate))->format('d/m/Y');
 	}
 	
 	/**
@@ -184,12 +184,33 @@ use \Carbon\Carbon;
 			case 3:
 				$result = '<span class="badge badge-success">Phó bí thư (LCH Trưởng)</span>';
 			break;
+			case 0:
+				$result = '<span class="badge badge-info">Ủy viên BCH</span>';
+			break;
 			default:
-			$result = '<span class="badge badge-info">Ủy viên BCH</span>';
+				$result = '<span class="badge badge-info">CTV</span>';
 			break;
 		}
 		return $result;
 	}
 	
-	
+	/**
+	 * Change activity status by begin date and end date
+	 * 
+	 */
+	function changeActivityStatus($beginDate, $endDate){
+		$now =  new DateTime(date("Y-m-d H:i:s"));
+		$begin = new DateTime($beginDate);
+		$end = new DateTime($endDate);
+		$result ='';
+		if($now > $begin && $now > $end){
+			$result = '<span class="badge badge-info">Đã diễn ra</span>';
+		} else if ( ($now >= $begin && $now <= $end)){
+			$result = '<span class="badge badge-primary">Đang diễn ra</span>';
+		} else{
+			$result = '<span class="badge badge-success">Chưa diễn ra</span>';
+		}
+		return $result;
+	}
+
 	?>

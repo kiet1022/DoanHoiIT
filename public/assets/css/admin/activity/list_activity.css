@@ -1,0 +1,11 @@
+table.activity-detail tr th:nth-child(1), table.activity-detail tr th:nth-child(3){
+    color: #4D72DE
+}
+
+table.activity-detail tr td:nth-child(2), table.activity-detail tr td:nth-child(4){
+    color: #000000;
+}
+
+.card-link strong{
+    color: #4D72DE;
+}

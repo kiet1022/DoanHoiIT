@@ -55,6 +55,7 @@ function deleteType(){
     
   }
 }
+// Show add modal
 $('#addType').on('click', function(){
     // alert('hello');
     $.ajax({
@@ -69,44 +70,22 @@ $('#addType').on('click', function(){
         console.log(error);
     });
 });
-$('#addType').on('click', function(){
-    // alert('hello');
-    $.ajax({
-        url: BASE_URL + "/add.php",
-    }).done(function(data) {
-        console.log(data);
-        $('#formAddType').html(data);
-        $('#formAddType').modal('show');
-    }).fail(function(xhr, status, error) {
-        console.log('lala');
-        console.log(this.url);
-        console.log(error);
-    });
-});
-$('#btnSave').on('click', function(){
-    var name = $('input[name=name]').val();
-
-    blockUI(true);
+// Show edit modal
+$('.editToggle').on('click', function(){
+  // alert('edit');
+    var id = $(this).data('id');
+    console.log(id);
     $.ajax({    
-        url: BASE_URL + "/addType.php",
+        url: BASE_URL + "/edit.php",
         method: 'POST',
         data:{
-          name: name
+            id: id,
         }
     }).done(function(data) {
-        blockUI(false);
-        // hide edit modal
-        $('#formAddType').modal('hide');
-        console.log(data);
-        // show notify
-        showNotify(data.status, data.message);
-        // wating 1 second then refresh page
-        setTimeout("location.reload()", 1000);
+        $('#formEditType').html(data);
+        $('#formEditType').modal('show');
     }).fail(function(xhr, status, error) {
-        blockUI(false);
-        showNotify("error","Thêm loại tin thất bại!");
-        console.log(xhr);
-        console.log(status);
+        console.log('lala');
         console.log(this.url);
         console.log(error);
     });

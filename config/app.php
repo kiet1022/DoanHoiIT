@@ -226,6 +226,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Carbon' => 'Carbon\Carbon',
+        'DateTimeUtil' => App\CommonHandle\DateTimeUtil::class,
+        'StringUtil' => App\CommonHandle\StringUtil::class,
+        'StudentUtil' => App\CommonHandle\StudentUtil::class,
     ],
 
 ];

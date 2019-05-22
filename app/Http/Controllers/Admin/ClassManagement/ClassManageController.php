@@ -25,7 +25,8 @@ class ClassManageController extends Controller
 
     public function getAddClass(){
         $schoolYear = SchoolYear::where('deleted_at',null)->get();
-        return view('admin.classes.add',compact('schoolYear'));
+        // return response()->view('admin.academic.add-modal');
+        return response()->view('admin.classes.add-modal',compact('schoolYear'));
     }
     public function postAddClass(Request $re){
         try{
@@ -34,21 +35,26 @@ class ClassManageController extends Controller
             $class->class_name = $re->name;
             $class->school_year_id = $re->schoolYear;
             $class->save();
-            return redirect()->back()->with('success','Thêm chi đoàn thành công');
+            $success = true;
+            // return redirect()->back()->with('success','Thêm chi đoàn thành công');
+            return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Thêm chi đoàn thành công"]);
         }catch(Exception $ex){
             return redirect()->back()->with('error','Thêm chi đoàn thất bại');
         }
     }
-    public function getEditClass($id){
-        $class = Classes::find($id);
-        return view('admin.classes.edit',compact('class'));
+    public function getEditClass(Request $req){
+        $class = Classes::find($req->id);
+        return response()->view('admin.classes.edit-modal',compact('class'));
+        // $class = Classes::find($id);
+        // return view('admin.classes.edit',compact('class'));
     }
-    public function postEditClass($id, Request $re){
+    public function postEditClass(Request $re){
         try{
-            $class = Classes::find($id);
+            $class = Classes::find($re->id);
             $class->class_name = $re->name;
             $class->save();
-            return redirect()->back()->with('success','Lưu thông tin khóa học thành công');
+            // return redirect()->back()->with('success','Lưu thông tin khóa học thành công');
+            return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu chi đoàn thành công"]);
         }catch(Exception $ex){
             return redirect()->back()->with('error','Thêm khóa học thất bại');
         }

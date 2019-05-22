@@ -7,6 +7,7 @@ Thêm bài viết
 <link href="{{asset('assets/vendor/icheck-1.x/skins/flat/green.css')}}" rel="stylesheet">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <link href="{{asset('assets/vendor/gijgo-combined-1.9.11/css/gijgo.min.css')}}" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('main_content')
 <div class="row">
@@ -16,7 +17,8 @@ Thêm bài viết
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-        <form action="{{ route('post_add_new') }}" method="POST" enctype="multipart/form-data">
+        <!-- <div >  -->
+        <form action="{{ route('post_add_new') }}" method="POST" enctype="multipart/form-data" >
             @csrf
             <div class="form-row">
                 <div class="col-md-12">
@@ -54,8 +56,10 @@ Thêm bài viết
             <hr class="sidebar-divider">
             <div class="col-12 text-center">
                 <button type="button" class="btn btn-secondary cm-btn-form" onclick="javascript:history.back()">Cancel</button>
-                <button type="submit" class="btn btn-success cm-btn-form">Submit</button>
+                <button type="submit" class="btn btn-success cm-btn-form">Submit</button> 
+                <!-- <button id="btnSave" class="btn btn-success cm-btn-form">Submit</button> -->
             </div>
+        </div>
         </form>
     </div>
 </div>
@@ -66,16 +70,52 @@ Thêm bài viết
 <script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
 <script src="{{asset('assets/js/ckeditor/ckeditor.js')}}"></script>
 <script src="{{asset('assets/js/admin/news.js')}}"></script>
+<script>
+  var BASE_URL = "{{ asset('admin/news/') }}"
+</script>
+<script src="{{ asset('assets/js/common.js') }}"></script>
 <script type="text/javascript">
     //replace textarea
-if(CKEDITOR) {
-    CKEDITOR.replace('content_news', {
-        allowedContent: true
-    });
-    CKEDITOR.config.extraAllowedContent = 'audio[*]';
-    CKEDITOR.config.height = 350;
-    CKEDITOR.config.width = 350;
-}
+    if(CKEDITOR) {
+        CKEDITOR.replace('content_news', {
+            allowedContent: true
+        });
+        CKEDITOR.config.extraAllowedContent = 'audio[*]';
+        CKEDITOR.config.height = 350;
+        CKEDITOR.config.width = 350;
+    }
 </script>
+<!-- <script type="text/javascript">
+    $('#btnSave').on('click', function(){
+    blockUI(true);
+    var url= BASE_URL + "/addNew.php";
+    alert(url);
+    $.ajax({    
+        url: BASE_URL + "/addNew.php",
+        method: 'POST',
+        data:{
+          sumary: sumary,
+          content_news:content_news,
+          title: title,
+          type: type,
+          image: image
+        }
+    }).done(function(data) {
+        blockUI(false);
+        console.log(data);
+        // show notify
+        showNotify(data.status, data.message);
+        // wating 1 second then refresh page
+        setTimeout("location.reload()", 1000);
+    }).fail(function(xhr, status, error) {
+        blockUI(false);
+        showNotify("error","Thêm loại tin thất bại!");
+        console.log(xhr);
+        console.log(status);
+        console.log(this.url);
+        console.log(error);
+    });
+});
+</script> -->
 
 @endsection

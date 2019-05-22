@@ -13,8 +13,8 @@
                             
                             <div class="card-body editDetail">
                                 <div class="form-group">
-                                    <label for="name">Tên loại tin</label>
-                                  <input type="text" name="name" id="name" class="form-control">
+                                    <label for="typename">Tên loại tin</label>
+                                  <input type="text" name="typename" id="typename" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -26,3 +26,34 @@
             </div>
         </div>
     </div>
+
+<script type="text/javascript">
+    $('#btnSave').on('click', function(){
+    var typename = $('input[name=typename]').val();
+
+    blockUI(true);
+    $.ajax({    
+        url: BASE_URL + "/addType.php",
+        method: 'POST',
+        data:{
+          typename: typename
+        }
+    }).done(function(data) {
+        blockUI(false);
+        // hide edit modal
+        $('#formAddType').modal('hide');
+        console.log(data);
+        // show notify
+        showNotify(data.status, data.message);
+        // wating 1 second then refresh page
+        setTimeout("location.reload()", 1000);
+    }).fail(function(xhr, status, error) {
+        blockUI(false);
+        showNotify("error","Thêm loại tin thất bại!");
+        console.log(xhr);
+        console.log(status);
+        console.log(this.url);
+        console.log(error);
+    });
+});
+</script>

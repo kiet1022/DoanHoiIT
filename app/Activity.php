@@ -3,14 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
 {
     protected $table="activities";
+    use SoftDeletes;
 
     public function leadBy()
     {
-    	return $this->belongsTo('App\User','leader','id');
+    	return $this->belongsTo('App\Student','leader','student_id');
     }
 
     public function attenders()
