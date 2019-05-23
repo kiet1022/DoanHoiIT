@@ -218,7 +218,7 @@ Route::prefix('admin')->group(function(){
         // Post edit activity
         Route::post('edit/{id}-activity.php','Admin\ActivityManagement\ActivityController@postEditActivity')->name('post_edit_activity');
 
-        // Delete Student
+        // Delete activity
         Route::post('delete.php', 'Admin\ActivityManagement\ActivityController@deleteActivity')->name('delete_activity');
 
         Route::prefix('funding')->group(function(){

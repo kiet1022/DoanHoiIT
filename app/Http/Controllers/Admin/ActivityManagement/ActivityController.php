@@ -344,6 +344,13 @@ class ActivityController extends Controller
   */
   public function deleteActivity(Request $req){
     foreach($req->activity_id as $id){
+      $activityFundDetail = ActivityFund::with(['details'])->where('activity_id',$id)->get();
+      if(count($activityFundDetail) > 0){
+        foreach ($activityFundDetail[0]->details as $detail) {
+          $detail->delete();
+        }
+        $activityFundDetail[0]->delete();
+      }
       $activity = Activity::find($id);
       $activity->delete();
     }
