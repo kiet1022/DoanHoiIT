@@ -440,7 +440,7 @@ class ActivityController extends Controller
       foreach ($arrayDetaiIdFund as $detailid) {
         if(!in_array(intval($detailid), $req->detail_id_)){
           $deleteDetail = ActivityFundDetail::find($detailid);
-          $deleteDetail->delete();
+          $deleteDetail->forceDelete();
         }
       }
       $ac_fund = ActivityFund::find($id);

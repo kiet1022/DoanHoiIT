@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\TrashManagement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Activity;
+use App\ActivityFund;
+use App\ActivityFundDetail;
 use App\Student;
 use App\News;
 class TrashController extends Controller
@@ -51,8 +53,16 @@ class TrashController extends Controller
     public function restoreTrash(Request $req){
         if($req->action === config('constants.TRASH_ACTIVITIES')){
             foreach($req->ids as $id){
+                // restore activity first
                 $activity = Activity::onlyTrashed()->where('id',$id);
                 $activity->restore();
+                // restore related activity fund
+                $acFundDetail = ActivityFund::onlyTrashed()->with(['details_with_trashed'])->where('activity_id',$id)->orderBy('id','desc')->first();
+                $acFundDetail->restore();
+                // restore related activity fund detail
+                foreach ($acFundDetail->details_with_trashed as $detail) {
+                    $detail->restore();
+                }
             }
             return response()->json(["status"=>config('constants.SUCCESS'),"message"=> count($req->ids)." chương trình được khôi phục."]);
         } elseif($req->action === config('constants.TRASH_STUDENTS')){

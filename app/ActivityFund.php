@@ -18,4 +18,9 @@ class ActivityFund extends Model
     {
     	return $this->hasmany('App\ActivityFundDetail','fund_id','id');
     }
+
+    public function details_with_trashed()
+    {
+    	return $this->hasmany('App\ActivityFundDetail','fund_id','id')->onlyTrashed();
+    }
 }
