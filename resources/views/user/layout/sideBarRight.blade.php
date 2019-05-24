@@ -15,12 +15,12 @@
             <div class="social-widget">
               <ul>
                 <li>
-                  <a href="#" class="social-facebook">
+                  <a href="https://www.facebook.com/DoanHoiITUTE" target="_blank" class="social-facebook">
                     <i class="fa fa-facebook"></i>
-                    <span>21.2K<br>Followers</span>
+                    <!-- <span>21.2K<br>Followers</span> -->
                   </a>
                 </li>
-                <li>
+               <!--  <li>
                   <a href="#" class="social-twitter">
                     <i class="fa fa-twitter"></i>
                     <span>10.2K<br>Followers</span>
@@ -31,7 +31,7 @@
                     <i class="fa fa-google-plus"></i>
                     <span>5K<br>Followers</span>
                   </a>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -54,20 +54,27 @@
           <!-- post widget -->
           <div class="aside-widget">
             <div class="section-title">
-              <h2 class="title">Popular Posts</h2>
+              <h2 class="title">Bài viết mới</h2>
             </div>
             
             <!-- post -->
+            @foreach ($lastedNews as $list)
             <div class="post post-widget">
-              <a class="post-img" href="blog-post.html"></a>
+              <a class="post-img" href="{{ route('get_new',['id'=>$list->id]) }}">
+                @if($list->image != "") 
+                  <img src="{{asset('images/news')}}/{{$list->image}}" alt="">
+                  @else 
+                              <img src="{{asset('assets/img/image-not-available.png')}}" alt="Colorlib">
+                   @endif
+              </a>
               <div class="post-body">
                 <div class="post-category">
-                  <a href="category.html">Health</a>
-                  <a href="category.html">Lifestyle</a>
+                  <a href="{{ route('get_new_by_ctg',['id'=>$list->ofType->id]) }}">{{$list->ofType->name}}</a>
                 </div>
-                <h3 class="post-title"><a href="blog-post.html">Sed ut perspiciatis, unde omnis iste natus error sit</a></h3>
+                <h3 class="post-title"><a href="{{ route('get_new',['id'=>$list->id]) }}">{{$list->title}}</a></h3>
               </div>
             </div>
+             @endforeach
             <!-- /post -->
           </div>
           <!-- /post widget -->

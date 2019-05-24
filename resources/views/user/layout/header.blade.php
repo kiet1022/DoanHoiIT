@@ -6,10 +6,7 @@
         <div class="container">
           <!-- social -->
           <ul class="nav-social">
-            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+            <li><a href="https://www.facebook.com/DoanHoiITUTE" target="_blank"><i class="fa fa-facebook"></i></a></li>
           </ul>
           <!-- /social -->
 
@@ -43,8 +40,10 @@
           <!-- nav -->
           <ul class="nav-menu">
             <li> <a href="{{ route('get_home_page') }}">Trang chủ</a></li>
-            <li><a href="#">Danh mục</a></li>
+            <li><a href="{{ route('get_new_by_ctg', ['id'=>'all']) }}" >Danh mục</a></li>
             <li><a href="http://fit.hcmute.edu.vn" target="_blank" >Khoa CNTT</a></li>
+            <li><a href="#">Chương trình</a></li>
+            <!-- <li><a href="{{ route('get_profile') }}">Thông tin cá nhân</a></li> -->
             <li><a href="{{ route('get_login') }}">Đăng nhập</a></li>
           </ul>
           <!-- /nav -->
@@ -56,18 +55,10 @@
       <div id="nav-aside">
         <ul class="nav-aside-menu">
           <li><a href="{{ route('get_home_page') }}">Home</a></li>
-          <li class="has-dropdown"><a>Categories</a>
-            <ul class="dropdown">
-              <li><a href="#">Lifestyle</a></li>
-              <li><a href="#">Fashion</a></li>
-              <li><a href="#">Technology</a></li>
-              <li><a href="#">Travel</a></li>
-              <li><a href="#">Health</a></li>
-            </ul>
-          </li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="contact.html">Contacts</a></li>
-          <li><a href="#">Advertise</a></li>
+          <li><a href="{{ route('get_new_by_ctg', ['id'=>'all']) }}">Danh mục</a></li>
+            <li><a href="http://fit.hcmute.edu.vn" target="_blank" >Khoa CNTT</a></li>
+            <li><a href="#">Chương trình</a></li>
+            <li><a href="{{ route('get_login') }}">Đăng nhập</a></li>
         </ul>
         <button class="nav-close nav-aside-close"><span></span></button>
       </div>

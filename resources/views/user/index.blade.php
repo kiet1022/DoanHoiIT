@@ -17,7 +17,12 @@ Trang chu
         <div class="col-md-8 hot-post-left">
           <!-- post -->
           <div class="post post-thumb">
-            <a class="post-img" href="{{ route('get_new',['id'=>$lastedNews1->id]) }}"><img src="{{asset('images/news')}}/{{$lastedNews1->image}}" alt=""></a>
+            <a class="post-img" href="{{ route('get_new',['id'=>$lastedNews1->id]) }}">
+              @if($lastedNews1->image != "") 
+                <img src="{{asset('images/news')}}/{{$lastedNews1->image}}" alt="">
+              @else 
+                <img src="{{asset('assets/img/image-not-available.png')}}" alt="Colorlib">
+              @endif</a>
             <div class="post-body">
               <div class="post-category">
                 <a href="category.html">{{$lastedNews1->ofType->name}}</a>
@@ -34,7 +39,12 @@ Trang chu
         <div class="col-md-4 hot-post-right">
           <!-- post -->
           <div class="post post-thumb">
-            <a class="post-img" href="{{ route('get_new',['id'=>$lastedNews2->id]) }}"><img src="{{asset('images/news')}}/{{$lastedNews2->image}}" alt=""></a>
+            <a class="post-img" href="{{ route('get_new',['id'=>$lastedNews2->id]) }}">
+              @if($lastedNews2->image != "") 
+              <img src="{{asset('images/news')}}/{{$lastedNews2->image}}" alt="">
+            @else 
+                <img src="{{asset('assets/img/image-not-available.png')}}" alt="Colorlib">
+              @endif</a>
             <div class="post-body">
               <div class="post-category">
                 <a href="category.html">{{$lastedNews2->ofType->name}}</a>
@@ -50,7 +60,12 @@ Trang chu
 
           <!-- post -->
           <div class="post post-thumb">
-            <a class="post-img" href="{{ route('get_new',['id'=>$lastedNews3->id]) }}"><img src="{{asset('images/news')}}/{{$lastedNews3->image}}" alt=""></a>
+            <a class="post-img" href="{{ route('get_new',['id'=>$lastedNews3->id]) }}">
+              @if($lastedNews3->image != "") 
+              <img src="{{asset('images/news')}}/{{$lastedNews3->image}}" alt="">
+            @else 
+                <img src="{{asset('assets/img/image-not-available.png')}}" alt="Colorlib">
+              @endif</a>
             <div class="post-body">
               <div class="post-category">
                 <a href="category.html">{{$lastedNews3->ofType->name}}</a>
