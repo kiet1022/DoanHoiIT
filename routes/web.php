@@ -275,6 +275,16 @@ Route::get('/test', function(){
     // $user->save();
     
 });
+/*
+|--------------------------------------------------------------------------
+| User management Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/index', 'User\HomeController@getHomePage')->name('get_home_page');
+Route::get('/new/{id}.php', 'User\NewsController@getNewDetail')->name('get_new');
+Route::get('/category/{id}.php', 'User\NewsController@getNewsByCategory')->name('get_new_by_ctg');
+Route::get('/infomation.php', 'User\UserController@getUserInfo')->name('get_profile');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
