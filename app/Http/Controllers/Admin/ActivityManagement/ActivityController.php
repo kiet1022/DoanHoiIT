@@ -13,7 +13,9 @@ use App\Activity;
 use App\ActivityFund;
 use App\ActivityFundDetail;
 use App\SchoolYear;
-use DateTimeUtil;
+use App\Student;
+use DateTime;
+use Carbon;
 use StringUtil;
 use App\Log;
 
@@ -516,5 +518,13 @@ class ActivityController extends Controller
     $this->data['activityFund']->delete();
     
     return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa dự trù thành công!"]);
+  }
+
+  public function getCheckin(){
+    $now = Carbon::now();
+    $this->data['activities'] = Activity::where('end_date','>=',$now)->get();
+    $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->first();
+    $this->data['students'] = Student::select('student_id','name')->get();
+    return view('admin.activity.check_in')->with($this->data);
   }
 }

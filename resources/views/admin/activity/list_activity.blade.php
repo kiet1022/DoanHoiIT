@@ -9,17 +9,6 @@ Danh sách chương trình
 <link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('assets/css/admin/activity/list_activity.css')}}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
-<style>
-  /* Bootstrap4 Dialog */
-  .bootstrap-dialog-header {
-    width: 100%;
-  }
-  
-  .bootstrap-dialog-footer-buttons button {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-</style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('main_content')

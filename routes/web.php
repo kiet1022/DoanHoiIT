@@ -221,6 +221,10 @@ Route::prefix('admin')->group(function(){
         // Delete activity
         Route::post('delete.php', 'Admin\ActivityManagement\ActivityController@deleteActivity')->name('delete_activity');
 
+        // get Checkin page
+        Route::get('check-in.php','Admin\ActivityManagement\ActivityController@getCheckin')->name('get_check_in');
+
+
         Route::prefix('funding')->group(function(){
 
             // add activity funding
