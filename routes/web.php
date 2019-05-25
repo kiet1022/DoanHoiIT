@@ -224,6 +224,9 @@ Route::prefix('admin')->group(function(){
         // get Checkin page
         Route::get('check-in.php','Admin\ActivityManagement\ActivityController@getCheckin')->name('get_check_in');
 
+        // Save check-in list
+        Route::post('check-in/save.php','Admin\ActivityManagement\ActivityController@saveCheckin')->name('save_check_in');
+
 
         Route::prefix('funding')->group(function(){
 

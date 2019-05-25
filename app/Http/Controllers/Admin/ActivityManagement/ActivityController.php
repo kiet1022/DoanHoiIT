@@ -14,6 +14,7 @@ use App\ActivityFund;
 use App\ActivityFundDetail;
 use App\SchoolYear;
 use App\Student;
+use App\Checkin;
 use DateTime;
 use Carbon;
 use StringUtil;
@@ -360,8 +361,9 @@ class ActivityController extends Controller
   }
   
   /**
-  * Get add activity funding page
+  * Get activity funding page
   * 
+  * @param String $id The id of activity
   */
   public function getAddActivityFund($id){
     $this->data['activity'] = Activity::with(['leadBy'])->where('id',$id)->first();
@@ -375,6 +377,11 @@ class ActivityController extends Controller
     return view('admin.funding.add_activity_fund')->with($this->data);
   }
   
+  /**
+  * Add activity funding
+  * 
+  * @param Object $req The Request that user sent
+  */
   public function postAddActivityFund(Request $req){
     // return back()->withInput()->withErrors(['message' => 'chos kiet']);
     DB::beginTransaction();
@@ -419,6 +426,11 @@ class ActivityController extends Controller
     }
   }
   
+  /**
+  * Get edit activity funding page
+  * 
+  * @param String $id The id of activity
+  */
   public function getEditActivityFund($id){
     $this->data['activityFund'] = ActivityFundDetail::with(['fund.activity'])->where('fund_id',$id)->get();
     // Check if there is no activity fund
@@ -428,6 +440,12 @@ class ActivityController extends Controller
     return view('admin.funding.edit_activity_fund')->with($this->data);
   }
   
+  /**
+  * Edit activity funding
+  * 
+  * @param String $id The id of activity
+  * @param Object $req The request that user sent
+  */
   public function postEditActivityFund($id, Request $req){
     // return count($req->detail_id_);
     $this->data['activityDetail'] = ActivityFundDetail::where('fund_id',$id)->get();
@@ -505,7 +523,7 @@ class ActivityController extends Controller
       return redirect()->back()->with(config('constants.ERROR'),'Cập nhật trù thất bại!');
     }
   }
-
+  
   public function deleteActivityFunding(Request $req){
     $fundId = $req->activityFundId;
     $this->data['activityFundDetail'] = ActivityFundDetail::where('fund_id',$fundId)->get();
@@ -519,12 +537,42 @@ class ActivityController extends Controller
     
     return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa dự trù thành công!"]);
   }
-
+  
+  /**
+  * Get check in page
+  * 
+  */
   public function getCheckin(){
     $now = Carbon::now();
     $this->data['activities'] = Activity::where('end_date','>=',$now)->get();
     $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->first();
     $this->data['students'] = Student::select('student_id','name')->get();
     return view('admin.activity.check_in')->with($this->data);
+  }
+  
+  /**
+  * Save checkin info
+  * 
+  * @param Object $req The request that user sent
+  */
+  public function saveCheckin(Request $req){
+    $activityid = $req->activityId;
+    
+    try {
+      DB::beginTransaction();
+      foreach ($req->studentList as $studentid) {
+        $checkin = new Checkin;
+        $checkin->activity_id = $activityid;
+        $checkin->student_id = $studentid;
+        $checkin->type = $req->checkinType;
+        $checkin->created_by = Auth::user()->id;
+        $checkin->save();
+      }
+      DB::commit();
+      return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu danh sách điểm danh thành công!"]);
+    } catch (Exception $ex) {
+      DB::rollback();
+      return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu danh sách điểm danh thất bại!"]);
+    }
   }
 }
