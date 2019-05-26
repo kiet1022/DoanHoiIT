@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 25, 2019 lúc 01:59 PM
+-- Thời gian đã tạo: Th5 26, 2019 lúc 04:46 PM
 -- Phiên bản máy phục vụ: 10.1.34-MariaDB
 -- Phiên bản PHP: 7.2.8
 
@@ -60,7 +60,7 @@ INSERT INTO `activities` (`id`, `name`, `year`, `semester`, `start_regis_date`, 
 (3, 'MIT này test', '2018 - 2019', 2, '2019-04-18', '2019-04-20', '2019-04-29', '2019-04-30', '<p><span style=\"color:#2ecc71;\">Kh&ocirc;ng c&oacute; nội dung</span></p>', 20, 5, 100, '18133064', 'jG7H_[OK]DuTruKinhPhiDoan2017-2018.doc', 'cVV8_BaoCaoSoLieu_2019.docx', '2019-04-29 08:02:31', '2019-05-23 07:06:49', NULL, 1, NULL),
 (4, 'MIT 2019 nè mày ơi', '2016 - 2017', 2, '2019-04-25', '2019-04-30', '2019-05-02', '2019-05-03', '<p><span style=\"color:#1abc9c;\">MIT</span> <strong>năm 2019</strong></p>', 5, 10, 100, '16110376', 'GFSo_DHSPKT-Uu-dai-1.docx', '1XYx_[OK]DuTruKinhPhiDoan2017-2018.doc', '2019-05-01 05:34:56', '2019-05-23 07:18:31', NULL, 1, '2019-05-23 07:18:31'),
 (5, 'Hội Thao 2019', '2015 - 2016', 1, '2019-04-29', '2019-04-30', '2019-05-01', '2019-05-02', '<p><strong>Nội dung</strong> đ&acirc;y</p>', 5, 0, 100, '18110371', '', '', '2019-05-01 06:47:34', '2019-05-23 07:53:40', NULL, 1, NULL),
-(6, 'tEST', '2015 - 2016', 2, '2019-05-01', '2019-05-02', '2019-05-04', '2019-05-25', NULL, NULL, NULL, NULL, '15110237', '', '', '2019-05-01 07:39:26', '2019-05-23 06:52:11', NULL, NULL, NULL),
+(6, 'tEST', '2015 - 2016', 2, '2019-05-01', '2019-05-02', '2019-05-04', '2019-05-26', NULL, NULL, NULL, NULL, '15110237', '', '', '2019-05-01 07:39:26', '2019-05-23 06:52:11', NULL, NULL, NULL),
 (7, 'Tập Huấn kỹ năng 2019', '2018 - 2019', 2, '2019-05-23', '2019-05-31', '2019-06-01', '2019-06-02', NULL, 0, 5, 100, '17110393', '', '', '2019-05-23 08:00:09', '2019-05-23 08:05:38', 1, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -204,14 +204,51 @@ CREATE TABLE `attenders` (
 
 CREATE TABLE `checkin` (
   `id` int(10) UNSIGNED NOT NULL,
-  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
-  `activity_id` int(10) UNSIGNED NOT NULL,
+  `content` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `activity_id` int(10) UNSIGNED DEFAULT NULL,
+  `year` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `type` int(11) DEFAULT '0' COMMENT '0: Sinh viên tham gia, 1: BTC, 2: CTV, 3: Khác',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_by` int(10) UNSIGNED DEFAULT NULL,
   `updated_by` int(10) UNSIGNED DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `checkin`
+--
+
+INSERT INTO `checkin` (`id`, `content`, `activity_id`, `year`, `type`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(7, 'Điểm danh cộng tác viên', 7, '2018 - 2019', 2, '2019-05-26 07:43:08', '2019-05-26 07:43:08', 1, NULL, NULL),
+(8, 'Điểm danh ban tổ chức', 7, '2018 - 2019', 1, '2019-05-26 07:43:19', '2019-05-26 07:43:19', 1, NULL, NULL),
+(9, 'Điểm danh sinh viên tham gia chương trình', 7, '2018 - 2019', 0, '2019-05-26 07:43:33', '2019-05-26 07:43:33', 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `checkin_details`
+--
+
+CREATE TABLE `checkin_details` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `checkin_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `checkin_details`
+--
+
+INSERT INTO `checkin_details` (`id`, `student_id`, `checkin_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(22, '18110371', 7, '2019-05-26 07:43:08', '2019-05-26 07:43:08', 1, NULL, NULL),
+(23, '15110370', 8, '2019-05-26 07:43:19', '2019-05-26 07:43:19', 1, NULL, NULL),
+(24, '15110237', 9, '2019-05-26 07:43:33', '2019-05-26 07:43:33', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -14342,9 +14379,14 @@ ALTER TABLE `attenders`
 -- Chỉ mục cho bảng `checkin`
 --
 ALTER TABLE `checkin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `checkin_details`
+--
+ALTER TABLE `checkin_details`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `checkin_activities_foregin` (`activity_id`),
-  ADD KEY `checkin_students_foregin` (`student_id`);
+  ADD KEY `checkin_checkin_id_foregin` (`checkin_id`);
 
 --
 -- Chỉ mục cho bảng `classes`
@@ -14543,7 +14585,13 @@ ALTER TABLE `attenders`
 -- AUTO_INCREMENT cho bảng `checkin`
 --
 ALTER TABLE `checkin`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT cho bảng `checkin_details`
+--
+ALTER TABLE `checkin_details`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `classes`
@@ -14683,11 +14731,10 @@ ALTER TABLE `attenders`
   ADD CONSTRAINT `attenders_students_foregin` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
 
 --
--- Các ràng buộc cho bảng `checkin`
+-- Các ràng buộc cho bảng `checkin_details`
 --
-ALTER TABLE `checkin`
-  ADD CONSTRAINT `checkin_activities_foregin` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`),
-  ADD CONSTRAINT `checkin_students_foregin` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+ALTER TABLE `checkin_details`
+  ADD CONSTRAINT `checkin_checkin_id_foregin` FOREIGN KEY (`checkin_id`) REFERENCES `checkin` (`id`);
 
 --
 -- Các ràng buộc cho bảng `classes`
