@@ -11,28 +11,25 @@ $( document ).ready(function(){
 var first = true;
 function checkButtonSave(){
   var activityId = $('#activity').val();
-  if(activityId == ""){
-    $('#saveinfo').css('display','none');
-  } else {
+  var type = $('#type').val();
+  if(activityId != "" && type != ""){
     $('#saveinfo').css('display','inline-block');
+    $('#inputsid').attr('placeholder','Nhập MSSV sau đó nhấn Enter');
+    $('#inputsid').attr('readonly',false);
+  } else {
+    $('#saveinfo').css('display','none');
+    $('#inputsid').attr('placeholder','Vui lòng chọn chương trình và hình thức điểm danh trước.');
+    $('#inputsid').attr('readonly',true);
   }
+  $('#inputsid').focus();
 }
 
 $('#activity').on('change', function(e){
-  if(first){
-    showWarning('Trong suốt quá trình điểm danh bạn <strong>không được thay đổi</strong> chương trình, hình thức điểm danh hoặc refresh lại trang, nếu thay đổi <strong>toàn bộ dữ liệu</strong> điểm danh sẽ mất.');
-    first = false;
-  } else {
-    showWarning('đâsđâsd')
-  }
   checkButtonSave();
 });
 
 $('#type').on('change', function(e){
-  if(first){
-    showWarning('Trong suốt quá trình điểm danh bạn <strong>không được thay đổi</strong> chương trình, hình thức điểm danh hoặc refresh lại trang, nếu thay đổi <strong>toàn bộ dữ liệu</strong> điểm danh sẽ mất.');
-    first = false;
-  }
+  checkButtonSave();
 });
 // Init data table
 var table = $('#dataTable').DataTable({
@@ -60,11 +57,21 @@ $('#inputsid').on('keypress', function(e){
     }
 });
 var count = 0;
-var arr_student = [];
+var arr_attender = [];
+var arr_collaborator = [];
+var arr_organizers = [];
+
 function dataTableAddRow(data){
     count++;
-    arr_student.push(data.student_id);
-    console.log(arr_student);
+    var type = $('#type').val();
+    if(type == "0"){
+      arr_attender.push(data.student_id);
+    } else if(type == "1"){
+      arr_organizers.push(data.student_id);
+    } else if(type == "2"){
+      arr_collaborator.push(data.student_id);
+    }
+
     table.row.add([
         count,
         data.student_id,
@@ -75,8 +82,15 @@ function dataTableAddRow(data){
 
 function dataTableAddRowNotExit(data){
     count++;
-    arr_student.push(data);
-    console.log(arr_student);
+    var type = $('#type').val();
+    if(type == "0"){
+      arr_attender.push(data);
+    } else if(type == "1"){
+      arr_organizers.push(data);
+    } else if(type == "2"){
+      arr_collaborator.push(data);
+    }
+
     table.row.add([
         count,
         data,
@@ -89,20 +103,25 @@ function dataTableAddRowNotExit(data){
 function saveCheckin(){
     var activityId = $('#activity').val();
     var checkinType = $('#type').val();
-    if(activityId != "" && arr_student.length > 0 && checkinType != ""){
+    var year = $('#year').val();
+    if(activityId != "" && checkinType != ""){
       blockUI(true);
       $.ajax({
         url: BASE_URL + "/check-in/save.php",
         method: 'POST',
         data:{
             'activityId': activityId,
-            'studentList': arr_student,
-            'checkinType': checkinType
+            'arr_attender': arr_attender,
+            'arr_organizers': arr_organizers,
+            'arr_collaborator':arr_collaborator,
+            'checkinType': checkinType,
+            'year': year
         }
     }).done(function(data) {
+      console.log(data);
         showNotify(data.status,data.message);
         blockUI(false);
-        arr_student = [];
+        clearArr(data.type);  
         $('#inputsid').focus();
     }).fail(function(xhr, status, error) {
         blockUI(false);
@@ -113,9 +132,17 @@ function saveCheckin(){
     });
     } else if (activityId == ""){
       showWarning('Vui lòng chọn chương trình!');
-    } else if (arr_student.length <= 0){
-      showWarning('Danh sách điểm danh rỗng!');
     } else if (checkinType == ""){
       showWarning('Vui lòng chọn hình thức điểm danh!');
     }
+}
+
+function clearArr(type){
+  if(type == "0"){
+    arr_attender = [];
+  } else if(type == "1"){
+    arr_organizers = [];
+  } else if(type == "2"){
+    arr_collaborator = [];
+  }
 }

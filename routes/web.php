@@ -71,8 +71,6 @@ Route::prefix('admin')->group(function(){
         Route::get('user-list.php','Admin\UserManagement\UserManageController@getUserList')->name('get_user_list');
     });
     
-    
-    
     /**
     * News management routing
     * 
@@ -250,6 +248,10 @@ Route::prefix('admin')->group(function(){
         });
     });
 
+    /**
+     * Trash of system management
+     * 
+     */
     Route::prefix('trash')->group(function(){
 
         // Trash bin
@@ -260,6 +262,15 @@ Route::prefix('admin')->group(function(){
 
         // Restore the trash
         Route::post('restore.php','Admin\TrashManagement\TrashController@restoreTrash')->name('restore_trash');
+    });
+
+    /**
+     * Marks management
+     * 
+     */
+    Route::prefix('marks')->group(function(){
+
+        Route::get('list.php','Admin\MarksManagement\MarksController@getMarksList')->name('get_marks_list');
     });
 });
 

@@ -15,6 +15,7 @@ use App\ActivityFundDetail;
 use App\SchoolYear;
 use App\Student;
 use App\Checkin;
+use App\CheckinDetail;
 use DateTime;
 use Carbon;
 use StringUtil;
@@ -556,20 +557,45 @@ class ActivityController extends Controller
   * @param Object $req The request that user sent
   */
   public function saveCheckin(Request $req){
+    // return response()->json($req);
     $activityid = $req->activityId;
-    
+    switch ($req->checkinType) {
+      case '0':
+        $student_id = $req->arr_attender;
+        $content = "Điểm danh sinh viên tham gia chương trình";
+        break;
+      case '1':
+        $student_id = $req->arr_organizers;
+        $content = "Điểm danh ban tổ chức";
+        break;
+      default:
+        $student_id = $req->arr_collaborator;
+        $content = "Điểm danh cộng tác viên";
+        break;
+    }
+
+    if(!isset($student_id)){
+      return response()->json(["status"=>config('constants.ERROR'),"message"=>"Danh sách điểm danh rỗng!"]);
+    }
+
     try {
       DB::beginTransaction();
-      foreach ($req->studentList as $studentid) {
-        $checkin = new Checkin;
-        $checkin->activity_id = $activityid;
-        $checkin->student_id = $studentid;
-        $checkin->type = $req->checkinType;
-        $checkin->created_by = Auth::user()->id;
-        $checkin->save();
+      $checkin = new Checkin;
+      $checkin->activity_id = $activityid;
+      $checkin->content = $content;
+      $checkin->type = $req->checkinType;
+      $checkin->year = $req->year;
+      $checkin->created_by = Auth::user()->id;
+      $checkin->save();
+      foreach ($student_id as $studentid) {
+        $detail = new CheckinDetail;
+        $detail->checkin_id = $checkin->id;
+        $detail->student_id = $studentid;
+        $detail->created_by = Auth::user()->id;
+        $detail->save();
       }
       DB::commit();
-      return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu danh sách điểm danh thành công!"]);
+      return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu danh sách điểm danh thành công!","type"=>$req->checkinType]);
     } catch (Exception $ex) {
       DB::rollback();
       return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu danh sách điểm danh thất bại!"]);

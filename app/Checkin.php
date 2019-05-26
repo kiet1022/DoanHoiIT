@@ -13,8 +13,8 @@ class Checkin extends Model
     	return $this->belongsTo('App\Activity','activity_id','id');
     }
 
-    public function ofStudent()
+    public function details()
     {
-    	return $this->belongsTo('App\Student','student_id','id');
+    	return $this->hasMany('App\CheckinDetail','checkin_id','id');
     }
 }

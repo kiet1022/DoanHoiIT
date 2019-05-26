@@ -88,7 +88,7 @@
           </a>
           <div id="pracSocMarkManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="login.html">Quản lý danh sách điểm</a>
+            <a class="collapse-item" href="{{ route('get_marks_list') }}">Quản lý danh sách điểm</a>
               <a class="collapse-item" href="404.html">Xuất danh sách</a>
             </div>
           </div>

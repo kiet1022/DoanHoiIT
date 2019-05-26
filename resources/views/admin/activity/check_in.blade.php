@@ -1,7 +1,5 @@
 @extends('admin.layout.layout')
-@section('title')
-Danh sách chương trình
-@endsection
+@section('title','Điểm danh chương trình')
 @section('style')
 <link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
@@ -20,23 +18,18 @@ Danh sách chương trình
   <div class="row">
     {{-- basic filter condition --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-      <form action="{{ route('filter_activity') }}" method="POST" class="col-md-12" id="filterActivity">
-        @csrf
         <div class="form-row">
-          {{-- Birthday --}}
+          {{-- School year --}}
           <div class="form-group col-md-4">
             <label for="year" class="col-md-4 common-label-inline">Năm học:</label>
             <div class="col-md-8 col-sm-8 col-xs-8 px-0">
               <select name="year" id="year" class="form-control">
                 <option value="{{ $year->name }}">{{ $year->name }}</option>
-                {{-- @foreach ($year as $y)
-                  
-                  @endforeach --}}
                 </select>
               </div>
             </div>
             
-            {{-- Birthday --}}
+            {{-- Activity --}}
             <div class="form-group col-md-4">
               <label for="activity" class="col-md-4 common-label-inline">Chương trình:</label>
               <div class="col-md-8 col-sm-8 col-xs-8 px-0">
@@ -49,20 +42,20 @@ Danh sách chương trình
               </div>
             </div>
 
-            {{-- Birthday --}}
+            {{-- Check in type --}}
             <div class="form-group col-md-4">
               <label for="type" class="col-md-4 common-label-inline">Hình thức:</label>
               <div class="col-md-8 col-sm-8 col-xs-8 px-0">
                 <select name="type" id="type" class="form-control">
                   <option value="">Chọn hình thức điểm danh</option>
-                  <option value="0">Điểm danh sinh viên tham gia</option>
-                  <option value="1">Điểm danh BTC - CTV</option>
+                  <option value="0">Điểm danh sinh viên</option>
+                  <option value="1">Điểm danh BTC</option>
+                  <option value="2">Điểm danh CTV</option>
                 </select>
               </div>
             </div>
             
           </div>
-        </form>
       </div>
       {{-- Student list --}}
       <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
@@ -70,11 +63,9 @@ Danh sách chương trình
           <div class="col-md-4">
               <div class="card mb-4">
                   <div class="card-body">
-                    <form action="#">
                       <div class="form-group">
                         <input type="number" class="form-control" id="inputsid" placeholder="Nhập MSSV sau đó nhấn Enter" min="1" max="99999999">
                       </div>
-                    </form>
                   </div>
                 </div>
           </div>
