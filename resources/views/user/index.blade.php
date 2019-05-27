@@ -1,6 +1,6 @@
 @extends('user.layout.layout')
 @section('title')
-Trang chu
+Trang chủ
 @endsection
 
 <body>
@@ -16,6 +16,7 @@ Trang chu
       <div id="hot-post" class="row hot-post">
         <div class="col-md-8 hot-post-left">
           <!-- post -->
+          @if(isset($lastedNews1))
           <div class="post post-thumb">
             <a class="post-img" href="{{ route('get_new',['id'=>$lastedNews1->id]) }}">
               @if($lastedNews1->image != "") 
@@ -34,9 +35,11 @@ Trang chu
               </ul>
             </div>
           </div>
+          @endif
           <!-- /post -->
         </div>
         <div class="col-md-4 hot-post-right">
+           @if(isset($lastedNews2))
           <!-- post -->
           <div class="post post-thumb">
             <a class="post-img" href="{{ route('get_new',['id'=>$lastedNews2->id]) }}">
@@ -57,8 +60,9 @@ Trang chu
             </div>
           </div>
           <!-- /post -->
-
+          @endif
           <!-- post -->
+           @if(isset($lastedNews3))
           <div class="post post-thumb">
             <a class="post-img" href="{{ route('get_new',['id'=>$lastedNews3->id]) }}">
               @if($lastedNews3->image != "") 
@@ -78,6 +82,7 @@ Trang chu
             </div>
           </div>
           <!-- /post -->
+          @endif
         </div>
       </div>
       <!-- /row -->

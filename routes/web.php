@@ -299,6 +299,7 @@ Route::get('/new/{id}.php', 'User\NewsController@getNewDetail')->name('get_new')
 Route::get('/category/{id}.php', 'User\NewsController@getNewsByCategory')->name('get_new_by_ctg');
 Route::get('/infomation.php', 'User\UserController@getUserInfo')->name('get_profile');
 Route::get('/editInfomation.php', 'User\UserController@getEditUserInfo')->name('get_edit_info');
+Route::post('/updateInfomation.php', 'User\UserController@postEditUserInfo')->name('post_edit_info');
 
 Auth::routes();
 

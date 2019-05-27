@@ -1,12 +1,10 @@
 @extends('user.layout.layout')
 @section('title')
-Trang chu
+Bài viết
 @endsection
 
 <body>
   @include('user.layout.header')
-  <!-- /HEADER -->
-<!-- PAGE HEADER -->
     <div id="post-header" class="page-header">
       @if($news->image != "") 
       <div class="page-header-bg" style="background-image: url('{{asset('images/news')}}/{{$news->image}}');" data-stellar-background-ratio="0.5"></div>

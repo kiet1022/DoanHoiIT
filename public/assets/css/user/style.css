@@ -1531,3 +1531,15 @@ textarea.input {
     margin-left: 0px;
   }
 }
+.img-profile{
+  border-radius: 50% !important;
+  width: 40%;
+   /*height: 40%;*/
+}
+.img-small{
+  width: 50px;
+  border-radius: 50% !important;
+}
+.auth-header{
+      float: right;
+}
