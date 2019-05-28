@@ -15,6 +15,6 @@ class CheckinDetail extends Model
 
     public function ofStudent()
     {
-    	return $this->belongsTo('App\Student','student_id','id');
+    	return $this->belongsTo('App\Student','student_id','student_id');
     }
 }

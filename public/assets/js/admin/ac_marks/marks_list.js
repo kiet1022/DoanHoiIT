@@ -10,41 +10,50 @@ var table = $('#dataTable').DataTable({
     columnDefs: [ {
         orderable: false,
         className: 'details-control',
-        targets:   0
+        targets:   0,
+    },{
+        "targets": [ 1 ],
+                "visible": false,
+                "searchable": false
     }]
 });
 
-function format () {
+function format (data) {
+    var count = 0;
     // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-        '<tr>'+
-            '<td>Full name:</td>'+
-            '<td>ssdsdsdsd</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Extension number:</td>'+
-            '<td>sdsdsdsd</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Extra info:</td>'+
-            '<td>And any further details here (images etc)...</td>'+
-        '</tr>'+
-    '</table>';
+    var html = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+        html += '<thead><tr><th colspan="3">Danh sách</th></tr><tr><th>STT</th><th>MSSV</th><th>Họ Tên</th></tr></thead>';
+        html += '<tbody>';
+                
+        data.forEach(element => {
+            count++;
+            html += '<tr>';
+            html += '<td>'+count+'</td>';
+            html += '<td>'+element.student_id+'</td>';
+            if(element.of_student != null){
+                html += '<td>'+element.of_student.name+'</td>';
+            } else {
+                html += '<td>Chưa có thông tin</td>';
+            }
+            html += '</tr>';
+        });
+        html += '</tbody>';
+        html += '</table>';
+        return html;
 }
 
 // Add event listener for opening and closing details
 $('#dataTable tbody').on('click', 'td.details-control', function () {
     var tr = $(this).closest('tr');
     var row = table.row( tr );
-
+    var data = JSON.parse(row.data()[1]);
     if ( row.child.isShown() ) {
         // This row is already open - close it
         row.child.hide();
         tr.removeClass('shown');
     }
     else {
-        // Open this row
-        row.child(format()).show();
-        tr.addClass('shown');
+    row.child(format(data)).show();
+    tr.addClass('shown');
     }
 } );

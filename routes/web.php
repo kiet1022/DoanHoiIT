@@ -271,6 +271,8 @@ Route::prefix('admin')->group(function(){
     Route::prefix('marks')->group(function(){
 
         Route::get('list.php','Admin\MarksManagement\MarksController@getMarksList')->name('get_marks_list');
+
+        Route::post('detail.php','Admin\MarksManagement\MarksController@getMarksDetail')->name('get_marks_detail');
     });
 });
 

@@ -99,22 +99,28 @@ tr.shown td.details-control {
               <thead style="background: #f8f9fc">
                 <tr>
                   <th></th>
-                  <th>Mã chương trình</th>
+                  <th></th>
+                  <th>Mã danh sách</th>
+                  <th>Nội dung</th>
                   <th>Tên chương trình</th>
-                  <th>Thời gian diễn ra</th>
-                  <th>Sinh viên đứng chính</th>
-                  <th>Trạng thái</th>
+                  <th>Điểm Rèn luyện</th>
+                  <th>Điểm CTXH</th>
+                  <th>Export danh sách</th>
                 </tr>
               </thead>
               <tbody>
+                @foreach ($checkinlist as $item)
                 <tr>
-                  <td></td>
-                  <td>dddd</td>
-                  <td>dddd</td>
-                  <td>dddd</td>
-                  <td>dddd</td>
-                  <td>dddd</td>
-                </tr>
+                    <td></td>
+                    <td>{!! $item->details !!}</td>
+                    <td>{{ $item->id }}</td>
+                    <td>{{ $item->content }}</td>
+                    <td>{{ $item->ofActivity->name }}</td>
+                    <td>{{ $item->ofActivity->practise_marks }}</td>
+                    <td>{{ $item->ofActivity->social_marks }}</td>
+                    <td class="text-center"><button class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Export</button></td>
+                  </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
@@ -147,8 +153,7 @@ tr.shown td.details-control {
   <script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
   <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
   <script>
-    var BASE_URL = "{{ asset('admin/activities/') }}";
-    var BASE_FUNDING_URL = "{{ asset('admin/activities/funding') }}";
+    var BASE_URL = "{{ asset('admin/marks/') }}";
   </script>
   <script src="{{asset('assets/js/admin/ac_marks/marks_list.js')}}"></script>
   @endsection
