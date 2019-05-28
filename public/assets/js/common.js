@@ -1,4 +1,4 @@
-
+$('[data-toggle="tooltip"]').tooltip();
 /**
 * Block client UI
 * 

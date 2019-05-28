@@ -126,8 +126,8 @@ tr.shown td.details-control {
           </div>
         </div>
       </div>
-      <a class="btn btn-success" href="{{route('get_add_activity')}}"><i class="fas fa-plus-circle"></i> Thêm chương trình</a>
-      <button onclick="deleteActivity()" class="btn" id="deleteUser" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa chương trình</button>
+      <a class="btn btn-success" href="{{route('get_add_marks')}}"><i class="fas fa-plus-circle"></i> Tạo danh sách điểm</a>
+      {{-- <button onclick="deleteActivity()" class="btn" id="deleteUser" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa chương trình</button> --}}
     </div>
   </div>
   {{-- Breadcrumb --}}

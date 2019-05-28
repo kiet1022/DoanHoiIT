@@ -273,6 +273,11 @@ Route::prefix('admin')->group(function(){
         Route::get('list.php','Admin\MarksManagement\MarksController@getMarksList')->name('get_marks_list');
 
         Route::post('detail.php','Admin\MarksManagement\MarksController@getMarksDetail')->name('get_marks_detail');
+
+        Route::get('add.php','Admin\MarksManagement\MarksController@getAddNewMarks')->name('get_add_marks');
+
+        Route::post('add.php','Admin\MarksManagement\MarksController@postAddNewMarks')->name('post_add_marks');
+
     });
 });
 

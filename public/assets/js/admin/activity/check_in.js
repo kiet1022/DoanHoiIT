@@ -38,6 +38,7 @@ var table = $('#dataTable').DataTable({
     }],
     order: [[ 0, 'desc' ]]
 });
+
 // Click button check Info when press Enter
 $('#inputsid').on('keypress', function(e){
     if(e.keyCode == 13){        
