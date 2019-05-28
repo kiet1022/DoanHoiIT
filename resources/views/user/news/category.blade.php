@@ -1,6 +1,6 @@
 @extends('user.layout.layout')
 @section('title')
-Trang chu
+Danh mục tin
 @endsection
 
 <body>

@@ -4,9 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- <base href="{{asset('')}}"> --}}
 
-    <title>Callie HTML Template</title>
+    <title>@yield('title')</title>
+    <link rel="shortcut icon" href="{{asset('assets/img/faculty_banner.png')}}">
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CMuli:400,700" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="{{asset('assets/css/user/bootstrap.min.css')}}" />
