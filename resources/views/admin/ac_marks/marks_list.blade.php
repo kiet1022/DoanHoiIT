@@ -15,7 +15,12 @@ td.details-control {
 }
 tr.shown td.details-control {
     background: url('../../assets/img/details_close.png') no-repeat center center;
-}</style>
+}
+
+tr.shown>tr {
+  background: #fff;
+}
+</style>
 @endsection
 @section('main_content')
 <div class="container-fluid">
@@ -115,10 +120,26 @@ tr.shown td.details-control {
                     <td>{!! $item->details !!}</td>
                     <td>{{ $item->id }}</td>
                     <td>{{ $item->content }}</td>
-                    <td>{{ $item->ofActivity->name }}</td>
-                    <td>{{ $item->ofActivity->practise_marks }}</td>
-                    <td>{{ $item->ofActivity->social_marks }}</td>
-                    <td class="text-center"><button class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Export</button></td>
+                    <td>
+                      @if($item->ofActivity != null)
+                        {{ $item->ofActivity->name }}
+                      @endif
+                    </td>
+                    <td>
+                      @if($item->type == config('constants.SOCIAL_MARKS'))
+                        {{ $item->marks }}
+                      @else
+                        {{ 0 }}
+                      @endif
+                    </td>
+                    <td>
+                        @if($item->type == config('constants.PRACTISE_MARKS'))
+                        {{ $item->marks }}
+                        @else
+                        {{ 0 }}
+                        @endif
+                      </td>
+                    <td class="text-center"><a href="{{ route('post_export',['checkin_id'=>$item->id]) }}" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Export</a></td>
                   </tr>
                 @endforeach
               </tbody>

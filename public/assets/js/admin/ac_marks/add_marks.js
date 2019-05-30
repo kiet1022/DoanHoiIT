@@ -22,6 +22,10 @@ $('form').on('keypress', function(e){
   }
 });
 
+// block UI when submit form
+$(document).on('submit',"form", function(e){
+  blockUI(true);
+});
 
 var arrData = [];
 var count = 0;
@@ -41,7 +45,7 @@ $('#inputsid').on('keypress', function(e){
       e.target.value = "";
       e.target.focus();
     }
-    $('#data').val(arrData.toString());
+    $('#data').val(arrData);
     console.log($('#data').val())
   }
 });
@@ -67,3 +71,31 @@ function dataTableAddRowNotExit(data){
     getCurrentDateTime()
   ]).draw(false);
 }
+
+
+// function refreshPage(){
+
+// }
+
+// window.onbeforeunload = function(e){
+//   BootstrapDialog.show({
+//     type: BootstrapDialog.TYPE_DEFAULT,
+//     title: 'Chú ý! ',
+//     message: 'Tất cả dữ liệu điểm danh sẽ mất khi refresh trang.',
+//     buttons: [{
+//       label: 'Cancel',
+//       cssClass: 'btn-primary btn-sm',
+//       action: function(dialogRef){
+//         dialogRef.close();
+//       }
+//     },{
+//       label: 'OK',
+//       cssClass: 'btn-primary btn-sm',
+//       action: function(dialogRef){
+//         dialogRef.close();
+//         e.preventDefault();
+//         window.location.reload();
+//       }
+//     }]
+//   });		
+// }

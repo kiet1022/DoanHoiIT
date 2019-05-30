@@ -19,6 +19,7 @@ use App\CheckinDetail;
 use DateTime;
 use Carbon;
 use StringUtil;
+use DateTimeUtil;
 use App\Log;
 
 class ActivityController extends Controller
@@ -559,6 +560,7 @@ class ActivityController extends Controller
   public function saveCheckin(Request $req){
     // return response()->json($req);
     $activityid = $req->activityId;
+
     switch ($req->checkinType) {
       case '0':
         $student_id = $req->arr_attender;
@@ -577,13 +579,23 @@ class ActivityController extends Controller
     if(!isset($student_id)){
       return response()->json(["status"=>config('constants.ERROR'),"message"=>"Danh sách điểm danh rỗng!"]);
     }
+    $activity = Activity::find($activityid);
+    if($activity->practise_marks != 0){
+      $type = 0;
+      $marks = $activity->practise_marks;
+    }
 
+    if($activity->social_marks != 0){
+      $type = 1;
+      $marks = $activity->social_marks;
+    } 
     try {
       DB::beginTransaction();
       $checkin = new Checkin;
       $checkin->activity_id = $activityid;
       $checkin->content = $content;
-      $checkin->type = $req->checkinType;
+      $checkin->type = $type;
+      $checkin->marks = $marks;
       $checkin->year = $req->year;
       $checkin->created_by = Auth::user()->id;
       $checkin->save();

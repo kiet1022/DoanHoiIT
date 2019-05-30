@@ -5,9 +5,8 @@ use App\Ward;
 use App\User;
 use App\Student;
 use App\ExecComm;
+use App\CheckinDetail;
 use Illuminate\Http\Request;
-use App\Exports\UsersExport;
-use Maatwebsite\Excel\Facades\Excel;
 use \Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
@@ -277,6 +276,8 @@ Route::prefix('admin')->group(function(){
         Route::get('add.php','Admin\MarksManagement\MarksController@getAddNewMarks')->name('get_add_marks');
 
         Route::post('add.php','Admin\MarksManagement\MarksController@postAddNewMarks')->name('post_add_marks');
+
+        Route::get('export/{checkin_id}.php','Admin\MarksManagement\MarksController@postExport')->name('post_export');
 
     });
 });

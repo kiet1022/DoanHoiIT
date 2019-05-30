@@ -25,7 +25,7 @@
         <div class="form-group col-md-4">
           <label for="content" class="col-md-12 col-sm-12 col-xs-12 common-label-inline">Nội dung danh sách <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
           <div class="col-md-8 col-sm-8 col-xs-8 px-0">
-            <input name="content" id="content" class="form-control" placeholder="Nhập nội dung danh sách điểm cộng">
+            <input name="content" id="content" class="form-control" placeholder="Nhập nội dung danh sách điểm cộng" required>
           </div>
         </div>
         
@@ -33,7 +33,7 @@
         <div class="form-group col-md-4">
           <label for="type" class="col-md-12 col-sm-12 col-xs-12 common-label-inline">Loại điểm cộng <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
           <div class="col-md-8 col-sm-8 col-xs-8 px-0">
-            <select name="type" id="type" class="form-control">
+            <select name="type" id="type" class="form-control" required>
               <option value="">Chọn loại điểm</option>
               <option value="0">Điểm rèn luyện</option>
               <option value="1">Điểm CTXH</option>
@@ -45,7 +45,7 @@
         <div class="form-group col-md-4">
           <label for="marks" class="col-md-12 col-sm-12 col-xs-12 common-label-inline">Số điểm cộng <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
           <div class="col-md-8 col-sm-8 col-xs-8 px-0">
-            <input type="number" name="marks" id="marks" class="form-control" placeholder="Nhập số điểm cộng">
+            <input type="number" name="marks" id="marks" class="form-control" placeholder="Nhập số điểm cộng" required>
           </div>
         </div>
       </div>
@@ -176,6 +176,14 @@
 <script>
   var BASE_URL = "{{ asset('admin/activities/') }}";
   var students = {!! $students !!};
+  @if(session('error'))
+  var error = "{{session('error')}}";
+  showNotify('error',error);
+@endif
+@if(session('success'))
+  var success = "{{session('success')}}";
+  showNotify('success',success);
+@endif
 </script>
 <script src="{{asset('assets/js/admin/ac_marks/add_marks.js')}}"></script>
 @endsection
