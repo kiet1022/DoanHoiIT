@@ -75,7 +75,7 @@
                 
                 <div class="form-inline cm-inline-form col-md-2">
                   <label for="unitPrice_0">Đơn giá:</label>
-                  <input type="text"  class="form-control unitPrice" name="unitPrice_[]" id="unitPrice_{{$detail->id}}" data-id="{{$detail->id}}" value="{{$detail->unit_price}}" required>
+                  <input type="text"  class="form-control unitPrice" name="unitPrice_[]" id="unitPrice_{{$detail->id}}" data-id="{{$detail->id}}" value="{{number_format($detail->unit_price)}}" required>
                 </div>
                 
                 <div class="form-inline cm-inline-form col-md-2">
@@ -84,7 +84,7 @@
                 </div>
                 <div class="form-inline cm-inline-form col-md-2">
                   <label for="expectedValue_0">Thành tiền:</label>
-                  <input type="text"  class="form-control expectedValue" name="expectedValue_[]" id="expectedValue_{{$detail->id}}" data-id="{{$detail->id}}" value="{{$detail->expected_value}}" required>
+                  <input type="text"  class="form-control expectedValue" name="expectedValue_[]" id="expectedValue_{{$detail->id}}" data-id="{{$detail->id}}" value="{{number_format($detail->expected_value)}}" required>
                 </div>
                 <div class="form-inline cm-inline-form col-md-2">
                   <label for="paymentType_0">Hình thức thanh toán:</label>

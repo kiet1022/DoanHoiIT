@@ -31,7 +31,11 @@ Danh sách chương trình
               <select name="year" id="year" class="form-control" style="width:150px;">
                 <option value="">Chọn năm học</option>
                 @foreach ($year as $y)
-                <option value="{{ $y->name }}">{{ $y->name }}</option>
+                <option value="{{ $y->name }}" 
+                  @if (old('year'))
+                    {{changeSelectedStatus($y->name, old('year'))}}
+                  @endif>
+                {{ $y->name }}</option>
                 @endforeach
               </select>
             </div>
@@ -43,8 +47,14 @@ Danh sách chương trình
             <div class="col-md-8 col-sm-8 col-xs-8 px-0">
               <select name="semester" id="semester" class="form-control" style="width:150px;">
                 <option value="">Chọn học kỳ</option>
-                <option value="1">Kỳ 1</option>
-                <option value="2">Kỳ 2</option>
+                <option value="1" 
+                @if (old('semester'))
+                {{changeSelectedStatus('1', old('semester'))}}
+                @endif>Kỳ 1</option>
+                <option value="2"
+                @if (old('semester'))
+                {{changeSelectedStatus('2', old('semester'))}}
+                @endif>Kỳ 2</option>
               </select>
             </div>
           </div>

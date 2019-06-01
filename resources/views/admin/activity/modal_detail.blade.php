@@ -59,35 +59,41 @@
                       </div>
                       <div id="collapseOne" class="collapse show" data-parent="#accordion">
                         <div class="card-body">
+                          @if(count($activityFundingDetail) >= 1)
                           <table class="table table-hover table-bordered">
-                            <thead>
-                              <th>STT</th>
-                              <th>Nội dung</th>
-                              <th>Đơn vị tính</th>
-                              <th>Số lượng</th>
-                              <th>Đơn giá</th>
-                              <th>Thành tiền</th>
-                            </thead>
-                            <tbody>
-                              @php
-                                  $i = 1;
-                              @endphp
-                              @foreach ($activityFundingDetail[0]->details as $detail)
+                              <thead>
+                                <th>STT</th>
+                                <th>Nội dung</th>
+                                <th>Đơn vị tính</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                              </thead>
+                              <tbody>
+                                @php
+                                    $i = 1;
+                                @endphp
+                                @foreach ($activityFundingDetail[0]->details as $detail)
+                                  <tr>
+                                    <td>{{$i++}}</td>
+                                    <td>{{ $detail->content }}</td>
+                                    <td>{{ $detail->unit }}</td>
+                                    <td>{{ $detail->amount }}</td>
+                                    <td>{{ number_format($detail->unit_price) }} VNĐ</td>
+                                    <td>{{ number_format($detail->expected_value) }} VNĐ</td>
+                                  </tr>
+                                @endforeach
                                 <tr>
-                                  <td>{{$i++}}</td>
-                                  <td>{{ $detail->content }}</td>
-                                  <td>{{ $detail->unit }}</td>
-                                  <td>{{ $detail->amount }}</td>
-                                  <td>{{ $detail->unit_price }} VNĐ</td>
-                                  <td>{{ $detail->expected_value }} VNĐ</td>
+                                  <td colspan="5"> <strong>Tổng tiền: </strong></td>
+                                <td><strong>{{ number_format($activityFundingDetail[0]->initial_funds) }} VNĐ</strong></td>
                                 </tr>
-                              @endforeach
-                              <tr>
-                                <td colspan="5"> <strong>Tổng tiền: </strong></td>
-                              <td><strong>{{ $activityFundingDetail[0]->initial_funds }} VNĐ</strong></td>
-                              </tr>
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          @else
+                            <div class="text-center">
+                                <span class="badge badge-primary">Chưa có thông tin dự trù</span>
+                            </div>
+                          @endif
                         </div>
                       </div>
                     </div>

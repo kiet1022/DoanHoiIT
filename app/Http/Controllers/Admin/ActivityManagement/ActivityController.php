@@ -30,6 +30,8 @@ class ActivityController extends Controller
   * 
   */
   public function getListActivity(){
+    // delete session if exist
+    session()->forget('_old_input');
     $this->data['activities'] = Activity::with(['leadBy','fund'])->get();
     $this->data['year'] = SchoolYear::where('type',1)->get();
     return view('admin.activity.list_activity')->with($this->data);
@@ -51,6 +53,7 @@ class ActivityController extends Controller
     } else {
       $this->data['activities'] = Activity::with(['leadBy'])->where('year',$req->year)->where('semester',$req->semester)->get();
     }
+    $req->flash();
     return view('admin.activity.list_activity')->with($this->data);
   }
   

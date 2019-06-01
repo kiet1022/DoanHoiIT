@@ -21,7 +21,7 @@ var table = $('#dataTable').DataTable({
 function format (data) {
     var count = 0;
     // `d` is the original data object for the row
-    var html = '<table table table-bordered table-striped table-hover cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="table-detail">';
+    var html = '<table table-bordered table-striped table-hover cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="table-detail">';
         html += '<thead><tr><th colspan="3">Danh sách</th></tr><tr><th>STT</th><th width="150">MSSV</th><th width="250">Họ Tên</th></tr></thead>';
         html += '<tbody>';
                 
