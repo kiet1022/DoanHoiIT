@@ -100,15 +100,15 @@ Danh sách chương trình
                   <td class="text-center">{!! changeActivityStatus($activity->start_date, $activity->end_date) !!}</td>
                   <td>{!! "0" !!}</td>
                   <td class="text-center">
-                      <a class="cm-label text-info detailToggle" data-id="{{$activity->id}}" data-toggle="modal"><i class="fas fa-list" title="Chi tiết"></i></a>
-                      <a href="{{ route('get_edit_activity',['id'=>$activity->id]) }}"><i class="fas fa-edit cm-label text-primary" title="Chỉnh sửa"></i></a>
+                      <a class="cm-label text-info detailToggle" data-id="{{$activity->id}}" data-toggle="modal"><i class="fas fa-list" title="Chi tiết chương trình" data-toggle="tooltip" data-placement="top"></i></a>
+                      <a href="{{ route('get_edit_activity',['id'=>$activity->id]) }}"><i class="fas fa-edit cm-label text-primary" title="Chỉnh sửa chương trình" data-toggle="tooltip" data-placement="top"></i></a>
                     </td>
                   <td class="text-center">
                     @if($activity->fund == null)
-                    <a href="{{ route('get_add_activity_funding',['id'=>$activity->id]) }}" class="btn btn-info btn-sm">Tạo dự trù</a>
+                    <a href="{{ route('get_add_activity_funding',['id'=>$activity->id]) }}" class="btn btn-success btn-sm" title="Thêm dự trù" data-toggle="tooltip" data-placement="top"><i class="fas fa-plus-circle"></i></a>
                     @else
-                    <a href="{{ route('get_edit_activity_funding',['id'=>$activity->fund->id]) }}" class="btn btn-primary btn-sm" data-id="{{$activity->id}}"><i class="fas fa-edit cm-label text-white" title="Chỉnh sửa dự trù"></i> Sửa</a>
-                    <a href="#" class="btn btn-danger btn-sm delete-fund-detail" data-content="{{$activity}}"><i class="fas fa-trash-alt cm-label text-white" title="Xóa dự trù"></i> Xóa</a>
+                    <a href="{{ route('get_edit_activity_funding',['id'=>$activity->fund->id]) }}" class="btn btn-primary btn-sm" data-id="{{$activity->id}}" title="Chỉnh sửa dự trù" data-toggle="tooltip" data-placement="top"><i class="fas fa-edit cm-label text-white" ></i></a>
+                    <a href="#" class="btn btn-danger btn-sm delete-fund-detail" data-content="{{$activity}}" title="Xóa dự trù" data-toggle="tooltip" data-placement="top"><i class="fas fa-trash-alt cm-label text-white"></i></a>
                     @endif
                   </td>
                 </tr>

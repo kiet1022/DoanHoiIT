@@ -227,6 +227,9 @@ Route::prefix('admin')->group(function(){
 
         Route::prefix('funding')->group(function(){
 
+            // List funding
+            Route::get('list.php','Admin\ActivityManagement\ActivityController@getListFunding')->name('get_list_funding');
+
             // add activity funding
             Route::get('add/{id}.php','Admin\ActivityManagement\ActivityController@getAddActivityFund')->name('get_add_activity_funding');
 
@@ -242,8 +245,14 @@ Route::prefix('admin')->group(function(){
             // Ajax load activity by year and semester
             Route::post('load-activities.php','Admin\ActivityManagement\ActivityController@loadActivity')->name('load_activity');
 
-            // Delete all activity funding detail
+            // Delete all activity funding detail (for one)
             Route::post('delete-activity-funding.php','Admin\ActivityManagement\ActivityController@deleteActivityFunding')->name('delete_activity_funding');
+
+            // Delete activity Funding (for many)
+            Route::post('delete.php','Admin\ActivityManagement\ActivityController@deleteManyActivityFunding')->name('delete_many_activity_funding');
+
+            //Filter activity fund
+            Route::post('filter.php','Admin\ActivityManagement\ActivityController@filterActivityFunding')->name('filter_activity_fund');
         });
     });
 
@@ -317,3 +326,5 @@ Route::get('testt', function(){
     //$a = '';
     //return StringUtil::pureString($a);
 });
+
+Route::get('generate-docx', 'HomeController\HomeController@generateDocx');

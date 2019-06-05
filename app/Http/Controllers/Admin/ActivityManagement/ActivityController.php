@@ -365,6 +365,22 @@ class ActivityController extends Controller
     return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Thành công!"]);
   }
   
+  public function getListFunding(){
+    // delete session if exist
+    session()->forget('_old_input');
+    $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
+    $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
+    $this->data['funds'] = ActivityFund::with(['activity','details' => function($q){
+      $q->select('fund_id','content','expected_value','actual_value','unit','amount','unit_price','payment_type');
+    }])->whereHas('activity', 
+    function($a){
+      $a->where('year','2018 - 2019');
+    }
+  )->get();
+    // return $this->data['funds'];
+    return view('admin.funding.list_activity_fund')->with($this->data);
+  }
+
   /**
   * Get activity funding page
   * 
@@ -542,7 +558,80 @@ class ActivityController extends Controller
     
     return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa dự trù thành công!"]);
   }
+
+  public function deleteManyActivityFunding(Request $req){
+    foreach ($req->fund_id as $fundId) {
+      $this->data['activityFundDetail'] = ActivityFundDetail::where('fund_id',$fundId)->get();
+      foreach ($this->data['activityFundDetail'] as $detail) {
+        $detail->updated_by = Auth::user()->id;
+        $detail->delete();
+      }
+      $this->data['activityFund'] = ActivityFund::find($fundId);
+      $this->data['activityFund']->updated_by = Auth::user()->id;
+      $this->data['activityFund']->delete();
+    }
+    return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa dự trù thành công!"]);
+  }
   
+
+  public function filterActivityFunding(Request $req){
+    $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
+    $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
+    if(StringUtil::pureString($req->semester) == null && StringUtil::pureString($req->activity) == null){
+      $this->data['funds'] = ActivityFund::with(['activity','details' => 
+        function($q){
+        $q->select('fund_id','content','expected_value','actual_value','unit','amount','unit_price','payment_type');
+        }
+      ])->whereHas('activity', 
+        function($a) use($req){
+          $a->where('year',trim($req->year));
+        }
+      )->get();
+    } else if(StringUtil::pureString($req->semester) == null && StringUtil::pureString($req->activity) != null){
+      $this->data['funds'] = ActivityFund::with(['activity','details' => 
+        function($q){
+          $q->select('fund_id','content','expected_value','actual_value','unit','amount','unit_price','payment_type');
+        }
+      ])->whereHas('activity', 
+        function($a) use($req){
+          $a->where('id',trim($req->activity));
+        }
+      )->get();
+    } else if(StringUtil::pureString($req->semester) != null && StringUtil::pureString($req->activity) == null){
+      $this->data['funds'] = ActivityFund::with(['activity','details' => 
+        function($q){
+          $q->select('fund_id','content','expected_value','actual_value','unit','amount','unit_price','payment_type');
+        }
+      ])->whereHas('activity', 
+        function($a) use($req){
+          $a->where('year',trim($req->year))->where('semester',$req->semester);
+        }
+      )->get();
+    } else if(StringUtil::pureString($req->semester) != null && StringUtil::pureString($req->activity) != null){
+      $this->data['funds'] = ActivityFund::with(['activity','details' => 
+        function($q){
+          $q->select('fund_id','content','expected_value','actual_value','unit','amount','unit_price','payment_type');
+        }
+      ])->whereHas('activity', 
+        function($a) use($req){
+          $a->where('year',trim($req->year))->where('semester',$req->semester)->where('id',$req->activity);
+        }
+      )->get();
+    }
+    // if(StringUtil::pureString($req->year) == null && StringUtil::pureString($req->semester) == null){
+    //   $this->data['activities'] = Activity::with(['leadBy'])->get();
+    // }else if (StringUtil::pureString($req->year) == null && StringUtil::pureString($req->semester) != null){
+    //   $this->data['activities'] = Activity::with(['leadBy'])->where('semester',$req->semester)->get();
+    // } else if (StringUtil::pureString($req->year) != null && StringUtil::pureString($req->semester) == null){
+    //   $this->data['activities'] = Activity::with(['leadBy'])->where('year',$req->year)->get();
+    // } else {
+    //   $this->data['activities'] = Activity::with(['leadBy'])->where('year',$req->year)->where('semester',$req->semester)->get();
+    // }
+    $req->flash();
+    // return $this->data['funds'];
+    return view('admin.funding.list_activity_fund')->with($this->data);
+  }
+
   /**
   * Get check in page
   * 

@@ -4,7 +4,8 @@ $(document).ready(function(){
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
-  
+
+
   // Init data table
   $('#dataTable').DataTable({
     columnDefs: [ {
@@ -68,7 +69,7 @@ $(document).on('submit',"form", function(e){
 });
 
 // anable delete button 
-function enableDeleteButton(row){   
+function enableDeleteButton(row){
   if(row <= 0){
     $('#deleteUser').css('display','none');
   } else {

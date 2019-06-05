@@ -146,6 +146,24 @@ use \Carbon\Carbon;
 		}
 		return $result;
 	}
+
+	/**
+	* Change payed status
+	* 
+	*/
+	
+	function changePayedStatus($value){
+		$result = '';
+		switch ($value) {
+			case 1:
+			$result = '<span class="badge badge-success">Đã thanh toán</span>';
+			break;
+			default:
+			$result = '<span class="badge badge-warning">Chưa thanh toán</span>';
+			break;
+		}
+		return $result;
+	}
 	
 	/**
 	* Convert Date to String

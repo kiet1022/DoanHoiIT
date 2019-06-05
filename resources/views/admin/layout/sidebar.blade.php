@@ -103,7 +103,7 @@
           <div id="fundsManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Theo năm: </h6>
-              <a class="collapse-item" href="login.html">Danh sách</a>
+              <a class="collapse-item" href="{{ route('get_list_funding') }}">Danh sách</a>
               <div class="collapse-divider"></div>
               <h6 class="collapse-header">Theo chương trình: </h6>
               <a class="collapse-item" href="login.html">Danh sách</a>

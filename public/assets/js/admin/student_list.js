@@ -49,6 +49,7 @@ function changeClass(schoolYearId, classes){
 
 // Show student detail
 $('.detailToggle').on('click', function(){
+  blockUI(true);
   var id = $(this).data('id');
   
   $.ajax({
@@ -58,10 +59,12 @@ $('.detailToggle').on('click', function(){
       id: id
     }
   }).done(function(data) {
+    blockUI(false);
     console.log(data);
     $('#studentDetail').html(data);
     $('#studentDetail').modal('show');
   }).fail(function(xhr, status, error) {
+    blockUI(false);
     console.log('lala');
     console.log(this.url);
     console.log(error);

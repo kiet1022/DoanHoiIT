@@ -1,4 +1,5 @@
 $('[data-toggle="tooltip"]').tooltip();
+
 /**
 * Block client UI
 * 
@@ -113,4 +114,13 @@ function getCurrentTime(){
 function getCurrentDateTime(){
   var dateTime = getCurrentDate()+' '+getCurrentTime();
   return dateTime;
+}
+
+/**
+ * Format number to currency
+ * 
+ * @param {Integer} number the number that will be formated
+ */
+function numberFormat(number){
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
 }
