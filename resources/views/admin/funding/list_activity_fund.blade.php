@@ -99,7 +99,6 @@
                   <th>Tổng kinh phí (dự kiến)</th>
                   <th>Thực chi</th>
                   <th>Trạng thái</th>
-                  <th>Export danh sách</th>
                   <th></th>
                 </tr>
               </thead>
@@ -114,7 +113,6 @@
                 <td>{{ number_format($fund->initial_funds) }} đ</td>
                 <td>{{ number_format($fund->actual_funds) }} đ</td>
                 <td class="text-center">{!! changePayedStatus($fund->status) !!}</td>
-                <td></td>
                 <td class="text-center">
                   <a href="{{ route('get_edit_activity_funding',['id'=>$fund->id]) }}" class="btn btn-primary btn-sm text-center"><i class="fas fa-edit" title="Chỉnh sửa dự trù" data-toggle="tooltip" data-placement="top"></i></a>
                 </td>

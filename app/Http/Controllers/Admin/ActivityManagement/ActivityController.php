@@ -491,6 +491,12 @@ class ActivityController extends Controller
       }
       $ac_fund->initial_funds = $total;
       $ac_fund->actual_funds = 0;
+      if(isset($req->status)){
+        $ac_fund->status = $req->status;
+      } else {
+        $ac_fund->status = 0;
+      }
+      
       $ac_fund->created_by = Auth::user()->id;
       $ac_fund->save();
       // Update old funding detail
