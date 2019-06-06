@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 26, 2019 lúc 04:46 PM
+-- Thời gian đã tạo: Th6 06, 2019 lúc 05:51 PM
 -- Phiên bản máy phục vụ: 10.1.34-MariaDB
 -- Phiên bản PHP: 7.2.8
 
@@ -38,8 +38,8 @@ CREATE TABLE `activities` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `content` text COLLATE utf8_unicode_ci,
-  `practise_marks` tinyint(4) DEFAULT NULL,
-  `social_marks` tinyint(4) DEFAULT NULL,
+  `practise_marks` tinyint(4) DEFAULT '0',
+  `social_marks` tinyint(4) DEFAULT '0',
   `max_regis_num` int(11) DEFAULT NULL,
   `leader` char(20) COLLATE utf8_unicode_ci NOT NULL,
   `plan_url` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -56,12 +56,13 @@ CREATE TABLE `activities` (
 --
 
 INSERT INTO `activities` (`id`, `name`, `year`, `semester`, `start_regis_date`, `end_regis_date`, `start_date`, `end_date`, `content`, `practise_marks`, `social_marks`, `max_regis_num`, `leader`, `plan_url`, `fund_url`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
-(2, 'MIT', '', 1, '2019-04-23', '2019-04-24', '2019-04-29', '2019-05-04', NULL, NULL, NULL, NULL, '15110237', '', '', '2019-04-29 08:00:36', '2019-05-23 06:52:11', NULL, NULL, NULL),
-(3, 'MIT này test', '2018 - 2019', 2, '2019-04-18', '2019-04-20', '2019-04-29', '2019-04-30', '<p><span style=\"color:#2ecc71;\">Kh&ocirc;ng c&oacute; nội dung</span></p>', 20, 5, 100, '18133064', 'jG7H_[OK]DuTruKinhPhiDoan2017-2018.doc', 'cVV8_BaoCaoSoLieu_2019.docx', '2019-04-29 08:02:31', '2019-05-23 07:06:49', NULL, 1, NULL),
+(2, 'MIT', '2018-2019', 1, '2019-04-23', '2019-04-24', '2019-04-29', '2019-05-04', NULL, NULL, NULL, NULL, '15110237', '', '', '2019-04-29 08:00:36', '2019-05-30 08:17:24', NULL, NULL, '2019-05-30 08:17:24'),
+(3, 'MIT này test', '2018 - 2019', 2, '2019-04-18', '2019-04-20', '2019-04-29', '2019-04-30', '<p><span style=\"color:#2ecc71;\">Kh&ocirc;ng c&oacute; nội dung</span></p>', 20, 5, 100, '18133064', 'jG7H_[OK]DuTruKinhPhiDoan2017-2018.doc', 'cVV8_BaoCaoSoLieu_2019.docx', '2019-04-29 08:02:31', '2019-06-01 22:27:28', NULL, 1, NULL),
 (4, 'MIT 2019 nè mày ơi', '2016 - 2017', 2, '2019-04-25', '2019-04-30', '2019-05-02', '2019-05-03', '<p><span style=\"color:#1abc9c;\">MIT</span> <strong>năm 2019</strong></p>', 5, 10, 100, '16110376', 'GFSo_DHSPKT-Uu-dai-1.docx', '1XYx_[OK]DuTruKinhPhiDoan2017-2018.doc', '2019-05-01 05:34:56', '2019-05-23 07:18:31', NULL, 1, '2019-05-23 07:18:31'),
-(5, 'Hội Thao 2019', '2015 - 2016', 1, '2019-04-29', '2019-04-30', '2019-05-01', '2019-05-02', '<p><strong>Nội dung</strong> đ&acirc;y</p>', 5, 0, 100, '18110371', '', '', '2019-05-01 06:47:34', '2019-05-23 07:53:40', NULL, 1, NULL),
-(6, 'tEST', '2015 - 2016', 2, '2019-05-01', '2019-05-02', '2019-05-04', '2019-05-26', NULL, NULL, NULL, NULL, '15110237', '', '', '2019-05-01 07:39:26', '2019-05-23 06:52:11', NULL, NULL, NULL),
-(7, 'Tập Huấn kỹ năng 2019', '2018 - 2019', 2, '2019-05-23', '2019-05-31', '2019-06-01', '2019-06-02', NULL, 0, 5, 100, '17110393', '', '', '2019-05-23 08:00:09', '2019-05-23 08:05:38', 1, NULL, NULL);
+(5, 'Hội Thao 2019', '2015 - 2016', 1, '2019-04-29', '2019-04-30', '2019-06-01', '2019-06-03', '<p><strong>Nội dung</strong> đ&acirc;y</p>', 5, 0, 100, '18110371', '', '', '2019-05-01 06:47:34', '2019-06-01 22:25:12', NULL, 1, NULL),
+(6, 'tEST', '2015 - 2016', 2, '2019-05-01', '2019-05-02', '2019-05-04', '2019-05-26', NULL, NULL, NULL, NULL, '15110237', '', '', '2019-05-01 07:39:26', '2019-05-30 08:17:24', NULL, NULL, '2019-05-30 08:17:24'),
+(7, 'Tập Huấn kỹ năng 2019', '2018 - 2019', 2, '2019-05-23', '2019-05-31', '2019-06-01', '2019-06-02', NULL, 0, 5, 100, '17110393', '', '', '2019-05-23 08:00:09', '2019-06-01 22:27:28', 1, NULL, NULL),
+(8, 'Chào đón tân sinh viên', '2018 - 2019', 1, '2019-06-01', '2019-06-01', '2019-06-04', '2019-06-05', NULL, NULL, 5, 150, '15110237', '', '', '2019-05-31 21:06:48', '2019-05-31 21:06:48', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -79,22 +80,23 @@ CREATE TABLE `activity_funds` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_by` int(10) UNSIGNED DEFAULT NULL,
   `updated_by` int(10) UNSIGNED DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `status` int(11) DEFAULT '0' COMMENT '0: chưa thanh toán, 1: đã thanh toán'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `activity_funds`
 --
 
-INSERT INTO `activity_funds` (`id`, `activity_id`, `initial_funds`, `actual_funds`, `name`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
-(9, 2, 300000, 0, NULL, '2019-05-18 19:55:06', '2019-05-19 07:56:07', 1, NULL, '2019-05-19 07:56:07'),
-(10, 2, 800000, 0, NULL, '2019-05-19 08:02:47', '2019-05-19 08:11:27', 1, NULL, '2019-05-19 08:11:27'),
-(11, 2, 100000, 0, NULL, '2019-05-19 08:17:57', '2019-05-19 08:44:47', 1, NULL, '2019-05-19 08:44:47'),
-(12, 3, 2222222, 0, NULL, '2019-05-19 08:46:21', '2019-05-19 08:46:21', 1, NULL, NULL),
-(13, 5, 100000, 0, NULL, '2019-05-19 08:47:00', '2019-05-19 08:50:51', 1, NULL, '2019-05-19 08:50:51'),
-(14, 4, 1111111, 0, NULL, '2019-05-19 08:50:20', '2019-05-23 07:18:31', 1, NULL, '2019-05-23 07:18:31'),
-(15, 5, 200000, 0, NULL, '2019-05-20 08:34:41', '2019-05-23 07:53:40', 1, NULL, NULL),
-(16, 7, 1050000, 0, NULL, '2019-05-23 08:01:51', '2019-05-23 08:06:19', 1, NULL, NULL);
+INSERT INTO `activity_funds` (`id`, `activity_id`, `initial_funds`, `actual_funds`, `name`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`, `status`) VALUES
+(9, 2, 300000, 0, NULL, '2019-05-18 19:55:06', '2019-05-19 07:56:07', 1, NULL, '2019-05-19 07:56:07', 0),
+(10, 2, 800000, 0, NULL, '2019-05-19 08:02:47', '2019-05-19 08:11:27', 1, NULL, '2019-05-19 08:11:27', 0),
+(11, 2, 100000, 0, NULL, '2019-05-19 08:17:57', '2019-05-19 08:44:47', 1, NULL, '2019-05-19 08:44:47', 0),
+(12, 3, 6400000, 0, NULL, '2019-05-19 08:46:21', '2019-06-06 08:40:27', 1, NULL, NULL, 1),
+(13, 5, 100000, 0, NULL, '2019-05-19 08:47:00', '2019-05-19 08:50:51', 1, NULL, '2019-05-19 08:50:51', 0),
+(14, 4, 1111111, 0, NULL, '2019-05-19 08:50:20', '2019-05-23 07:18:31', 1, NULL, '2019-05-23 07:18:31', 0),
+(15, 5, 1000000, 0, NULL, '2019-05-20 08:34:41', '2019-06-01 22:25:12', 1, NULL, NULL, 0),
+(16, 7, 1050000, 0, NULL, '2019-05-23 08:01:51', '2019-06-01 22:27:28', 1, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -131,18 +133,21 @@ INSERT INTO `activity_fund_details` (`id`, `fund_id`, `content`, `expected_value
 (14, 10, 'Quà', 100000, 0, 'Hóa đơn đỏ', NULL, '1', 100000, 0, '2019-05-19 08:02:47', '2019-05-19 08:11:27', 1, NULL, '2019-05-19 08:11:27'),
 (15, 10, 'Nước uống', 500000, 0, 'Hóa đơn đỏ', 'Thùng', '5', 100000, 0, '2019-05-19 08:02:47', '2019-05-19 08:11:27', 1, NULL, '2019-05-19 08:11:27'),
 (16, 11, 'Nước uống', 100000, 0, 'Hóa đơn đỏ', 'Thùng', '1', 100000, 0, '2019-05-19 08:17:57', '2019-05-19 08:44:47', 1, NULL, '2019-05-19 08:44:47'),
-(17, 12, 'Nước uống', 1111111, 0, 'Hóa đơn đỏ', '11', '1', 100000, 0, '2019-05-19 08:46:21', '2019-05-23 07:06:20', 1, NULL, '2019-05-23 07:06:20'),
-(18, 12, 'Quà', 1111111, 0, 'Hóa đơn đỏ', '11', '1', 100000, 0, '2019-05-19 08:46:21', '2019-05-23 07:06:20', 1, NULL, '2019-05-23 07:06:20'),
+(17, 12, 'Nước uống', 500000, 0, 'Hóa đơn đỏ', 'Thùng', '5', 100000, 0, '2019-05-19 08:46:21', '2019-06-01 22:27:28', 1, NULL, NULL),
+(18, 12, 'Quà', 200000, 0, 'Hóa đơn đỏ', 'Phần', '2', 100000, 0, '2019-05-19 08:46:21', '2019-06-01 22:27:28', 1, NULL, NULL),
 (19, 13, 'Nước uống', 100000, 0, 'Hóa đơn đỏ', 'Thùng', '1', 100000, 0, '2019-05-19 08:47:00', '2019-05-19 08:50:50', 1, NULL, '2019-05-19 08:50:50'),
 (20, 14, 'Nước uống', 1111111, 0, 'Hóa đơn đỏ', 'Thùng', '1', 100000, 0, '2019-05-19 08:50:20', '2019-05-23 07:18:31', 1, NULL, '2019-05-23 07:18:31'),
-(21, 15, 'Detail 1', 200000, 0, 'Ký nhận', 'Cái', '2', 100000, 0, '2019-05-20 08:34:41', '2019-05-23 07:53:40', 1, NULL, NULL),
-(22, 15, 'Detai 231', 300000, 0, 'Ký nhận', 'Thùng', '3', 100000, 0, '2019-05-20 08:34:41', '2019-05-23 07:53:40', 1, NULL, NULL),
-(23, 15, 'Detai Thêm', 200000, 0, 'Hóa đơn đỏ', 'Hộp', '2', 100000, 0, '2019-05-20 08:42:33', '2019-05-23 07:53:40', 1, NULL, NULL),
-(24, 15, 'Nước uống', 200000, 0, 'Hóa đơn đỏ', 'Thùng', '2', 100000, 0, '2019-05-20 08:43:26', '2019-05-23 07:53:40', 1, NULL, NULL),
-(25, 15, 'Background', 500000, 0, 'Hóa đơn đỏ', 'Cái', '1', 500000, 0, '2019-05-20 08:43:26', '2019-05-23 07:53:40', 1, NULL, NULL),
-(26, 16, 'Bạc trại', 350000, 0, 'Hóa đơn đỏ', 'bộ', '5', 70000, 0, '2019-05-23 08:01:51', '2019-05-23 08:05:38', 1, NULL, NULL),
-(27, 16, 'Nước uống', 350000, 0, 'Hóa đơn đỏ', 'Thùng', '2', 70000, 0, '2019-05-23 08:01:51', '2019-05-23 08:05:38', 1, NULL, NULL),
-(29, 16, 'Cơm trưa', 350000, 0, 'Ký nhận', 'Phần', '100', 70000, 0, '2019-05-23 08:04:15', '2019-05-23 08:06:19', 1, NULL, NULL);
+(21, 15, 'Detail 1', 200000, 0, 'Ký nhận', 'Cái', '2', 100000, 0, '2019-05-20 08:34:41', '2019-06-01 22:25:12', 1, NULL, NULL),
+(22, 15, 'Detai 231', 300000, 0, 'Ký nhận', 'Thùng', '3', 100000, 0, '2019-05-20 08:34:41', '2019-06-01 22:25:12', 1, NULL, NULL),
+(23, 15, 'Detai Thêm', 200000, 0, 'Hóa đơn đỏ', 'Hộp', '2', 100000, 0, '2019-05-20 08:42:33', '2019-06-01 22:25:12', 1, NULL, NULL),
+(24, 15, 'Nước uống', 200000, 0, 'Hóa đơn đỏ', 'Thùng', '2', 100000, 0, '2019-05-20 08:43:26', '2019-06-01 22:25:12', 1, NULL, NULL),
+(25, 15, 'Background', 100000, 0, 'Hóa đơn đỏ', 'Cái', '1', 100000, 0, '2019-05-20 08:43:26', '2019-06-01 22:25:12', 1, NULL, NULL),
+(26, 16, 'Bạc trại', 350000, 0, 'Hóa đơn đỏ', 'bộ', '5', 70000, 0, '2019-05-23 08:01:51', '2019-06-01 22:27:28', 1, NULL, NULL),
+(27, 16, 'Nước uống', 350000, 0, 'Hóa đơn đỏ', 'Thùng', '2', 70000, 0, '2019-05-23 08:01:51', '2019-06-01 22:27:28', 1, NULL, NULL),
+(29, 16, 'Cơm trưa', 350000, 0, 'Ký nhận', 'Phần', '100', 70000, 0, '2019-05-23 08:04:15', '2019-06-01 22:27:28', 1, NULL, NULL),
+(30, 12, 'Bánh kẹo', 200000, 0, 'Hóa đơn đỏ', 'Phần', '1', 200000, 0, '2019-05-31 21:25:49', '2019-06-01 22:27:28', 1, NULL, NULL),
+(31, 12, 'Detai Thêm', 500000, 0, 'Ký nhận', 'Hộp', '10', 50000, 0, '2019-05-31 21:52:17', '2019-06-01 22:36:07', 1, NULL, NULL),
+(32, 12, 'Detail thêm nữa', 5000000, 0, 'Hóa đơn đỏ', 'Tá', '10', 500000, 0, '2019-06-03 07:45:55', '2019-06-03 07:45:55', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -207,22 +212,28 @@ CREATE TABLE `checkin` (
   `content` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `activity_id` int(10) UNSIGNED DEFAULT NULL,
   `year` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `type` int(11) DEFAULT '0' COMMENT '0: Sinh viên tham gia, 1: BTC, 2: CTV, 3: Khác',
+  `type` int(11) DEFAULT '0' COMMENT '0: DRL, 1:CTXH',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_by` int(10) UNSIGNED DEFAULT NULL,
   `updated_by` int(10) UNSIGNED DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `marks` int(11) DEFAULT NULL COMMENT 'điểm cộng'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `checkin`
 --
 
-INSERT INTO `checkin` (`id`, `content`, `activity_id`, `year`, `type`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
-(7, 'Điểm danh cộng tác viên', 7, '2018 - 2019', 2, '2019-05-26 07:43:08', '2019-05-26 07:43:08', 1, NULL, NULL),
-(8, 'Điểm danh ban tổ chức', 7, '2018 - 2019', 1, '2019-05-26 07:43:19', '2019-05-26 07:43:19', 1, NULL, NULL),
-(9, 'Điểm danh sinh viên tham gia chương trình', 7, '2018 - 2019', 0, '2019-05-26 07:43:33', '2019-05-26 07:43:33', 1, NULL, NULL);
+INSERT INTO `checkin` (`id`, `content`, `activity_id`, `year`, `type`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`, `marks`) VALUES
+(7, 'Điểm danh cộng tác viên', 7, '2018 - 2019', 1, '2019-05-26 07:43:08', '2019-05-26 07:43:08', 1, NULL, NULL, 5),
+(8, 'Điểm danh ban tổ chức', 7, '2018 - 2019', 1, '2019-05-26 07:43:19', '2019-05-26 07:43:19', 1, NULL, NULL, 5),
+(9, 'Điểm danh sinh viên tham gia chương trình', 7, '2018 - 2019', 0, '2019-05-26 07:43:33', '2019-05-26 07:43:33', 1, NULL, NULL, 3),
+(10, 'Điểm danh sinh viên tham gia chương trình', 7, '2018 - 2019', 0, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL, 5),
+(11, 'Điểm danh cộng tác viên', 7, '2018 - 2019', 1, '2019-05-27 09:10:03', '2019-05-27 09:10:03', 1, NULL, NULL, 3),
+(13, 'Cộng điểm BCH', NULL, '2018 - 2019', 0, '2019-05-29 07:18:38', '2019-05-29 07:18:38', 1, NULL, NULL, 6),
+(14, 'Điểm danh sinh viên tham gia chương trình', 5, '2018 - 2019', 0, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL, 5),
+(15, 'Điểm danh sinh viên tham gia chương trình', 8, '2018 - 2019', 1, '2019-05-31 21:55:42', '2019-05-31 21:55:42', 1, NULL, NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -248,7 +259,27 @@ CREATE TABLE `checkin_details` (
 INSERT INTO `checkin_details` (`id`, `student_id`, `checkin_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
 (22, '18110371', 7, '2019-05-26 07:43:08', '2019-05-26 07:43:08', 1, NULL, NULL),
 (23, '15110370', 8, '2019-05-26 07:43:19', '2019-05-26 07:43:19', 1, NULL, NULL),
-(24, '15110237', 9, '2019-05-26 07:43:33', '2019-05-26 07:43:33', 1, NULL, NULL);
+(24, '15110237', 9, '2019-05-26 07:43:33', '2019-05-26 07:43:33', 1, NULL, NULL),
+(25, '15110204', 10, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL),
+(26, '15110237', 10, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL),
+(27, '15110370', 10, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL),
+(28, '18110371', 10, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL),
+(29, '154545454545', 11, '2019-05-27 09:10:03', '2019-05-27 09:10:03', 1, NULL, NULL),
+(34, '15110237', 13, '2019-05-29 07:18:38', '2019-05-29 07:18:38', NULL, NULL, NULL),
+(35, '18110370', 13, '2019-05-29 07:18:38', '2019-05-29 07:18:38', NULL, NULL, NULL),
+(36, '18110371', 13, '2019-05-29 07:18:38', '2019-05-29 07:18:38', NULL, NULL, NULL),
+(37, '15110370', 13, '2019-05-29 07:18:38', '2019-05-29 07:18:38', NULL, NULL, NULL),
+(38, '15110237', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(39, '18110371', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(40, '18110372', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(41, '15110236', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(42, '15110238', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(43, '15110204', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(44, '15110370', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(45, '18110369', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(46, '15110237', 15, '2019-05-31 21:55:42', '2019-05-31 21:55:42', 1, NULL, NULL),
+(47, '18110372', 15, '2019-05-31 21:55:42', '2019-05-31 21:55:42', 1, NULL, NULL),
+(48, '18110371', 15, '2019-05-31 21:55:42', '2019-05-31 21:55:42', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1140,7 +1171,9 @@ INSERT INTO `logs` (`id`, `student_id`, `student_name`, `role`, `action`, `old_d
 (9, '000000', 'Test', 'Admin', 'Cập nhật BCH', 'MSSV: 18110371<br>Chức vụ: 3<br>', 'MSSV: 15110347<br>Chức vụ: 3<br>', '2019-05-04 13:19:25', 'http://localhost:8080/DoanHoi/public/admin/exec-com/save-info.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.18 Safari/537.36 Edg/75.0.139.4', '2019-05-04 06:19:25', '2019-05-04 06:19:25', NULL, NULL, NULL),
 (10, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Nội dung: <br>', 'Nội dung: <p><strong>Nội dung</strong> đ&acirc;y</p><br>', '2019-05-04 13:27:43', 'http://localhost:8080/DoanHoi/public/admin/activities/edit/5-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.18 Safari/537.36 Edg/75.0.139.4', '2019-05-04 06:27:43', '2019-05-04 06:27:43', NULL, NULL, NULL),
 (11, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-05-05 13:14:30', 'http://localhost:8080/DoanHoi/public/admin/activities/edit/4-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.18 Safari/537.36 Edg/75.0.139.4', '2019-05-05 06:14:30', '2019-05-05 06:14:30', NULL, NULL, NULL),
-(12, '000000', 'Test', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Tập Huấn kỹ năng 2019<br>Sinh viên đứng chính: 17110393<br>Thời gian bắt đầu: 01/06/2019<br>Thời gian kết thúc: 02/06/2019<br>', '2019-05-23 15:00:09', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3789.0 Safari/537.36 Edg/76.0.159.0', '2019-05-23 08:00:09', '2019-05-23 08:00:09', NULL, NULL, NULL);
+(12, '000000', 'Test', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Tập Huấn kỹ năng 2019<br>Sinh viên đứng chính: 17110393<br>Thời gian bắt đầu: 01/06/2019<br>Thời gian kết thúc: 02/06/2019<br>', '2019-05-23 15:00:09', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3789.0 Safari/537.36 Edg/76.0.159.0', '2019-05-23 08:00:09', '2019-05-23 08:00:09', NULL, NULL, NULL),
+(13, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 01/05/2019<br>Ngày kết thúc: 02/05/2019<br>', 'Ngày bắt đầu: 01/06/2019<br>Ngày kết thúc: 03/06/2019<br>', '2019-05-30 15:20:37', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/5-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.167.1', '2019-05-30 08:20:37', '2019-05-30 08:20:37', NULL, NULL, NULL),
+(14, '000000', 'Test', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Chào đón tân sinh viên<br>Sinh viên đứng chính: 15110237<br>Thời gian bắt đầu: 04/06/2019<br>Thời gian kết thúc: 05/06/2019<br>', '2019-06-01 04:06:48', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.172.0', '2019-05-31 21:06:48', '2019-05-31 21:06:48', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1550,7 +1583,7 @@ INSERT INTO `students` (`student_id`, `name`, `class_id`, `school_year_id`, `add
 ('15110234', 'Huỳnh Văn Khen', 1, 1, '35, Kiên Lương, H Kiên Lương, Kiên Giang', '54', '5403', NULL, '1997-01-22', 1, '371810961', '', 1, 1, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
 ('15110235', 'Nguyễn Dương Văn Khoa', 4, 1, NULL, NULL, NULL, NULL, '1997-04-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:10', '2019-04-11 07:58:10', 1, NULL, NULL, 'null'),
 ('15110236', 'Bạch Trung Kiên', 1, 1, 'Hưng Phú, H Hưng Nguyên, Nghệ An', '29', '2918', NULL, '1997-02-07', 1, '187439972', '0974039537', 1, 1, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
-('15110237', 'Dương Tuấn Kiệt', 3, 1, '49, Thị trấn Thanh Bình, H Bù Đốp, Bình Phước', NULL, NULL, NULL, '1997-08-08', 1, '285568919', '01646356275', 1, 1, '2019-04-13', 1, '2019-04-11 07:56:09', '2019-04-12 23:46:19', 1, NULL, NULL, 'avatar.jpg'),
+('15110237', 'Dương Tuấn Kiệt', 3, 1, '49, Thị trấn Thanh Bình, H Bù Đốp, Bình Phước', NULL, NULL, NULL, '1997-08-08', 1, '285568919', '01646356275', 0, 1, '2019-04-13', 0, '2019-04-11 07:56:09', '2019-06-06 08:20:11', 1, NULL, NULL, 'avatar.jpg'),
 ('15110238', 'Nguyễn Sơn Lâm', 3, 1, '14/109/66 Nguyễn Sơn, Gia Thụy, Q Long Biên, Hà Nội', '01', '0109', NULL, '1996-01-03', 1, '013309246', '01634301455', 1, 1, NULL, 1, '2019-04-11 07:56:09', '2019-04-11 07:56:09', 1, NULL, NULL, 'null'),
 ('15110240', 'Lâm Quang Lịch', 4, 1, NULL, NULL, NULL, NULL, '1997-12-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:10', '2019-04-11 07:58:10', 1, NULL, NULL, 'null'),
 ('15110241', 'Đinh Anh Long', 2, 1, 'H Bảo Lâm, Lâm Đồng', '42', '4211', NULL, '1997-08-19', 1, '251124444', NULL, 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
@@ -14386,6 +14419,7 @@ ALTER TABLE `checkin`
 --
 ALTER TABLE `checkin_details`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `checkin_student` (`checkin_id`,`student_id`),
   ADD KEY `checkin_checkin_id_foregin` (`checkin_id`);
 
 --
@@ -14555,7 +14589,7 @@ ALTER TABLE `yearly_funds`
 -- AUTO_INCREMENT cho bảng `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `activity_funds`
@@ -14567,7 +14601,7 @@ ALTER TABLE `activity_funds`
 -- AUTO_INCREMENT cho bảng `activity_fund_details`
 --
 ALTER TABLE `activity_fund_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `association_ec`
@@ -14585,13 +14619,13 @@ ALTER TABLE `attenders`
 -- AUTO_INCREMENT cho bảng `checkin`
 --
 ALTER TABLE `checkin`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `checkin_details`
 --
 ALTER TABLE `checkin_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT cho bảng `classes`
@@ -14621,7 +14655,7 @@ ALTER TABLE `exec_comm`
 -- AUTO_INCREMENT cho bảng `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `migrations`
