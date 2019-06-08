@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\AddNewStudentRequest;
 use \Carbon\Carbon;
-use App\SchoolYear;
-// use App\Student;
-use App\User;
-use App\Role;
-use App\UserRole;
+use App\Models\SchoolYear;
+// use App\Models\Student;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\UserRole;
 use App\Rules\Uppercase;
 
 class UserManageController extends Controller

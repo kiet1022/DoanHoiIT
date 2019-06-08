@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,11 +10,11 @@ class Checkin extends Model
 
     public function ofActivity()
     {
-    	return $this->belongsTo('App\Activity','activity_id','id');
+    	return $this->belongsTo('App\Models\Activity','activity_id','id');
     }
 
     public function details()
     {
-    	return $this->hasMany('App\CheckinDetail','checkin_id','id');
+    	return $this->hasMany('App\Models\CheckinDetail','checkin_id','id');
     }
 }

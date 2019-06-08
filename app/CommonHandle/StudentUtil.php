@@ -1,7 +1,7 @@
 <?php
 namespace App\CommonHandle;
-use App\SchoolYear;
-use App\Classes;
+use App\Models\SchoolYear;
+use App\Models\Classes;
 
 class StudentUtil{
 

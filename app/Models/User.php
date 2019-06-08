@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -39,30 +39,30 @@ class User extends Authenticatable
 
     public function activities()
     {
-    	return $this->hasMany('App\Activity','leader','id');
+    	return $this->hasMany('App\Models\Activity','leader','id');
     }
 
     public function userRoles()
     {
-    	return $this->hasMany('App\UserRole','user_id','id');
+    	return $this->hasMany('App\Models\UserRole','user_id','id');
     }
 
     public function workFlows()
     {
-    	return $this->hasMany('App\WorkFlow','user_id','id');
+    	return $this->hasMany('App\Models\WorkFlow','user_id','id');
     }
 
     public function payForFunds()
     {
-    	return $this->hasMany('App\ActivitiFundDetail','user_id','id');
+    	return $this->hasMany('App\Models\ActivitiFundDetail','user_id','id');
     }
 
     public function news()
     {
-    	return $this->hasMany('App\News','created_by','id');
+    	return $this->hasMany('App\Models\News','created_by','id');
     }
 
     public function student(){
-        return $this->belongsTo('App\Student', 'student_id','student_id');
+        return $this->belongsTo('App\Models\Student', 'student_id','student_id');
     }
 }

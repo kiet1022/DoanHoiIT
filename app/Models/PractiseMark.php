@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,11 +10,11 @@ class PractiseMark extends Model
 
     public function ofActivity()
     {
-    	return $this->belongsTo('App\Activity','activity_id','id');
+    	return $this->belongsTo('App\Models\Activity','activity_id','id');
     }
 
     public function ofStudent()
     {
-    	return $this->belongsTo('App\Student','student_id','id');
+    	return $this->belongsTo('App\Models\Student','student_id','id');
     }
 }

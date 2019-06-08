@@ -11,14 +11,14 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\AddNewStudentRequest;
 use App\Http\Requests\EditStudentRequest;
 use \Carbon\Carbon;
-use App\News;
-use App\NewsType;
-use App\User;
-use App\Role;
-use App\UserRole;
+use App\Models\News;
+use App\Models\NewsType;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\UserRole;
 use App\Rules\Uppercase;
 use Exception;
-use App\Log;
+use App\Models\Log;
 
 class NewsTypeManageController extends Controller
 {
