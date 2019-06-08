@@ -254,6 +254,11 @@ Route::prefix('admin')->group(function(){
             //Filter activity fund
             Route::post('filter.php','Admin\ActivityManagement\FundingController@filterActivityFunding')->name('filter_activity_fund');
         });
+
+        Route::prefix('workflow')->group( function() {
+            // get Checkin page
+        Route::get('add.php','Admin\ActivityManagement\ActivityController@getAddAcWorkFlow')->name('get_add_workflow');
+        });
     });
 
     /**

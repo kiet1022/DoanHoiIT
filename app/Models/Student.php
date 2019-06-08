@@ -54,10 +54,10 @@ class Student extends Model
     }
 
     public function association(){
-        return $this->hasOne('App\Models\ExecComm','student_id','student_id');
+        return $this->hasOne('App\Models\AssociationEc','student_id','student_id');
     }
 
     public function collaborator(){
-        return $this->hasOne('App\Models\ExecComm','student_id','student_id');
+        return $this->hasOne('App\Models\Collaborator','student_id','student_id');
     }
 }

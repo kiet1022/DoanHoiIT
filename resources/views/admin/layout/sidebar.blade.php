@@ -71,7 +71,7 @@
               <a class="collapse-item" href="{{ route('get_add_activity') }}">Thêm chương trình</a>
             <a class="collapse-item" href="#">Tạo dự trù</a>
               <h6 class="collapse-header">Trong chương trình: </h6>
-              <a class="collapse-item" href="404.html">Tiến độ công việc</a>
+            <a class="collapse-item" href="{{ route('get_add_workflow') }}">Tiến độ công việc</a>
               <a class="collapse-item" href="blank.html">Danh sách đăng kí</a>
             <a class="collapse-item" href="{{ route('get_check_in') }}">Điểm danh</a>
               <h6 class="collapse-header">Sau chương trình: </h6>

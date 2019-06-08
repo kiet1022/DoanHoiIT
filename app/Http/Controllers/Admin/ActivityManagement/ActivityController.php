@@ -439,5 +439,10 @@ class ActivityController extends Controller
     }
   }
 
-
+  public function getAddAcWorkFlow(){
+    $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
+    $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
+    $this->data['students'] = Student::whereHas('execComm')->orWhereHas('association')->orWhereHas('collaborator')->get();
+    return view('admin.activity.add_workflow')->with($this->data);
+  }
 }
