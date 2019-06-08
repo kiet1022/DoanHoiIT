@@ -322,6 +322,9 @@ Route::get('/category/{id}.php', 'User\NewsController@getNewsByCategory')->name(
 Route::get('/infomation.php', 'User\UserController@getUserInfo')->name('get_profile');
 Route::get('/editInfomation.php', 'User\UserController@getEditUserInfo')->name('get_edit_info');
 Route::post('/updateInfomation.php', 'User\UserController@postEditUserInfo')->name('post_edit_info');
+Route::get('/activity.php', 'User\ActivityController@getListActivity')->name('get_list_activity');
+Route::post('/activity/view.php', 'User\ActivityController@getActivityInfo')->name('get_activity');
+Route::post('/activity/registActivity.php', 'User\ActivityController@registActivity')->name('regist_activity');
 
 Auth::routes();
 

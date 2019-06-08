@@ -1,13 +1,10 @@
 @extends('user.layout.layout')
 @section('title')
-Thông tin cá nhân
+Chỉnh sửa thông tin cá nhân
 @endsection
 <!-- <link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css"> -->
 <!-- <link href="{{asset('assets/css/admin/sb-admin-2.min.css')}}" rel="stylesheet"> -->
-<body>
-	@include('user.layout.header')
-</body>
-	
+@section('main_content')
   
 <div class="container ">
     <form id="formEditStudent" action="{{ route('post_edit_info') }}" method="POST" enctype="multipart/form-data">
@@ -40,7 +37,7 @@ Thông tin cá nhân
             <div class="form-group">
                 <label class="control-label" for="email">Email:</label>
                 <div class="">
-                    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" readonly="" value="{{$user->student->name}}">
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" readonly="" value="{{$user->email}}">
                 </div>
             </div>
         	<div class="form-group">
@@ -73,6 +70,8 @@ Thông tin cá nhân
         </div>
     </form>
 </div>
+@endsection
+@section('js')
 <script type="text/javascript">
     var loadFile = function(event) {
         var output = document.getElementById('output');
@@ -80,3 +79,4 @@ Thông tin cá nhân
     };
 
 </script>
+@endsection

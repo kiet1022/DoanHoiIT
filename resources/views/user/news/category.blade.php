@@ -3,9 +3,7 @@
 Danh mục tin
 @endsection
 
-<body>
-  @include('user.layout.header')
-
+@section('main_content')
   <!-- PAGE HEADER -->
     <div class="page-header">
       <div class="page-header-bg" style="background-image: url('{{asset('assets/img/user/banner.jpg')}}');" data-stellar-background-ratio="0.5"></div>
@@ -58,8 +56,4 @@ Danh mục tin
     </div>
     <!-- /container -->
   </div>
-  <!-- /SECTION -->
-
-
-
-  @extends('user.layout.footer')
+  @endsection

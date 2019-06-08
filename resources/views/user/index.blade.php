@@ -3,10 +3,7 @@
 Trang chủ
 @endsection
 
-<body>
-  <!-- HEADER -->
-  @include('user.layout.header')
-  <!-- /HEADER -->
+@section('main_content')
 
   <!-- SECTION -->
   <div class="section">
@@ -158,7 +155,4 @@ Trang chủ
     <!-- /container -->
   </div>
   <!-- /SECTION -->
-
-
-
-    @extends('user.layout.footer')
+  @endsection
