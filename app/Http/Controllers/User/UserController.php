@@ -73,9 +73,6 @@ class UserController extends Controller
 				}
 				$file->move("assets/img/students",$image);
 				$student->image = $image;
-			}else{
-				error_log("--------noooooooooooofile-----------");
-				$student->image = "";
 			}
 
 	        $student->save();
