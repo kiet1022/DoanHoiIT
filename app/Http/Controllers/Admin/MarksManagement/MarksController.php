@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AddMarksRequest;
 use App\Exports\MarksExport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Activity;
-use App\SchoolYear;
-use App\Checkin;
-use App\CheckinDetail;
-use App\Student;
+use App\Models\Activity;
+use App\Models\SchoolYear;
+use App\Models\Checkin;
+use App\Models\CheckinDetail;
+use App\Models\Student;
 class MarksController extends Controller
 {
     public function getMarksList(){

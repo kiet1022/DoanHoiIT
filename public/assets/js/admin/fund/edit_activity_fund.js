@@ -1,6 +1,11 @@
 $(document).ready(function(){
     checkCount();
     // formatCurrency();
+    if ($('#toggleisUnion').prop('checked') == false) {
+        $('#in-card-content').removeAttr("style");
+    } else {
+        $('#in-card-content').css('display', 'none');
+    }
 });
 
 
@@ -164,3 +169,24 @@ $(document).on('submit',"form", function(e){
     console.log('aaa');
     blockUI(true);
 });
+
+
+    // isUnion and UnionFee Toggle
+    $(function () {
+        $('#toggleisUnion').bootstrapToggle({
+            on: 'Đã thanh toán',
+            off: 'Chưa thanh toán',
+            onstyle: 'primary',
+            style: 'back-ground-toggle'
+        });
+    })
+
+    $('#toggleisUnion').change(function () {
+        if ($(this).prop('checked') == false) {
+            $('#in-card-content').removeAttr("style");
+            $('#toggleisUnion').val('0');
+        } else {
+            $('#in-card-content').css('display', 'none');
+            $('#toggleisUnion').val('1');
+        }
+    })

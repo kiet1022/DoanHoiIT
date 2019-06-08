@@ -6,11 +6,11 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
-use App\SchoolYear;
-use App\Classes;
-use App\Province;
-use App\District;
-use App\Ward;
+use App\Models\SchoolYear;
+use App\Models\Classes;
+use App\Models\Province;
+use App\Models\District;
+use App\Models\Ward;
 class AppServiceProvider extends ServiceProvider
 {
     /**

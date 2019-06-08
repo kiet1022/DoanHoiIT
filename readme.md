@@ -98,7 +98,7 @@ Nếu viết thêm Các hàm trong các class trên phải viết nó là static
 Dùng để lưu hoạt động của user vào DB
 
 Cách sử dụng:
-Tại header: use App\Log;
+Tại header: use App\Models\Log;
 
 Tại các function
 $oldData = "MSSV: ".$req->oldId."<br>";

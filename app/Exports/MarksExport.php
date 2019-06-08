@@ -4,7 +4,7 @@ namespace App\Exports;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\Exportable;
-use App\CheckinDetail;
+use App\Models\CheckinDetail;
 class MarksExport implements FromView
 {
     use Exportable;

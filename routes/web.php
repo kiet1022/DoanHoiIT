@@ -1,11 +1,11 @@
 <?php
-use App\District;
-use App\Province;
-use App\Ward;
-use App\User;
-use App\Student;
-use App\ExecComm;
-use App\CheckinDetail;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Ward;
+use App\Models\User;
+use App\Models\Student;
+use App\Models\ExecComm;
+use App\Models\CheckinDetail;
 use Illuminate\Http\Request;
 use \Carbon\Carbon;
 /*
@@ -228,31 +228,36 @@ Route::prefix('admin')->group(function(){
         Route::prefix('funding')->group(function(){
 
             // List funding
-            Route::get('list.php','Admin\ActivityManagement\ActivityController@getListFunding')->name('get_list_funding');
+            Route::get('list.php','Admin\ActivityManagement\FundingController@getListFunding')->name('get_list_funding');
 
             // add activity funding
-            Route::get('add/{id}.php','Admin\ActivityManagement\ActivityController@getAddActivityFund')->name('get_add_activity_funding');
+            Route::get('add/{id}.php','Admin\ActivityManagement\FundingController@getAddActivityFund')->name('get_add_activity_funding');
 
             // add activity handle
-            Route::post('add.php','Admin\ActivityManagement\ActivityController@postAddActivityFund')->name('post_add_activity_funding');
+            Route::post('add.php','Admin\ActivityManagement\FundingController@postAddActivityFund')->name('post_add_activity_funding');
 
             // Get edit activity funding
-            Route::get('edit/{id}.php','Admin\ActivityManagement\ActivityController@getEditActivityFund')->name('get_edit_activity_funding');
+            Route::get('edit/{id}.php','Admin\ActivityManagement\FundingController@getEditActivityFund')->name('get_edit_activity_funding');
 
             // Post edit activity funding
-            Route::post('edit/{id}.php','Admin\ActivityManagement\ActivityController@postEditActivityFund')->name('post_edit_activity_funding');
+            Route::post('edit/{id}.php','Admin\ActivityManagement\FundingController@postEditActivityFund')->name('post_edit_activity_funding');
 
             // Ajax load activity by year and semester
-            Route::post('load-activities.php','Admin\ActivityManagement\ActivityController@loadActivity')->name('load_activity');
+            Route::post('load-activities.php','Admin\ActivityManagement\FundingController@loadActivity')->name('load_activity');
 
             // Delete all activity funding detail (for one)
-            Route::post('delete-activity-funding.php','Admin\ActivityManagement\ActivityController@deleteActivityFunding')->name('delete_activity_funding');
+            Route::post('delete-activity-funding.php','Admin\ActivityManagement\FundingController@deleteActivityFunding')->name('delete_activity_funding');
 
             // Delete activity Funding (for many)
-            Route::post('delete.php','Admin\ActivityManagement\ActivityController@deleteManyActivityFunding')->name('delete_many_activity_funding');
+            Route::post('delete.php','Admin\ActivityManagement\FundingController@deleteManyActivityFunding')->name('delete_many_activity_funding');
 
             //Filter activity fund
-            Route::post('filter.php','Admin\ActivityManagement\ActivityController@filterActivityFunding')->name('filter_activity_fund');
+            Route::post('filter.php','Admin\ActivityManagement\FundingController@filterActivityFunding')->name('filter_activity_fund');
+        });
+
+        Route::prefix('workflow')->group( function() {
+            // get Checkin page
+        Route::get('add.php','Admin\ActivityManagement\ActivityController@getAddAcWorkFlow')->name('get_add_workflow');
         });
     });
 

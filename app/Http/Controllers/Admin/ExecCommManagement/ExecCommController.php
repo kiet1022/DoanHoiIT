@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Collection;
-use App\ExecComm;
-use App\AssociationEc;
-use App\Collaborator;
-use App\Student;
-use App\Log;
+use App\Models\ExecComm;
+use App\Models\AssociationEc;
+use App\Models\Collaborator;
+use App\Models\Student;
+use App\Models\Log;
 class ExecCommController extends Controller
 {
     /**

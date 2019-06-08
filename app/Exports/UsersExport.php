@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Student;
+use App\Models\Student;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class UsersExport implements FromCollection

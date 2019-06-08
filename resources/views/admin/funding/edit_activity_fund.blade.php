@@ -7,6 +7,7 @@
 <link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('assets/css/admin/activity/list_activity.css')}}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('main_content')
@@ -19,7 +20,7 @@
   <div class="row">
     {{-- basic filter condition --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-      <form action="#" class="col-md-12" >
+      <form action="{{ route('post_edit_activity_funding',['id'=> $activityFund[0]->fund->id]) }}" method="post" >
         <div class="form-row">
           {{-- Birthday --}}
           <div class="form-group cm-inline-form col-md-4 ">
@@ -37,11 +38,17 @@
             <input type="text" class="form-control" name="name" value="{{date('d/m/Y',strtotime($activityFund[0]->fund->activity->start_date))}} - {{date('d/m/Y',strtotime($activityFund[0]->fund->activity->end_date))}}" placeholder="Thời gian diễn ra" readonly>
           </div>
         </div>
-      </form>
+        
+        <div class="form-row">
+          {{-- is Union --}}
+          <div class="form-group cm-inline-form col-md-4 offset-md-4 text-center">
+            <label for="toggleisUnion" class="col-md-12 p-0">Tình trạng thanh toán</label>
+          <input class="form-control" id="toggleisUnion" name="status" type="checkbox" data-width="170" data-height="20" @if($activityFund[0]->fund->status == 1) {{"checked value=1"}} @else {{ "value=0" }}@endif>
+          </div>
+        </div>
     </div>
     {{-- Student list --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-      <form action="{{ route('post_edit_activity_funding',['id'=> $activityFund[0]->fund->id]) }}" method="post" id="test">
         @csrf
         <input type="hidden" name="id"  value="{{ $activityFund[0]->fund->activity->id }}">
         <div id="in-card-content">
@@ -142,6 +149,7 @@
   <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
   <script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
   <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
   <script>
     var BASE_URL = "{{ asset('admin/activities/funding') }}";
     @if(session('error'))
@@ -155,6 +163,6 @@
     var count = {{ count($activityFund) }}
     var activityName = "{{ $detail->fund->activity->name }}";
     var activityFundId = {{ $activityFund[0]->fund->id }};
-</script>
-<script src="{{asset('assets/js/admin/fund/edit_activity_fund.js')}}"></script>
-@endsection
+  </script>
+  <script src="{{asset('assets/js/admin/fund/edit_activity_fund.js')}}"></script>
+  @endsection

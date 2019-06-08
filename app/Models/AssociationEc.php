@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +10,6 @@ class AssociationEc extends Model
 
     public function ofStudent()
     {
-    	return $this->hasOne('App\Student','student_id','student_id');
+    	return $this->hasOne('App\Models\Student','student_id','student_id');
     }
 }

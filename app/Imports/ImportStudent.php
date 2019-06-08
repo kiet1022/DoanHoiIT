@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Student;
+use App\Models\Student;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToArray;

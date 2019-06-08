@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,11 +10,11 @@ class CheckinDetail extends Model
 
     public function ofCheckin()
     {
-    	return $this->belongsTo('App\Checkin','checkin_id','id');
+    	return $this->belongsTo('App\Models\Checkin','checkin_id','id');
     }
 
     public function ofStudent()
     {
-    	return $this->belongsTo('App\Student','student_id','student_id');
+    	return $this->belongsTo('App\Models\Student','student_id','student_id');
     }
 }

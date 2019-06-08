@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +10,6 @@ class YearlyFund extends Model
 
     public function ofSchoolYear()
     {
-    	return $this->belongsTo('App\SchoolYear','school_year_id','id');
+    	return $this->belongsTo('App\Models\SchoolYear','school_year_id','id');
     }
 }

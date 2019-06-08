@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 use Auth;
 use Request;
-use App\Student;
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 
 class Log extends Model

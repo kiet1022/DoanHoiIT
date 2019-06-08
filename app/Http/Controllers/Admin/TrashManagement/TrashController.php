@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin\TrashManagement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Activity;
-use App\ActivityFund;
-use App\ActivityFundDetail;
-use App\Student;
-use App\News;
+use App\Models\Activity;
+use App\Models\ActivityFund;
+use App\Models\ActivityFundDetail;
+use App\Models\Student;
+use App\Models\News;
 class TrashController extends Controller
 {
     /**

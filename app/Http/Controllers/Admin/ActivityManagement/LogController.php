@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\ActivityManagement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Log;
+use App\Models\Log;
 use DateTimeUtil;
 use StringUtil;
 class LogController extends Controller
