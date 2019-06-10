@@ -258,6 +258,8 @@ Route::prefix('admin')->group(function(){
         Route::prefix('workflow')->group( function() {
             // get Checkin page
         Route::get('add.php','Admin\ActivityManagement\ActivityController@getAddAcWorkFlow')->name('get_add_workflow');
+
+        Route::post('add.php','Admin\ActivityManagement\ActivityController@postAddAcWorkFlow')->name('post_add_workflow');
         });
     });
 

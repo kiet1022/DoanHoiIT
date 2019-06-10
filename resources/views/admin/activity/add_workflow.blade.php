@@ -57,26 +57,25 @@
               </select>
             </div>
           </div>
-          <div class="form-group col-md-2 offset-md-10">
-            <button type="submit" class="btn btn-primary right"><i class="fas fa-filter"></i> Lọc</button>
-          </div>
         </div>
       </form>
     </div>
   </div>
   <div class="row custom_panel">
-    <form action="#">
+    <form action="{{ route('post_add_workflow') }}" method="POST" class="col-12">
+      @csrf
+      <input type="hidden" name="activity" id="activityID">
     {{-- Student list --}}
     <div class="col-md-12 col-sm-12 col-xs-12 d-flex flex-wrap p-0" id="in-card-content">
-      <div class="col-md-4 mb-4" id="card_0">
+      <div class="col-4 mb-4" id="card_0">
         <div class="card" style="box-shadow: 3px 4px 7px 1px rgba(209,209,209,1);">
           <div class="card-header">
             <div class="form-row">
-              <div class="col-md-8">
+              <div class="col-8">
                 <h6 class="m-0 font-weight-bold text-primary">Phân công công việc</h6>
               </div>
               
-              <div class="col-md-4">
+              <div class="col-4">
                 <button type="button" class="close mr-2 text-danger delete" data-delete="0"><i class="fas fa-minus" title="Xóa nội dung"></i></button>
                 <button type="button" class="close mr-2 text-success add"><i class="fas fa-plus" title="Thêm nội dung"></i></button>
               </div>
@@ -85,18 +84,13 @@
           <div class="card-body">
               <div class="form-row">
                 <div class="form-group col-12">
-                  <label for="student_0">Người đảm nhiệm <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                  <select name="student_[]" id="student_0" class="form-control">
+                  <label for="leader_0">Người đảm nhiệm <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
+                  <select name="leader_[]" id="leader_0" class="form-control" required>
                     <option value="">Chọn người đảm nhiệm</option>
                     @foreach ($students as $student)
                       <option value="{{ $student->student_id }}">{{ $student->name }}</option>
                     @endforeach
                   </select>
-                </div>
-                
-                <div class="form-group col-12">
-                  <label for="workname_0">Tên công việc <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                  <input type="text" class="form-control" id="workname_[]" name="workname_[]">
                 </div>
                 
                 <div class="form-group col-12">
@@ -107,7 +101,7 @@
                 {{-- Ngày bắt đầu chương trình --}}
                 <div class="form-group col-12">
                   <label for="deadline_0">Deadline <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                  <input style="width: inherit;" id="deadline_0" width="100%" class="form-control" name="deadline_[]" maxlength="10" required>
+                  <input style="width: inherit;" id="deadline_0" width="100%" class="form-control deadline" name="deadline_[]" maxlength="10" required>
                 </div>
               </div>
           </div>
@@ -115,14 +109,14 @@
       </div>
       </div>
       <hr class="sidebar-divider d-none d-md-block m-0">
-      <div class="text-center">
+      <div class="text-center mt-3">
         <button type="submit" class="btn btn-success">submit</button>
       </div>
     </form>
     </div>
   </div>
   {{-- Breadcrumb --}}
-  <div class="col-md-12">
+  <div class="col-12">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb cm-breadcrumb">
         <li class="breadcrumb-item"><a href="{{ URL::previous() }}" class="cm-breadcrumb-a"><i class="fas fa-arrow-circle-left"></i> Quay lại</a></li>
@@ -151,8 +145,6 @@
     @if(session('success'))
     var success = "{{session('success')}}";
     showNotify('success',success);
-    var url = "{{route('get_list_activity')}}"
-    setTimeout("location.replace(url)", 500);
     @endif
     var student = {!!$students!!}
   </script>

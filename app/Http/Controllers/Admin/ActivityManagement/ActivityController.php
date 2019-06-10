@@ -16,6 +16,7 @@ use App\Models\SchoolYear;
 use App\Models\Student;
 use App\Models\Checkin;
 use App\Models\CheckinDetail;
+use App\Models\WorkFlow;
 use DateTime;
 use Carbon;
 use StringUtil;
@@ -55,16 +56,6 @@ class ActivityController extends Controller
     }
     $req->flash();
     return view('admin.activity.list_activity')->with($this->data);
-  }
-  
-  public function loadActivity(Request $req){
-    if(StringUtil::pureString($req->semester) != null){
-      $this->data['activities'] = Activity::where('year',$req->year)->where('semester',$req->semester)->get();
-    } else {
-      $this->data['activities'] = Activity::where('year',$req->year)->get();
-    }
-    
-    return response()->json([$this->data['activities']]);
   }
   
   /**
@@ -444,5 +435,25 @@ class ActivityController extends Controller
     $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
     $this->data['students'] = Student::whereHas('execComm')->orWhereHas('association')->orWhereHas('collaborator')->get();
     return view('admin.activity.add_workflow')->with($this->data);
+  }
+
+  public function postAddAcWorkFlow(Request $req){
+    try {
+      DB::beginTransaction();
+      for($i = 0; $i < count($req->leader_) ; $i++){
+        $workflow = new WorkFlow;
+        $workflow->activity_id = $req->activity;
+        $workflow->student_id = $req->leader_[$i];
+        $workflow->content = $req->workcontent_[$i];
+        $workflow->deadline = DateTimeUtil::convertToYmd($req->deadline_[$i]);
+        $workflow->created_by = Auth::user()->id;
+        $workflow->save();
+      }
+      DB::commit();
+      return redirect()->back()->with(config('constants.SUCCESS'),'Thêm công việc thành công!');
+    } catch (Exception $ex) {
+      DB::rollback();
+      return redirect()->back()->with(config('constants.ERROR'),'Thêm công việc thất bại!');
+    }
   }
 }
