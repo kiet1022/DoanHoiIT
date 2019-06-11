@@ -231,4 +231,16 @@ use \Carbon\Carbon;
 		return $result;
 	}
 
+	function changeProgressbarColor($progress){
+		$result = '';
+		if($progress >= 1 && $progress <= 50){
+			$result = 'bg-warning';
+		} else if($progress >= 50 && $progress <= 80){
+			$result = 'bg-info';
+		} else if($progress >= 80 && $progress <= 100){
+			$result = 'bg-success';
+		}
+		return $result;
+	}
+
 	?>

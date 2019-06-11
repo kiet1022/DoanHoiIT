@@ -456,4 +456,10 @@ class ActivityController extends Controller
       return redirect()->back()->with(config('constants.ERROR'),'Thêm công việc thất bại!');
     }
   }
+
+  public function getListWorkFlow($id = null){
+    $this->data['workflows'] = WorkFlow::with(['details','ofStudent'])->where('activity_id',7)->get();
+    // return $this->data['workflows'];
+    return view('admin.activity.workflow_list')->with($this->data);
+  }
 }

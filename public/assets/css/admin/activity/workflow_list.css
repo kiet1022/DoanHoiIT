@@ -1,0 +1,6 @@
+.list-group-flush .list-group-item {
+  border-radius: 10px;
+  margin-bottom: 7px;
+  border: 1px;
+  box-shadow: 3px 4px 7px 1px rgba(209,209,209,1);
+}
