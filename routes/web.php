@@ -263,6 +263,9 @@ Route::prefix('admin')->group(function(){
 
         // Get activity work flow list
         Route::get('list.php','Admin\ActivityManagement\ActivityController@getListWorkFlow')->name('get_list_workflow');
+
+        // Get edit activity work flow detail
+        Route::post('detail.php','Admin\ActivityManagement\ActivityController@getWorkFlowDetail')->name('get_list_workflow');
         });
     });
 

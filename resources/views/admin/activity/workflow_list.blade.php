@@ -8,6 +8,21 @@
 <link href="{{asset('assets/css/admin/activity/workflow_list.css')}}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<style>
+        .input-icons span { 
+            position: absolute; 
+        } 
+          
+        .input-icons { 
+            width: 100%; 
+            margin-bottom: 10px; 
+        } 
+          
+        .icon { 
+            padding: 10px; 
+            min-width: 40px; 
+        } 
+</style>
 @endsection
 @section('main_content')
 <div class="container-fluid">
@@ -46,38 +61,12 @@
               </div>
 
               <div class="card-footer  p-0">
-                  <a href="#" class="btn btn-primary btn-sm" style="width:100%"><i class="fas fa-edit"></i> Edit</a>
+                  <a href="#" class="btn btn-primary btn-sm detail" style="width:100%" data-content="{{$workflow}}"><i class="fas fa-edit"></i> Edit</a>
               </div>
             </div>
       </div>
-
-      {{-- <div class="col-4 d-flex align-items-stretch m-2">
-          <div class="card flex-fill">
-              <div class="card-body">
-              <h5 class="card-title" style="color:red;">{{ $workflow->ofStudent->name }}</h5>
-                <p class="card-text"><h4 class="text-primary">{{ $workflow->content }}</h4></p>
-              </div>
-              <ul class="list-group list-group-flush">
-                @foreach ($workflow->details as $detail)
-                <li class="list-group-item">
-                    {{ $detail->content }}
-                    <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated {{ changeProgressbarColor($detail->progress) }}" role="progressbar" aria-valuenow="{{ $detail->progress }}" aria-valuemin="0" aria-valuemax="{{ $detail->progress }}" style='width:{{ $detail->progress}}%'>{{ $detail->progress }}%</div>
-                    </div>
-                </li>
-                @endforeach
-              </ul>
-              <div class="card-footer  p-0">
-                  <a href="#" class="btn btn-primary btn-sm" style="width:100%"><i class="fas fa-edit"></i> Edit</a>
-              </div>
-            </div>
-      </div> --}}
       @endforeach
       </div>
-      {{-- <hr class="sidebar-divider d-none d-md-block m-0">
-      <div class="text-center mt-3">
-        <button type="submit" class="btn btn-success">submit</button>
-      </div> --}}
     </form>
     </div>
   </div>
@@ -91,7 +80,7 @@
     </nav>
   </div>
   <!-- Modal -->
-  <div class="modal animated jackInTheBox" id="activityDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal animated jackInTheBox" id="workflowDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     
   </div>
   @endsection
@@ -103,7 +92,7 @@
   <script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
   <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
   <script>
-    var BASE_URL = "{{ asset('admin/activities/funding') }}";
+    var BASE_URL = "{{ asset('admin/activities/workflow') }}";
     @if(session('error'))
     var error = "{{session('error')}}";
     showNotify('error',error);

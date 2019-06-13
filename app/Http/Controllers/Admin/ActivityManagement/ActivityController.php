@@ -462,4 +462,10 @@ class ActivityController extends Controller
     // return $this->data['workflows'];
     return view('admin.activity.workflow_list')->with($this->data);
   }
+
+  public function getWorkFlowDetail(Request $req){
+    $this->data['workflowDetail'] = $req->content;
+    // return $this->data['workflowDetail'];
+    return response()->view('admin.activity.modal_workflow_detail', $this->data);
+  }
 }
