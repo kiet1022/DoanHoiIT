@@ -265,7 +265,13 @@ Route::prefix('admin')->group(function(){
         Route::get('list.php','Admin\ActivityManagement\ActivityController@getListWorkFlow')->name('get_list_workflow');
 
         // Get edit activity work flow detail
-        Route::post('detail.php','Admin\ActivityManagement\ActivityController@getWorkFlowDetail')->name('get_list_workflow');
+        Route::post('detail.php','Admin\ActivityManagement\ActivityController@getWorkFlowDetail')->name('get_workflow_detail');
+
+        //edit workflow detail
+        Route::post('edit.php','Admin\ActivityManagement\ActivityController@postEditWorkFlowDetail')->name('edit_workflow_detail');
+
+        //delete work flow
+        Route::get('delete/{id}.php','Admin\ActivityManagement\ActivityController@deleteWorkFlow')->name('delete_workflow');
         });
     });
 

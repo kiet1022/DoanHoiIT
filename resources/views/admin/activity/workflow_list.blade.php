@@ -47,22 +47,28 @@
                 <h5 class="card-title" style="color:red;">{{ $workflow->ofStudent->name }}</h5>
             </div>
               <div class="card-body">
-                <p class="card-text"><h4 class="text-primary">{{ $workflow->content }}</h4></p>
+                <p class="card-text"><h5 class="text-primary">{{ $workflow->content }}</h5></p>
                 <ul class="list-group list-group-flush">
                     @foreach ($workflow->details as $detail)
                     <li class="list-group-item">
                         {{ $detail->content }}
                         <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated {{ changeProgressbarColor($detail->progress) }}" role="progressbar" aria-valuenow="{{ $detail->progress }}" aria-valuemin="0" aria-valuemax="{{ $detail->progress }}" style='width:{{ $detail->progress}}%'>{{ $detail->progress }}%</div>
+                        <div class="progress-bar {{ changeProgressbarColor($detail->progress) }}" role="progressbar" aria-valuenow="{{ $detail->progress }}" aria-valuemin="0" aria-valuemax="{{ $detail->progress }}" style='width:{{ $detail->progress}}%'>{{ $detail->progress }}%</div>
                         </div>
                     </li>
                     @endforeach
                   </ul>
               </div>
-
-              <div class="card-footer  p-0">
-                  <a href="#" class="btn btn-primary btn-sm detail" style="width:100%" data-content="{{$workflow}}"><i class="fas fa-edit"></i> Edit</a>
+              <div class="card-footer">
+                  <div class="d-flex m-1">
+                      <a href="#" class="btn btn-primary btn-sm detail mr-1" style="width:50%" data-content="{{$workflow}}"><i class="fas fa-edit"></i> Chỉnh sửa</a>
+                      <a href="{{ route('delete_workflow',['id'=>$workflow->id])}}" class="btn btn-danger btn-sm ml-1" style="width:50%" "><i class="fas fa-minus"></i> Xóa</a>
+                  </div>
               </div>
+
+              {{-- <div class="card-footer  p-0 d-flex">
+                  
+              </div> --}}
             </div>
       </div>
       @endforeach

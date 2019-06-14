@@ -17,6 +17,7 @@ use App\Models\Student;
 use App\Models\Checkin;
 use App\Models\CheckinDetail;
 use App\Models\WorkFlow;
+use App\Models\WorkFlowDetail;
 use DateTime;
 use Carbon;
 use StringUtil;
@@ -458,7 +459,7 @@ class ActivityController extends Controller
   }
 
   public function getListWorkFlow($id = null){
-    $this->data['workflows'] = WorkFlow::with(['details','ofStudent'])->where('activity_id',7)->get();
+    $this->data['workflows'] = WorkFlow::with(['details','ofStudent'])->where('activity_id',8)->get();
     // return $this->data['workflows'];
     return view('admin.activity.workflow_list')->with($this->data);
   }
@@ -467,5 +468,60 @@ class ActivityController extends Controller
     $this->data['workflowDetail'] = $req->content;
     // return $this->data['workflowDetail'];
     return response()->view('admin.activity.modal_workflow_detail', $this->data);
+  }
+
+  public function postEditWorkFlowDetail(Request $req){
+    $wfdetail = WorkFlow::where('id',$req->id)->with(['details'])->first();
+    $arrDetailId = [];
+    foreach ($wfdetail->details as $detail) {
+      array_push($arrDetailId, $detail->id);
+    }
+    
+    try {
+      DB::beginTransaction();
+      $wfdetail->content = $req->contentDetail;
+      $wfdetail->updated_by = Auth::user()->id;
+      $wfdetail->save();
+      // Delete funding detail if it is not exist
+      foreach ($arrDetailId as $detailid) {
+        if(!in_array(intval($detailid), $req->workflowId_)){
+          $deleteDetail = WorkFlowDetail::find($detailid);
+          $deleteDetail->forceDelete();
+        }
+      }
+
+      // update detail
+      for($i = 0; $i < count($req->content_); $i++){
+        if($req->workflowId_[$i] == 0){
+          $newDetail = new WorkFlowDetail;
+          $newDetail->workflow_id = $req->id;
+          $newDetail->content = $req->content_[$i];
+          $newDetail->progress = $req->progress_[$i];
+          $newDetail->created_by = Auth::user()->id;
+          $newDetail->save();
+        } else {
+          $oldDetail = WorkFlowDetail::find($req->workflowId_[$i]);
+          $oldDetail->content = $req->content_[$i];
+          $oldDetail->progress = $req->progress_[$i];
+          $oldDetail->created_by = Auth::user()->id;
+          $oldDetail->save();
+          
+        }
+      }
+      DB::commit();
+      return redirect()->back()->with(config('constants.SUCCESS'),'Cập nhật công việc thành công');
+    } catch (Excetion $ex) {
+      DB::rollback();
+      return redirect()->back()->with(config('constants.ERROR'),'Cập nhật công việc thất bại!');
+    }
+  }
+
+  public function deleteWorkFlow($id){
+    $workflow = WorkFlow::with(['details'])->find($id);
+    foreach ($workflow->details as $detail) {
+      $detail->delete();
+    }
+    $workflow->delete();
+    return redirect()->back()->with(config('constants.SUCCESS'),'Xóa công việc thành công');
   }
 }

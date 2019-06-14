@@ -7,61 +7,57 @@
           </button>
         </div>
         
-        <div class="modal-body">
-          {{-- <div class="card" style="height: 100%">
-            <div class="card-header">
-              <h5 class="card-title" style="color:red;">{{ $workflowDetail['of_student']['name'] }}</h5>
+        <form action="{{ route('edit_workflow_detail')}}" method="POST">
+          <div class="modal-body">
+            @csrf
+            <div class="form-group">
+              <label for="leadr">Người đảm nhiệm</label>
+              <input class="form-control" type="text" name="leader" value="{{ $workflowDetail['of_student']['name'] }}" readonly>
             </div>
-            <div class="card-body">
-              <p class="card-text"><h4 class="text-primary">{{ $workflowDetail['content'] }}</h4></p>
-              
+            <div class="form-group">
+              <label for="content">Nội dung công việc</label>
+              {{-- <input class="form-control" type="text" name="contentDetail" value="{{ $workflowDetail['content'] }}"> --}}
+              <textarea name="contentDetail" class="form-control" cols="30" rows="4">{{ $workflowDetail['content'] }}</textarea>
+              <input type="hidden" name="id" value="{{ $workflowDetail['id'] }}"/>
             </div>
-            
-            <div class="card-footer  p-0">
-              <a href="#" class="btn btn-primary btn-sm detail" style="width:100%"><i class="fas fa-edit"></i> Edit</a>
-            </div>
-          </div> --}}
-          <div class="form-group">
-            <label for="leadr">Người đảm nhiệm</label>
-            <input class="form-control" type="text" name="leader" value="{{ $workflowDetail['of_student']['name'] }}" readonly>
-          </div>
-          <div class="form-group">
-            <label for="content">Nội dung công việc</label>
-            <input class="form-control" type="text" name="content" value="{{ $workflowDetail['content'] }}">
-          </div>
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title" style="color:red;">Chi tiết công việc</h5>
-            </div>
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                @foreach ($workflowDetail['details'] as $detail)
-                <li class="list-group-item">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title" style="color:red;">Chi tiết công việc</h5>
+              </div>
+              <div class="card-body" style="overflow-y: auto; max-height: 300px;">
+                <ul class="list-group list-group-flush" id="detail-content">
+                  @foreach ($workflowDetail['details'] as $detail)
+                  <li class="list-group-item" id="card_{{$detail['id']}}">
                     <div class="form-row">
-                        <div class="form-group cm-inline-form col-md-7">
-                            <label for="content">Tên</label>
-                            <input class="form-control" type="text" name="content" value="{{ $detail['content'] }}">
-                        </div>
-  
-                        <div class="form-group cm-inline-form col-md-4">
-                            <label for="progress">Tiến độ (%)</label>
-                              <input class="form-control" type="number" name="progress" value="{{ $detail['progress'] }}">
-                        </div>
-
-                        <div class="form-group cm-inline-form col-md-1 text-right">
-                            <label><i class="fas fa-plus"></i></label>
-                            <label><i class="fas fa-minus"></i></label>
-                        </div>
+                      <div class="form-group cm-inline-form col-md-7">
+                        <label for="content_0">Tên</label>
+                        <input id="content_0" class="form-control" type="text" name="content_[]" value="{{ $detail['content'] }}">
+                        <input type="hidden" name="workflowId_[]" value="{{$detail['id']}}">
                       </div>
-                </li>
-                @endforeach
-              </ul>
+                      
+                      <div class="form-group cm-inline-form col-md-4">
+                        <label for="progress_0">Tiến độ (%)</label>
+                        <input id="progress_0" class="form-control" type="number" name="progress_[]" value="{{ $detail['progress'] }}">
+                      </div>
+                      
+                      <div class="form-group cm-inline-form col-md-1 text-right">
+                        <a class="add mr-1 text-success"><i class="fas fa-plus"></i></a>
+                        <a class="delete text-danger" data-delete="{{$detail['id']}}"><i class="fas fa-minus "></i></a>
+                      </div>
+                    </div>
+                  </li>
+                  @endforeach
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info" data-dismiss="modal" style="width: 100%">Đóng</button>
-        </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" style="width: 100%">Lưu</button>
+          </div>
+        </form>
       </div>
     </div>
+    
+    <script>
+      var count = {{count($workflowDetail['details'])}}
+    </script>
