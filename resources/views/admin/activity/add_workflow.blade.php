@@ -52,7 +52,7 @@
               <select name="activity" id="activity" class="form-control">
                 <option value="">Chọn chương trình</option>
                 @foreach ($activities as $a)
-                <option value="{{ $a->id }}" {!! changeSelectedStatus("$a->id", old('activity') ) !!}>{{ $a->name }}</option>
+                <option value="{{ $a->id }}" {!! changeSelectedStatus("$a->id", old('activity') ) !!} {!! changeSelectedStatus("$a->id", "$acid") !!}>{{ $a->name }}</option>
                 @endforeach
               </select>
             </div>
@@ -64,7 +64,7 @@
   <div class="row custom_panel">
     <form action="{{ route('post_add_workflow') }}" method="POST" class="col-12">
       @csrf
-      <input type="hidden" name="activity" id="activityID">
+      <input type="hidden" name="activity" id="activityID" value="{{$acid}}">
     {{-- Student list --}}
     <div class="col-md-12 col-sm-12 col-xs-12 d-flex flex-wrap p-0" id="in-card-content">
       <div class="col-4 mb-4" id="card_0">
@@ -95,7 +95,7 @@
                 
                 <div class="form-group col-12">
                   <label for="workcontent_0">Nội dung <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
-                  <textarea name="workcontent_[]" id="workcontent_0" rows="5" class="form-control"></textarea>
+                  <textarea name="workcontent_[]" id="workcontent_0" rows="5" class="form-control" required></textarea>
                 </div>
                 
                 {{-- Ngày bắt đầu chương trình --}}

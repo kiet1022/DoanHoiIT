@@ -4,3 +4,9 @@
   border: 1px;
   box-shadow: 3px 4px 7px 1px rgba(209,209,209,1);
 }
+
+.list-group{
+  overflow-y: auto;
+  max-height: 250px;
+  padding: 10px;
+}

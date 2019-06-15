@@ -25,7 +25,7 @@ Danh sách chương trình
         @csrf
         <div class="form-row">
           {{-- Birthday --}}
-          <div class="form-inline cm-inline-form col-md-3 offset-md-3">
+          <div class="form-group cm-inline-form col-md-3 offset-md-3">
             <label for="year" class="col-md-3 common-label-inline">Năm học:</label>
             <div class="col-md-8 col-sm-8 col-xs-8 px-0">
               <select name="year" id="year" class="form-control" style="width:150px;">
@@ -42,7 +42,7 @@ Danh sách chương trình
           </div>
           
           {{-- Birthday --}}
-          <div class="form-inline cm-inline-form col-md-3">
+          <div class="form-group cm-inline-form col-md-3">
             <label for="semester" class="col-md-3 common-label-inline">Học kỳ:</label>
             <div class="col-md-8 col-sm-8 col-xs-8 px-0">
               <select name="semester" id="semester" class="form-control" style="width:150px;">

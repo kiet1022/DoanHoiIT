@@ -13,7 +13,6 @@ use App\Models\Student;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\UserRole;
-use App\Rules\Uppercase;
 use App\Models\Log;
 use App\Models\News;
 use App\Models\NewsType;

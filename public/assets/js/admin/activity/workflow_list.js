@@ -1,12 +1,14 @@
 $(document).ready(function(){
   checkCount();
 });
-var count = 0;
+var count = 1;
 // Show student detail
 $('.detail').click(function(){
   blockUI(true);
   var content = $(this).data('content');
   count = content.details.length;
+  count == 0 ? count = 1 : count = count;
+  console.log(count);
   $.ajax({
     url: BASE_URL + "/detail.php",
     method: 'POST',
@@ -17,6 +19,7 @@ $('.detail').click(function(){
     console.log(data);
     $('#workflowDetail').html(data);
     $('#workflowDetail').modal('show');
+    checkCount();
     blockUI(false);
   }).fail(function(xhr, status, error) {
     blockUI(false);

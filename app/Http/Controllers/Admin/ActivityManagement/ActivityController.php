@@ -34,8 +34,8 @@ class ActivityController extends Controller
   public function getListActivity(){
     // delete session if exist
     session()->forget('_old_input');
-    $this->data['activities'] = Activity::with(['leadBy','fund'])->get();
-    $this->data['year'] = SchoolYear::where('type',1)->get();
+    $this->data['activities'] = Activity::with(['leadBy','fund'])->where('year','2018 - 2019')->get();
+    $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
     return view('admin.activity.list_activity')->with($this->data);
   }
   
@@ -158,7 +158,10 @@ class ActivityController extends Controller
   */
   public function activityDetail(Request $req){
     $idActivity = $req->id;
-    $this->data['activity'] = Activity::with(['leadBy'])->where('id',$idActivity)->first();
+    
+    $this->data['percent'] = DB::table('workflows')->select(DB::raw('sum(progress) / count(*) as percent'))->where('activity_id', $idActivity)
+    ->whereNull('deleted_at')->first();
+    $this->data['activity'] = Activity::with(['leadBy','workflows'])->where('id',$idActivity)->first();
     $this->data['activityFundingDetail'] = ActivityFund::with(['details'])->where('activity_id',$idActivity)->get();
     // return response()->json($this->data);
     return response()->view('admin.activity.modal_detail', $this->data);
@@ -431,13 +434,25 @@ class ActivityController extends Controller
     }
   }
 
-  public function getAddAcWorkFlow(){
+  /**
+   * Get add new workflow page
+   * 
+   */
+  public function getAddAcWorkFlow($id = null){
+    if($id != null){
+      $this->data['acid'] = $id;
+    }
     $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
     $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
     $this->data['students'] = Student::whereHas('execComm')->orWhereHas('association')->orWhereHas('collaborator')->get();
     return view('admin.activity.add_workflow')->with($this->data);
   }
 
+  /**
+   * Add new workflow
+   * 
+   * @param Request $req The request that user sent
+   */
   public function postAddAcWorkFlow(Request $req){
     try {
       DB::beginTransaction();
@@ -448,6 +463,7 @@ class ActivityController extends Controller
         $workflow->content = $req->workcontent_[$i];
         $workflow->deadline = DateTimeUtil::convertToYmd($req->deadline_[$i]);
         $workflow->created_by = Auth::user()->id;
+        $workflow->progress = 0;
         $workflow->save();
       }
       DB::commit();
@@ -458,18 +474,36 @@ class ActivityController extends Controller
     }
   }
 
+  /**
+   * Get work flow list of an activity
+   * 
+   * @param Integer $id The id of activity
+   * 
+   */
   public function getListWorkFlow($id = null){
-    $this->data['workflows'] = WorkFlow::with(['details','ofStudent'])->where('activity_id',8)->get();
+    $this->data['workflows'] = WorkFlow::with(['details','ofStudent','ofActivity'])->where('activity_id',$id)->get();
     // return $this->data['workflows'];
     return view('admin.activity.workflow_list')->with($this->data);
   }
 
+  /**
+   * Get detail of activity workflow
+   * 
+   * @param Request $req The request that user sent
+   * 
+   */
   public function getWorkFlowDetail(Request $req){
     $this->data['workflowDetail'] = $req->content;
     // return $this->data['workflowDetail'];
     return response()->view('admin.activity.modal_workflow_detail', $this->data);
   }
 
+  /**
+   * Edit workflow detail
+   * 
+   * @param Request $req the request that user sent
+   * 
+   */
   public function postEditWorkFlowDetail(Request $req){
     $wfdetail = WorkFlow::where('id',$req->id)->with(['details'])->first();
     $arrDetailId = [];
@@ -481,7 +515,7 @@ class ActivityController extends Controller
       DB::beginTransaction();
       $wfdetail->content = $req->contentDetail;
       $wfdetail->updated_by = Auth::user()->id;
-      $wfdetail->save();
+      
       // Delete funding detail if it is not exist
       foreach ($arrDetailId as $detailid) {
         if(!in_array(intval($detailid), $req->workflowId_)){
@@ -508,6 +542,12 @@ class ActivityController extends Controller
           
         }
       }
+
+      // update workflow progress after update of inser detail
+      $percent = DB::table('workflow_details')->select(DB::raw('sum(progress) / count(*) as percent'))->where('workflow_id', $req->id)
+      ->whereNull('deleted_at')->first();
+      $wfdetail->progress = intval($percent->percent);
+      $wfdetail->save();
       DB::commit();
       return redirect()->back()->with(config('constants.SUCCESS'),'Cập nhật công việc thành công');
     } catch (Excetion $ex) {
@@ -516,6 +556,12 @@ class ActivityController extends Controller
     }
   }
 
+  /**
+   * Detlete workflow
+   * 
+   * @param Integer $id The id of workflow
+   * 
+   */
   public function deleteWorkFlow($id){
     $workflow = WorkFlow::with(['details'])->find($id);
     foreach ($workflow->details as $detail) {

@@ -8,27 +8,12 @@
 <link href="{{asset('assets/css/admin/activity/workflow_list.css')}}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<style>
-        .input-icons span { 
-            position: absolute; 
-        } 
-          
-        .input-icons { 
-            width: 100%; 
-            margin-bottom: 10px; 
-        } 
-          
-        .icon { 
-            padding: 10px; 
-            min-width: 40px; 
-        } 
-</style>
 @endsection
 @section('main_content')
 <div class="container-fluid">
   <div class="row">
     <div class="col page-title-header">
-      <h4>Tiến độ công việc</h4>
+      <h4>Tiến độ công việc chương trình {{ $workflows[0]->ofActivity->name }}</h4>
     </div>
   </div>
   <div class="row">

@@ -71,8 +71,8 @@
               <a class="collapse-item" href="{{ route('get_add_activity') }}">Thêm chương trình</a>
             <a class="collapse-item" href="#">Tạo dự trù</a>
               <h6 class="collapse-header">Trong chương trình: </h6>
-            <a class="collapse-item" href="{{ route('get_list_workflow') }}">Tiến độ công việc</a>
-              <a class="collapse-item" href="{{ route('get_add_workflow') }}">Thêm tiến độ công việc</a>
+            <a class="collapse-item" href="{{ route('get_list_workflow',['id'=>8]) }}">Tiến độ công việc</a>
+              <a class="collapse-item" href="{{ route('get_add_workflow',['id'=>null]) }}">Thêm tiến độ công việc</a>
             <a class="collapse-item" href="{{ route('get_check_in') }}">Điểm danh</a>
               <h6 class="collapse-header">Sau chương trình: </h6>
               <a class="collapse-item" href="404.html">Thanh toán</a>

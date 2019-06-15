@@ -8,6 +8,7 @@ use App\Models\ExecComm;
 use App\Models\CheckinDetail;
 use Illuminate\Http\Request;
 use \Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -257,12 +258,12 @@ Route::prefix('admin')->group(function(){
 
         Route::prefix('workflow')->group( function() {
             // get Checkin page
-        Route::get('add.php','Admin\ActivityManagement\ActivityController@getAddAcWorkFlow')->name('get_add_workflow');
+        Route::get('add/{id}.php','Admin\ActivityManagement\ActivityController@getAddAcWorkFlow')->name('get_add_workflow');
 
         Route::post('add.php','Admin\ActivityManagement\ActivityController@postAddAcWorkFlow')->name('post_add_workflow');
 
         // Get activity work flow list
-        Route::get('list.php','Admin\ActivityManagement\ActivityController@getListWorkFlow')->name('get_list_workflow');
+        Route::get('list/{id}.php','Admin\ActivityManagement\ActivityController@getListWorkFlow')->name('get_list_workflow');
 
         // Get edit activity work flow detail
         Route::post('detail.php','Admin\ActivityManagement\ActivityController@getWorkFlowDetail')->name('get_workflow_detail');
@@ -311,19 +312,10 @@ Route::prefix('admin')->group(function(){
 });
 
 Route::get('/test', function(){
-    // $student = new Student;
-    // $student->student_id = "16110294";
-    // $student->name = "Nguyễn Thị Kim Dung";
-    // $student->class_id = 7;
-    // $student->school_year_id = 2;
-    // $student->birthday = "1998-09-22";
-    // $student->save();
-    // $user = new User;
-    // $user->student_id = $student->student_id;
-    // $user->email = $student->student_id."@student.hcmute.edu.vn";
-    // $user->password = bcrypt($student->student_id);
-    // $user->save();
-    
+    $users = DB::table('workflow_details')
+    ->select(DB::raw('sum(progress) / count(*) as percent'))
+    ->where('workflow_id', 5)->first();
+    dd($users->percent);
 });
 /*
 |--------------------------------------------------------------------------
@@ -336,7 +328,7 @@ Route::get('/category/{id}.php', 'User\NewsController@getNewsByCategory')->name(
 Route::get('/infomation.php', 'User\UserController@getUserInfo')->name('get_profile');
 Route::get('/editInfomation.php', 'User\UserController@getEditUserInfo')->name('get_edit_info');
 Route::post('/updateInfomation.php', 'User\UserController@postEditUserInfo')->name('post_edit_info');
-Route::get('/activity.php', 'User\ActivityController@getListActivity')->name('get_list_activity');
+Route::get('/activity.php', 'User\ActivityController@getListActivity')->name('get_list_activity_user');
 Route::post('/activity/view.php', 'User\ActivityController@getActivityInfo')->name('get_activity');
 Route::post('/activity/registActivity.php', 'User\ActivityController@registActivity')->name('regist_activity');
 

@@ -16,7 +16,6 @@
             </div>
             <div class="form-group">
               <label for="content">Nội dung công việc</label>
-              {{-- <input class="form-control" type="text" name="contentDetail" value="{{ $workflowDetail['content'] }}"> --}}
               <textarea name="contentDetail" class="form-control" cols="30" rows="4">{{ $workflowDetail['content'] }}</textarea>
               <input type="hidden" name="id" value="{{ $workflowDetail['id'] }}"/>
             </div>
@@ -26,18 +25,19 @@
               </div>
               <div class="card-body" style="overflow-y: auto; max-height: 300px;">
                 <ul class="list-group list-group-flush" id="detail-content">
+                  @isset($workflowDetail['details'])
                   @foreach ($workflowDetail['details'] as $detail)
                   <li class="list-group-item" id="card_{{$detail['id']}}">
                     <div class="form-row">
                       <div class="form-group cm-inline-form col-md-7">
-                        <label for="content_0">Tên</label>
-                        <input id="content_0" class="form-control" type="text" name="content_[]" value="{{ $detail['content'] }}">
+                        <label for="content_{{$detail['id']}}">Tên</label>
+                        <input id="content_{{$detail['id']}}" class="form-control" type="text" name="content_[]" value="{{ $detail['content'] }}">
                         <input type="hidden" name="workflowId_[]" value="{{$detail['id']}}">
                       </div>
                       
                       <div class="form-group cm-inline-form col-md-4">
-                        <label for="progress_0">Tiến độ (%)</label>
-                        <input id="progress_0" class="form-control" type="number" name="progress_[]" value="{{ $detail['progress'] }}">
+                        <label for="progress_{{$detail['id']}}">Tiến độ (%)</label>
+                        <input id="progress_{{$detail['id']}}" class="form-control" type="number" name="progress_[]" value="{{ $detail['progress'] }}">
                       </div>
                       
                       <div class="form-group cm-inline-form col-md-1 text-right">
@@ -47,6 +47,27 @@
                     </div>
                   </li>
                   @endforeach
+                  @else
+                  <li class="list-group-item" id="card_0">
+                      <div class="form-row">
+                        <div class="form-group cm-inline-form col-md-7">
+                          <label for="content_0">Tên</label>
+                          <input id="content_0" class="form-control" type="text" name="content_[]">
+                          <input type="hidden" name="workflowId_[]" value="0">
+                        </div>
+                        
+                        <div class="form-group cm-inline-form col-md-4">
+                          <label for="progress_0">Tiến độ (%)</label>
+                          <input id="progress_0" class="form-control" type="number" name="progress_[]">
+                        </div>
+                        
+                        <div class="form-group cm-inline-form col-md-1 text-right">
+                          <a class="add mr-1 text-success"><i class="fas fa-plus"></i></a>
+                          <a class="delete text-danger" data-delete="0"><i class="fas fa-minus "></i></a>
+                        </div>
+                      </div>
+                    </li>
+                  @endisset
                 </ul>
               </div>
             </div>
@@ -57,7 +78,3 @@
         </form>
       </div>
     </div>
-    
-    <script>
-      var count = {{count($workflowDetail['details'])}}
-    </script>
