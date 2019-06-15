@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 06, 2019 lúc 05:51 PM
+-- Thời gian đã tạo: Th6 15, 2019 lúc 08:13 AM
 -- Phiên bản máy phục vụ: 10.1.34-MariaDB
 -- Phiên bản PHP: 7.2.8
 
@@ -173,7 +173,7 @@ CREATE TABLE `association_ec` (
 INSERT INTO `association_ec` (`id`, `student_id`, `level`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
 (1, '15110347', 1, NULL, '2019-05-04 06:19:25', NULL, 1, NULL),
 (2, '15110289', 2, NULL, '2019-04-13 10:19:57', NULL, 1, NULL),
-(3, '18110371', 2, NULL, '2019-04-15 00:15:36', NULL, 1, NULL),
+(3, '17110356', 2, NULL, '2019-06-14 20:21:11', NULL, 1, NULL),
 (4, '15110268', 0, NULL, NULL, NULL, NULL, NULL),
 (5, '15110176', 0, NULL, NULL, NULL, NULL, NULL),
 (6, '16110294', 0, NULL, NULL, NULL, NULL, NULL),
@@ -2327,7 +2327,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id`, `level`, `created_by`, `updated_by`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '000000@hcmute.edu.vn', NULL, '$2y$10$T03iBiOcF3njFZYXFpjSOeeRu38lx2VpM4DTwVcW66.TIQhWJqRY2', '000000', 0, NULL, NULL, 'xelUXD6D6jk3cJuf5xK7rEjdQMUrOUK92wh22Yiqm4duJQAiNR8WGtWXAktX', '2019-04-11 07:37:30', '2019-04-11 07:37:30', NULL),
+(1, '000000@hcmute.edu.vn', NULL, '$2y$10$T03iBiOcF3njFZYXFpjSOeeRu38lx2VpM4DTwVcW66.TIQhWJqRY2', '000000', 0, NULL, NULL, 'TaElxTllTF2Pww257DkSuEOi49qdxFymuTcAK2tjdvy7qZejAdwELnCSnj3l', '2019-04-11 07:37:30', '2019-04-11 07:37:30', NULL),
 (2, '15110162@student.hcmute.edu.vn', NULL, '$2y$10$hAzk1m68DnxYdqSOVloPhOb1BMJ3XfSwPdjQWMxdQHY1OiU8iMxW6', '15110162', 1, 1, NULL, NULL, '2019-04-11 07:45:24', '2019-04-11 07:45:24', NULL),
 (3, '15110166@student.hcmute.edu.vn', NULL, '$2y$10$3XnX8oIVJ1BeEtB/C/5FJeVXVZhFzNqNEwkTJVTY1Kdx.s2pmxdAC', '15110166', 1, 1, NULL, NULL, '2019-04-11 07:45:24', '2019-04-11 07:45:24', NULL),
 (4, '15110168@student.hcmute.edu.vn', NULL, '$2y$10$Ar4BT.y5BSMXdQPVaE5iauW9/1eRaKkuu82bB8Pz4RPd5llUYuqRG', '15110168', 1, 1, NULL, NULL, '2019-04-11 07:45:24', '2019-04-11 07:45:24', NULL),
@@ -14339,17 +14339,67 @@ INSERT INTO `wards` (`id`, `name`, `type`, `district_id`, `created_at`, `updated
 CREATE TABLE `workflows` (
   `id` int(10) UNSIGNED NOT NULL,
   `activity_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `begin_date` date NOT NULL,
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
   `deadline` date NOT NULL,
   `content` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
-  `progress` tinyint(4) NOT NULL DEFAULT '0',
+  `progress` int(11) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `workflows`
+--
+
+INSERT INTO `workflows` (`id`, `activity_id`, `student_id`, `deadline`, `content`, `progress`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, 7, '15110176', '2019-05-31', 'Các bạn đứng thành vòng tròn để múa, mỗi bạn múa một kiểu, không ai giống ai, múa xong sẽ hát. Sau đó tất cả sẽ đi ăn cơm, ăn cơm xong sẽ đi ngủ, ngủ xong sẽ thức dậy đi đái.', 0, '2019-06-10 08:10:23', '2019-06-14 10:04:51', 1, 1, '2019-06-14 10:04:51'),
+(2, 7, '15110237', '2019-06-27', 'Nhảy đầm', 0, '2019-06-10 08:10:23', '2019-06-14 10:02:35', 1, 1, '2019-06-14 10:02:35'),
+(3, 8, '18110371', '2019-06-22', 'Chuẩn bị bánh kẹo cho chương trình', 37, '2019-06-14 10:09:28', '2019-06-14 22:09:28', 1, 1, NULL),
+(4, 3, '15110268', '2019-06-15', 'aaa', 0, '2019-06-14 21:03:35', '2019-06-14 21:03:35', 1, NULL, NULL),
+(5, 7, '17110386', '2019-06-15', 'Hậu cần', 22, '2019-06-14 21:07:13', '2019-06-14 22:44:33', 1, 1, NULL),
+(6, 7, '18110258', '2019-06-08', 'Văn nghệ', 45, '2019-06-14 21:07:13', '2019-06-14 22:59:36', 1, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `workflow_details`
+--
+
+CREATE TABLE `workflow_details` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `workflow_id` int(10) UNSIGNED NOT NULL,
+  `content` text COLLATE utf8_unicode_ci,
+  `progress` int(11) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_by` int(10) UNSIGNED NOT NULL,
-  `updated_by` int(10) UNSIGNED NOT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `workflow_details`
+--
+
+INSERT INTO `workflow_details` (`id`, `workflow_id`, `content`, `progress`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(6, 2, 'Nhảy đầm xòe', 50, NULL, '2019-06-14 10:01:55', 1, 0, '0000-00-00 00:00:00'),
+(12, 1, 'Múa lửa', 10, '2019-06-14 09:31:42', '2019-06-14 10:04:51', 1, NULL, '2019-06-14 10:04:51'),
+(13, 1, 'Lắc vòng', 25, '2019-06-14 09:31:42', '2019-06-14 10:04:51', 1, NULL, '2019-06-14 10:04:51'),
+(14, 2, 'Nhảy zuiii', 40, '2019-06-14 09:32:22', '2019-06-14 10:02:35', 1, NULL, '2019-06-14 10:02:35'),
+(15, 3, 'Mua bánh 1', 20, '2019-06-14 20:10:57', '2019-06-14 20:10:57', 1, NULL, NULL),
+(16, 3, 'Mua nước 1', 50, '2019-06-14 20:10:57', '2019-06-14 20:10:57', 1, NULL, NULL),
+(17, 3, 'Mua bánh 2', 70, '2019-06-14 20:10:57', '2019-06-14 20:10:57', 1, NULL, NULL),
+(18, 5, 'Mua dụng cụ', 10, '2019-06-14 21:08:20', '2019-06-14 21:08:20', 1, NULL, NULL),
+(19, 5, 'Dây điện', 20, '2019-06-14 21:08:20', '2019-06-14 21:08:20', 1, NULL, NULL),
+(20, 5, 'Hub mạng', 50, NULL, NULL, 1, NULL, NULL),
+(21, 3, 'Bánh 2', 10, '2019-06-14 22:09:28', '2019-06-14 22:09:28', 1, NULL, NULL),
+(22, 6, 'hát', 80, '2019-06-14 22:10:38', '2019-06-14 22:10:38', 1, NULL, NULL),
+(23, 5, 'Bột màu', 10, '2019-06-14 22:44:33', '2019-06-14 22:44:33', 1, NULL, NULL),
+(24, 5, 'Nước', 20, '2019-06-14 22:44:33', '2019-06-14 22:44:33', 1, NULL, NULL),
+(25, 6, 'Múa', 10, '2019-06-14 22:59:36', '2019-06-14 22:59:36', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -14571,8 +14621,13 @@ ALTER TABLE `wards`
 --
 ALTER TABLE `workflows`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `workflows_users_foregin` (`user_id`),
   ADD KEY `workflows_activities_foregin` (`activity_id`);
+
+--
+-- Chỉ mục cho bảng `workflow_details`
+--
+ALTER TABLE `workflow_details`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `yearly_funds`
@@ -14727,7 +14782,13 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT cho bảng `workflows`
 --
 ALTER TABLE `workflows`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `workflow_details`
+--
+ALTER TABLE `workflow_details`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT cho bảng `yearly_funds`
@@ -14845,8 +14906,7 @@ ALTER TABLE `wards`
 -- Các ràng buộc cho bảng `workflows`
 --
 ALTER TABLE `workflows`
-  ADD CONSTRAINT `workflows_activities_foregin` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`),
-  ADD CONSTRAINT `workflows_users_foregin` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `workflows_activities_foregin` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`);
 
 --
 -- Các ràng buộc cho bảng `yearly_funds`
