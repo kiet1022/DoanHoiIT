@@ -283,6 +283,12 @@ Route::prefix('admin')->group(function(){
         });
     });
 
+    Route::prefix('statistical')->group(function(){
+
+        // Statis student by shool year
+        Route::get('student-through-schooll-year.php','Admin\StatisticalManagement\StatisticalController@stStudentSchoolYear')->name('st_student_school_year');
+    });
+
     /**
      * Trash of system management
      * 

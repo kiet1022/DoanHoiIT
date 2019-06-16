@@ -148,10 +148,10 @@
           </a>
           <div id="staticsManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="{{ route('st_student_school_year') }}">Sinh viên theo năm học</a>
               <a class="collapse-item" href="login.html">Kinh phí chương trình</a>
               <a class="collapse-item" href="login.html">Kinh phí năm học</a>
               <a class="collapse-item" href="login.html">Tỉ lệ đoàn viên</a>
-              <a class="collapse-item" href="login.html">Tỉ lệ sinh viên</a>
               <a class="collapse-item" href="login.html">DRL - CTXH</a>
             </div>
           </div>

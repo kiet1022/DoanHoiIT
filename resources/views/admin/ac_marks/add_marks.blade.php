@@ -145,7 +145,7 @@
             </div>
           </div>
           <div class="text-right">
-            <button class="btn btn-primary" id="saveinfo" type="submit"><i class="fas fa-download"></i> Lưu danh sách điểm danh</button>
+            <button class="btn btn-primary cm-btn-form" id="saveinfo" type="submit"><i class="fas fa-download"></i> Lưu danh sách điểm danh</button>
           </div>
         </div>
       </div>

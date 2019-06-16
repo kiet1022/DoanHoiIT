@@ -62,30 +62,30 @@
             </div>
             <div class="card-body">
               <div class="form-row">
-                <div class="form-inline cm-inline-form col-md-2">
+                <div class="form-group cm-inline-form col-2">
                   <label for="accontent_0">Nội dung:</label>
                   <input type="text"  class="form-control" name="content_[]" id="accontent_0" value="{{ $content }}" data-id="0" required>
                 </div>
                 
-                <div class="form-inline cm-inline-form col-md-2">
+                <div class="form-group cm-inline-form col-2">
                   <label for="unit_0">Đơn vị tính:</label>
                   <input type="text"  class="form-control" name="unit_[]" id="unit_[]" data-id="0" value="{{ $unit_[$key] }}">
                 </div>
                 
-                <div class="form-inline cm-inline-form col-md-2">
+                <div class="form-group cm-inline-form col-2">
                   <label for="unitPrice_0">Đơn giá:</label>
                   <input type="text"  class="form-control unitPrice" name="unitPrice_[]" id="unitPrice_0" data-id="0" value="{{ $unitPrice_[$key] }}" required>
                 </div>
                 
-                <div class="form-inline cm-inline-form col-md-2">
+                <div class="form-group cm-inline-form col-2">
                   <label for="amount_0">Số lượng:</label>
                   <input type="number"  class="form-control" name="amount_[]" id="amount_0" data-id="0" value="{{ $amount_[$key] }}" required>
                 </div>
-                <div class="form-inline cm-inline-form col-md-2">
+                <div class="form-group cm-inline-form col-2">
                   <label for="expectedValue_0">Thành tiền:</label>
                   <input type="text"  class="form-control expectedValue" name="expectedValue_[]" id="expectedValue_0" data-id="0" required>
                 </div>
-                <div class="form-inline cm-inline-form col-md-2">
+                <div class="form-group cm-inline-form col-2">
                   <label for="paymentType_0">Hình thức thanh toán:</label>
                   <select name="paymentType_[0]" id="paymentType_0" class="form-control" style="width:80%;" data-id="0" required>
                     <option value="Ký nhận">Ký nhận</option>
@@ -112,30 +112,30 @@
               </div>
               <div class="card-body">
                 <div class="form-row">
-                  <div class="form-inline cm-inline-form col-md-2">
+                  <div class="form-group cm-inline-form col-2">
                     <label for="accontent_0">Nội dung:</label>
                     <input type="text"  class="form-control" name="content_[]" id="accontent_0"  data-id="0" required>
                   </div>
                   
-                  <div class="form-inline cm-inline-form col-md-2">
+                  <div class="form-group cm-inline-form col-2">
                     <label for="unit_0">Đơn vị tính:</label>
                     <input type="text"  class="form-control" name="unit_[]" id="unit_[]" data-id="0" >
                   </div>
                   
-                  <div class="form-inline cm-inline-form col-md-2">
+                  <div class="form-group cm-inline-form col-2">
                     <label for="unitPrice_0">Đơn giá:</label>
                     <input type="text"  class="form-control unitPrice" name="unitPrice_[]" id="unitPrice_0" data-id="0" required>
                   </div>
                   
-                  <div class="form-inline cm-inline-form col-md-2">
+                  <div class="form-group cm-inline-form col-2">
                     <label for="amount_0">Số lượng:</label>
                     <input type="number"  class="form-control" name="amount_[]" id="amount_0" data-id="0"  required>
                   </div>
-                  <div class="form-inline cm-inline-form col-md-2">
+                  <div class="form-group cm-inline-form col-2">
                     <label for="expectedValue_0">Thành tiền:</label>
                     <input type="text"  class="form-control expectedValue" name="expectedValue_[]" id="expectedValue_0" data-id="0" required>
                   </div>
-                  <div class="form-inline cm-inline-form col-md-2">
+                  <div class="form-group cm-inline-form col-2">
                     <label for="paymentType_0">Hình thức thanh toán:</label>
                     <select name="paymentType_[0]" id="paymentType_0" class="form-control" style="width:80%;" data-id="0" required>
                       <option value="Ký nhận">Ký nhận</option>
