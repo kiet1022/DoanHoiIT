@@ -60,4 +60,8 @@ class Student extends Model
     public function collaborator(){
         return $this->hasOne('App\Models\Collaborator','student_id','student_id');
     }
+
+    public function leadActivity(){
+        return $this->hasMany('App\Models\Activity','leader','student_id');
+    }
 }

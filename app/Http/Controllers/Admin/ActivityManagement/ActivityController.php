@@ -333,10 +333,10 @@ class ActivityController extends Controller
       
       Log::AddToLog('Chỉnh sửa chương trình', $oldData, $newData);
       DB::commit();
-      return redirect()->back()->with(config('constants.SUCCESS'),'Thêm chương trình thành công!');
+      return redirect()->back()->with(config('constants.SUCCESS'),'Sửa thông tin chương trình thành công!');
     } catch (Exception $e) {
       DB::rollback();
-      return redirect()->back()->with(config('constants.ERROR'),'Thêm chương trình thất bại!');
+      return redirect()->back()->with(config('constants.ERROR'),'Sửa thông tin chương trình thất bại!');
     }
   }
   
@@ -434,140 +434,4 @@ class ActivityController extends Controller
     }
   }
 
-  /**
-   * Get add new workflow page
-   * 
-   */
-  public function getAddAcWorkFlow($id = null){
-    if($id != null){
-      $this->data['acid'] = $id;
-    }
-    $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
-    $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
-    $this->data['students'] = Student::whereHas('execComm')->orWhereHas('association')->orWhereHas('collaborator')->get();
-    return view('admin.activity.add_workflow')->with($this->data);
-  }
-
-  /**
-   * Add new workflow
-   * 
-   * @param Request $req The request that user sent
-   */
-  public function postAddAcWorkFlow(Request $req){
-    try {
-      DB::beginTransaction();
-      for($i = 0; $i < count($req->leader_) ; $i++){
-        $workflow = new WorkFlow;
-        $workflow->activity_id = $req->activity;
-        $workflow->student_id = $req->leader_[$i];
-        $workflow->content = $req->workcontent_[$i];
-        $workflow->deadline = DateTimeUtil::convertToYmd($req->deadline_[$i]);
-        $workflow->created_by = Auth::user()->id;
-        $workflow->progress = 0;
-        $workflow->save();
-      }
-      DB::commit();
-      return redirect()->back()->with(config('constants.SUCCESS'),'Thêm công việc thành công!');
-    } catch (Exception $ex) {
-      DB::rollback();
-      return redirect()->back()->with(config('constants.ERROR'),'Thêm công việc thất bại!');
-    }
-  }
-
-  /**
-   * Get work flow list of an activity
-   * 
-   * @param Integer $id The id of activity
-   * 
-   */
-  public function getListWorkFlow($id = null){
-    $this->data['workflows'] = WorkFlow::with(['details','ofStudent','ofActivity'])->where('activity_id',$id)->get();
-    // return $this->data['workflows'];
-    return view('admin.activity.workflow_list')->with($this->data);
-  }
-
-  /**
-   * Get detail of activity workflow
-   * 
-   * @param Request $req The request that user sent
-   * 
-   */
-  public function getWorkFlowDetail(Request $req){
-    $this->data['workflowDetail'] = $req->content;
-    // return $this->data['workflowDetail'];
-    return response()->view('admin.activity.modal_workflow_detail', $this->data);
-  }
-
-  /**
-   * Edit workflow detail
-   * 
-   * @param Request $req the request that user sent
-   * 
-   */
-  public function postEditWorkFlowDetail(Request $req){
-    $wfdetail = WorkFlow::where('id',$req->id)->with(['details'])->first();
-    $arrDetailId = [];
-    foreach ($wfdetail->details as $detail) {
-      array_push($arrDetailId, $detail->id);
-    }
-    
-    try {
-      DB::beginTransaction();
-      $wfdetail->content = $req->contentDetail;
-      $wfdetail->updated_by = Auth::user()->id;
-      
-      // Delete funding detail if it is not exist
-      foreach ($arrDetailId as $detailid) {
-        if(!in_array(intval($detailid), $req->workflowId_)){
-          $deleteDetail = WorkFlowDetail::find($detailid);
-          $deleteDetail->forceDelete();
-        }
-      }
-
-      // update detail
-      for($i = 0; $i < count($req->content_); $i++){
-        if($req->workflowId_[$i] == 0){
-          $newDetail = new WorkFlowDetail;
-          $newDetail->workflow_id = $req->id;
-          $newDetail->content = $req->content_[$i];
-          $newDetail->progress = $req->progress_[$i];
-          $newDetail->created_by = Auth::user()->id;
-          $newDetail->save();
-        } else {
-          $oldDetail = WorkFlowDetail::find($req->workflowId_[$i]);
-          $oldDetail->content = $req->content_[$i];
-          $oldDetail->progress = $req->progress_[$i];
-          $oldDetail->created_by = Auth::user()->id;
-          $oldDetail->save();
-          
-        }
-      }
-
-      // update workflow progress after update of inser detail
-      $percent = DB::table('workflow_details')->select(DB::raw('sum(progress) / count(*) as percent'))->where('workflow_id', $req->id)
-      ->whereNull('deleted_at')->first();
-      $wfdetail->progress = intval($percent->percent);
-      $wfdetail->save();
-      DB::commit();
-      return redirect()->back()->with(config('constants.SUCCESS'),'Cập nhật công việc thành công');
-    } catch (Excetion $ex) {
-      DB::rollback();
-      return redirect()->back()->with(config('constants.ERROR'),'Cập nhật công việc thất bại!');
-    }
-  }
-
-  /**
-   * Detlete workflow
-   * 
-   * @param Integer $id The id of workflow
-   * 
-   */
-  public function deleteWorkFlow($id){
-    $workflow = WorkFlow::with(['details'])->find($id);
-    foreach ($workflow->details as $detail) {
-      $detail->delete();
-    }
-    $workflow->delete();
-    return redirect()->back()->with(config('constants.SUCCESS'),'Xóa công việc thành công');
-  }
 }

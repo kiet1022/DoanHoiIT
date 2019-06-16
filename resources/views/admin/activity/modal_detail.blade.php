@@ -62,18 +62,18 @@
                                       <div class="row flex-wrap">
                                           <div class="col-12">
                                               <div class="progress">
-                                                  <div class="progress-bar {{ changeProgressbarColor(intval($percent->percent)) }} col-8" role="progressbar" aria-valuenow="{{ intval($percent->percent) }}" aria-valuemin="0" aria-valuemax="100" style='width:{{ intval($percent->percent)}}%'>{{ intval($percent->percent) }}%</div>
+                                              <div class="progress-bar {{ changeProgressbarColor($percent->percent) }}" role="progressbar" aria-valuenow="{{ intval($percent->percent) }}" aria-valuemin="0" aria-valuemax="{{ intval($percent->percent) }}" style='width:{{ intval($percent->percent)}}%'>{{ intval($percent->percent) }}%</div>
                                               </div>
                                           </div>
                                           <div class="col-12 text-center mt-4">
-                                              <a href="{{ route('get_list_workflow',['id'=>$activity->id]) }}" class="btn btn-primary btn-sm">Xem tiến độ</a>
+                                              <a href="{{ route('get_list_workflow',['id'=>$activity->id]) }}" class="btn btn-primary btn-sm" target="_blank">Xem tiến độ</a>
                                           </div>
                                       </div>
                                       
             
                                       @else
                                       <div class="text-center">
-                                          <a href="{{ route('get_add_workflow',['id'=>$activity->id]) }}" class="btn btn-primary btn-sm">Thêm công việc</a>
+                                          <a href="{{ route('get_add_workflow',['id'=>$activity->id]) }}" class="btn btn-primary btn-sm" target="_blank">Thêm công việc</a>
                                       </div>
                                       @endif
                                     </td>

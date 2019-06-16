@@ -258,21 +258,28 @@ Route::prefix('admin')->group(function(){
 
         Route::prefix('workflow')->group( function() {
             // get Checkin page
-        Route::get('add/{id}.php','Admin\ActivityManagement\ActivityController@getAddAcWorkFlow')->name('get_add_workflow');
+        Route::get('add/{id}.php','Admin\ActivityManagement\WorkflowController@getAddAcWorkFlow')->name('get_add_workflow');
 
-        Route::post('add.php','Admin\ActivityManagement\ActivityController@postAddAcWorkFlow')->name('post_add_workflow');
+        Route::post('add.php','Admin\ActivityManagement\WorkflowController@postAddAcWorkFlow')->name('post_add_workflow');
 
         // Get activity work flow list
-        Route::get('list/{id}.php','Admin\ActivityManagement\ActivityController@getListWorkFlow')->name('get_list_workflow');
+        Route::get('list/{id}.php','Admin\ActivityManagement\WorkflowController@getListWorkFlow')->name('get_list_workflow');
 
         // Get edit activity work flow detail
-        Route::post('detail.php','Admin\ActivityManagement\ActivityController@getWorkFlowDetail')->name('get_workflow_detail');
+        Route::post('detail.php','Admin\ActivityManagement\WorkflowController@getWorkFlowDetail')->name('get_workflow_detail');
 
         //edit workflow detail
-        Route::post('edit.php','Admin\ActivityManagement\ActivityController@postEditWorkFlowDetail')->name('edit_workflow_detail');
+        Route::post('edit.php','Admin\ActivityManagement\WorkflowController@postEditWorkFlowDetail')->name('edit_workflow_detail');
 
         //delete work flow
-        Route::get('delete/{id}.php','Admin\ActivityManagement\ActivityController@deleteWorkFlow')->name('delete_workflow');
+        Route::get('delete/{id}.php','Admin\ActivityManagement\WorkflowController@deleteWorkFlow')->name('delete_workflow');
+
+        // Get activity work flow list
+        Route::get('list.php','Admin\ActivityManagement\WorkflowController@getWorkFlowList')->name('get_workflow_list');
+
+        // Filter activity workflow list
+        Route::post('list.php','Admin\ActivityManagement\WorkflowController@filterWorkFlow')->name('get_workflow_filter');
+        
         });
     });
 

@@ -93,5 +93,5 @@
     showNotify('success',success);
     @endif
   </script>
-  <script src="{{asset('assets\js\admin\activity\workflow_list.js')}}"></script>
+  <script src="{{asset('assets\js\admin\workflow\workflow_list.js')}}"></script>
   @endsection

@@ -1,5 +1,5 @@
 @extends('admin.layout.layout')
-@section('title','Tạo dự trù')
+@section('title','Phân công công việc')
 @section('style')
 <link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
@@ -13,7 +13,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col page-title-header">
-      <h4>Tiến độ công việc</h4>
+      <h4>Phân công công việc</h4>
     </div>
   </div>
   <div class="row">
@@ -52,7 +52,10 @@
               <select name="activity" id="activity" class="form-control">
                 <option value="">Chọn chương trình</option>
                 @foreach ($activities as $a)
-                <option value="{{ $a->id }}" {!! changeSelectedStatus("$a->id", old('activity') ) !!} {!! changeSelectedStatus("$a->id", "$acid") !!}>{{ $a->name }}</option>
+                <option value="{{ $a->id }}" {!! changeSelectedStatus("$a->id", old('activity') ) !!} \
+                  @if(isset($acid))
+                  {!! changeSelectedStatus("$a->id", "$acid") !!}
+                  @endif>{{ $a->name }}</option>
                 @endforeach
               </select>
             </div>
@@ -64,7 +67,7 @@
   <div class="row custom_panel">
     <form action="{{ route('post_add_workflow') }}" method="POST" class="col-12">
       @csrf
-      <input type="hidden" name="activity" id="activityID" value="{{$acid}}">
+      <input type="hidden" name="activity" id="activityID" @if(isset($acid)) value="{{$acid}}" @endif>
     {{-- Student list --}}
     <div class="col-md-12 col-sm-12 col-xs-12 d-flex flex-wrap p-0" id="in-card-content">
       <div class="col-4 mb-4" id="card_0">
@@ -110,7 +113,7 @@
       </div>
       <hr class="sidebar-divider d-none d-md-block m-0">
       <div class="text-center mt-3">
-        <button type="submit" class="btn btn-success">submit</button>
+        <button type="submit" class="btn btn-success">Lưu</button>
       </div>
     </form>
     </div>
@@ -148,5 +151,5 @@
     @endif
     var student = {!!$students!!}
   </script>
-  <script src="{{asset('assets\js\admin\activity\add_workflow.js')}}"></script>
+  <script src="{{asset('assets\js\admin\workflow\add_workflow.js')}}"></script>
   @endsection
