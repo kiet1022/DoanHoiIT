@@ -285,8 +285,13 @@ Route::prefix('admin')->group(function(){
 
     Route::prefix('statistical')->group(function(){
 
-        // Statis student by shool year
-        Route::get('student-through-schooll-year.php','Admin\StatisticalManagement\StatisticalController@stStudentSchoolYear')->name('st_student_school_year');
+        Route::prefix('students')->group(function(){
+            // Statis student by shool year
+            Route::get('student-through-schooll-year.php','Admin\StatisticalManagement\StatisticalController@stStudentSchoolYear')->name('st_student_school_year');
+
+            // Filter student statistical by year and class
+            Route::post('filter.php','Admin\StatisticalManagement\StatisticalController@stFilterStudent')->name('st_filter_student');
+        });
     });
 
     /**

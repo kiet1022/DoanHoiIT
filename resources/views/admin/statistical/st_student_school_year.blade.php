@@ -20,13 +20,31 @@
   <div class="row custom_panel">
     {{-- Student list --}}
     <div class="col-md-12 col-sm-12 col-xs-12 p-0">
-      
+      <form action="" class="col-md-12" id="filterActivity">
+        <div class="form-row">
+          {{-- Birthday --}}
+          <div class="form-group col-md-4 offset-md-4">
+            <label for="year" class="col-md-12 common-label-inline">Khóa học:</label>
+            <div class="col-12 col-12 col-12 px-0 d-flex">
+                <select name="year" id="year" class="form-control">
+                    <option value="">Tất cả các khóa</option>
+                  @foreach ($years as $y)
+                  <option value="{{ $y->id }}" {!! changeSelectedStatus($y->id, old('year') ) !!}>{{ $y->course }}</option>
+                  @endforeach
+                </select>
+              <div class="col-4">
+                  <button type="button" class="btn btn-primary right" id="filter"><i class="fas fa-filter"></i> Lọc</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
   
   <div class="row custom_panel">
     {{-- Student list --}}
-    <div class="col-md-12 col-sm-12 col-xs-12 p-0 d-flex flex-wrap">
+    <div class="col-md-12 col-sm-12 col-xs-12 p-0 d-flex flex-wrap" id="chart-area">
       <div class="col-6 mb-3">
           <canvas id="myChart1" height="120"></canvas>
       </div>
@@ -68,11 +86,13 @@
 <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
 <script src="{{ asset('assets\vendor\Chart.js-2.8.0\dist\Chart.min.js') }}"></script>
 <script>
-  var k15 = @json($K15);
   var k16 = @json($K16);
+  var k15 = @json($K15);
   var k17 = @json($K17);
   var k18 = @json($K18);
-  var BASE_URL = "{{ asset('admin/activities/workflow') }}";
+  var classes = @json($classes);
+  var years = @json($years);
+  var BASE_URL = "{{ asset('admin/statistical/students/') }}";
   @if(session('error'))
   var error = "{{session('error')}}";
   showNotify('error',error);
