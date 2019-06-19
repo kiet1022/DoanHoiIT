@@ -73,16 +73,19 @@ Danh mục tin
 
               @if($list->end_regis_date < Carbon\Carbon::today()) 
                 <p class="col-md-3 time-expired">Hết hạn đăng kí</p>
+              @else
+                @if(count($registActivity)==null)
+                <div class="col-md-3"><button class="btn btnRegist" id="activity_{{$list->id}}" data-id="{{$list->id}}">Đăng kí</button></div>
                 @else
                   @foreach ($registActivity as $listRes)
-                    @if ($listRes->activity_id ==$list->id)
+                    @if ($listRes->activity_id ===$list->id)
                     <p class="col-md-3 time-expired">Đã đăng kí</p>
                     @else
                     <div class="col-md-3"><button class="btn btnRegist" id="activity_{{$list->id}}" data-id="{{$list->id}}">Đăng kí</button></div>
                     @endif
                   @endforeach
-                
-                @endif
+                 @endif
+              @endif
             </div>
           </div>
         </div>
