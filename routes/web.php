@@ -29,6 +29,8 @@ Route::get('logout.php','HomeController\HomeController@logout')->name('logout');
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->group(function(){
+
+    Route::get('dashboard.php','HomeController\HomeController@getAdminDashBoard')->name('admin_dashboard');
     
     /**
     * Student management Routing
@@ -340,7 +342,7 @@ Route::get('/test', function(){
 | User management Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/index', 'User\HomeController@getHomePage')->name('get_home_page');
+Route::get('/index.php', 'User\HomeController@getHomePage')->name('get_home_page');
 Route::get('/new/{id}.php', 'User\NewsController@getNewDetail')->name('get_new');
 Route::get('/category/{id}.php', 'User\NewsController@getNewsByCategory')->name('get_new_by_ctg');
 Route::get('/infomation.php', 'User\UserController@getUserInfo')->name('get_profile');

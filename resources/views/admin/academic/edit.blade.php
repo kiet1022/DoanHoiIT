@@ -3,10 +3,6 @@
 Chương trình đào tạo
 @endsection
 @section('style')
-<link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/vendor/icheck-1.x/skins/flat/green.css')}}" rel="stylesheet">
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<link href="{{asset('assets/vendor/gijgo-combined-1.9.11/css/gijgo.min.css')}}" rel="stylesheet">
 @endsection
 @section('main_content')
 <div class="row">
@@ -66,10 +62,6 @@ Chương trình đào tạo
 </div>
 @endsection
 @section('js')
-<script src="{{asset('assets/vendor/icheck-1.x/icheck.js')}}"></script>
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
-<script src="{{asset('assets/js/ckeditor/ckeditor.js')}}"></script>
 <script type="text/javascript">
     $('#start').change(function() {
         var val = $("#type option:selected").val();

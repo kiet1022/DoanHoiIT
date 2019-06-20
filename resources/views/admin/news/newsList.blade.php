@@ -3,27 +3,7 @@
 Quản lí tin tức
 @endsection
 @section('style')
-<link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('assets/css/admin/cm-news.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
-
-<meta name="csrf-token" content="{{ csrf_token() }}">
-
-<style>
-    .no-js #loader { display: none;  }
-    .js #loader { display: block; position: absolute; left: 100px; top: 0; }
-    .se-pre-con {
-        position: fixed;
-        left: 0px;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background: url("{{asset('assets/img/Preloader_1.gif')}}") center no-repeat #fff;
-    }
-</style>
 @endsection
 @section('main_content')
 <div class="container-fluid">

@@ -11,6 +11,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   {{-- <base href="{{asset('')}}"> --}}
   <title>@yield('title')</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="shortcut icon" href="{{asset('assets/img/faculty_banner.png')}}"> 
   <!-- Custom fonts for this template-->
   <link href="{{asset('assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -21,6 +22,17 @@
   <link href="{{asset('assets/vendor/bootstrap-select-1.13.7/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('assets/vendor/animate.css-master/animate.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap4-dialog/css/bootstrap-dialog.min.css') }}" >
+<link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+<link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
+<link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
+<link href="{{asset('assets/vendor/icheck-1.x/skins/flat/green.css')}}" rel="stylesheet">
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<link href="{{asset('assets/css/admin/activity/list_activity.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('assets/vendor/gijgo-combined-1.9.11/css/gijgo.min.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('assets\vendor\Chart.js-2.8.0\dist\Chart.min.css') }}">
+<meta name="csrf-token" content="{{ csrf_token() }}">
   @yield('style')
 </head>
 
@@ -87,6 +99,17 @@
   <script src="{{asset('assets/vendor/bootstrap4-dialog/js/bootstrap-dialog.min.js')}}"></script>
   <script src="{{asset('assets/vendor/jquery.blockUI.js')}}"></script>
   <script src="{{ asset('assets/js/common.js') }}"></script>
+  <script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
+  <script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
+  <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
+  <script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
+  <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
+  <script src="{{asset('assets/vendor/icheck-1.x/icheck.js')}}"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="{{asset('assets/js/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
+<script src="{{ asset('assets/vendor/orgchart.js') }}"></script>
+<script src="{{ asset('assets\vendor\Chart.js-2.8.0\dist\Chart.min.js') }}"></script>
   <script>
       $.ajaxSetup({
     headers: {

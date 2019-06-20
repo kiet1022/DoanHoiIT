@@ -5,22 +5,10 @@ $(document).ready(function(){
 
 function initChart(){
   var el_k15 = $('#myChart1');
-  var totalk15 = 0
-  mapData(k15).forEach(element => {
-    return totalk15 += element;
-  });
-  var totalk16 = 0
-  mapData(k16).forEach(element => {
-    return totalk16 += element;
-  });
-  var totalk17 = 0
-  mapData(k17).forEach(element => {
-    return totalk17 += element;
-  });
-  var totalk18 = 0
-  mapData(k18).forEach(element => {
-    return totalk18 += element;
-  });
+  var totalk15 = countTotalStudent(k15);
+  var totalk16 = countTotalStudent(k16);
+  var totalk17 = countTotalStudent(k17);
+  var totalk18 = countTotalStudent(k18);
   renderChart(el_k15, mapData(k15), 'Số lượng sinh viên K15 (Tổng: '+totalk15+' SV)',labels)
   var el_k16 = $('#myChart2');
   renderChart(el_k16, mapData(k16), 'Số lượng sinh viên K16 (Tổng: '+totalk16+' SV)', labels)
@@ -30,12 +18,20 @@ function initChart(){
   renderChart(el_k18, mapData(k18), 'Số lượng sinh viên K18 (Tổng: '+totalk18+' SV)', labels)
 }
 
+function countTotalStudent(data){
+  var result = 0;
+  mapData(data).forEach(element => {
+    return result += element;
+  });
+  return result;
+}
 function mapData(data){
   var number = [];
   return number = data.map(function(x){
     return x.SoLuong;
   });
 }
+
 function renderChart(element, data, title, labels){
   new Chart(element, {
     type: 'pie',
@@ -110,20 +106,14 @@ $('#filter').on('click', function(e){
       var yeary = years.find(function(element){
         return year == element.id
       })
-      var total = 0;
-      mapData(data['chartYear'][0][0]).forEach(element => {
-        return total += element;
-      });
+      var total = countTotalStudent(data['chartYear'][0][0]);
       renderChart(chartsummary,mapData(data['chartYear'][0][0]), 'Số lượng sinh viên khóa '+yeary.course+' (Tổng: '+total+")", labels);
 
       for(var i = 0; i< data['chartdetail'].length;i++){
         var obj = data['chartdetail'][i];
         $.each( obj, function( key, value ) {
           var name = "chart-detail-"+i;
-          var total = 0;
-          mapData(value).forEach(element => {
-            return total += element;
-          });
+          var total = countTotalStudent(value);
           renderChart(name,mapData(value), 'Số lượng sinh viên lớp: '+key+' (Tổng: '+total+")", labels);
         });
       }

@@ -3,13 +3,7 @@
 Danh sách chương trình
 @endsection
 @section('style')
-<link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('assets/css/admin/activity/list_activity.css')}}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
-<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('main_content')
 <div class="container-fluid">
@@ -138,11 +132,6 @@ Danh sách chương trình
   @endsection
   @section('js')
   <!-- Page level plugins -->
-  <script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
-  <script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
-  <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
-  <script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
-  <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
   <script>
     var BASE_URL = "{{ asset('admin/activities/') }}";
     var BASE_FUNDING_URL = "{{ asset('admin/activities/funding') }}";

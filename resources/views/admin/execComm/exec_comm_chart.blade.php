@@ -3,10 +3,6 @@
 Sơ đồ Ban chấp hành
 @endsection
 @section('style')
-<link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('assets/css/admin/execComm/exec_comm_chart.css')}}" rel="stylesheet">
 @endsection
 @section('main_content')
@@ -34,10 +30,6 @@ Sơ đồ Ban chấp hành
 @endsection
 @section('js')
  <!-- Page level plugins -->
-<script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
-<script src="{{ asset('assets/vendor/orgchart.js') }}"></script>
  <!-- Page level custom scripts -->
  {{-- <script src="js/demo/datatables-demo.js"></script> --}}
 <script>

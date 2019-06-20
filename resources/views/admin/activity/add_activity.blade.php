@@ -1,11 +1,5 @@
 @extends('admin.layout.layout')
 @section('title','Thêm hoạt động')
-@section('style')
-<link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/vendor/icheck-1.x/skins/flat/green.css')}}" rel="stylesheet">
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
-@endsection
 @section('main_content')
 <div class="row">
     <div class="col page-title-header">
@@ -297,11 +291,8 @@
 </div>
 @endsection
 @section('js')
-<script src="{{asset('assets/vendor/icheck-1.x/icheck.js')}}"></script>
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
 <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
-<script src="{{asset('assets/js/ckeditor/ckeditor.js')}}"></script>
 <script>
     @if(session('error'))
         var error = "{{session('error')}}";

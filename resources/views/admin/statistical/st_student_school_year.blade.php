@@ -1,14 +1,7 @@
 @extends('admin.layout.layout')
 @section('title','Thống kê sinh viên theo năm học')
 @section('style')
-<link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('assets/css/admin/activity/workflow_list.css')}}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
-<link rel="stylesheet" href="{{ asset('assets\vendor\Chart.js-2.8.0\dist\Chart.min.css') }}">
-<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('main_content')
 <div class="container-fluid">
@@ -79,12 +72,6 @@
 @endsection
 @section('js')
 <!-- Page level plugins -->
-<script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
-<script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
-<script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
-<script src="{{ asset('assets\vendor\Chart.js-2.8.0\dist\Chart.min.js') }}"></script>
 <script>
   var k16 = @json($K16);
   var k15 = @json($K15);

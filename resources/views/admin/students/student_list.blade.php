@@ -2,14 +2,6 @@
 @section('title')
 Danh sách sinh viên
 @endsection
-@section('style')
-<link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
-
-<meta name="csrf-token" content="{{ csrf_token() }}">
-@endsection
 @section('main_content')
 <div class="container-fluid">
   <div class="row">
@@ -155,11 +147,6 @@ Danh sách sinh viên
 
 @endsection
 @section('js')
-<!-- Page level plugins -->
-<script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
-{{-- <script src="{{asset('assets/js/admin/common.js')}}"></script> --}}
 <script>
   var classes = {!!$class!!};
   var BASE_URL = "{{ asset('admin/student/') }}"

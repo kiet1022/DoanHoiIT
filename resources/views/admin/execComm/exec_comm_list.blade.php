@@ -2,12 +2,6 @@
 @section('title')
 Danh sách ban chấp hành
 @endsection
-@section('style')
-<link href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/vendor/datatables/css/select.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{asset('assets/css/admin/common.css')}}" rel="stylesheet" type="text/css">
-<link href="{{asset('assets/css/admin/common2.css')}}" rel="stylesheet" type="text/css">
-@endsection
 @section('main_content')
 <div class="container-fluid">
   <div class="row">
@@ -101,10 +95,6 @@ Danh sách ban chấp hành
   @endsection
   @section('js')
   <!-- Page level plugins -->
-  <script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
-  <script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
-  <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
-  <script src="{{ asset('assets/vendor/orgchart.js') }}"></script>
 <script>
   var BASE_URL = "{{ asset('admin/student') }}"+"/";
 var EXEC_URL = "{{ asset('admin/exec-com') }}"+"/";
