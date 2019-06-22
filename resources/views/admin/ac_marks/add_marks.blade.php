@@ -5,8 +5,17 @@
 @endsection
 @section('main_content')
 <div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+            <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Quản lý ĐRL - CTXH</li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Tạo danh sách cộng điểm</li>
+        </ol>
+    </nav>
+</div>
+<div class="row">
   <div class="col page-title-header">
-    <h4>Điểm danh</h4>
+    <h4>Tạo danh sách cộng điểm</h4>
   </div>
 </div>
 <form action="{{ route('post_add_marks') }}" method="POST" id="myform">
@@ -139,7 +148,7 @@
             </div>
           </div>
           <div class="text-right">
-            <button class="btn btn-primary cm-btn-form" id="saveinfo" type="submit"><i class="fas fa-download"></i> Lưu danh sách điểm danh</button>
+            <button class="btn btn-primary cm-btn-form" id="saveinfo" type="submit"><i class="fas fa-download"></i> Lưu</button>
           </div>
         </div>
       </div>

@@ -102,14 +102,14 @@
   <script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{asset('assets/vendor/datatables/js/dataTables.select.min.js')}}"></script>
-  <script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
-  <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
   <script src="{{asset('assets/vendor/icheck-1.x/icheck.js')}}"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="{{asset('assets/js/ckeditor/ckeditor.js')}}"></script>
 <script src="{{asset('assets/vendor/gijgo-combined-1.9.11/js/gijgo.js')}}"></script>
 <script src="{{ asset('assets/vendor/orgchart.js') }}"></script>
 <script src="{{ asset('assets\vendor\Chart.js-2.8.0\dist\Chart.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
+<script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
   <script>
       $.ajaxSetup({
     headers: {

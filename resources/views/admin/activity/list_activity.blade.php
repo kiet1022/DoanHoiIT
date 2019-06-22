@@ -7,6 +7,15 @@ Danh sách chương trình
 @endsection
 @section('main_content')
 <div class="container-fluid">
+    <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+            <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Quản lý chương trình</li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Danh sách chương trình</li>
+          </ol>
+        </nav>
+    </div>
   <div class="row">
     <div class="col page-title-header">
       <h4>Danh sách chương trình</h4>
@@ -19,10 +28,10 @@ Danh sách chương trình
         @csrf
         <div class="form-row">
           {{-- Birthday --}}
-          <div class="form-group cm-inline-form col-md-3 offset-md-3">
-            <label for="year" class="col-md-3 common-label-inline">Năm học:</label>
-            <div class="col-md-8 col-sm-8 col-xs-8 px-0">
-              <select name="year" id="year" class="form-control" style="width:150px;">
+          <div class="form-group col-md-4 offset-md-2">
+            <label for="year" class="col-12 common-label-inline">Năm học:</label>
+            <div class="col-8 px-0">
+              <select name="year" id="year" class="form-control">
                 <option value="">Chọn năm học</option>
                 @foreach ($year as $y)
                 <option value="{{ $y->name }}" 
@@ -36,10 +45,10 @@ Danh sách chương trình
           </div>
           
           {{-- Birthday --}}
-          <div class="form-group cm-inline-form col-md-3">
-            <label for="semester" class="col-md-3 common-label-inline">Học kỳ:</label>
-            <div class="col-md-8 col-sm-8 col-xs-8 px-0">
-              <select name="semester" id="semester" class="form-control" style="width:150px;">
+          <div class="form-group col-md-4">
+            <label for="semester" class="col-12 common-label-inline">Học kỳ:</label>
+            <div class="col-8 px-0">
+              <select name="semester" id="semester" class="form-control">
                 <option value="">Chọn học kỳ</option>
                 <option value="1" 
                 @if (old('semester'))

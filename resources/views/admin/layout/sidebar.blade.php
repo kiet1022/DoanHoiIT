@@ -32,7 +32,7 @@
       <!-- Collapse Student manager -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#studentManagerCollapse" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
+          <i class="fas fa-users"></i>
           <span>Quản lý sinh viên</span>
         </a>
         <div id="studentManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -40,12 +40,10 @@
             <h6 class="collapse-header">Thông tin sinh viên:</h6>
             <a class="collapse-item" href="{{ route('get_student_list') }}">Danh sách sinh viên</a>
             <a class="collapse-item" href="{{route('get_add_student')}}">Thêm sinh viên</a>
-            <a class="collapse-item" href="forgot-password.html">DRL - CTXH</a>
             <div class="collapse-divider"></div>
             <h6 class="collapse-header">Thông tin chi đoàn</h6>
             <a class="collapse-item" href="{{route('educationProgramList')}}">Chương trình đào tạo</a>
             <a class="collapse-item" href="{{route('get_class_list')}}">Danh sách chi đoàn</a>
-            <a class="collapse-item" href="blank.html">Danh sách đoàn viên</a>
           </div>
         </div>
       </li>
@@ -61,7 +59,7 @@
         <!-- Collapse Programs manager -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ProgramsManagerCollapse" aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-tasks"></i>
             <span>Quản lý chương trình</span>
           </a>
           <div id="ProgramsManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -69,7 +67,6 @@
               <h6 class="collapse-header">Trước chương trình: </h6>
             <a class="collapse-item" href="{{ route('get_list_activity') }}">Danh sách chương trình</a>
               <a class="collapse-item" href="{{ route('get_add_activity') }}">Thêm chương trình</a>
-            <a class="collapse-item" href="#">Tạo dự trù</a>
               <h6 class="collapse-header">Trong chương trình: </h6>
             <a class="collapse-item" href="{{ route('get_workflow_list')}}">Tiến độ công việc</a>
               <a class="collapse-item" href="{{ route('get_add_workflow',['id'=>'null']) }}">Phân công công việc</a>
@@ -83,13 +80,12 @@
         <!-- Collapse Practise and social marks manager -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pracSocMarkManagerCollapse" aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-award"></i>
             <span>Quản lý DRL - CTXH</span>
           </a>
           <div id="pracSocMarkManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="{{ route('get_marks_list') }}">Quản lý danh sách điểm</a>
-              <a class="collapse-item" href="404.html">Xuất danh sách</a>
             </div>
           </div>
         </li>
@@ -116,7 +112,7 @@
         <!-- Collapse Internal manager -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#internalManagerCollapse" aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-users-cog"></i>
             <span>Quản lý thông tin BCH</span>
           </a>
           <div id="internalManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -143,7 +139,7 @@
         <!-- Collapse Statics manager -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#staticsManagerCollapse" aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-chart-pie"></i>
             <span>Thống kê</span>
           </a>
           <div id="staticsManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -160,7 +156,7 @@
         <!-- Collapse news manager -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#newsManagerCollapse" aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-newspaper"></i>
             <span>Quản lý tin tức</span>
           </a>
           <div id="newsManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">

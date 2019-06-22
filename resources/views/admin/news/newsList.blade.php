@@ -8,6 +8,15 @@ Quản lí tin tức
 @section('main_content')
 <div class="container-fluid">
     <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+            <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Quản lý tin tức</li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Danh sách bài viết</li>
+          </ol>
+        </nav>
+      </div>
+    <div class="row">
         <div class="col page-title-header">
                 <h4>Danh sách bài viết</h4>
         </div>
@@ -17,7 +26,7 @@ Quản lí tin tức
         <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
             <form action="" method="get" class="col-md-12">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4 offset-md-3">
                         <label for="type_id" class="col-md-4 common-label-inline">Phân loại:</label>
                         <select id="type_id" class="form-control col-md-8" name="type_id" required>
                             <option value="0">Tất cả bài viết</option>
@@ -27,6 +36,7 @@ Quản lí tin tức
                         </select>
                     </div>
                     <div class="form-group col-md-1"><br>
+                      <label></label>
                         <button type="submit" class="btn btn-primary right"><i class="fas fa-filter"></i> Lọc</button>
                     </div>
 
@@ -75,8 +85,10 @@ Quản lí tin tức
                   </div>
                 </div>
                 <!-- /.container-fluid -->
-                <a class="btn btn-success" href="{{route('get_add_new')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a>
-                <button onclick="deleteNew()" class="btn delete_all" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
+                <div class="text-center">
+                    <a class="btn btn-success" href="{{route('get_add_new')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a>
+                    <button onclick="deleteNew()" class="btn delete_all cm-btn-form" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
+                </div>
         </div>
     </div>
 </div>

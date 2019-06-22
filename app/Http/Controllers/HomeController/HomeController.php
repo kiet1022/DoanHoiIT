@@ -4,6 +4,7 @@ namespace App\Http\Controllers\HomeController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Activity;
 class HomeController extends Controller
 {
     /**
@@ -12,7 +13,7 @@ class HomeController extends Controller
      */
     public function getLogin(){
         if(Auth::check()){
-            return redirect()->route('get_student_list');
+            return redirect()->route('admin_dashboard');
         }else{
             return view('login');
         }
@@ -44,7 +45,18 @@ class HomeController extends Controller
     }
 
     public function getAdminDashBoard(){
-        return view('admin.index');
+        // Get the current day
+        $now = date("Y-m-d H:i:s");
+        $firstDay = date('Y-m-01', strtotime($now));
+        // Last day of the month.
+        $lastDay = date('Y-m-t', strtotime($now));
+        $this->data['activities'] = Activity::with(['leadBy','workflows' => 
+            function($q){
+                $q->select('activity_id','progress');
+            }
+        ])->where('start_date','>=',$firstDay)->where('end_date','<=',$lastDay)->get();
+        // return $this->data['activities'];
+        return view('admin.index')->with($this->data);
     }
 
 //     public function generateDocx()

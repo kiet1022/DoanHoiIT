@@ -4,16 +4,21 @@ Danh sách ban chấp hành
 @endsection
 @section('main_content')
 <div class="container-fluid">
+    <div class="row">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+                <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Quản lý Ban chấp hành</li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Danh sách ban chấp hành</li>
+            </ol>
+        </nav>
+    </div>
   <div class="row">
     <div class="col page-title-header">
       <h4>Quản lý ban chấp hành</h4>
     </div>
   </div>
   <div class="row">
-    
-    <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-      
-    </div>
     {{-- Student list --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
       
@@ -77,9 +82,6 @@ Danh sách ban chấp hành
       
     </div>
   </div>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#studentDetail1">
-      Open modal
-    </button>
 </div>
 
 <!-- Detail Modal -->

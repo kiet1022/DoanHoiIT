@@ -102,3 +102,8 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #6c6c6c
 }
+
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: none;
+}

@@ -17,6 +17,15 @@
 @endsection
 @section('main_content')
 <div class="container-fluid">
+    <div class="row">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+                <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Quản lý dự trù</li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Danh sách dự trù</li>
+            </ol>
+        </nav>
+    </div>
   <div class="row">
     <div class="col page-title-header">
       <h4>Dự trù kinh phí</h4>
@@ -116,7 +125,7 @@
           </div>
         </div>
       </div>
-      <button onclick="deleteActivity()" class="btn" id="deleteFund" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa chương trình</button>
+      <button onclick="deleteActivity()" class="btn" id="deleteFund" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa dự trù</button>
     </div>
   </div>
   {{-- Breadcrumb --}}

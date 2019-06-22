@@ -2,6 +2,16 @@
 @section('title','Phân công công việc')
 @section('main_content')
 <div class="container-fluid">
+    <div class="row">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+                <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Quản lý chương trình</li>
+                <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('get_list_activity') }}"> Danh sách chương trình</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Phân công công việc</li>
+            </ol>
+        </nav>
+    </div>
   <div class="row">
     <div class="col page-title-header">
       <h4>Phân công công việc</h4>
@@ -104,7 +114,7 @@
       </div>
       <hr class="sidebar-divider d-none d-md-block m-0">
       <div class="text-center mt-3">
-        <button type="submit" class="btn btn-success">Lưu</button>
+        <button type="submit" class="btn btn-success cm-btn-form">Lưu</button>
       </div>
     </form>
     </div>

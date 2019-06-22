@@ -31,6 +31,10 @@ Route::get('logout.php','HomeController\HomeController@logout')->name('logout');
 Route::prefix('admin')->group(function(){
 
     Route::get('dashboard.php','HomeController\HomeController@getAdminDashBoard')->name('admin_dashboard');
+
+    Route::prefix('dashboard')->group(function(){
+
+    });
     
     /**
     * Student management Routing

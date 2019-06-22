@@ -4,6 +4,14 @@
 <link href="{{asset('assets/css/admin/activity/list_activity.css')}}" rel="stylesheet" type="text/css">
 @endsection
 @section('main_content')
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Điểm danh</li>
+        </ol>
+    </nav>
+</div>
   <div class="row">
     <div class="col page-title-header">
       <h4>Điểm danh</h4>

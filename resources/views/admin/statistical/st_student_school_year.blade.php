@@ -5,9 +5,18 @@
 @endsection
 @section('main_content')
 <div class="container-fluid">
+    <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+            <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Thổng kê</li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Tình trạng sinh viên</li>
+          </ol>
+        </nav>
+      </div>
   <div class="row">
     <div class="col page-title-header">
-      <h4>Thống kê sinh viên theo năm học</h4>
+      <h4>Thống kê tình trạng sinh viên</h4>
     </div>
   </div>
   <div class="row custom_panel">

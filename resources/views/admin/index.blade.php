@@ -1,6 +1,6 @@
 @extends('admin.layout.layout')
 @section('title')
-Trang chủ
+Dashboard
 @endsection
 @section('style')
 
@@ -18,14 +18,14 @@ Trang chủ
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Quản lý sinh viên</div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Danh sách sinh viên</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_student_list') }}" class="text-gray-800"> Danh sách sinh viên</a>
             </div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Thêm sinh viên</a>
+                <i class="far fa-hand-point-right"></i><a href="{{route('get_add_student')}}" class="text-gray-800"> Thêm sinh viên</a>
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+            <i class="fas fa-users fa-2x text-primary"></i>
           </div>
         </div>
       </div>
@@ -40,23 +40,23 @@ Trang chủ
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Quản lý chương trình</div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Danh sách chương trình</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_list_activity') }}" class="text-gray-800"> Danh sách chương trình</a>
             </div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Thêm chương trình</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_add_activity') }}" class="text-gray-800"> Thêm chương trình</a>
             </div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Điểm danh</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_check_in') }}" class="text-gray-800"> Điểm danh</a>
             </div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Tiến độ công việc</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_workflow_list')}}" class="text-gray-800"> Tiến độ công việc</a>
             </div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Phân công công việc</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_add_workflow',['id'=>'null']) }}" class="text-gray-800"> Phân công công việc</a>
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+            <i class="fas fa-tasks fa-2x text-success"></i>
           </div>
         </div>
       </div>
@@ -71,11 +71,11 @@ Trang chủ
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Quản lý ĐRL - CTXH</div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Danh sách điểm</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_marks_list') }}" class="text-gray-800"> Danh sách điểm</a>
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+            <i class="fas fa-award fa-2x text-info"></i>
           </div>
         </div>
       </div>
@@ -90,11 +90,11 @@ Trang chủ
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Quản lý thành viên ban chấp hành</div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Danh sách BCH</a>
+                <i class="far fa-hand-point-right"></i><a href="{{route('get_ec_list')}}" class="text-gray-800"> Danh sách BCH</a>
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-comments fa-2x text-gray-300"></i>
+            <i class="fas fa-users-cog fa-2x text-warning"></i>
           </div>
         </div>
       </div>
@@ -110,11 +110,11 @@ Trang chủ
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Thống kê</div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Tình trạng sinh viên</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('st_student_school_year') }}" class="text-gray-800"> Tình trạng sinh viên</a>
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+            <i class="fas fa-chart-pie fa-2x text-primary"></i>
           </div>
         </div>
       </div>
@@ -129,20 +129,20 @@ Trang chủ
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Quản lý tin tức</div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Danh sách loại tin</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_news_type_list') }}" class="text-gray-800"> Danh sách loại tin</a>
             </div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Thêm loại tin</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_add_new_type') }}" class="text-gray-800"> Thêm loại tin</a>
             </div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Danh sách bài đăng</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_news_list') }}" class="text-gray-800"> Danh sách bài đăng</a>
             </div>
             <div class="mb-0 font-weight-bold">
-              <a href="" class="text-gray-800">Thêm bài đăng</a>
+                <i class="far fa-hand-point-right"></i><a href="{{ route('get_add_new') }}" class="text-gray-800"> Thêm bài đăng</a>
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+            <i class="fas fa-newspaper fa-2x text-success"></i>
           </div>
         </div>
       </div>
@@ -161,169 +161,65 @@ Trang chủ
     <div class="card shadow mb-4">
       <!-- Card Header - Dropdown -->
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Các chương trình sắp tới</h6>
-        {{-- <div class="dropdown no-arrow">
-          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-            <div class="dropdown-header">Dropdown Header:</div>
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </div> --}}
+        <h6 class="m-0 font-weight-bold text-primary">Các chương trình trong tháng</h6>
       </div>
       <!-- Card Body -->
       <div class="card-body">
-        <div class="chart-area">
-          <canvas id="myAreaChart"></canvas>
+        {{-- <h4 class="small font-weight-bold">Các chương trình trong tháng</h4> --}}
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+            <thead style="background: #f8f9fc">
+              <tr>
+                <th>Mã CT</th>
+                <th>Tên chương trình</th>
+                <th>Sinh viên đứng chính</th>
+                <th>Thời gian diễn ra</th>
+                <th>Số lượng đăng ký</th>
+                <th>Tiến độ</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($activities as $activity)
+              <tr class="">
+                <td>{{ $activity->id }}</td>
+                <td>{{ $activity->name }}</td>
+                <td>{{$activity->leadBy->name}} - {{$activity->leadBy->student_id}}</td>
+                <td>{{date('d/m/Y',strtotime($activity->start_date))}} - {{date('d/m/Y',strtotime($activity->end_date))}}</td>
+                <td>{{ $activity->max_regis_num }}</td>
+                <td>
+                  @if (  count($activity->workflows) != 0)
+                        @php
+                            $percent = 0;
+                            foreach ($activity->workflows as $wfl) {
+                              $percent += $wfl->progress;
+                            }
+                        @endphp
+                  <div class="row flex-wrap">
+                      <div class="col-12">
+                          <h4 class="small font-weight-bold">Tiến độ<span class="float-right">{{ intval($percent) }}%</span></h4>
+                          <div class="progress">
+                          <div class="progress-bar {{ changeProgressbarColor($percent) }}" role="progressbar" aria-valuenow="{{ intval($percent) }}" aria-valuemin="0" aria-valuemax="{{ intval($percent) }}" style='width:{{ intval($percent)}}%'>{{ intval($percent) }}%</div>
+                          </div>
+                      </div>
+                  </div>
+                  @else
+                  <h4 class="small font-weight-bold">Tiến độ<span class="float-right">{{ intval($percent) }}%</span></h4>
+                  <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style='width:0%'>0%</div>
+                  </div>
+                  @endif
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
   
-</div>
-
-<!-- Content Row -->
-<div class="row">
-  
-  <!-- Content Column -->
-  <div class="col-lg-6 mb-4">
-    
-    <!-- Project Card Example -->
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-      </div>
-      <div class="card-body">
-        <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span></h4>
-        <div class="progress mb-4">
-          <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span></h4>
-        <div class="progress mb-4">
-          <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span></h4>
-        <div class="progress mb-4">
-          <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <h4 class="small font-weight-bold">Payout Details <span class="float-right">80%</span></h4>
-        <div class="progress mb-4">
-          <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <h4 class="small font-weight-bold">Account Setup <span class="float-right">Complete!</span></h4>
-        <div class="progress">
-          <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Color System -->
-    <div class="row">
-      <div class="col-lg-6 mb-4">
-        <div class="card bg-primary text-white shadow">
-          <div class="card-body">
-            Primary
-            <div class="text-white-50 small">#4e73df</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 mb-4">
-        <div class="card bg-success text-white shadow">
-          <div class="card-body">
-            Success
-            <div class="text-white-50 small">#1cc88a</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 mb-4">
-        <div class="card bg-info text-white shadow">
-          <div class="card-body">
-            Info
-            <div class="text-white-50 small">#36b9cc</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 mb-4">
-        <div class="card bg-warning text-white shadow">
-          <div class="card-body">
-            Warning
-            <div class="text-white-50 small">#f6c23e</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 mb-4">
-        <div class="card bg-danger text-white shadow">
-          <div class="card-body">
-            Danger
-            <div class="text-white-50 small">#e74a3b</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 mb-4">
-        <div class="card bg-secondary text-white shadow">
-          <div class="card-body">
-            Secondary
-            <div class="text-white-50 small">#858796</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-  </div>
-  
-  <div class="col-lg-6 mb-4">
-    
-    <!-- Illustrations -->
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-      </div>
-      <div class="card-body">
-        <div class="text-center">
-          <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="{{asset('assets/img/undraw_posting_photo.svg')}}" alt="">
-        </div>
-        <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
-        <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
-      </div>
-    </div>
-    
-    <!-- Approach -->
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-      </div>
-      <div class="card-body">
-        <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-        <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
-      </div>
-    </div>
-    
-  </div>
 </div>
 @endsection
 @section('js')
-<script>
-  $( document ).ready(function(){
-    // $.notify("Hello World");
-    for(var i = 0 ; i < 5000; i ++){
-      console.log(i+ " ");
-      $(".se-pre-con").fadeOut("slow");
-    }
-    
-  });
-</script>
-<script>
-  //paste this code under the head tag or in a separate js file.
-  //Wait for window load
-  // $(window).load(function() {
-    // 	// Animate loader off screen
-    // 	$(".se-pre-con").fadeOut("slow");
-    // });
-  </script>
-  
-  
-  @endsection
+  <script src="{{asset('assets/js/admin/index.js')}}"></script>
+@endsection

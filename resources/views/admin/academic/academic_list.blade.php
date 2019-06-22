@@ -7,8 +7,16 @@ Chương trình đào tạo
 @section('main_content')
 <div class="container-fluid">
     <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Quản lý niên khóa</li>
+          </ol>
+        </nav>
+      </div>
+    <div class="row">
         <div class="col page-title-header">
-            <h4>Chương trình đào tạo</h4>
+            <h4>Niên khóa</h4>
         </div>
     </div>
     <div class="row">

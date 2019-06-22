@@ -7,6 +7,14 @@ Danh sách chi đoàn
 @section('main_content')
 <div class="container-fluid">
     <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Danh sách chi đoàn</li>
+          </ol>
+        </nav>
+      </div>
+    <div class="row">
         <div class="col page-title-header">
             <h4>Danh sách chi đoàn</h4>
         </div>

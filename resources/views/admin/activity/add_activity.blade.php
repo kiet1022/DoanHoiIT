@@ -2,8 +2,18 @@
 @section('title','Thêm hoạt động')
 @section('main_content')
 <div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+            <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Quản lý chương trình</li>
+            <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('get_list_activity') }}"> Danh sách chương trình</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Thêm chương trình</li>
+        </ol>
+    </nav>
+</div>
+<div class="row">
     <div class="col page-title-header">
-        <h4>Nhập thông tin chương trình</h4>
+        <h4>Thêm chương trình</h4>
     </div>
 </div>
 <div class="row">
@@ -34,17 +44,17 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Năm học --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="year" class="col-md-6 common-label-inline">Năm học <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <select id="year" class="form-control col-md-6" name="year" required >
-                                @foreach ($year as $y)
+                                    @foreach ($year as $y)
                                     <option value="{{$y->name}}">{{$y->name}}</option>
-                                @endforeach
+                                    @endforeach
                                 </select>
                             </div>
-
+                            
                             {{-- error --}}
                             @if ($errors->get('year'))
                             <div class="form-inline cm-inline-form cm-error">
@@ -55,7 +65,7 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Học kỳ --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="semester" class="col-md-6 common-label-inline">Học kỳ <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
@@ -64,7 +74,7 @@
                                     <option value="2">Kỳ 2</option>
                                 </select>
                             </div>
-
+                            
                             {{-- error --}}
                             @if ($errors->get('name'))
                             <div class="form-inline cm-inline-form cm-error">
@@ -75,14 +85,14 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Người đứng chính --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="leader" class="col-md-6 common-label-inline">Đứng chính <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <select id="leader" class="form-control col-md-6" name="leader" required >
-                                @foreach ($leader as $l)
-                                <option value="{{$l['student_id']}}">{{$l['name']}} - {!! changeLevelLabel($l['level'],$l['type']) !!}</option>
-                                @endforeach
+                                    @foreach ($leader as $l)
+                                    <option value="{{$l['student_id']}}">{{$l['name']}} - {!! changeLevelLabel($l['level'],$l['type']) !!}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             
@@ -96,12 +106,12 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Ngày bắt đầu chương trình --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="startDate" class="col-md-6 common-label-inline">Ngày bắt đầu chương trình <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <div class="col-md-6 px-0">
-                                        <input style="width: inherit;" id="startDate" width="100%" class="form-control" name="startDate" maxlength="10" required value="{{ old('startDate') }}"  >
+                                    <input style="width: inherit;" id="startDate" width="100%" class="form-control" name="startDate" maxlength="10" required value="{{ old('startDate') }}"  >
                                 </div>
                             </div>
                             
@@ -115,12 +125,12 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Ngày kết thúc chương trình --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="endDate" class="col-md-6 common-label-inline">Ngày kết thúc chương trình <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <div class="col-md-6 px-0">
-                                        <input style="width: inherit;" id="endDate" width="100%" class="form-control" name="endDate" maxlength="10" required value="{{ old('endDate') }}"  >
+                                    <input style="width: inherit;" id="endDate" width="100%" class="form-control" name="endDate" maxlength="10" required value="{{ old('endDate') }}"  >
                                 </div>
                             </div>
                             
@@ -134,12 +144,12 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Ngày bắt đầu đăng kí --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="startRegisDate" class="col-md-6 common-label-inline">Ngày bắt đầu đăng ký <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <div class="col-md-6 px-0">
-                                        <input style="width: inherit;" id="startRegisDate" width="100%" class="form-control" name="startRegisDate" maxlength="10" required value="{{ old('startRegisDate') }}"  >
+                                    <input style="width: inherit;" id="startRegisDate" width="100%" class="form-control" name="startRegisDate" maxlength="10" required value="{{ old('startRegisDate') }}"  >
                                 </div>
                             </div>
                             
@@ -153,12 +163,12 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Ngày kết thúc đăng kí --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="endRegisDate" class="col-md-6 common-label-inline">Ngày kết thúc đăng ký <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <div class="col-md-6 px-0">
-                                        <input style="width: inherit;" id="endRegisDate" width="100%" class="form-control" name="endRegisDate" maxlength="10" required value="{{ old('endRegisDate') }}"  >
+                                    <input style="width: inherit;" id="endRegisDate" width="100%" class="form-control" name="endRegisDate" maxlength="10" required value="{{ old('endRegisDate') }}"  >
                                 </div>
                             </div>
                             
@@ -172,7 +182,7 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Student ID --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="maxRegisNum" class="col-md-6 common-label-inline">Số lượng tham gia:</label>
@@ -189,7 +199,7 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Student ID --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="practiseMark" class="col-md-6 common-label-inline">Điểm rèn luyện:</label>
@@ -206,7 +216,7 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             {{-- Student ID --}}
                             <div class="form-inline cm-inline-form">
                                 <label for="socialMark" class="col-md-6 common-label-inline">Điểm CTXH:</label>
@@ -238,10 +248,10 @@
                                 <label for="activityContent" class="col-md-6 col-sm-4 col-xs-4 common-label-inline">Nội dung:</label>
                                 <textarea id="activityContent" name="activityContent"></textarea>
                             </div>
-
+                            
                             <div class="form-inline cm-inline-form">
                                 <label for="planUrl" class="col-md-6 common-label-inline">Upload file kế hoạch:</label>
-                            <input type="file" name="planUrl" id="planUrl" class="col-md-12 col-xs-12 col-sm-12 form-control" style="height: auto;" value="{{ old('planUrl') }}">
+                                <input type="file" name="planUrl" id="planUrl" class="col-md-12 col-xs-12 col-sm-12 form-control" style="height: auto;" value="{{ old('planUrl') }}">
                             </div>
                             {{-- error --}}
                             @if ($errors->get('planUrl'))
@@ -253,7 +263,7 @@
                                 </ul>
                             </div>
                             @endif
-
+                            
                             <div class="form-inline cm-inline-form">
                                 <label for="fundUrl" class="col-md-6 common-label-inline">Upload file dự trù:</label>
                                 <input type="file" name="fundUrl" id="fundUrl" class="col-md-12 col-xs-12 col-sm-12 form-control" style="height: auto;" value="{{ old('fundUrl') }}">
@@ -295,12 +305,12 @@
 <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
 <script>
     @if(session('error'))
-        var error = "{{session('error')}}";
-        showNotify('error',error);
+    var error = "{{session('error')}}";
+    showNotify('error',error);
     @endif
     @if(session('success'))
-        var success = "{{session('success')}}";
-        showNotify('success',success);
+    var success = "{{session('success')}}";
+    showNotify('success',success);
     @endif
 </script>
 <script src="{{asset('assets/js/admin/activity/add_activity.js')}}"></script>

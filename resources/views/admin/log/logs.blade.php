@@ -5,6 +5,14 @@ Lịch sử hoạt động
 @section('main_content')
 <div class="container-fluid">
   <div class="row">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Lịch sử hoạt động</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
     <div class="col page-title-header">
       <h4>Lịch sử hoạt động</h4>
     </div>
@@ -19,7 +27,7 @@ Lịch sử hoạt động
           <div class="form-inline cm-inline-form col-md-3 offset-md-3">
             <label for="beginDate" class="col-md-4 common-label-inline">Từ ngày:</label>
             <div class="col-md-8 px-0">
-            <input style="width: inherit;" id="beginDate" width="100%" class="form-control" name="beginDate" maxlength="10" value="{{ old('beginDate') }}">
+              <input style="width: inherit;" id="beginDate" width="100%" class="form-control" name="beginDate" maxlength="10" value="{{ old('beginDate') }}">
             </div>
           </div>
           
