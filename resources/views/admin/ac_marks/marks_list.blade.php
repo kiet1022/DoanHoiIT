@@ -34,54 +34,29 @@ tr.shown>tr {
   <div class="row">
     {{-- basic filter condition --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-      <form action="{{ route('filter_activity') }}" method="POST" class="col-md-12" id="filterActivity">
+      <form action="{{ route('marks_filter') }}" method="POST" class="col-md-12" id="filterActivity">
         @csrf
         <div class="form-row">
           {{-- Birthday --}}
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-4 offset-md-2">
             <label for="year" class="col-md-12 common-label-inline">Năm học:</label>
             <div class="col-md-8 col-sm-8 col-xs-8 px-0">
               <select name="year" id="year" class="form-control">
                 @foreach ($year as $y)
-                <option value="{{ $y->name }}">{{ $y->name }}</option>
+                <option value="{{ $y->name }}" {{ changeSelectedStatus("$y->name",old('year')) }}>{{ $y->name }}</option>
                 @endforeach
               </select>
             </div>
           </div>
           
           {{-- Birthday --}}
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-4">
             <label for="semester" class="col-md-12 common-label-inline">Học kỳ:</label>
             <div class="col-md-8 col-sm-8 col-xs-8 px-0">
               <select name="semester" id="semester" class="form-control">
                 <option value="">Chọn học kỳ</option>
-                <option value="1">Kỳ 1</option>
-                <option value="2">Kỳ 2</option>
-              </select>
-            </div>
-          </div>
-
-          {{-- Activity --}}
-          <div class="form-group col-md-3">
-            <label for="activity" class="col-md-12 common-label-inline">Chương trình:</label>
-            <div class="col-md-8 col-sm-8 col-xs-8 px-0">
-              <select name="activity" id="activity" class="form-control">
-                <option value="">Chọn chương trình</option>
-                @foreach ($activities as $a)
-                <option value="{{ $a->id }}">{{ $a->name }}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
-
-          {{-- Birthday --}}
-          <div class="form-group col-md-3">
-            <label for="semester" class="col-md-12 common-label-inline">Loại điểm:</label>
-            <div class="col-md-8 col-sm-8 col-xs-8 px-0">
-              <select name="semester" id="semester" class="form-control">
-                <option value="">Chọn Loại điểm</option>
-                <option value="1">Điểm rèn luyện</option>
-                <option value="2">Điểm CTXH</option>
+                <option value="1" {{ changeSelectedStatus("1",old('semester')) }}>Kỳ 1</option>
+                <option value="2" {{ changeSelectedStatus("2",old('semester')) }}>Kỳ 2</option>
               </select>
             </div>
           </div>

@@ -36,6 +36,7 @@ $( document ).ready(function(){
 // var EXEC_URL = 'http://localhost:8080/DoanHoiIT/public/admin/exec-com/'
 // Show student detail
 $('.detailToggle').on('click', function(){
+    blockUI(true);
     var id = $(this).data('id');
     console.log(id);
     $.ajax({
@@ -45,10 +46,12 @@ $('.detailToggle').on('click', function(){
             id: id
         }
     }).done(function(data) {
+        blockUI(false);
         console.log(data);
         $('#studentDetail').html(data);
         $('#studentDetail').modal('show');
     }).fail(function(xhr, status, error) {
+        blockUI(false);
         console.log('lala');
         console.log(this.url);
         console.log(error);
@@ -57,6 +60,7 @@ $('.detailToggle').on('click', function(){
 
 // Show edit modal
 $('.editToggle').on('click', function(){
+    blockUI(true);
     var id = $(this).data('id');
     var type = $(this).data('type');
     console.log(id);
@@ -69,9 +73,11 @@ $('.editToggle').on('click', function(){
             type: type
         }
     }).done(function(data) {
+        blockUI(false);
         $('#editModal').html(data);
         $('#editModal').modal('show');
     }).fail(function(xhr, status, error) {
+        blockUI(false);
         console.log('lala');
         console.log(this.url);
         console.log(error);

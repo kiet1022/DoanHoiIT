@@ -332,6 +332,9 @@ Route::prefix('admin')->group(function(){
 
         Route::get('export/{checkin_id}.php','Admin\MarksManagement\MarksController@postExport')->name('post_export');
 
+        Route::post('filter.php','Admin\MarksManagement\MarksController@filterMarks')->name('marks_filter');
+
+
     });
 });
 
