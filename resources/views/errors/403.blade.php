@@ -37,7 +37,8 @@
         <!-- 404 Error Text -->
         <div class="text-center">
           <div class="error mx-auto text-danger animated infinite heartBeat" data-text="403">403</div>
-          <p class="lead text-gray-800 mb-5">You don't have permission to access this page.</p>
+          <p class="lead text-gray-800">Bạn không có quyền truy cập vào trang này.</p>
+          <p class="lead text-gray-800 mb-5">Vui lòng liên hệ quản trị viên về vấn đề này.</p>
           {{-- <p class="text-gray-500 mb-0"></p> --}}
           <a href="index.html">&larr; Trở về trang chủ</a>
         </div>
