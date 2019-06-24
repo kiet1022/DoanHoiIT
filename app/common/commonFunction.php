@@ -104,6 +104,18 @@ use \Carbon\Carbon;
 		}
 		return $result;
 	}
+
+		/**
+	* Change selected status
+	* 
+	*/
+	function changeCheckedRoleStatus($arrRole, $role){
+		$result = '';
+		if(in_array($role,$arrRole)){
+			$result = 'checked';
+		}
+		return $result;
+	}
 	
 	/**
 	* Change study status for list

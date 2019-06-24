@@ -75,6 +75,17 @@ Route::prefix('admin')->group(function(){
         
         // List of users
         Route::get('user-list.php','Admin\UserManagement\UserManageController@getUserList')->name('get_user_list');
+
+        // Get roles list
+        Route::get('roles.php','Admin\UserManagement\UserManageController@getRolesList')->name('get_roles_list');
+
+        Route::post('edit.php','Admin\UserManagement\UserManageController@editRole')->name('edit_role');
+
+        Route::post('add.php','Admin\UserManagement\UserManageController@addRole')->name('add_role');
+
+        Route::get('attach-roles/{userid}.php','Admin\UserManagement\UserManageController@getAttachRoles')->name('get_attach_role');
+
+        Route::post('attach-roles.php','Admin\UserManagement\UserManageController@postAttachRole')->name('post_attach_role');
     });
     
     /**

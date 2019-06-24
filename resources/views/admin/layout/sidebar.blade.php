@@ -131,7 +131,8 @@
           <div id="userManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <a class="collapse-item" href="{{ route('get_user_list') }}">Quản lý Users</a>
-              <a class="collapse-item" href="login.html">Phân quyền Users</a>
+              <a class="collapse-item" href="{{ route('get_roles_list') }}">Danh sách quyền</a>
+              {{-- <a class="collapse-item" href="{{ route('attach_role') }}">Phân quyền người dùng</a> --}}
             </div>
           </div>
         </li>

@@ -29,6 +29,7 @@ Danh sách người dùng
                             <th>level</th>
                             <th>name</th>
                             <th></th>
+                            <th>Phân quyền</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -40,6 +41,9 @@ Danh sách người dùng
                             <td>{{$list->level}}</td>
                             <td>{{$list->student->name}}</td>
                             <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_student',['id'=>$list->student_id]) }}">Sửa</a></td>
+                            <td class="text-center">
+                              <a href="{{ route('get_attach_role',['userid'=>$list->id]) }}" class="btn btn-primary bn-sm"> Phân quyền</a>
+                            </td>
                             </tr>
                           @endforeach
                         </tbody>
