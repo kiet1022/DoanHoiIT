@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 19, 2019 lúc 04:29 PM
+-- Thời gian đã tạo: Th6 24, 2019 lúc 04:59 PM
 -- Phiên bản máy phục vụ: 10.1.34-MariaDB
 -- Phiên bản PHP: 7.2.8
 
@@ -84,12 +84,12 @@ CREATE TABLE `activities` (
 
 INSERT INTO `activities` (`id`, `name`, `year`, `semester`, `start_regis_date`, `end_regis_date`, `start_date`, `end_date`, `content`, `practise_marks`, `social_marks`, `max_regis_num`, `leader`, `plan_url`, `fund_url`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
 (2, 'MIT', '2018-2019', 1, '2019-04-23', '2019-04-24', '2019-04-29', '2019-05-04', NULL, NULL, NULL, NULL, '15110237', '', '', '2019-04-29 08:00:36', '2019-05-30 08:17:24', NULL, NULL, '2019-05-30 08:17:24'),
-(3, 'MIT này test', '2018 - 2019', 2, '2019-04-18', '2019-04-20', '2019-04-29', '2019-04-30', '<p><span style=\"color:#2ecc71;\">Kh&ocirc;ng c&oacute; nội dung</span></p>', 20, 5, 100, '18133064', 'jG7H_[OK]DuTruKinhPhiDoan2017-2018.doc', 'cVV8_BaoCaoSoLieu_2019.docx', '2019-04-29 08:02:31', '2019-06-01 22:27:28', NULL, 1, NULL),
+(3, 'MIT này test', '2018 - 2019', 2, '2019-04-18', '2019-04-20', '2019-06-21', '2019-06-23', '<p><span style=\"color:#2ecc71;\">Kh&ocirc;ng c&oacute; nội dung</span></p>', 20, 5, 100, '18133064', '', '', '2019-04-29 08:02:31', '2019-06-21 19:53:31', NULL, 1, NULL),
 (4, 'MIT 2019 nè mày ơi', '2016 - 2017', 2, '2019-04-25', '2019-04-30', '2019-05-02', '2019-05-03', '<p><span style=\"color:#1abc9c;\">MIT</span> <strong>năm 2019</strong></p>', 5, 10, 100, '16110376', 'GFSo_DHSPKT-Uu-dai-1.docx', '1XYx_[OK]DuTruKinhPhiDoan2017-2018.doc', '2019-05-01 05:34:56', '2019-05-23 07:18:31', NULL, 1, '2019-05-23 07:18:31'),
 (5, 'Hội Thao 2019', '2015 - 2016', 1, '2019-04-29', '2019-04-30', '2019-06-01', '2019-06-03', '<p><strong>Nội dung</strong> đ&acirc;y</p>', 5, 0, 100, '18110371', '', '', '2019-05-01 06:47:34', '2019-06-01 22:25:12', NULL, 1, NULL),
 (6, 'tEST', '2015 - 2016', 2, '2019-05-01', '2019-05-02', '2019-05-04', '2019-05-26', NULL, NULL, NULL, NULL, '15110237', '', '', '2019-05-01 07:39:26', '2019-05-30 08:17:24', NULL, NULL, '2019-05-30 08:17:24'),
 (7, 'Tập Huấn kỹ năng 2019', '2018 - 2019', 2, '2019-05-23', '2019-05-30', '2019-06-01', '2019-06-02', NULL, 0, 5, 100, '15110237', '', '', '2019-05-23 08:00:09', '2019-06-16 01:49:40', 1, 1, NULL),
-(8, 'Chào đón tân sinh viên', '2018 - 2019', 1, '2019-06-01', '2019-06-01', '2019-06-04', '2019-06-05', NULL, NULL, 5, 150, '15110237', '', '', '2019-05-31 21:06:48', '2019-05-31 21:06:48', 1, NULL, NULL);
+(8, 'Chào đón tân sinh viên', '2018 - 2019', 1, '2019-06-01', '2019-06-01', '2019-07-01', '2019-07-05', NULL, NULL, 5, 150, '15110237', '', '', '2019-05-31 21:06:48', '2019-06-21 19:54:12', 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,8 @@ INSERT INTO `activity_funds` (`id`, `activity_id`, `initial_funds`, `actual_fund
 (13, 5, 100000, 0, NULL, '2019-05-19 08:47:00', '2019-05-19 08:50:51', 1, NULL, '2019-05-19 08:50:51', 0),
 (14, 4, 1111111, 0, NULL, '2019-05-19 08:50:20', '2019-05-23 07:18:31', 1, NULL, '2019-05-23 07:18:31', 0),
 (15, 5, 1000000, 0, NULL, '2019-05-20 08:34:41', '2019-06-01 22:25:12', 1, NULL, NULL, 0),
-(16, 7, 1050000, 0, NULL, '2019-05-23 08:01:51', '2019-06-01 22:27:28', 1, NULL, NULL, 0);
+(16, 7, 1050000, 0, NULL, '2019-05-23 08:01:51', '2019-06-01 22:27:28', 1, NULL, NULL, 0),
+(17, 8, 700000, 0, NULL, '2019-06-21 23:44:01', '2019-06-21 23:44:01', 1, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -174,7 +175,9 @@ INSERT INTO `activity_fund_details` (`id`, `fund_id`, `content`, `expected_value
 (29, 16, 'Cơm trưa', 350000, 0, 'Ký nhận', 'Phần', '100', 70000, 0, '2019-05-23 08:04:15', '2019-06-01 22:27:28', 1, NULL, NULL),
 (30, 12, 'Bánh kẹo', 200000, 0, 'Hóa đơn đỏ', 'Phần', '1', 200000, 0, '2019-05-31 21:25:49', '2019-06-01 22:27:28', 1, NULL, NULL),
 (31, 12, 'Detai Thêm', 500000, 0, 'Ký nhận', 'Hộp', '10', 50000, 0, '2019-05-31 21:52:17', '2019-06-01 22:36:07', 1, NULL, NULL),
-(32, 12, 'Detail thêm nữa', 5000000, 0, 'Hóa đơn đỏ', 'Tá', '10', 500000, 0, '2019-06-03 07:45:55', '2019-06-03 07:45:55', 1, NULL, NULL);
+(32, 12, 'Detail thêm nữa', 5000000, 0, 'Hóa đơn đỏ', 'Tá', '10', 500000, 0, '2019-06-03 07:45:55', '2019-06-03 07:45:55', 1, NULL, NULL),
+(33, 17, 'Bột màu', 200000, 0, 'Hóa đơn đỏ', 'ký', '2', 100000, 0, '2019-06-21 23:44:01', '2019-06-21 23:44:01', 1, NULL, NULL),
+(34, 17, 'Bong bóng', 500000, 0, 'Hóa đơn đỏ', 'Bịch', '10', 50000, 0, '2019-06-21 23:44:01', '2019-06-21 23:44:01', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1202,7 +1205,10 @@ INSERT INTO `logs` (`id`, `student_id`, `student_name`, `role`, `action`, `old_d
 (13, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 01/05/2019<br>Ngày kết thúc: 02/05/2019<br>', 'Ngày bắt đầu: 01/06/2019<br>Ngày kết thúc: 03/06/2019<br>', '2019-05-30 15:20:37', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/5-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.167.1', '2019-05-30 08:20:37', '2019-05-30 08:20:37', NULL, NULL, NULL),
 (14, '000000', 'Test', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Chào đón tân sinh viên<br>Sinh viên đứng chính: 15110237<br>Thời gian bắt đầu: 04/06/2019<br>Thời gian kết thúc: 05/06/2019<br>', '2019-06-01 04:06:48', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.172.0', '2019-05-31 21:06:48', '2019-05-31 21:06:48', NULL, NULL, NULL),
 (15, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Sinh viên đứng chính: 17110393<br>Ngày kết thúc đăng ký: 31/05/2019<br>', 'Sinh viên đứng chính: 15110237<br>Ngày kết thúc đăng ký: 30/05/2019<br>', '2019-06-16 08:49:40', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/7-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.12 Safari/537.36 Edg/76.0.182.6', '2019-06-16 01:49:40', '2019-06-16 01:49:40', NULL, NULL, NULL),
-(16, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-06-16 08:51:18', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/7-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.12 Safari/537.36 Edg/76.0.182.6', '2019-06-16 01:51:18', '2019-06-16 01:51:18', NULL, NULL, NULL);
+(16, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-06-16 08:51:18', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/7-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.12 Safari/537.36 Edg/76.0.182.6', '2019-06-16 01:51:18', '2019-06-16 01:51:18', NULL, NULL, NULL),
+(17, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 29/04/2019<br>Ngày kết thúc: 30/04/2019<br>', 'Ngày bắt đầu: 01/07/2019<br>Ngày kết thúc: 03/07/2019<br>', '2019-06-22 02:39:34', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/3-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3818.0 Safari/537.36 Edg/77.0.189.3', '2019-06-21 19:39:34', '2019-06-21 19:39:34', NULL, NULL, NULL),
+(18, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 01/07/2019<br>Ngày kết thúc: 03/07/2019<br>', 'Ngày bắt đầu: 21/06/2019<br>Ngày kết thúc: 23/06/2019<br>', '2019-06-22 02:53:31', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/3-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3818.0 Safari/537.36 Edg/77.0.189.3', '2019-06-21 19:53:31', '2019-06-21 19:53:31', NULL, NULL, NULL),
+(19, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 04/06/2019<br>Ngày kết thúc: 05/06/2019<br>', 'Ngày bắt đầu: 01/07/2019<br>Ngày kết thúc: 05/07/2019<br>', '2019-06-22 02:54:12', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/8-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3818.0 Safari/537.36 Edg/77.0.189.3', '2019-06-21 19:54:12', '2019-06-21 19:54:12', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1428,6 +1434,7 @@ INSERT INTO `provinces` (`id`, `name`, `type`, `created_at`, `updated_at`, `crea
 CREATE TABLE `roles` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_by` int(10) UNSIGNED DEFAULT NULL,
@@ -1439,15 +1446,48 @@ CREATE TABLE `roles` (
 -- Đang đổ dữ liệu cho bảng `roles`
 --
 
-INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
-(1, 'Quản lý sinh viên', NULL, NULL, NULL, NULL, NULL),
-(2, 'Quản lý chương trình', NULL, NULL, NULL, NULL, NULL),
-(3, 'Quản lý DRL - CTXH', NULL, NULL, NULL, NULL, NULL),
-(4, 'Quản lý kinh phí', NULL, NULL, NULL, NULL, NULL),
-(5, 'Quản lý BCH', NULL, NULL, NULL, NULL, NULL),
-(6, 'Quản lý người dùng', NULL, NULL, NULL, NULL, NULL),
-(7, 'Quản lý thống kê', NULL, NULL, NULL, NULL, NULL),
-(8, 'Quản lý tin tức', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `roles` (`id`, `name`, `description`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, 'Quản lý sinh viên', 'User được quyền quản lý thông tin sinh viên', NULL, '2019-06-22 20:29:18', NULL, 1, NULL),
+(2, 'Quản lý chương trình', 'User được quyền quản lý chương trình', NULL, '2019-06-22 20:30:21', NULL, 1, NULL),
+(3, 'Quản lý DRL - CTXH', 'User được quyền quản lý điểm RL và Điểm CTXH', NULL, '2019-06-22 20:31:29', NULL, 1, NULL),
+(4, 'Quản lý kinh phí', 'User được quyền quản lý dự trù kinh phí', NULL, '2019-06-22 20:41:26', NULL, 1, NULL),
+(5, 'Quản lý BCH', NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 'Quản lý người dùng', NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'Quản lý thống kê', NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 'Quản lý tin tức', NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'Quản lý phân quyền', 'User được phép thêm sửa xóa và phân quyền cho user khác', '2019-06-22 20:38:45', '2019-06-22 20:38:45', 1, NULL, NULL),
+(10, 'Sinh viên', 'User có quyền xem các tin tức, hoạt động, đăng ký hoạt động, xem, chỉnh sửa thông tin cá nhân', '2019-06-22 20:45:18', '2019-06-22 20:45:18', 1, NULL, NULL),
+(11, 'Ban cán sự', 'User được phép chỉnh sửa thông tin của sinh viên lớp mình', '2019-06-22 20:46:13', '2019-06-22 20:46:13', 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `role_user`
+--
+
+CREATE TABLE `role_user` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `role_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `role_user`
+--
+
+INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(2, 1, 1, NULL, NULL, NULL, NULL, NULL),
+(14, 1, 93, NULL, NULL, NULL, NULL, NULL),
+(15, 2, 93, NULL, NULL, NULL, NULL, NULL),
+(16, 3, 93, NULL, NULL, NULL, NULL, NULL),
+(17, 5, 93, NULL, NULL, NULL, NULL, NULL),
+(18, 6, 93, NULL, NULL, NULL, NULL, NULL),
+(19, 7, 93, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2356,7 +2396,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id`, `level`, `created_by`, `updated_by`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '000000@hcmute.edu.vn', NULL, '$2y$10$T03iBiOcF3njFZYXFpjSOeeRu38lx2VpM4DTwVcW66.TIQhWJqRY2', '000000', 0, NULL, NULL, 'TaElxTllTF2Pww257DkSuEOi49qdxFymuTcAK2tjdvy7qZejAdwELnCSnj3l', '2019-04-11 07:37:30', '2019-04-11 07:37:30', NULL),
+(1, '000000@hcmute.edu.vn', NULL, '$2y$10$T03iBiOcF3njFZYXFpjSOeeRu38lx2VpM4DTwVcW66.TIQhWJqRY2', '000000', 0, NULL, NULL, '7kgjkwPfpNQH0TeE4YvthLGuYp1ZrEOrmJFIJF2gyjfbrPD63UcXweSzZKCx', '2019-04-11 07:37:30', '2019-04-11 07:37:30', NULL),
 (2, '15110162@student.hcmute.edu.vn', NULL, '$2y$10$hAzk1m68DnxYdqSOVloPhOb1BMJ3XfSwPdjQWMxdQHY1OiU8iMxW6', '15110162', 1, 1, NULL, NULL, '2019-04-11 07:45:24', '2019-04-11 07:45:24', NULL),
 (3, '15110166@student.hcmute.edu.vn', NULL, '$2y$10$3XnX8oIVJ1BeEtB/C/5FJeVXVZhFzNqNEwkTJVTY1Kdx.s2pmxdAC', '15110166', 1, 1, NULL, NULL, '2019-04-11 07:45:24', '2019-04-11 07:45:24', NULL),
 (4, '15110168@student.hcmute.edu.vn', NULL, '$2y$10$Ar4BT.y5BSMXdQPVaE5iauW9/1eRaKkuu82bB8Pz4RPd5llUYuqRG', '15110168', 1, 1, NULL, NULL, '2019-04-11 07:45:24', '2019-04-11 07:45:24', NULL),
@@ -3133,30 +3173,6 @@ INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id
 (799, '18133065@student.hcmute.edu.vn', NULL, '$2y$10$t7wv8vAAVKk6BrBn4DX0auxcoyg2CHBaWgTv2diS2wmb9tdihNvfi', '18133065', 1, 1, NULL, NULL, '2019-04-11 08:13:25', '2019-04-11 08:13:25', NULL),
 (800, '18133066@student.hcmute.edu.vn', NULL, '$2y$10$X.maMDigp9Ue.3x2TQzNWe0wbtWoqfRkzZ1dfa9AQKFjinnTaGy0O', '18133066', 1, 1, NULL, NULL, '2019-04-11 08:13:25', '2019-04-11 08:13:25', NULL),
 (801, '16110294@student.hcmute.edu.vn', NULL, '$2y$10$MKnWYXoPYK.QzlVF4IHvDuxWHYtnWBzehChsOn5gDzy.0T8UwZeBm', '16110294', 0, NULL, NULL, NULL, '2019-04-11 09:41:39', '2019-04-11 09:41:39', NULL);
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `user_roles`
---
-
-CREATE TABLE `user_roles` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `role_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `created_by` int(10) UNSIGNED DEFAULT NULL,
-  `updated_by` int(10) UNSIGNED DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `user_roles`
---
-
-INSERT INTO `user_roles` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
-(2, 1, 1, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -14593,6 +14609,14 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `role_user`
+--
+ALTER TABLE `role_user`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_roles_users_foregin` (`user_id`),
+  ADD KEY `user_roles_roles_foregin` (`role_id`);
+
+--
 -- Chỉ mục cho bảng `school_years`
 --
 ALTER TABLE `school_years`
@@ -14629,14 +14653,6 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`),
   ADD KEY `users_student_id_foregin` (`student_id`);
-
---
--- Chỉ mục cho bảng `user_roles`
---
-ALTER TABLE `user_roles`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_roles_users_foregin` (`user_id`),
-  ADD KEY `user_roles_roles_foregin` (`role_id`);
 
 --
 -- Chỉ mục cho bảng `wards`
@@ -14679,13 +14695,13 @@ ALTER TABLE `activities`
 -- AUTO_INCREMENT cho bảng `activity_funds`
 --
 ALTER TABLE `activity_funds`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `activity_fund_details`
 --
 ALTER TABLE `activity_fund_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT cho bảng `association_ec`
@@ -14739,7 +14755,7 @@ ALTER TABLE `exec_comm`
 -- AUTO_INCREMENT cho bảng `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `migrations`
@@ -14775,7 +14791,13 @@ ALTER TABLE `practise_marks`
 -- AUTO_INCREMENT cho bảng `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT cho bảng `role_user`
+--
+ALTER TABLE `role_user`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `school_years`
@@ -14800,12 +14822,6 @@ ALTER TABLE `union_fees`
 --
 ALTER TABLE `users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=802;
-
---
--- AUTO_INCREMENT cho bảng `user_roles`
---
-ALTER TABLE `user_roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `workflows`
@@ -14893,6 +14909,13 @@ ALTER TABLE `practise_marks`
   ADD CONSTRAINT `practise_marks_students_foregin` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
 
 --
+-- Các ràng buộc cho bảng `role_user`
+--
+ALTER TABLE `role_user`
+  ADD CONSTRAINT `user_roles_roles_foregin` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
+  ADD CONSTRAINT `user_roles_users_foregin` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
 -- Các ràng buộc cho bảng `social_marks`
 --
 ALTER TABLE `social_marks`
@@ -14917,13 +14940,6 @@ ALTER TABLE `union_fees`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_student_id_foregin` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
-
---
--- Các ràng buộc cho bảng `user_roles`
---
-ALTER TABLE `user_roles`
-  ADD CONSTRAINT `user_roles_roles_foregin` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
-  ADD CONSTRAINT `user_roles_users_foregin` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Các ràng buộc cho bảng `wards`
