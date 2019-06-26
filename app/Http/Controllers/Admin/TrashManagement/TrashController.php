@@ -14,7 +14,9 @@ class TrashController extends Controller
      * Get Trash bin
      * 
      */
-    public function getTrashBin(){
+    public function getTrashBin(Request $req){
+        // Check user role
+        $req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         $this->data['activities'] = Activity::onlyTrashed()->get();
         return view('admin.trash.trash_list')->with($this->data);
     }
@@ -25,6 +27,7 @@ class TrashController extends Controller
      * @param $req Request
      */
     public function changeTrashType(Request $req){
+        
         $action = $req->action;
         if($req->action === config('constants.TRASH_ACTIVITIES')){
 
@@ -51,6 +54,9 @@ class TrashController extends Controller
      * @param $req Req
      */
     public function restoreTrash(Request $req){
+        // Check user role
+        $req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
+
         if($req->action === config('constants.TRASH_ACTIVITIES')){
             foreach($req->ids as $id){
                 // restore activity first
@@ -65,7 +71,7 @@ class TrashController extends Controller
                 }
             }
             return response()->json(["status"=>config('constants.SUCCESS'),"message"=> count($req->ids)." chương trình được khôi phục."]);
-        } elseif($req->action === config('constants.TRASH_STUDENTS')){
+        } else if($req->action === config('constants.TRASH_STUDENTS')){
             foreach($req->ids as $id){
                 $student = Student::onlyTrashed()->where('student_id',$id);
                 $student->restore();

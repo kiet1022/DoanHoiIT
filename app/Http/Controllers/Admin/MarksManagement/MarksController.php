@@ -16,7 +16,9 @@ use App\Models\Student;
 use StringUtil;
 class MarksController extends Controller
 {
-  public function getMarksList(){
+  public function getMarksList(Request $req){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.MARK_MANAGE_ROLE')]);
     session()->forget('_old_input');
     $this->data['activities'] = Activity::with(['checkins'])->get();
     $this->data['year'] = SchoolYear::where('type',1)->get();
@@ -34,14 +36,18 @@ class MarksController extends Controller
     return response()->json($detail);
   }
   
-  public function getAddNewMarks(){
+  public function getAddNewMarks(Request $req){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.MARK_MANAGE_ROLE')]);
     $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
     $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->first();
     $this->data['students'] = Student::all();
     return view('admin.ac_marks.add_marks')->with($this->data);
   }
   
-  public function postAddNewMarks(AddMarksRequest $req){
+  public function postAddNewMarks(Request $re, AddMarksRequest $req){
+    // Check user role
+		$re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.MARK_MANAGE_ROLE')]);
     if(is_null($req->data)){
       return redirect()->back()->with(config('constants.ERROR'),'Danh sách điểm danh rỗng!');
     }        
@@ -74,7 +80,9 @@ class MarksController extends Controller
     
   }
   
-  public function postExport($checkin_id){
+  public function postExport(Request $req, $checkin_id){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.MARK_MANAGE_ROLE')]);
     $checkin = Checkin::where('id',$checkin_id)->with(['ofActivity'])->first();
     $name = "";
     if(!is_null($checkin->ofActivity)){
@@ -91,6 +99,8 @@ class MarksController extends Controller
   }
   
   public function filterMarks(Request $req){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.MARK_MANAGE_ROLE')]);
     $this->data['activities'] = Activity::with(['checkins'])->get();
     $this->data['year'] = SchoolYear::where('type',1)->get();
 

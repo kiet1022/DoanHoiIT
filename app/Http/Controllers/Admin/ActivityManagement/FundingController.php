@@ -24,7 +24,9 @@ use App\Models\Log;
 
 class FundingController extends Controller
 {
-  public function getListFunding(){
+  public function getListFunding(Request $req){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     // delete session if exist
     session()->forget('_old_input');
     $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
@@ -45,7 +47,9 @@ class FundingController extends Controller
   * 
   * @param String $id The id of activity
   */
-  public function getAddActivityFund($id){
+  public function getAddActivityFund(Request $req, $id){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     $this->data['activity'] = Activity::with(['leadBy'])->where('id',$id)->first();
     
     $this->data['content_'] = old('content_', []);
@@ -63,6 +67,8 @@ class FundingController extends Controller
   * @param Object $req The Request that user sent
   */
   public function postAddActivityFund(Request $req){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     // return back()->withInput()->withErrors(['message' => 'chos kiet']);
     DB::beginTransaction();
     try {
@@ -111,7 +117,9 @@ class FundingController extends Controller
   * 
   * @param String $id The id of activity
   */
-  public function getEditActivityFund($id){
+  public function getEditActivityFund(Request $req, $id){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     $this->data['activityFund'] = ActivityFundDetail::with(['fund.activity'])->where('fund_id',$id)->get();
     // Check if there is no activity fund
     if(count($this->data['activityFund']) == 0){
@@ -127,6 +135,8 @@ class FundingController extends Controller
   * @param Object $req The request that user sent
   */
   public function postEditActivityFund($id, Request $req){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     // return count($req->detail_id_);
     $this->data['activityDetail'] = ActivityFundDetail::where('fund_id',$id)->get();
     $arrayDetaiIdFund = [];
@@ -211,6 +221,8 @@ class FundingController extends Controller
   }
   
   public function deleteActivityFunding(Request $req){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     $fundId = $req->activityFundId;
     $this->data['activityFundDetail'] = ActivityFundDetail::where('fund_id',$fundId)->get();
     foreach ($this->data['activityFundDetail'] as $detail) {
@@ -225,6 +237,8 @@ class FundingController extends Controller
   }
   
   public function deleteManyActivityFunding(Request $req){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     foreach ($req->fund_id as $fundId) {
       $this->data['activityFundDetail'] = ActivityFundDetail::where('fund_id',$fundId)->get();
       foreach ($this->data['activityFundDetail'] as $detail) {
@@ -240,6 +254,8 @@ class FundingController extends Controller
   
   
   public function filterActivityFunding(Request $req){
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
     $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
     if(StringUtil::pureString($req->semester) == null && StringUtil::pureString($req->activity) == null){

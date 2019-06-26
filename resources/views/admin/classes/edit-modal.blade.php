@@ -15,7 +15,7 @@
                                 <div class="form-inline cm-inline-form">
                                     <label for="schoolYear" class="col-md-2 common-label-inline">Khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                     <select disabled id="schoolYear" class="form-control col-md-4" name="schoolYear">
-                                        <option value="{{$class->school_year_id}}" >{{$class->schoolYear->name}} </option>
+                                        <option value="{{$class->school_year_id}}" >{{$class->schoolYear->name}} ||  {{$class->schoolYear->course}}</option>
                                     </select>
                                 </div> 
                                 <div class="form-inline cm-inline-form">

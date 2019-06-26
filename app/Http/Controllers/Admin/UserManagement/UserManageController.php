@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\AddNewStudentRequest;
 use \Carbon\Carbon;
 use App\Models\SchoolYear;
-// use App\Models\Student;
 use App\Models\User;
 use App\Models\Student;
 use App\Models\Role;
@@ -26,38 +25,44 @@ class UserManageController extends Controller
 			$this->middleware('auth');
 	}
 
-    public function getUserList(Request $req){
-			$req->user()->authorizeRoles(['Quản lý sinh viên']);
-			$schoolYears = SchoolYear::where('type',2)->get();
-      $studentList = User::where('deleted_at',null)->get();
-      return view('admin.user.user_list',compact('schoolYears','studentList'));
-    }
-
-    public function addUser(AddUserRequest $request){
-		try{
-			$user = new User;
-         // $user->username = $request->email;
-			$user->email = $request->email;
-			$user->level = $request->level;
-			$user->password = bcrypt('123456');
-			$user->updated_by = Auth::user()->id;
-			$user->save();
-			$userinfo = new UserInfo;
-			$userinfo->id_user = $user->id;
-      $userinfo->name = $request->name;
-			$userinfo->save();
-			return redirect()->back()->with('success','Thêm tài khoản thành công. Mật khẩu là 123456');
-		}catch(Exception $ex){
-			return redirect()->back()->with('error','Tài khoản đã tồn tại, vui lòng nhập địa chỉ email khác');
-		}
+	/**
+	 * Get list of user
+	 * 
+	 */
+	public function getUserList(Request $req){
+		// Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.USER_MANAGE_ROLE')]);
+		$schoolYears = SchoolYear::where('type',2)->get();
+		$studentList = User::where('deleted_at',null)->get();
+		return view('admin.user.user_list',compact('schoolYears','studentList'));
 	}
 
+  //   public function addUser(AddUserRequest $request){
+	// 		// Check user role
+	// 		$req->user()->authorizeRoles([config('constants.STATICS_MANAGE_ROLE')]);
+	// 	try{
+	// 		$user = new User;
+  //        // $user->username = $request->email;
+	// 		$user->email = $request->email;
+	// 		$user->level = $request->level;
+	// 		$user->password = bcrypt('123456');
+	// 		$user->updated_by = Auth::user()->id;
+	// 		$user->save();
+	// 		$userinfo = new UserInfo;
+	// 		$userinfo->id_user = $user->id;
+  //     $userinfo->name = $request->name;
+	// 		$userinfo->save();
+	// 		return redirect()->back()->with('success','Thêm tài khoản thành công. Mật khẩu là 123456');
+	// 	}catch(Exception $ex){
+	// 		return redirect()->back()->with('error','Tài khoản đã tồn tại, vui lòng nhập địa chỉ email khác');
+	// 	}
+	// }
+
 	public function deleteUser($id){
+		// Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.USER_MANAGE_ROLE')]);
 		try{
 			$user = User::find($id);
-          // $userinfo = UserInfo::where('id_user',$id);
-          // $userinfo->delete();
-          // $user->delete();
 			$user->status=1;
 			$user->updated_at=now();
 			$user->updated_by = Auth::user()->id;
@@ -68,45 +73,52 @@ class UserManageController extends Controller
 		}
 	}
 	
-	public function getRolesList(Request $req){
-		$req->user()->authorizeRoles(['Quản lý Sinh viên']);
-		$this->data['roles'] = Role::all();
-		return view('admin.user.roles_list')->with($this->data);
-	}
+	// public function getRolesList(Request $req){
+	// 	$req->user()->authorizeRoles(['Quản lý Sinh viên']);
+	// 	$this->data['roles'] = Role::all();
+	// 	return view('admin.user.roles_list')->with($this->data);
+	// }
 
-	public function editRole(Request $req){
-		try {
-			DB::beginTransaction();
-			$role = Role::find($req->id);
-			$role->name = $req->name;
-			$role->description = $req->description;
-			$role->updated_by = Auth::user()->id;
-			$role->save();
-			DB::commit();
-			return redirect()->back()->with(config('constants.SUCCESS'),'Chỉnh sửa quyền thành công!');
-		} catch (Exception $ex) {
-			DB::rollback();
-			return redirect()->back()->with(config('constants.ERROR'),'Chỉnh sửa quyền thất bại!');
-		}
-	}
+	// public function editRole(Request $req){
+	// 	try {
+	// 		DB::beginTransaction();
+	// 		$role = Role::find($req->id);
+	// 		$role->name = $req->name;
+	// 		$role->description = $req->description;
+	// 		$role->updated_by = Auth::user()->id;
+	// 		$role->save();
+	// 		DB::commit();
+	// 		return redirect()->back()->with(config('constants.SUCCESS'),'Chỉnh sửa quyền thành công!');
+	// 	} catch (Exception $ex) {
+	// 		DB::rollback();
+	// 		return redirect()->back()->with(config('constants.ERROR'),'Chỉnh sửa quyền thất bại!');
+	// 	}
+	// }
 
-	public function addRole(Request $req){
-		try {
-			DB::beginTransaction();
-			$role = new Role;
-			$role->name = $req->name;
-			$role->description = $req->description;
-			$role->created_by = Auth::user()->id;
-			$role->save();
-			DB::commit();
-			return redirect()->back()->with(config('constants.SUCCESS'),'Thêm quyền thành công!');
-		} catch (Exception $ex) {
-			DB::rollback();
-			return redirect()->back()->with(config('constants.ERROR'),'Thêm quyền thất bại!');
-		}
-	}
+	// public function addRole(Request $req){
+	// 	try {
+	// 		DB::beginTransaction();
+	// 		$role = new Role;
+	// 		$role->name = $req->name;
+	// 		$role->description = $req->description;
+	// 		$role->created_by = Auth::user()->id;
+	// 		$role->save();
+	// 		DB::commit();
+	// 		return redirect()->back()->with(config('constants.SUCCESS'),'Thêm quyền thành công!');
+	// 	} catch (Exception $ex) {
+	// 		DB::rollback();
+	// 		return redirect()->back()->with(config('constants.ERROR'),'Thêm quyền thất bại!');
+	// 	}
+	// }
 
-	public function getAttachRoles($userid){
+	/**
+	 * Get attach role to user page
+	 * 
+	 * @param Integer $userid Id of user
+	 */
+	public function getAttachRoles(Request $req, $userid){
+		// Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.USER_MANAGE_ROLE')]);
 		$this->data['user'] = User::where('id',$userid)->with(['student'])->first();
 		// return $this->data['students'];
 		$this->data['roles'] = Role::all();
@@ -119,24 +131,38 @@ class UserManageController extends Controller
 		return view('admin.user.attach_roles')->with($this->data);
 	}
 
+	/**
+	 * Attach role to user
+	 * 
+	 * @param Request $req The request that user sent
+	 */
 	public function postAttachRole(Request $req){
-		$user = User::find($req->iduser);
-		// Get all current user roles
-		$current_roles = UserRole::where('user_id',$req->iduser)->get();
-		foreach ($current_roles as $crrole) {
-			$role = Role::find($crrole);
-			$user->roles()->detach($role);
-		}
-		
-		if($req->role_id != null){
-			foreach ($req->role_id as $new_role) {
-				$role = Role::find($new_role);
-				$user->roles()->attach($role);
+		// Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.USER_MANAGE_ROLE')]);
+		try {
+			DB::beginTransaction();
+			$user = User::find($req->iduser);
+			// Get all current user roles
+			$current_roles = UserRole::where('user_id',$req->iduser)->get();
+			foreach ($current_roles as $crrole) {
+				$role = Role::find($crrole);
+				$user->roles()->detach($role);
 			}
-		} else {
-				$role = Role::find(10);
-				$user->roles()->attach($role);
+			
+			if($req->role_id != null){
+				foreach ($req->role_id as $new_role) {
+					$role = Role::find($new_role);
+					$user->roles()->attach($role);
+				}
+			} else {
+					$role = Role::find(10);
+					$user->roles()->attach($role);
+			}
+			DB::commit();
+			return redirect()->back()->with(config('constants.SUCCESS'),'Phân quyền thành công!');
+		} catch (Exception $ex) {
+			DB::rollback();
+			return redirect()->back()->with(config('constants.ERROR'),'Phân quyền thất bại!');
 		}
-		return $user::with('roles')->where('id',$req->iduser)->get();
 	}
 }

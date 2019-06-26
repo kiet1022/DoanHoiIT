@@ -31,7 +31,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12 px-0 d-flex">
                   <select name="activity" id="activity" class="form-control col-md-8 col-sm-8 col-xs-8">
                     <option value="">Chọn chương trình</option>
-                    @foreach ($activities->leadACtivity as $a)
+                    @foreach ($activities as $a)
                     <option value="{{ $a->id }}" {!! changeSelectedStatus("$a->id", old('activity') ) !!} >{{ $a->name }}</option>
                     @endforeach
                   </select>
@@ -67,10 +67,12 @@
             </ul>
           </div>
           <div class="card-footer">
+            @if ($workflow->student_id === Auth::user()->student->student_id)
             <div class="d-flex m-1">
-              <a href="#" class="btn btn-primary btn-sm detail mr-1" style="width:50%" data-content="{{$workflow}}"><i class="fas fa-edit"></i> Chỉnh sửa</a>
-              <a href="{{ route('delete_workflow',['id'=>$workflow->id])}}" class="btn btn-danger btn-sm ml-1" style="width:50%" "><i class="fas fa-minus"></i> Xóa</a>
+                <a href="#" class="btn btn-primary btn-sm detail mr-1" style="width:50%" data-content="{{$workflow}}"><i class="fas fa-edit"></i> Chỉnh sửa</a>
+                <a href="{{ route('delete_workflow',['id'=>$workflow->id])}}" class="btn btn-danger btn-sm ml-1" style="width:50%" "><i class="fas fa-minus"></i> Xóa</a>
             </div>
+            @endif
           </div>
         </div>
       </div>

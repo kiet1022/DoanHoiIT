@@ -53,7 +53,7 @@ Danh sách chi đoàn
                 </div>
                 <!-- /.container-fluid -->
                 <!-- <a class="btn btn-success" href="{{route('get_add_class')}}"><i class="fas fa-plus-circle"></i> Thêm Lớp</a> -->
-                <a class="btn btn-success" id="addClass"><i class="fas fa-plus-circle"></i> Thêm chi đoàn</a>
+                <a class="btn btn-success text-white" id="addClass"><i class="fas fa-plus-circle"></i> Thêm chi đoàn</a>
 
                 <button onclick="deleteClass()"  class="btn delete_all" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>

@@ -22,15 +22,22 @@ use App\Models\Log;
 
 class NewsTypeManageController extends Controller
 {
-    public function getNewTypesList(){
-        $newsType = NewsType::where('deleted_at', null)->get();
+    public function getNewTypesList(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
+        $newsType = NewsType::all();
         return view('admin.news.newsTypeList', compact('newsType'));
     }
-    public function getAddNewType(){
+
+    public function getAddNewType(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         // return view('admin.news.add_new_type');
             return response()->view('admin.news.add_new_type_modal');
     }
     public function postAddNewsType(Request $request){
+        // Check user role
+		$request->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         $newstype = new NewsType;
         // $success = false;
         // DB::beginTransaction();
@@ -57,11 +64,15 @@ class NewsTypeManageController extends Controller
 	}
 
 	public function getEditNewsType(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         $newsType = NewsType::find($req->id);
         return response()->view('admin.news.edit_new_type_modal',compact('newsType'));
         // return response()->view('admin.news.edit_new_type_modal', $newsType);
     }
     public function postEditNewsType( Request $re){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         try{ 
             DB::beginTransaction();
             $newsType = NewsType::find($re->id);
@@ -81,7 +92,10 @@ class NewsTypeManageController extends Controller
             return redirect()->back()->with('error', $ex->getMessage());
         }
     }
+
     public function deleteAll(Request $request){
+        // Check user role
+		$request->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         $deleteType = "Xóa loại tin: ";
         foreach($request->id as $sid){
             $newsType = NewsType::find($sid);

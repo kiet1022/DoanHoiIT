@@ -43,28 +43,15 @@ class StudentManageController extends Controller
     * 
     * @return view
     */
-    public function getStudentList(){
+    public function getStudentList(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
         
         // delete session if exist
         session()->forget('_old_input');
         
-        $role = Role::where('id',config('constants.STUDENT_MANAGE_ROLE'))->first();
-        $user_role = UserRole::where('user_id',Auth::user()->id)->where('role_id',$role->id)->first();
-        
-        switch ($user_role) {
-            case null:
-            abort(403);
-            break;
-            
-            default:
-            if(Gate::allows('access',[$role, $user_role])){
-                $studentList = Student::where('class_id',1)->where('deleted_at',null)->get();
-                return view('admin.students.student_list',compact('studentList'));
-            }else{
-                abort(403);
-                break;
-            }
-        }
+        $studentList = Student::where('class_id',1)->where('deleted_at',null)->get();
+        return view('admin.students.student_list',compact('studentList'));
     }
     
     /**
@@ -74,6 +61,8 @@ class StudentManageController extends Controller
     * @return mixed
     */
     public function postFilterStudent(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
         
         // Init data filter
         $this->data['studentList'] = Student::where('school_year_id',$req->studentShoolYear)->where('class_id',$req->studentClass)->where('deleted_at',null);
@@ -106,7 +95,9 @@ class StudentManageController extends Controller
     * 
     * @return view
     */
-    public function getAddStudentList(){
+    public function getAddStudentList(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
         return view('admin.students.add_student',compact('schoolYears'));
     }
     
@@ -115,7 +106,9 @@ class StudentManageController extends Controller
     * 
     * @param Request $re
     */
-    public function postAddStudentList(AddNewStudentRequest $re){
+    public function postAddStudentList(AddNewStudentRequest $re, Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
         
         $student = new Student;
         $success = false;
@@ -182,7 +175,10 @@ class StudentManageController extends Controller
     * 
     * @param $student_id Student ID
     */
-    public function getEditStudent($student_id){
+    public function getEditStudent($student_id, Request $req){
+        // Check user role
+        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
+        
         $student = Student::find($student_id);
         //return $student;
         return view('admin.students.edit_student',compact('student'));
@@ -194,7 +190,11 @@ class StudentManageController extends Controller
     * @param $id Student ID
     * @param $re EditStudentRequest
     */
-    public function postEditStudent($id, EditStudentRequest $re){
+    public function postEditStudent($id, EditStudentRequest $re, Request $req){
+
+        // Check user role
+        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
+        
         //dd($re);
         try{ 
             DB::beginTransaction();
@@ -241,11 +241,12 @@ class StudentManageController extends Controller
                 DB::rollback();
                 return redirect()->back()->with('error', $ex->getMessage());
             }
-        }
+    }
+    
+    public function getImportStudent(Request $req){
+        // Check user role
+        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
         
-        
-        
-    public function getImportStudent(){
         return view('admin.students.import_student');
     }
     
@@ -255,6 +256,9 @@ class StudentManageController extends Controller
     * @param $req
     */
     public function postImportStudent(Request $req){
+        // Check user role
+        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
+        
         try {
             if($req->hasFile('importFile')){
                 $file = $req->file('importFile');
@@ -328,11 +332,14 @@ class StudentManageController extends Controller
     * @param $req
     */
     public function deleteStudent(Request $req){
+        // Check user role
+        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
+        
         foreach($req->student_id as $sid){
             $student = Student::find($sid);
             $student->delete();
         }
-        return response()->json(['message'=>'success']);
+        return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Thành công!"]);
     }
     
     /**
@@ -341,6 +348,9 @@ class StudentManageController extends Controller
     * @param $request
     */
     public function getStudentDetail(Request $req){
+        // Check user role
+        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
+        
         $this->data['student'] = Student::find($req->id);
         return response()->view('admin.students.modal_detail', $this->data);
     }

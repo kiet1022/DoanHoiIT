@@ -20,19 +20,23 @@ $(document).ready(function () {
     });
      // Show add modal
     $('#addClass').on('click', function(){
+        blockUI(true);
         // alert('hello');
         $.ajax({
             url: BASE_URL + "/add.php",
         }).done(function(data) {
+            blockUI(false);
             console.log(data);
             $('#formAdd').html(data);
             $('#formAdd').modal('show');
         }).fail(function(xhr, status, error) {
+            blockUI(false);
             console.log(error);
         });
     });
     // Show edit modal
     $('.editToggle').on('click', function(){
+        blockUI(true);
         var id = $(this).data('id');
         $.ajax({    
             url: BASE_URL + "/edit-class.php",
@@ -41,9 +45,12 @@ $(document).ready(function () {
                 id: id,
             }
         }).done(function(data) {
+            blockUI(false);
+            console.log(data)
             $('#formEdit').html(data);
             $('#formEdit').modal('show');
         }).fail(function(xhr, status, error) {
+            blockUI(false);
             console.log(error);
         });
     });

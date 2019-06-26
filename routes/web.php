@@ -350,10 +350,9 @@ Route::prefix('admin')->group(function(){
 });
 
 Route::get('/test', function(){
-    $users = DB::table('workflow_details')
-    ->select(DB::raw('sum(progress) / count(*) as percent'))
-    ->where('workflow_id', 5)->first();
-    dd($users->percent);
+    // $user = User::find(187);
+    // $user->password = bcrypt(123456);
+    // $user->save();
 });
 /*
 |--------------------------------------------------------------------------

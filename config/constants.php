@@ -1,14 +1,16 @@
 <?php
 return [
     // User role
-    'STUDENT_MANAGE_ROLE' => 1,
-    'ACTIVITY_MANAGE_ROLE' => 2,
-    'MARK_MANAGE_ROLE' => 3,
-    'FUNDING_MANAGE_ROLE' => 4,
-    'INTERNAL_MANAGE_ROLE' => 5,
-    'USER_MANAGE_ROLE' => 6,
-    'STATICS_MANAGE_ROLE' => 7,
-    'NEWS_MANAGE_ROLE' => 8,
+    'STUDENT_MANAGE_ROLE' => 'StudentManagement',
+    'ACTIVITY_MANAGE_ROLE' => 'ActivitiesManagement',
+    'MARK_MANAGE_ROLE' => 'MarksManagement',
+    'FUNDING_MANAGE_ROLE' =>'FundManagement',
+    'EXEC_MANAGE_ROLE' => 'ExecMamagement',
+    'USER_MANAGE_ROLE' => 'Usersmanagement',
+    'STATICS_MANAGE_ROLE' => 'StatisticalManagement',
+    'NEWS_MANAGE_ROLE' => 'NewsManagement',
+    'STUDENT_ROLE' => 'Student',
+    'FULL_ROLES' => 'FullRoles',
     
     // Gender
     'MALE_OPTION' => 1,

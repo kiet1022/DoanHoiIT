@@ -20,7 +20,8 @@ class ExecCommController extends Controller
     * @param Request $req Request from client
     */
     public function getExecCommList(Request $req){
-        
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.EXEC_MANAGE_ROLE')]);
         // check if client pass different commType
         if (!in_array($req->type, [
             config('constants.EXEC_COMM_TYPE'), 
@@ -50,17 +51,18 @@ class ExecCommController extends Controller
     * 
     * @param Any $type Type of chart
     */
-    public function getExecCommChart($type){
-        
-    // check if client pass different commType
-    if (!in_array($type, [
-        config('constants.EXEC_COMM_TYPE'), 
-        config('constants.ASSOCIA_EC_TYPE'), 
-        config('constants.COLLABORATOR_TYPE'),
-        config('constants.BLANK_STRING')
-        ])) {
-            abort(404);
-        }
+    public function getExecCommChart(Request $req, $type){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.EXEC_MANAGE_ROLE')]);
+        // check if client pass different commType
+        if (!in_array($type, [
+            config('constants.EXEC_COMM_TYPE'), 
+            config('constants.ASSOCIA_EC_TYPE'), 
+            config('constants.COLLABORATOR_TYPE'),
+            config('constants.BLANK_STRING')
+            ])) {
+                abort(404);
+            }
         
         $this->data["commType"] = config('constants.EXEC_COMM_TYPE');
         if($type == config('constants.ASSOCIA_EC_TYPE')){
@@ -107,6 +109,8 @@ class ExecCommController extends Controller
     * @param Request $req Request from client
     */
     public function saveInfo(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.EXEC_MANAGE_ROLE')]);
         // 0: BCH Doan, 1: BCH LCH
         $type = $req->type;
         // Truong hop edit BCH Doan

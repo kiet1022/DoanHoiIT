@@ -17,18 +17,23 @@ use App\Rules\Uppercase;
 
 class ClassManageController extends Controller
 {
-	public function getClassList(){
-        $classes = Classes::where('deleted_at',null)->get();
-        
+	public function getClassList(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
+        $classes = Classes::all();
         return view('admin.classes.classes_list',compact('classes'));
     }
 
-    public function getAddClass(){
-        $schoolYear = SchoolYear::where('deleted_at',null)->get();
-        // return response()->view('admin.academic.add-modal');
+    public function getAddClass(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
+        $schoolYear = SchoolYear::where('type',2)->get();
         return response()->view('admin.classes.add-modal',compact('schoolYear'));
     }
+
     public function postAddClass(Request $re){
+        // Check user role
+		$re->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         try{
             $class = new Classes;
             $class->class_id = $re->name;
@@ -42,13 +47,15 @@ class ClassManageController extends Controller
             return redirect()->back()->with('error','Thêm chi đoàn thất bại');
         }
     }
+
     public function getEditClass(Request $req){
-        $class = Classes::find($req->id);
-        return response()->view('admin.classes.edit-modal',compact('class'));
-        // $class = Classes::find($id);
-        // return view('admin.classes.edit',compact('class'));
+        $class = Classes::with(['schoolYear'])->where('id',$req->id)->first();
+        return response()->view('admin.classes.edit-modal', compact('class'));
     }
+
     public function postEditClass(Request $re){
+        // Check user role
+		$re->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         try{
             $class = Classes::find($re->id);
             $class->class_name = $re->name;
@@ -59,14 +66,17 @@ class ClassManageController extends Controller
             return redirect()->back()->with('error','Thêm khóa học thất bại');
         }
     }
-    public function delete(Request $request){
+
+    public function delete(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         // if (!isset(Auth::user()->id)) {
         //     return view('login'); //redirect to loginpage if no have session login
         // }
-        // $ids = $request->ids;
+        // $ids = $req->ids;
         // $classes = Classes::whereIn('id',explode(",",$ids))->update(['deleted_at' => now()]);
         // return response()->json(['success'=>"Xóa chi đoàn thành công"]);
-        foreach($request->id as $sid){
+        foreach($req->id as $sid){
             $classes = Classes::find($sid);
             $classes->delete();
         }

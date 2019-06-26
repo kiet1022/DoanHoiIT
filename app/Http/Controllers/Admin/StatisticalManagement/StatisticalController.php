@@ -26,7 +26,10 @@ use App\Models\Log;
 
 class StatisticalController extends Controller
 {
-    public function stStudentSchoolYear(){
+    public function stStudentSchoolYear(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STATICS_MANAGE_ROLE')]);
+        
         $this->data['years'] = SchoolYear::where('type',2)->get();
         $this->data['classes'] = Classes::all();
         $this->data['K15'] = DB::select('call doanhoi_it.statis_student_by_schoolyear(?);',[1]);
@@ -38,6 +41,9 @@ class StatisticalController extends Controller
     }
 
     public function stFilterStudent(Request $req){
+        // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STATICS_MANAGE_ROLE')]);
+        
         $this->data['chartYear'] = [];
         $this->data['chartdetail'] = [];
         if(StringUtil::pureString($req->year) == null ){
