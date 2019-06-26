@@ -359,7 +359,7 @@ Route::get('/test', function(){
 | User management Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/index.php', 'User\HomeController@getHomePage')->name('get_home_page');
+Route::get('/home', 'User\HomeController@getHomePage')->name('get_home_page');
 Route::get('/new/{id}.php', 'User\NewsController@getNewDetail')->name('get_new');
 Route::get('/category/{id}.php', 'User\NewsController@getNewsByCategory')->name('get_new_by_ctg');
 Route::get('/infomation.php', 'User\UserController@getUserInfo')->name('get_profile');
@@ -371,7 +371,7 @@ Route::post('/activity/registActivity.php', 'User\ActivityController@registActiv
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('testt', function(){
     //$a = '';
