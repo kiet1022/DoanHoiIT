@@ -34,7 +34,7 @@
             <div class="auth-header row form-inline cm-inline-form ">
               <p> SV. {{Auth::user()->student->name}}</p>
               <span>
-                @if( !is_null(Auth::user()->student->image) && Auth::user()->student->image !== null && Auth::user()->student->image !== "")
+                @if( !is_null(Auth::user()->student->image) && Auth::user()->student->image !== null && Auth::user()->student->image !== "" && Auth::user()->student->image !== "null")
                     <img class="img-small" src="{{asset('assets/img/students')}}/{{Auth::user()->student->image}}" > 
                 @else 
                     <img class="img-small" src="{{asset('assets/img/ic-user.png')}}">
@@ -53,7 +53,7 @@
             <li> <a href="{{ route('get_home_page') }}">Trang chủ</a></li>
             <li><a href="{{ route('get_new_by_ctg', ['id'=>'all']) }}" >Danh mục</a></li>
             <li><a href="http://fit.hcmute.edu.vn" target="_blank" >Khoa CNTT</a></li>
-            <li><a href="{{ route('get_list_activity') }}">Chương trình</a></li>
+            <li><a href="{{ route('get_list_activity_user') }}">Chương trình</a></li>
             @auth
             <li><a href="{{ route('get_profile') }}">Thông tin cá nhân</a></li>
             <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
@@ -74,7 +74,7 @@
           <li><a href="{{ route('get_home_page') }}">Home</a></li>
           <li><a href="{{ route('get_new_by_ctg', ['id'=>'all']) }}">Danh mục</a></li>
             <li><a href="http://fit.hcmute.edu.vn" target="_blank" >Khoa CNTT</a></li>
-            <li><a href="{{ route('get_list_activity') }}">Chương trình</a></li>
+            <li><a href="{{ route('get_list_activity_user') }}">Chương trình</a></li>
             @auth
             <li><a href="{{ route('get_profile') }}">Thông tin cá nhân</a></li>
             <li><a href="{{ route('logout') }}">Đăng xuất</a></li>

@@ -69,22 +69,22 @@ Danh mục tin
               <h3 class="activity-title col-md-10"><a class="btnView" data-id="{{$list->id}}" data-toggle="modal">{{$list->name}}</a></h3>
               <div class="col-md-2"><a class="btnView" data-id="{{$list->id}}" data-toggle="modal"> <i class="fas fa-eye cm-label text-primary"></i> </a></div>
               <p class="col-md-12">Thời gian đăng kí: <span>{{date('d/m/Y',strtotime($list->start_regis_date))}}</span> - <span>{{date('d/m/Y',strtotime($list->end_regis_date))}}</span> </p>
-              <p class="col-md-9"> Số lượng đăng ký: <span>10/20</span></p>
+              <p class="col-md-9"> Số lượng đăng ký: <span>10/{{$list->max_regis_num}}</span></p>
 
               @if($list->end_regis_date < Carbon\Carbon::today()) 
                 <p class="col-md-3 time-expired">Hết hạn đăng kí</p>
               @else
                 @if(count($registActivity)==null)
                 <div class="col-md-3"><button class="btn btnRegist" id="activity_{{$list->id}}" data-id="{{$list->id}}">Đăng kí</button></div>
+               
                 @else
                   @foreach ($registActivity as $listRes)
+                  $arrays[] =  (array) $listRes->activity_id;
                     @if ($listRes->activity_id ===$list->id)
-                    <p class="col-md-3 time-expired">Đã đăng kí</p>
-                    @else
-                    <div class="col-md-3"><button class="btn btnRegist" id="activity_{{$list->id}}" data-id="{{$list->id}}">Đăng kí</button></div>
+                      <p class="col-md-3 time-expired">Đã đăng kí 111</p>
                     @endif
                   @endforeach
-                 @endif
+                @endif
               @endif
             </div>
           </div>
