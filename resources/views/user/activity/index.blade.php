@@ -53,13 +53,14 @@ Danh mục tin
     <div class="row">
 
       <div class="col-md-8">
-
-        <div class="col-md-6">
-          <select name="year" id="year" class="form-control">
-            <option value="">Tất cả chương trình</option>
-            <option value=""> Chương trình đã đăng kí</option>
-          </select>
-        </div>
+        <form id="filterActivity" action="" method="get" class="col-md-12">
+          <div class="col-md-6">
+            <select name="activity-type" class="form-control">
+              <option value="0">Tất cả chương trình</option>
+              <option value="1"> Chương trình đã đăng kí</option>
+            </select>
+          </div>
+        </form>
 
         <!-- activity  -->
         @foreach ($activity as $list)
@@ -79,9 +80,8 @@ Danh mục tin
                
                 @else
                   @foreach ($registActivity as $listRes)
-                  $arrays[] =  (array) $listRes->activity_id;
                     @if ($listRes->activity_id ===$list->id)
-                      <p class="col-md-3 time-expired">Đã đăng kí 111</p>
+                      <p class="col-md-3 time-expired">Đã đăng kí</p>
                     @endif
                   @endforeach
                 @endif
@@ -164,5 +164,8 @@ Danh mục tin
       console.log(error);
     });
   });
+   $('select').change(function () {
+     document.getElementById('filterActivity').submit();
+ });
 </script>
 @endsection

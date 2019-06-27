@@ -38,9 +38,9 @@
       <div id="nav-top">
         <div class="container">
           <!-- social -->
-          <ul class="nav-social">
+   <!--        <ul class="nav-social">
             <li><a href="https://www.facebook.com/DoanHoiITUTE" target="_blank"><i class="fa fa-facebook"></i></a></li>
-          </ul>
+          </ul> -->
           @auth
           <div class="auth-header row form-inline cm-inline-form ">
             <p> SV. {{Auth::user()->student->name}}</p>

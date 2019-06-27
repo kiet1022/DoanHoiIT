@@ -51,7 +51,7 @@ Chỉnh sửa thông tin cá nhân
             <div class="form-group">
                 <label class="control-label col-sm-2" for="avatar">Ảnh đại diện</label>
                 <div class="col-sm-10">
-                    @if( !is_null($user->student->image) && $user->student->image !== null && $user->student->image !== "")
+                    @if( !is_null($user->student->image) && $user->student->image !== null && $user->student->image !== "" && $user->student->image !== "null" )
                         <img class="img-profile" src="{{asset('assets/img/students')}}/{{$user->student->image}}" id="output" > 
                     @else 
                         <img class="img-profile" src="{{asset('assets/img/ic-user.png')}}" id="output">

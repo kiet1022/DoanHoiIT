@@ -13,12 +13,8 @@
                       <tr>
                         <th>Tên chương trình</th>
                         <td>{{ $activity->name }}</td>
-                      </tr>
-                      <tr>
                         <th>Năm học</th>
                         <td>{{ $activity->year }}</td>
-                        <th>Học kỳ</th>
-                        <td>Kỳ {{ $activity->semester }}</td>
                       </tr>
                       <tr>
                         <th>Thời gian đăng ký</th>

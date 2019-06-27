@@ -374,6 +374,7 @@ Route::post('/updateInfomation.php', 'User\UserController@postEditUserInfo')->na
 Route::get('/activity.php', 'User\ActivityController@getListActivity')->name('get_list_activity_user');
 Route::post('/activity/view.php', 'User\ActivityController@getActivityInfo')->name('get_activity');
 Route::post('/activity/registActivity.php', 'User\ActivityController@registActivity')->name('regist_activity');
+Route::post('activity/filter.php','User\ActivityController@postFilterActivity')->name('post_filter_activity');
 
 Auth::routes();
 

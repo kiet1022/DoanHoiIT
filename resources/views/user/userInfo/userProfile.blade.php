@@ -55,7 +55,6 @@ Thông tin cá nhân
 
             </div>
 
-
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -78,6 +77,29 @@ Thông tin cá nhân
                 <!-- <button type="button" class="btn btn-warning" style="width: 150px;" data-toggle="collapse" data-target="#demo">Đổi mật khẩu</button> -->
             </div>
         </div>
+    </div>
+    <div class="col-md-12">
+        <div>Điểm tích lũy</div>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th scope="col">STT</th>
+                  <th scope="col">Tên Chương Trình</th>
+                  <th scope="col">Điểm rèn luyện</th>
+                  <th scope="col">Điểm CTXH</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($checkinActivity as $list)
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{{$list->ofCheckin->ofActivity->name}}</td>
+                  <td>{{$list->ofCheckin->ofActivity->practise_marks}}</td>
+                  <td>{{$list->ofCheckin->ofActivity->social_marks}}</td>
+                </tr>
+                @endforeach
+            </tbody>
+            </table>
     </div>
 </div>
 @endsection

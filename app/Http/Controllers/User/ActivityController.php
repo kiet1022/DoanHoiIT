@@ -25,12 +25,19 @@ class ActivityController extends Controller
     public function getListActivity()
     {
         $user = User::find(Auth::user()->id);
-        // $activity = Activity::where('deleted_at', null)->get();
-        $activity = DB::select(DB::raw('SELECT id, name, year, semester, start_regis_date, end_regis_date, start_date, end_date, content, practise_marks, social_marks, max_regis_num FROM activities'));
+        $activity = Activity::where('deleted_at', null)->get();
         $newsType = NewsType::where('deleted_at', null)->get();
         $lastedNews = News::where('deleted_at', null)->orderBy('id', 'desc')->limit(4)->get();
-        // $registActivity = Attender::where('student_id', $user->student_id)->get();
-        $registActivity = DB::select(DB::raw('SELECT a.id, a.name, a.year, a.semester, a.start_regis_date, a.end_regis_date, a.start_date, a.end_date, a.content, a.practise_marks,a.social_marks, a.max_regis_num, att.student_id, att.activity_id FROM activities a, attenders att WHERE att.student_id='.$user->student_id.' AND att.activity_id=a.id'));
+        $registActivity = Attender::where('student_id', $user->student_id)->get();
+       
+        $activity_type=request('activity-type');
+        if (isset($activity_type)) {
+            if ($activity_type==1) {
+                //show regist activity
+            }
+        }
+         // $activity = DB::select(DB::raw('SELECT id, name, year, semester, start_regis_date, end_regis_date, start_date, end_date, content, practise_marks, social_marks, max_regis_num FROM activities'));
+        // $registActivity = DB::select(DB::raw('SELECT a.id, a.name, a.year, a.semester, a.start_regis_date, a.end_regis_date, a.start_date, a.end_date, a.content, a.practise_marks,a.social_marks, a.max_regis_num, att.student_id, att.activity_id FROM activities a, attenders att WHERE att.student_id='.$user->student_id.' AND att.activity_id=a.id'));
 
         return view('user.activity.index', compact('activity', 'newsType', 'lastedNews', 'registActivity'));
     }

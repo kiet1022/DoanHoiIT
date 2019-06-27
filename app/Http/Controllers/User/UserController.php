@@ -17,6 +17,7 @@ use App\Models\UserRole;
 use App\Models\Log;
 use App\Models\News;
 use App\Models\NewsType;
+use App\Models\CheckinDetail;
 
 class UserController extends Controller
 {
@@ -24,7 +25,8 @@ class UserController extends Controller
 		if (isset( Auth::user()->id)) {
 			$id = Auth::user()->id;
 			$user = User::find($id);
-	        return view('user.userInfo.userProfile', compact('user'));
+			$checkinActivity = CheckinDetail::where('student_id', $user->student_id)->get();
+	        return view('user.userInfo.userProfile', compact('user', 'checkinActivity'));
 		}
 		else{
 			return view('auth.login');
