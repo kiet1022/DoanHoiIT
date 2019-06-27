@@ -308,6 +308,12 @@ Route::prefix('admin')->group(function(){
 
             // Filter student statistical by year and class
             Route::post('filter.php','Admin\StatisticalManagement\StatisticalController@stFilterStudent')->name('st_filter_student');
+
+            // Union fee
+            Route::get('union-fee.php','Admin\StatisticalManagement\StatisticalController@stUnionFee')->name('st_union_fee');
+
+            // Filter union fee by school year
+            Route::post('union-fee/filter.php','Admin\StatisticalManagement\StatisticalController@stFilterUnionFee')->name('st_filter_union_fee');
         });
     });
 

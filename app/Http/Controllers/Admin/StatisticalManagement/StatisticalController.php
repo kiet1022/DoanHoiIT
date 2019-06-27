@@ -64,4 +64,48 @@ class StatisticalController extends Controller
         }
         return response()->json($this->data);
     }
+
+    public function stUnionFee(Request $req){
+        // Check user role
+        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STATICS_MANAGE_ROLE')]);
+
+        // forget session
+        session()->forget('_old_input');
+
+        $this->data['chartdetail'] = [];
+        $this->data['classes'] = Classes::all();
+        $this->data['years'] = SchoolYear::where('type',2)->get();
+
+        $this->data['K15'] = DB::select('call doanhoi_it.statis_union_fee(?);',[1]);
+
+        $class = Classes::where('school_year_id',1)->get();
+        foreach ($class as $cl) {
+            $byClass = DB::select('call doanhoi_it.statis_union_fee_by_class(?);',[$cl->id]);
+            array_push($this->data['chartdetail'],[$cl->class_name=>$byClass]);
+        }
+
+        $this->data['students'] = Student::where('is_payed_union_fee',0)->where('school_year_id',1)->get();
+        // return dd($this->data);
+        return view('admin.statistical.st_union_fee')->with($this->data);
+        
+    }
+
+    public function stFilterUnionFee(Request $req){
+
+        $this->data['chartdetail'] = [];
+        $this->data['classes'] = Classes::all();
+        $this->data['years'] = SchoolYear::where('type',2)->get();
+
+        $this->data['K15'] = DB::select('call doanhoi_it.statis_union_fee(?);',[$req->schoolyear]);
+
+        $class = Classes::where('school_year_id',$req->schoolyear)->get();
+        foreach ($class as $cl) {
+            $byClass = DB::select('call doanhoi_it.statis_union_fee_by_class(?);',[$cl->id]);
+            array_push($this->data['chartdetail'],[$cl->class_name=>$byClass]);
+        }
+
+        $this->data['students'] = Student::where('is_payed_union_fee',0)->where('school_year_id',$req->schoolyear)->get();
+        $req->flash();
+        return view('admin.statistical.st_union_fee')->with($this->data);
+    }
 }
