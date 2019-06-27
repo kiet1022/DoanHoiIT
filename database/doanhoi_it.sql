@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 24, 2019 lúc 04:59 PM
+-- Thời gian đã tạo: Th6 27, 2019 lúc 06:07 PM
 -- Phiên bản máy phục vụ: 10.1.34-MariaDB
 -- Phiên bản PHP: 7.2.8
 
@@ -45,6 +45,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `statis_student_by_schoolyear` (IN `
     union all select count(*)  from students where school_year_id = schoolYear and is_study = 2
 	union all select count(*)  from students where school_year_id = schoolYear and is_study = 3
     union all select count(*)  from students where school_year_id = schoolYear and is_study = 4;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `statis_union_fee` (IN `schoolYear` INT)  BEGIN
+	select count(*) as SoLuong from students where school_year_id = schoolYear and is_payed_union_fee = 1
+    union all select count(*)  from students where school_year_id = schoolYear and is_payed_union_fee = 0;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `statis_union_fee_by_class` (IN `class` INT)  BEGIN
+	select count(*) as SoLuong from students where class_id = class and is_payed_union_fee = 1
+    union all select count(*)  from students where class_id = class and is_payed_union_fee = 0;
 END$$
 
 DELIMITER ;
@@ -123,7 +133,7 @@ INSERT INTO `activity_funds` (`id`, `activity_id`, `initial_funds`, `actual_fund
 (13, 5, 100000, 0, NULL, '2019-05-19 08:47:00', '2019-05-19 08:50:51', 1, NULL, '2019-05-19 08:50:51', 0),
 (14, 4, 1111111, 0, NULL, '2019-05-19 08:50:20', '2019-05-23 07:18:31', 1, NULL, '2019-05-23 07:18:31', 0),
 (15, 5, 1000000, 0, NULL, '2019-05-20 08:34:41', '2019-06-01 22:25:12', 1, NULL, NULL, 0),
-(16, 7, 1050000, 0, NULL, '2019-05-23 08:01:51', '2019-06-01 22:27:28', 1, NULL, NULL, 0),
+(16, 7, 1050000, 0, NULL, '2019-05-23 08:01:51', '2019-06-26 07:31:26', 187, NULL, NULL, 1),
 (17, 8, 700000, 0, NULL, '2019-06-21 23:44:01', '2019-06-21 23:44:01', 1, NULL, NULL, 0);
 
 -- --------------------------------------------------------
@@ -170,9 +180,9 @@ INSERT INTO `activity_fund_details` (`id`, `fund_id`, `content`, `expected_value
 (23, 15, 'Detai Thêm', 200000, 0, 'Hóa đơn đỏ', 'Hộp', '2', 100000, 0, '2019-05-20 08:42:33', '2019-06-01 22:25:12', 1, NULL, NULL),
 (24, 15, 'Nước uống', 200000, 0, 'Hóa đơn đỏ', 'Thùng', '2', 100000, 0, '2019-05-20 08:43:26', '2019-06-01 22:25:12', 1, NULL, NULL),
 (25, 15, 'Background', 100000, 0, 'Hóa đơn đỏ', 'Cái', '1', 100000, 0, '2019-05-20 08:43:26', '2019-06-01 22:25:12', 1, NULL, NULL),
-(26, 16, 'Bạc trại', 350000, 0, 'Hóa đơn đỏ', 'bộ', '5', 70000, 0, '2019-05-23 08:01:51', '2019-06-01 22:27:28', 1, NULL, NULL),
-(27, 16, 'Nước uống', 350000, 0, 'Hóa đơn đỏ', 'Thùng', '2', 70000, 0, '2019-05-23 08:01:51', '2019-06-01 22:27:28', 1, NULL, NULL),
-(29, 16, 'Cơm trưa', 350000, 0, 'Ký nhận', 'Phần', '100', 70000, 0, '2019-05-23 08:04:15', '2019-06-01 22:27:28', 1, NULL, NULL),
+(26, 16, 'Bạc trại', 350000, 0, 'Hóa đơn đỏ', 'bộ', '5', 70000, 0, '2019-05-23 08:01:51', '2019-06-26 07:31:26', 187, NULL, NULL),
+(27, 16, 'Nước uống', 350000, 0, 'Hóa đơn đỏ', 'Thùng', '2', 70000, 0, '2019-05-23 08:01:51', '2019-06-26 07:31:26', 187, NULL, NULL),
+(29, 16, 'Cơm trưa', 350000, 0, 'Ký nhận', 'Phần', '100', 70000, 0, '2019-05-23 08:04:15', '2019-06-26 07:31:26', 187, NULL, NULL),
 (30, 12, 'Bánh kẹo', 200000, 0, 'Hóa đơn đỏ', 'Phần', '1', 200000, 0, '2019-05-31 21:25:49', '2019-06-01 22:27:28', 1, NULL, NULL),
 (31, 12, 'Detai Thêm', 500000, 0, 'Ký nhận', 'Hộp', '10', 50000, 0, '2019-05-31 21:52:17', '2019-06-01 22:36:07', 1, NULL, NULL),
 (32, 12, 'Detail thêm nữa', 5000000, 0, 'Hóa đơn đỏ', 'Tá', '10', 500000, 0, '2019-06-03 07:45:55', '2019-06-03 07:45:55', 1, NULL, NULL),
@@ -1447,17 +1457,16 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `description`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
-(1, 'Quản lý sinh viên', 'User được quyền quản lý thông tin sinh viên', NULL, '2019-06-22 20:29:18', NULL, 1, NULL),
-(2, 'Quản lý chương trình', 'User được quyền quản lý chương trình', NULL, '2019-06-22 20:30:21', NULL, 1, NULL),
-(3, 'Quản lý DRL - CTXH', 'User được quyền quản lý điểm RL và Điểm CTXH', NULL, '2019-06-22 20:31:29', NULL, 1, NULL),
-(4, 'Quản lý kinh phí', 'User được quyền quản lý dự trù kinh phí', NULL, '2019-06-22 20:41:26', NULL, 1, NULL),
-(5, 'Quản lý BCH', NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 'Quản lý người dùng', NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 'Quản lý thống kê', NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 'Quản lý tin tức', NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 'Quản lý phân quyền', 'User được phép thêm sửa xóa và phân quyền cho user khác', '2019-06-22 20:38:45', '2019-06-22 20:38:45', 1, NULL, NULL),
-(10, 'Sinh viên', 'User có quyền xem các tin tức, hoạt động, đăng ký hoạt động, xem, chỉnh sửa thông tin cá nhân', '2019-06-22 20:45:18', '2019-06-22 20:45:18', 1, NULL, NULL),
-(11, 'Ban cán sự', 'User được phép chỉnh sửa thông tin của sinh viên lớp mình', '2019-06-22 20:46:13', '2019-06-22 20:46:13', 1, NULL, NULL);
+(1, 'StudentManagement', 'User được quyền quản lý thông tin sinh viên', NULL, '2019-06-22 20:29:18', NULL, 1, NULL),
+(2, 'ActivitiesManagement', 'User được quyền quản lý chương trình', NULL, '2019-06-22 20:30:21', NULL, 1, NULL),
+(3, 'MarksManagement', 'User được quyền quản lý điểm RL và Điểm CTXH', NULL, '2019-06-22 20:31:29', NULL, 1, NULL),
+(4, 'FundManagement', 'User được quyền quản lý dự trù kinh phí', NULL, '2019-06-22 20:41:26', NULL, 1, NULL),
+(5, 'ExecMamagement', 'User được quyền quản lý thông tin BCH', NULL, NULL, NULL, NULL, NULL),
+(6, 'Usersmanagement', 'User được quyển quản lý tài khoản', NULL, NULL, NULL, NULL, NULL),
+(7, 'StatisticalManagement', 'User được quyền xem thống kê', NULL, NULL, NULL, NULL, NULL),
+(8, 'NewsManagement', 'User được quyền quản lý tin tức', NULL, NULL, NULL, NULL, NULL),
+(9, 'Student', 'Quyền sinh viên', '2019-06-22 20:38:45', '2019-06-22 20:38:45', 1, NULL, NULL),
+(11, 'FullRoles', 'Toàn quyền', '2019-06-22 20:46:13', '2019-06-22 20:46:13', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1481,13 +1490,11 @@ CREATE TABLE `role_user` (
 --
 
 INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
-(2, 1, 1, NULL, NULL, NULL, NULL, NULL),
-(14, 1, 93, NULL, NULL, NULL, NULL, NULL),
-(15, 2, 93, NULL, NULL, NULL, NULL, NULL),
-(16, 3, 93, NULL, NULL, NULL, NULL, NULL),
-(17, 5, 93, NULL, NULL, NULL, NULL, NULL),
-(18, 6, 93, NULL, NULL, NULL, NULL, NULL),
-(19, 7, 93, NULL, NULL, NULL, NULL, NULL);
+(37, 11, 1, NULL, NULL, NULL, NULL, NULL),
+(38, 6, 1, NULL, NULL, NULL, NULL, NULL),
+(40, 3, 187, NULL, NULL, NULL, NULL, NULL),
+(41, 2, 187, NULL, NULL, NULL, NULL, NULL),
+(42, 11, 187, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1700,53 +1707,53 @@ INSERT INTO `students` (`student_id`, `name`, `class_id`, `school_year_id`, `add
 ('15110284', 'Lê Thị Kiều Phụng', 4, 1, NULL, NULL, NULL, NULL, '1997-12-12', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
 ('15110285', 'Lê Văn Phụng', 3, 1, '26, Nguyễn Thị Định, Phước Dân, H Ninh Phước, Ninh Thuận', '45', '4504', NULL, '1995-09-07', 1, '264468073', '09699975478', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
 ('15110286', 'Mai Quốc Như Nhật Phụng', 2, 1, 'Ấp Phú Cường, Phú Bình, H Tân Phú, Đồng Nai', '48', '4803', NULL, '1997-12-12', 1, '272492087', '01658093430', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
-('15110287', 'Nguyễn Hoài Phương', 1, 1, 'An Thủy, H Ba Tri, Bến Tre', '56', '5607', NULL, '1997-06-22', 1, '321567950', '0964824963', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110287', 'Nguyễn Hoài Phương', 1, 1, 'An Thủy, H Ba Tri, Bến Tre', '56', '5607', NULL, '1997-06-22', 1, '321567950', '0964824963', 1, 1, NULL, 0, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
 ('15110288', 'Phạm Duy Phương', 3, 1, '120, Đoàn Thị Điểm, Lộc Thanh, TX Bảo Lộc, Lâm Đồng', '42', '4202', NULL, '1997-01-22', 1, '251135139', '0925555570', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
 ('15110289', 'Đào Thị Phượng', 1, 1, '71/85/9,tổ 62,kp8 (khu Âp Doi), F15, đường Thống Nhất, Liên Châu, H Yên Lạc, Vĩnh Phúc', '16', '1605', NULL, '1997-03-09', 2, '135872362', '', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, '38245343_421904824996952_1455110649024610304_n.jpg'),
 ('15110290', 'Đặng Trương Duy Quang', 1, 1, '493B, Phường Phú Khương, TX Bến Tre, Bến Tre', '56', '5601', NULL, '1997-11-25', 1, '321593660', '01659432579', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
 ('15110291', 'Nguyễn Kỳ Quang', 3, 1, '206/40 Đồng Đen, xã Tịnh Châu, Tp. Quảng Ngãi, Quảng Ngãi', '35', '3501', NULL, '1996-12-25', 1, '212479675', '01674908941', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
 ('15110292', 'Phùng Đức Quang', 1, 1, '13/7, Trần Quang Khải, Bình Tân, TX Buôn Hồ, Đăk Lăk', '40', '4015', NULL, '1997-06-15', 1, '241523117', '09955632432', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
-('15110293', 'Phạm Thị Quà', 4, 1, NULL, NULL, NULL, NULL, '1997-06-11', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110293', 'Phạm Thị Quà', 4, 1, NULL, NULL, NULL, NULL, '1997-06-11', 2, NULL, NULL, 1, 1, NULL, 0, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
 ('15110294', 'Đỗ Hoàng Quân', 1, 1, '26b/1d, Phường Tăng Nhơn Phú B, Quận 9, TP. Hồ Chí Minh', '02', '0209', NULL, '1997-03-05', 1, '025741978', '01285064732', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
 ('15110295', 'Trần Lê Anh Quốc', 4, 1, NULL, NULL, NULL, NULL, '1997-03-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
 ('15110297', 'Trần Phú Quý', 3, 1, 'Phường Long Thủy, H Phước Long, Bình Phước', '43', '4307', NULL, '1997-12-30', 1, '258648351', '0969549644', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
 ('15110298', 'Trần Phú Quý', 3, 1, 'Phổ Khánh, H Tư Nghĩa, Quảng Ngãi', '35', '3507', NULL, '1997-11-08', 1, '212279818', '01649467408', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
-('15110299', 'Nguyễn Văn Sang', 4, 1, NULL, NULL, NULL, NULL, '1997-03-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110299', 'Nguyễn Văn Sang', 4, 1, NULL, NULL, NULL, NULL, '1997-03-11', 1, NULL, NULL, 1, 1, NULL, 0, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
 ('15110300', 'Nguyễn Thanh Sơn', 3, 1, '193, Bàn Long, H Châu Thành, Tiền Giang', '53', '5305', NULL, '1997-01-01', 1, '312336908', '01213994014', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
 ('15110301', 'Phạm Thanh Sơn', 1, 1, 'Đông Hải, TX Phan Rang-Tháp Chàm, Ninh Thuận', '45', '4501', NULL, '1997-02-17', 1, '264448947', '01639157154', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
 ('15110302', 'Võ Nguyễn Hoàng Sơn', 3, 1, '7/4, Phú Thuận, Quận 7, TP. Hồ Chí Minh', '02', '0207', NULL, '1997-08-20', 1, '025682204', '01673587001', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
 ('15110303', 'Nguyễn Văn Sỹ', 3, 1, 'Số 232, ấp 3, Gia Canh, H Định Quán, Đồng Nai', '48', '4804', NULL, '1997-05-23', 1, '272551954', '0972736782', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
 ('15110304', 'Giang Minh Tài', 2, 1, '11, Sùng Nhơn, H Đức Linh, Bình Thuận', '47', '4707', NULL, '1997-03-11', 1, '261508593', '01685767192', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
 ('15110305', 'Nguyễn Tấn Tài', 2, 1, 'Phú Lộc, H Krông Năng, Đăk Lăk', '40', '4004', NULL, '1997-11-15', 1, '241705261', '01238233336', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
-('15110306', 'Nguyễn Văn Tài', 1, 1, '48, Đạ Teh, H Đạ Tẻh, Lâm Đồng', '42', '4208', NULL, '1997-05-17', 1, '251111331', '01689618171', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110306', 'Nguyễn Văn Tài', 1, 1, '48, Đạ Teh, H Đạ Tẻh, Lâm Đồng', '42', '4208', NULL, '1997-05-17', 1, '251111331', '01689618171', 1, 1, NULL, 0, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
 ('15110307', 'Trương Tấn Tài', 2, 1, 'Sơn Hội, H Sơn Hòa, Phú Yên', '39', '3905', NULL, '1997-09-15', 1, '221447017', '09676384149', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
 ('15110308', 'Võ Phước Tân', 1, 1, '897/12, phường Bình Thắng, H Dĩ An, Bình Dương', '44', '4405', NULL, '1997-05-06', 1, '281136389', '', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
 ('15110309', 'Lê Phước Thanh', 3, 1, '82/3, Hiệp Bình Phước, Q Thủ Đức, TP. Hồ Chí Minh', '02', '0218', NULL, '1997-03-31', 1, '026010891', '0937217351', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
 ('15110310', 'Nguyễn Viết Thanh', 1, 1, 'Hồ Tùng Mậu, Tân Thanh, TX Tam Kỳ, Quảng Nam', '34', '3401', NULL, '1997-01-01', 1, '206314588', '01634049975', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
-('15110311', 'Hồ Nhất Thành', 1, 1, 'Đội 6 Thôn Cộng Hòa I, Tịnh Ấn Tây, Tp. Quảng Ngãi, Quảng Ngãi', '35', '3501', NULL, '1997-07-21', 1, '212474688', '01668718790', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
-('15110312', 'Tạ Tích Thành', 1, 1, 'Cây Gáo, Trảng Bom, Đồng Nai', '48', '4810', NULL, '1997-06-24', 1, '272667052', '0978169503', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110311', 'Hồ Nhất Thành', 1, 1, 'Đội 6 Thôn Cộng Hòa I, Tịnh Ấn Tây, Tp. Quảng Ngãi, Quảng Ngãi', '35', '3501', NULL, '1997-07-21', 1, '212474688', '01668718790', 0, 1, NULL, 0, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110312', 'Tạ Tích Thành', 1, 1, 'Cây Gáo, Trảng Bom, Đồng Nai', '48', '4810', NULL, '1997-06-24', 1, '272667052', '0978169503', 1, 1, NULL, 0, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
 ('15110313', 'Trần Minh Thành', 3, 1, 'Ngan Dừa, H Hồng Dân, Bạc Liêu', '60', '6003', NULL, '1997-02-03', 1, '385756864', '', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
 ('15110314', 'Nguyễn Thị Thanh Thảo', 2, 1, 'Thạnh Lợi, H Vĩnh Thanh, Cần Thơ', '55', '5507', NULL, '1997-03-08', 2, '362484135', '01688360937', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
 ('15110315', 'Phạm Đại Thạch', 1, 1, 'Củng Sơn, H Sơn Hòa, Phú Yên', '39', '3905', NULL, '1997-02-25', 1, '221444366', '01694676100', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
-('15110316', 'Đoàn Thanh Thắng', 2, 1, 'Thiện Hưng, H Bù Đốp, Bình Phước', '43', '4306', NULL, '1996-10-22', 1, '285570592', '', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110316', 'Đoàn Thanh Thắng', 2, 1, 'Thiện Hưng, H Bù Đốp, Bình Phước', '43', '4306', NULL, '1996-10-22', 1, '285570592', '', 1, 1, NULL, 0, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
 ('15110317', 'Nguyễn Đức Thắng', 2, 1, 'H Phú Hòa, Phú Yên', '39', '3908', NULL, '1997-06-20', 1, '221423755', '0944924822', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
-('15110318', 'Trần Hải Anh Thi', 2, 1, 'Hòa Trị, TX Bảo Lộc, Lâm Đồng', '42', '4202', NULL, '1997-05-26', 1, '251029489', '0944924822', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110318', 'Trần Hải Anh Thi', 2, 1, 'Hòa Trị, TX Bảo Lộc, Lâm Đồng', '42', '4202', NULL, '1997-05-26', 1, '251029489', '0944924822', 1, 1, NULL, 0, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
 ('15110319', 'Lương Trọng Thiên', 1, 1, '17,24, Mê Pu, H Đức Linh, Bình Thuận', '47', '4707', NULL, '1997-12-21', 1, '261501292', '01687772887', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
 ('15110320', 'Cao Ngọc Thiện', 1, 1, '22, Phan Châu Trinh, Minh An, TX Hội An, Quảng Nam', '34', '3402', NULL, '1996-09-07', 1, '206055520', '01223421418', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
-('15110321', 'Phan Minh Thiện', 1, 1, '195, xã Thạnh Quới, H Vĩnh Thanh, Cần Thơ', '55', '5507', NULL, '1996-12-21', 1, '362467830', '01697421797', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110321', 'Phan Minh Thiện', 1, 1, '195, xã Thạnh Quới, H Vĩnh Thanh, Cần Thơ', '55', '5507', NULL, '1996-12-21', 1, '362467830', '01697421797', 1, 1, NULL, 0, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
 ('15110322', 'Lương Văn Thông', 3, 1, 'Số nhà 7, Tân Tiến, H Đồng Phú, Bình Phước', '43', '4302', NULL, '1997-06-10', 1, '285608054', '01643084880', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
-('15110323', 'Nguyễn Minh Thông', 3, 1, '324/9/1, Phước Hải, TP Nha Trang, Khánh Hòa', '41', '4101', NULL, '1997-01-08', 1, '225908620', '01656522379 (gap phu', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
+('15110323', 'Nguyễn Minh Thông', 3, 1, '324/9/1, Phước Hải, TP Nha Trang, Khánh Hòa', '41', '4101', NULL, '1997-01-08', 1, '225908620', '01656522379 (gap phu', 1, 1, NULL, 0, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
 ('15110324', 'Hoàng Thị Thu', 4, 1, NULL, NULL, NULL, NULL, '1997-07-27', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
 ('15110326', 'Huỳnh Văn Thuận', 1, 1, '293, xã Long Trạch, H Cần Đước, Long An', '49', '4912', NULL, '1997-05-02', 1, '301607024', '01223353674', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
-('15110327', 'Nguyễn Ngọc Minh Thuận', 1, 1, '107, Quốc Hương, Quận 2, TP. Hồ Chí Minh', '02', '0202', NULL, '1997-10-24', 1, '025832129', '0971095395', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110327', 'Nguyễn Ngọc Minh Thuận', 1, 1, '107, Quốc Hương, Quận 2, TP. Hồ Chí Minh', '02', '0202', NULL, '1997-10-24', 1, '025832129', '0971095395', 1, 1, NULL, 0, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
 ('15110328', 'Cao Thị Thuyền', 1, 1, 'An Bình Tây, H Ba Tri, Bến Tre', '56', '5607', NULL, '1997-03-18', 2, '321701131', '01645293097', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
 ('15110329', 'Nguyễn Thị Thức', 3, 1, 'CÁT THẮNG, H Phù Cát, Bình Định', '37', '3706', NULL, '1997-11-18', 2, '215418020', '01674730687', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
-('15110330', 'Đinh Phúc Tiến', 3, 1, 'Thạch Tiến, H Thạch Hà, Hà Tĩnh', '30', '3008', NULL, '1997-04-09', 1, '184265245', '', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110330', 'Đinh Phúc Tiến', 3, 1, 'Thạch Tiến, H Thạch Hà, Hà Tĩnh', '30', '3008', NULL, '1997-04-09', 1, '184265245', '', 1, 1, NULL, 0, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
 ('15110331', 'Nguyễn Bá Tiến', 1, 1, 'Phú Trung, H Bù Gia Mập, Bình Phước', '43', '4310', NULL, '1997-01-14', 1, '285558624', '0987249905', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
 ('15110332', 'Nguyễn Đức Tiến', 1, 1, 'phường Sơn Giang, H Phước Long, Bình Phước', '43', '4307', NULL, '1997-03-04', 1, '285649177', '01636526505', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
 ('15110333', 'Hà Văn Tình', 1, 1, 'Thôn Lộc Tây 2, quế Lộc, Nông Sơn, Quảng Nam', '34', '340', NULL, '1995-06-16', 1, '205863662', '0979443744', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
 ('15110334', 'Lê Đức Toàn', 1, 1, 'Lương Hòa, H Châu Thành, Trà Vinh', '58', '5805', NULL, '1997-03-16', 1, '334904218', '0988686491', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
-('15110335', 'Nguyễn Cảnh Toàn', 4, 1, NULL, NULL, NULL, NULL, '1997-09-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
+('15110335', 'Nguyễn Cảnh Toàn', 4, 1, NULL, NULL, NULL, NULL, '1997-09-01', 1, NULL, NULL, 1, 1, NULL, 0, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
 ('15110336', 'Phạm Văn Tổng', 4, 1, NULL, NULL, NULL, NULL, '1997-09-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
 ('15110337', 'Phạm Văn Tới', 1, 1, '5C/A1, Tmt 01, Quận 12, TP. Hồ Chí Minh', '02', '0212', NULL, '1997-06-09', 1, '025596240', '0167 77 99 322', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
 ('15110338', 'Bùi Xuân Trí', 1, 1, 'Phước Thắng, H Tuy Phước, Bình Định', '37', '3711', NULL, '1997-09-02', 1, '215392922', '0987527849', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
@@ -2396,7 +2403,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id`, `level`, `created_by`, `updated_by`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '000000@hcmute.edu.vn', NULL, '$2y$10$T03iBiOcF3njFZYXFpjSOeeRu38lx2VpM4DTwVcW66.TIQhWJqRY2', '000000', 0, NULL, NULL, '7kgjkwPfpNQH0TeE4YvthLGuYp1ZrEOrmJFIJF2gyjfbrPD63UcXweSzZKCx', '2019-04-11 07:37:30', '2019-04-11 07:37:30', NULL),
+(1, '000000@hcmute.edu.vn', NULL, '$2y$10$T03iBiOcF3njFZYXFpjSOeeRu38lx2VpM4DTwVcW66.TIQhWJqRY2', '000000', 0, NULL, NULL, 'I27Z9k9CSYMSQ0SeKeEMZTOZhtkJXbkL35xhGWY6zLIE3M46GTMtIm3AMS3X', '2019-04-11 07:37:30', '2019-04-11 07:37:30', NULL),
 (2, '15110162@student.hcmute.edu.vn', NULL, '$2y$10$hAzk1m68DnxYdqSOVloPhOb1BMJ3XfSwPdjQWMxdQHY1OiU8iMxW6', '15110162', 1, 1, NULL, NULL, '2019-04-11 07:45:24', '2019-04-11 07:45:24', NULL),
 (3, '15110166@student.hcmute.edu.vn', NULL, '$2y$10$3XnX8oIVJ1BeEtB/C/5FJeVXVZhFzNqNEwkTJVTY1Kdx.s2pmxdAC', '15110166', 1, 1, NULL, NULL, '2019-04-11 07:45:24', '2019-04-11 07:45:24', NULL),
 (4, '15110168@student.hcmute.edu.vn', NULL, '$2y$10$Ar4BT.y5BSMXdQPVaE5iauW9/1eRaKkuu82bB8Pz4RPd5llUYuqRG', '15110168', 1, 1, NULL, NULL, '2019-04-11 07:45:24', '2019-04-11 07:45:24', NULL),
@@ -2556,7 +2563,7 @@ INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id
 (184, '15110217@student.hcmute.edu.vn', NULL, '$2y$10$K02FLgonRa3wyDY4Nkt.ruVxJIRw2twwNVb5ZSXf7uQnnLju5eULi', '15110217', 1, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
 (185, '15110222@student.hcmute.edu.vn', NULL, '$2y$10$Iebh2n/NHijOvJMqWsL9MevqB9FtPYfk92DtkqDUYu7rqpwLcSmZO', '15110222', 1, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
 (186, '15110224@student.hcmute.edu.vn', NULL, '$2y$10$zPG9VNlc0YQUmE9QB3ZJk.o0ZRp8DJ1L0V62WZuRsrxDVK1EU21fa', '15110224', 1, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
-(187, '15110237@student.hcmute.edu.vn', NULL, '$2y$10$FB051Pxk.bmbl1Rj95BZD.TJCVkdVtrcF/g/3.KGCs7Op5H8bTZ6m', '15110237', 1, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
+(187, '15110237@student.hcmute.edu.vn', NULL, '$2y$10$knu9nFsZ1Yv.9MkOEAohw.kyZztvRmvWmSrGYe/WHxIJeDd6t2u96', '15110237', 1, 1, NULL, 'CGx8g1cPIYu96EEVIUbcbPTSrZC00GWNRHgUfflug9zzbcF27XsDjfkEmlRH', '2019-04-11 07:56:09', '2019-06-26 07:20:46', NULL),
 (188, '15110238@student.hcmute.edu.vn', NULL, '$2y$10$ZqS/f4nJ8ytSzphCkjovhOnzGVFw22GOOJMjZ4wG.kpVZA.juAos6', '15110238', 1, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
 (189, '15110244@student.hcmute.edu.vn', NULL, '$2y$10$1y8dtPgO5R2UJzrRxvDK8.vq6Ct.yPSxWZ6wCMw5AMmLT8M3W2wje', '15110244', 1, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
 (190, '15110248@student.hcmute.edu.vn', NULL, '$2y$10$EUEoRWKD/i90opYZwfb2re5wtlxjEmdU5ezjvL6i3y65DFUD9jay2', '15110248', 1, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
@@ -2655,9 +2662,9 @@ INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id
 (283, '16110407@student.hcmute.edu.vn', NULL, '$2y$10$qC5XRGwd6ffaW96FIVGIcOHa6HoevC/8MoR4EU2bNH5TiIkFzdKv.', '16110407', 1, 1, NULL, NULL, '2019-04-11 08:00:25', '2019-04-11 08:00:25', NULL),
 (284, '16110409@student.hcmute.edu.vn', NULL, '$2y$10$eQ5bOXMhiPWu/Uj4WrVJWurJC0gCJk9nOq96SGovw1oAUsuckYNyi', '16110409', 1, 1, NULL, NULL, '2019-04-11 08:00:25', '2019-04-11 08:00:25', NULL),
 (285, '16110410@student.hcmute.edu.vn', NULL, '$2y$10$KzFemiNaSV16sL89opzXIOaorb2LEMhsDJ6drM2IJKNyUgfCtjyGa', '16110410', 1, 1, NULL, NULL, '2019-04-11 08:00:25', '2019-04-11 08:00:25', NULL),
-(286, '16110415@student.hcmute.edu.vn', NULL, '$2y$10$gLgsjsWCMRz5L3z3EHXx/.tMmRKxMYXE13pdEGRy6yjpAfMzpFFaG', '16110415', 1, 1, NULL, NULL, '2019-04-11 08:00:25', '2019-04-11 08:00:25', NULL),
-(287, '16110416@student.hcmute.edu.vn', NULL, '$2y$10$tkqkOM5pI/Kj5gGNm6rb1.Pp8IhLZVMnF1aDn3iYmxM36ahPWlwvK', '16110416', 1, 1, NULL, NULL, '2019-04-11 08:00:25', '2019-04-11 08:00:25', NULL);
+(286, '16110415@student.hcmute.edu.vn', NULL, '$2y$10$gLgsjsWCMRz5L3z3EHXx/.tMmRKxMYXE13pdEGRy6yjpAfMzpFFaG', '16110415', 1, 1, NULL, NULL, '2019-04-11 08:00:25', '2019-04-11 08:00:25', NULL);
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id`, `level`, `created_by`, `updated_by`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(287, '16110416@student.hcmute.edu.vn', NULL, '$2y$10$tkqkOM5pI/Kj5gGNm6rb1.Pp8IhLZVMnF1aDn3iYmxM36ahPWlwvK', '16110416', 1, 1, NULL, NULL, '2019-04-11 08:00:25', '2019-04-11 08:00:25', NULL),
 (288, '16110419@student.hcmute.edu.vn', NULL, '$2y$10$G4In2tGItxA3ugGTCATl5OtPn.keejC9PkoeCA4yGSRnjHjObLHeK', '16110419', 1, 1, NULL, NULL, '2019-04-11 08:00:25', '2019-04-11 08:00:25', NULL),
 (289, '16110423@student.hcmute.edu.vn', NULL, '$2y$10$90hwJ1SfaGPtV.2XBl1TX.xW3o2x2AyOEHNc.XkEG03JSreCb.Uzm', '16110423', 1, 1, NULL, NULL, '2019-04-11 08:00:25', '2019-04-11 08:00:25', NULL),
 (290, '16110426@student.hcmute.edu.vn', NULL, '$2y$10$Qcm5s8XmZdIDQCIFYv51d.jvwRslfTOyrZUteRQZV/rPbwm2X6.Sq', '16110426', 1, 1, NULL, NULL, '2019-04-11 08:00:26', '2019-04-11 08:00:26', NULL),
@@ -2916,9 +2923,9 @@ INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id
 (543, '17133022@student.hcmute.edu.vn', NULL, '$2y$10$hi5GFftBzi/YHtp9cFvKxu7PrAzZ6hbZ4IDHs/iIJrrtZVMBa6ctG', '17133022', 1, 1, NULL, NULL, '2019-04-11 08:09:17', '2019-04-11 08:09:17', NULL),
 (544, '17133023@student.hcmute.edu.vn', NULL, '$2y$10$RhNNCbfXKI1.ma2znN6YROZe/Nap/g76r2RX0aw0RrF40qfK0qoB6', '17133023', 1, 1, NULL, NULL, '2019-04-11 08:09:17', '2019-04-11 08:09:17', NULL),
 (545, '17133024@student.hcmute.edu.vn', NULL, '$2y$10$PAWSKWpl3HWoRgKNg6fHTefOkKkaftPvzEOvv5.NLAUEsKoevTlW.', '17133024', 1, 1, NULL, NULL, '2019-04-11 08:09:17', '2019-04-11 08:09:17', NULL),
-(546, '17133025@student.hcmute.edu.vn', NULL, '$2y$10$SQhZG1LTi5ZG8LYxISdJm.6TSAInL59xlKu69ZLGKZ500TtNz/49K', '17133025', 1, 1, NULL, NULL, '2019-04-11 08:09:18', '2019-04-11 08:09:18', NULL),
-(547, '17133026@student.hcmute.edu.vn', NULL, '$2y$10$m1RxNpbp97cFUsTos0870encoaa.lPofl/Aje87lCaIlnhVTPfU1u', '17133026', 1, 1, NULL, NULL, '2019-04-11 08:09:18', '2019-04-11 08:09:18', NULL);
+(546, '17133025@student.hcmute.edu.vn', NULL, '$2y$10$SQhZG1LTi5ZG8LYxISdJm.6TSAInL59xlKu69ZLGKZ500TtNz/49K', '17133025', 1, 1, NULL, NULL, '2019-04-11 08:09:18', '2019-04-11 08:09:18', NULL);
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id`, `level`, `created_by`, `updated_by`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(547, '17133026@student.hcmute.edu.vn', NULL, '$2y$10$m1RxNpbp97cFUsTos0870encoaa.lPofl/Aje87lCaIlnhVTPfU1u', '17133026', 1, 1, NULL, NULL, '2019-04-11 08:09:18', '2019-04-11 08:09:18', NULL),
 (548, '17133027@student.hcmute.edu.vn', NULL, '$2y$10$74q7ej07Q3SuwpDD7cPyuuylCTu4nQ.vrWb2lf.a1zNjRtON9H93a', '17133027', 1, 1, NULL, NULL, '2019-04-11 08:09:18', '2019-04-11 08:09:18', NULL),
 (549, '17133029@student.hcmute.edu.vn', NULL, '$2y$10$mZqbV0pUy35QkTrsZz/2cOx3SEeKX1EUeb09T36HJ5Vq8CZdxWEqO', '17133029', 1, 1, NULL, NULL, '2019-04-11 08:09:18', '2019-04-11 08:09:18', NULL),
 (550, '17133030@student.hcmute.edu.vn', NULL, '$2y$10$IPJNzL8dzQWTbyFjcmBlWeTczexBUX3Jf8hZ87FA3h2PFNmjK9DZO', '17133030', 1, 1, NULL, NULL, '2019-04-11 08:09:18', '2019-04-11 08:09:18', NULL),
@@ -14404,7 +14411,7 @@ INSERT INTO `workflows` (`id`, `activity_id`, `student_id`, `deadline`, `content
 (2, 7, '15110237', '2019-06-27', 'Nhảy đầm', 0, '2019-06-10 08:10:23', '2019-06-14 10:02:35', 1, 1, '2019-06-14 10:02:35'),
 (3, 8, '18110371', '2019-06-22', 'Chuẩn bị bánh kẹo cho chương trình', 37, '2019-06-14 10:09:28', '2019-06-16 01:40:53', 1, 1, '2019-06-16 01:40:53'),
 (4, 3, '15110268', '2019-06-15', 'aaa', 0, '2019-06-14 21:03:35', '2019-06-14 21:03:35', 1, NULL, NULL),
-(5, 7, '17110386', '2019-06-15', 'Hậu cần', 22, '2019-06-14 21:07:13', '2019-06-14 22:44:33', 1, 1, NULL),
+(5, 7, '15110237', '2019-06-15', 'Hậu cần', 22, '2019-06-14 21:07:13', '2019-06-14 22:44:33', 1, 1, NULL),
 (6, 7, '18110258', '2019-06-08', 'Văn nghệ', 45, '2019-06-14 21:07:13', '2019-06-14 22:59:36', 1, 1, NULL);
 
 -- --------------------------------------------------------
@@ -14797,7 +14804,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `role_user`
 --
 ALTER TABLE `role_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT cho bảng `school_years`
