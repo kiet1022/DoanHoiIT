@@ -43,5 +43,10 @@ return [
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
     ],
+    'google' => [
+        'client_id' => '711442675369-jrhnt5ssk19fojfau694d2o6cjgaqf14.apps.googleusercontent.com',
+        'client_secret' => 'i-5OTHejwEV8LZdfzLFIWJ7m',
+        'redirect' => 'http://localhost:8080/DoanHoiIT/public/admin/dashboard.php',
+    ],
 
 ];

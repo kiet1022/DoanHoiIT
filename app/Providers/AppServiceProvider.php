@@ -34,9 +34,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->data["schoolYears"] = SchoolYear::where('type',2)->get();
         $this->data["class"] = Classes::all();
-        $this->data["province"] = Province::all();
-        $this->data["district"] = District::all();
-        $this->data["ward"] = Ward::all();
+        // $this->data["province"] = Province::all();
+        // $this->data["district"] = District::all();
+        // $this->data["ward"] = Ward::all();
         View::share($this->data);
     }
 }

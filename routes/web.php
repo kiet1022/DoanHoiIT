@@ -23,6 +23,8 @@ Auth::routes();
 Route::get('/', 'HomeController\HomeController@getLogin')->name('get_login');
 Route::post('login.php', 'HomeController\HomeController@postLogin')->name('post_login');
 Route::get('logout.php','HomeController\HomeController@logout')->name('logout');
+Route::get('/auth/{provider}', 'SocialAuthController@redirectToProvider');
+Route::get('/auth/{provide}/callback', 'SocialAuthController@handleProviderCallback');
 /*
 |--------------------------------------------------------------------------
 | Admin management Routes
@@ -375,8 +377,6 @@ Route::get('/activity.php', 'User\ActivityController@getListActivity')->name('ge
 Route::post('/activity/view.php', 'User\ActivityController@getActivityInfo')->name('get_activity');
 Route::post('/activity/registActivity.php', 'User\ActivityController@registActivity')->name('regist_activity');
 Route::post('activity/filter.php','User\ActivityController@postFilterActivity')->name('post_filter_activity');
-
-Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 

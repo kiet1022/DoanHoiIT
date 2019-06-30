@@ -54,13 +54,13 @@ Danh sách sinh viên
             {{-- Filter name --}}
             <div class="form-group col-md-3">
                 <label for="filterSid">MSSV:</label>
-            <input type="number" name="filterSid" id="filterSid" class="form-control" placeholder="Nhập MSSV..." value="{{old('filterSid')}}">
+                <input type="number" name="filterSid" id="filterSid" class="form-control" placeholder="Nhập MSSV" value="{{old('filterSid')}}">
               </div>
 
             {{-- Filter name --}}
             <div class="form-group col-md-3">
               <label for="filterName">Họ tên:</label>
-              <input type="text" name="filterName" id="filterName" class="form-control" placeholder="Nhập họ tên..." value="{{old('filterName')}}">
+              <input type="text" name="filterName" id="filterName" class="form-control" placeholder="Nhập họ tên" value="{{old('filterName')}}">
             </div>
             {{-- Filter sex --}}
             <div class="form-group col-md-3">
@@ -74,13 +74,8 @@ Danh sách sinh viên
             </div>
             {{-- Filter Address --}}
             <div class="form-group col-md-3">
-                <label for="filterAddress">Quê quán:</label>
-                <select name="filterAddress" id="filterAddress" class="form-control">
-                    <option value="0" {{ changeSelectedStatus(old('filterAddress'),'0') }}>Chọn quê quán</option>
-                  @foreach ($province as $pro)
-                <option value="{{ $pro->id }}" {{ changeSelectedStatus(old('filterAddress'),"$pro->id") }}>{{$pro->name}}</option>
-                  @endforeach
-                </select>
+                <label for="filterAddress">Địa chỉ:</label>
+                <input type="text" name="filterAddress" id="filterAddress" class="form-control" placeholder="Nhập địa chỉ" value="{{old('filterAddress')}}">
               </div>
           </div>
         </div>

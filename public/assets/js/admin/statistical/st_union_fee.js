@@ -62,3 +62,7 @@ function renderChart(element, data, title, labels){
     }
   });
 }
+
+$('form').on('submit', function(){
+  blockUI(true);
+});

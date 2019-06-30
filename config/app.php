@@ -174,6 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -230,6 +231,7 @@ return [
         'DateTimeUtil' => App\CommonHandle\DateTimeUtil::class,
         'StringUtil' => App\CommonHandle\StringUtil::class,
         'StudentUtil' => App\CommonHandle\StudentUtil::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

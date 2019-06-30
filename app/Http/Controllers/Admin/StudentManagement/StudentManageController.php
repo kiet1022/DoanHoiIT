@@ -106,9 +106,9 @@ class StudentManageController extends Controller
     * 
     * @param Request $re
     */
-    public function postAddStudentList(AddNewStudentRequest $re, Request $req){
+    public function postAddStudentList(AddNewStudentRequest $re){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
+		$re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
         
         $student = new Student;
         $success = false;
@@ -120,9 +120,9 @@ class StudentManageController extends Controller
         $student->birthday = Carbon::createFromFormat('d/m/Y', trim($re->studentBirthday))->format('Y-m-d');
         $student->phone_no = $re->studentPhone;
         $student->address = $re->studentAddress;
-        $student->province = $re->studentProvince;
-        $student->district = $re->studentDistrict;
-        $student->ward = $re->studentWard;
+        // $student->province = $re->studentProvince;
+        // $student->district = $re->studentDistrict;
+        // $student->ward = $re->studentWard;
         $student->school_year_id = $re->studentShoolYear;
         $student->class_id = $re->studentClass;
         $student->date_on_union = Carbon::createFromFormat('d/m/Y', trim($re->unionDate))->format('Y-m-d');
@@ -190,10 +190,10 @@ class StudentManageController extends Controller
     * @param $id Student ID
     * @param $re EditStudentRequest
     */
-    public function postEditStudent($id, EditStudentRequest $re, Request $req){
+    public function postEditStudent($id, EditStudentRequest $re){
 
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
+        $re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STUDENT_MANAGE_ROLE')]);
         
         //dd($re);
         try{ 
@@ -224,9 +224,9 @@ class StudentManageController extends Controller
             $student->sex = $re->studentSex; 
             $student->birthday = Carbon::createFromFormat('d/m/Y', trim($re->studentBirthday))->format('Y-m-d');
             $student->address = $re->studentAddress; 
-            $student->province = $re->studentProvince; 
-            $student->district = $re->studentDistrict; 
-            $student->ward = $re->studentWard; 
+            // $student->province = $re->studentProvince; 
+            // $student->district = $re->studentDistrict; 
+            // $student->ward = $re->studentWard; 
             $student->phone_no = $re->studentPhone; 
             $student->is_youth_union_member = $is_youth_union_member; 
             $student->is_payed_union_fee = $is_payed_union_fee; 

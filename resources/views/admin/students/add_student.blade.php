@@ -21,12 +21,12 @@ Thêm sinh viên
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 custom_panel">
     <form id="formAddStudent" action="{{ route('post_add_student') }}" method="POST">
-      @csrf
       <div class="form-row">
+        @csrf
         {{-- Basic info --}}
-        <div class="col-md-6">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
           <div class="card">
             <div class="card-header">
               <b>Thông tin cơ bản</b>
@@ -109,41 +109,42 @@ Thêm sinh viên
               {{-- Address --}}
               <div class="form-inline cm-inline-form">
                 <label for="studentAddress" class="col-md-4 common-label-inline">Địa chỉ:</label>
-                <input type="text" class="form-control col-md-8" id="studentAddress" name="studentAddress" placeholder="Số nhà, tên đường" value="{{old('studentAddress')}}">
+                <input type="text" class="form-control col-md-8" id="studentAddress" name="studentAddress" placeholder="Nhập địa chỉ" value="{{old('studentAddress')}}">
               </div>
               
-              <div class="form-inline cm-inline-form">
+              {{-- <div class="form-inline cm-inline-form">
                 <label for="studentProvince" class="col-md-4 common-label-inline">Tỉnh/Thành:</label>
                 <select id="studentProvince" class="form-control col-md-8" name="studentProvince">
                   @foreach ($province as $prov)
                   <option value="{!! $prov->id !!}" {{changeSelectedStatus("$prov->id",old('studentProvince'))}}>{{ $prov->name }}</option>
                   @endforeach
                 </select>
-              </div>
+              </div> --}}
               
-              <div class="form-inline cm-inline-form">
+              {{-- <div class="form-inline cm-inline-form">
                 <label for="studentDistrict" class="col-md-4 common-label-inline">Quận/Huyện:</label>
                 <select id="studentDistrict" class="form-control col-md-8" name="studentDistrict">
                   @foreach ($district as $dist)
                   <option value="{{ $dist->id }}" {{changeSelectedStatus("$dist->id",old('studentDistrict'))}}>{{ $dist->name }}</option>
                   @endforeach
                 </select>
-              </div>
+              </div> --}}
               
-              <div class="form-inline cm-inline-form">
+              {{-- <div class="form-inline cm-inline-form">
                 <label for="studentWard" class="col-md-4 common-label-inline">Xã/Phường/TT:</label>
                 <select id="studentWard" class="form-control col-md-8" name="studentWard">
                   @foreach ($ward as $wa)
                   <option value="{{ $wa->id }}" {{changeSelectedStatus("$wa->id",old('studentWard'))}}>{{ $wa->name }}</option>
                   @endforeach
                 </select>
-              </div>
+              </div> --}}
+
             </div>
           </div>
         </div>
         
         {{-- Advanced info --}}
-        <div class="col-md-6">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
           <div class="card">
             <div class="card-header">
               <b>Thông tin thêm</b>
@@ -284,42 +285,15 @@ Thêm sinh viên
   
   // global variable
   var classes = {!!$class!!};
-  var province = {!!$province!!}
-  var district = {!!$district!!}
-  var ward = {!!$ward!!}
+
+  @if(session('error'))
+      var error = "{{session('error')}}";
+      showNotify('error',error);
+    @endif
   @if(session('success'))
-  $.notify({
-    // options
-    title:'<h4><i class="fas fa-check-circle"></i> Success!!!</h4>',
-    message:'{{session('success')}}',
-  },{
-    // settings
-    type: "success",
-    newest_on_top: true,
-    offset: {
-      x: 20,
-      y: 20
-    },
-    spacing: 10,
-    z_index: 1031,
-    delay: 4000,
-    timer: 500,
-    animate: {
-      enter: 'animated flipInY',
-      exit: 'animated flipOutX'
-    },
-    template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-      '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-      '<span data-notify="icon"></span> ' +
-      '<span data-notify="title">{1}</span> ' +
-      '<span data-notify="message">{2}</span>' +
-      '<div class="progress" data-notify="progressbar">' +
-        '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-        '</div>' +
-        '<a href="{3}" target="{4}" data-notify="url"></a>' +
-        '</div>' 
-      });
-      @endif
+      var success = "{{session('success')}}";
+      showNotify('success',success);
+  @endif
     </script>
     <script src="{{asset('assets/js/admin/add_student.js')}}"></script>
     @endsection
