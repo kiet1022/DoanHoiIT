@@ -84,6 +84,10 @@
 <script>
   var classes = @json($classes);
   var years = @json($years);
+  var k15 = @json($K15);
+  var k16 = @json($K16);
+  var k17 = @json($K17);
+  var k18 = @json($K18);
   var BASE_URL = "{{ asset('admin/statistical/students/') }}";
   @if(session('error'))
   var error = "{{session('error')}}";

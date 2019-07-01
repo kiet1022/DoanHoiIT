@@ -1,9 +1,7 @@
 @extends('student.layout.index')
-@section('title')
-{{"Tin tức"}}
-@endsection
+@section('title', 'Trang chủ')
 @section('style')
-<link rel="stylesheet" href="pages/css/homepagenews.css">
+<link rel="stylesheet" href="{{ asset('pages/css/homepagenews.css')}}">
 @endsection
 @section('content')
 <section id="news">

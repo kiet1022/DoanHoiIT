@@ -34,7 +34,7 @@ class HomeController extends Controller
         $login = $re->only('email','password');
         
         if(Auth::attempt($login,$remember)){
-            return redirect()->route('admin_dashboard');
+            return redirect()->back();
         }else{
             return redirect()->back()->with('error','Tên đăng nhập hoặc mật khẩu không đúng.');
         }
@@ -46,7 +46,7 @@ class HomeController extends Controller
      */
     public function logout(){
         Auth::logout();
-        return redirect()->route('get_login');
+        return redirect()->back();
     }
 
     public function getAdminDashBoard(){

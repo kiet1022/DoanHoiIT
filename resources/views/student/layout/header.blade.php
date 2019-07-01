@@ -24,7 +24,7 @@
                     @guest
                     <ul class="nav navbar-nav navbar-right">
                          {{--  <li><a href="#register" style="padding: 0;"><a href="{{route('get_register_page')}}">Đăng ký</a></a></li> --}}
-                         <li><a href="#login" style="padding: 0;"><a href="" class="smoothScroll">Đăng nhập</a></a></li>
+                         <li><a href="" style="padding: 0;"><a href="{{ route('get_login') }}" class="smoothScroll">Đăng nhập</a></a></li>
                     </ul>
                     @endguest
                     @auth

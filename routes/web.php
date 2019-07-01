@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\DB;
 |
 */
 Auth::routes();
-Route::get('/', 'HomeController\HomeController@getLogin')->name('get_login');
+Route::get('/', 'User\HomeController@getHomePage')->name('get_home_page');
+Route::get('login.php', 'HomeController\HomeController@getLogin')->name('get_login');
 Route::post('login.php', 'HomeController\HomeController@postLogin')->name('post_login');
 Route::get('logout.php','HomeController\HomeController@logout')->name('logout');
 Route::get('/auth/{provider}', 'SocialAuthController@redirectToProvider');
@@ -369,7 +370,6 @@ Route::get('/test', function(){
 |--------------------------------------------------------------------------
 */
 Route::prefix('user')->group(function(){
-    Route::get('/home', 'User\HomeController@getHomePage')->name('get_home_page');
     Route::get('/new/{id}.php', 'User\NewsController@getNewDetail')->name('get_new');
     Route::get('/category/{id}.php', 'User\NewsController@getNewsByCategory')->name('get_new_by_ctg');
     Route::get('/infomation.php', 'User\UserController@getUserInfo')->name('get_profile');
