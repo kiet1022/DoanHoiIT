@@ -158,6 +158,9 @@ class ExecCommController extends Controller
                 $associa->save();
             }
         }
+        $user = User::where('student_id',$req->newId);
+        $user->level = 1;
+        $user->save();
         return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu thông tin thành công!"]);
     }
 }

@@ -196,14 +196,14 @@ Dashboard
                         @endphp
                   <div class="row flex-wrap">
                       <div class="col-12">
-                          <h4 class="small font-weight-bold">Tiến độ<span class="float-right">{{ intval($percent) }}%</span></h4>
+                          {{-- <h4 class="small font-weight-bold">Tiến độ<span class="float-right">{{ intval($percent) }}%</span></h4> --}}
                           <div class="progress">
-                          <div class="progress-bar {{ changeProgressbarColor($percent) }}" role="progressbar" aria-valuenow="{{ intval($percent) }}" aria-valuemin="0" aria-valuemax="{{ intval($percent) }}" style='width:{{ intval($percent)}}%'>{{ intval($percent) }}%</div>
+                          {{-- <div class="progress-bar {{ changeProgressbarColor($percent) }}" role="progressbar" aria-valuenow="{{ intval($percent) }}" aria-valuemin="0" aria-valuemax="{{ intval($percent) }}" style='width:{{ intval($percent)}}%'>{{ intval($percent) }}%</div> --}}
                           </div>
                       </div>
                   </div>
                   @else
-                  <h4 class="small font-weight-bold">Tiến độ<span class="float-right">{{ intval($percent) }}%</span></h4>
+                  {{-- <h4 class="small font-weight-bold">Tiến độ<span class="float-right">{{ intval($percent) }}%</span></h4> --}}
                   <div class="progress">
                       <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style='width:0%'>0%</div>
                   </div>

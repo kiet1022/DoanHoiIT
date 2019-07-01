@@ -13,7 +13,12 @@ class HomeController extends Controller
      */
     public function getLogin(){
         if(Auth::check()){
-            return redirect()->route('admin_dashboard');
+            // if(Auth::user()->level == 1){
+            //     return redirect()->route('admin_dashboard');
+            // } else if (Auth::user()->level == 0){
+            //     return redirect()->route('get_home_page');
+            // }
+            return redirect()->route('get_home_page');
         }else{
             return view('login');
         }

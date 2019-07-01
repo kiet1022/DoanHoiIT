@@ -1,0 +1,215 @@
+body {
+  background: url("../images/b2.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  color: #FFF;
+  font-family: 'Quicksand', sans-serif;
+  text-align: center;
+}
+
+body a {
+  transition: 0.5s all;
+  -webkit-transition: 0.5s all;
+  -moz-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  -ms-transition: 0.5s all;
+  text-decoration: none;
+}
+
+input[type="button"], input[type="submit"] {
+  transition: 0.5s all;
+  -webkit-transition: 0.5s all;
+  -moz-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  -ms-transition: 0.5s all;
+}
+
+h1 {
+    font-size: 45px;
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: 7px;
+    margin: 65px auto;
+}
+
+.w3layoutscontaineragileits {
+    width: 80%;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+}
+
+h2 {
+    font-size: 35px;
+    font-weight: 300;
+    margin-bottom: 30px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+input[type="text"], input[type="password"], input[type="email"]{
+  width: 60%;
+  padding: 15px 10px 15px;
+  font-size: 16px;
+  background: transparent;
+  border: 2px solid #29ca8e;
+  outline: none;
+  margin-bottom: 26px;
+  color: #fff;
+  font-family: 'Quicksand', sans-serif;
+}
+input[type="text"]{
+  background: url("../images/user.png") no-repeat 95% 10px;
+  background-size: 25px;
+}
+input[type="email"] {
+  background: url("../images/e-mail.png") no-repeat 95% 10px;
+  background-size: 25px;
+}
+
+input[type="password"] {
+  background: url("../images/password.png") no-repeat 95% 10px;
+  background-size: 25px;
+}
+
+ul.agileinfotickwthree {
+  list-style: none;
+  display: inline-block;
+  width: 60%;
+  margin-bottom: 40px;
+  text-align: left;
+  padding-left: 10px;
+}
+
+ul.agileinfotickwthree li input[type="checkbox"] {
+  display: none;
+}
+
+ul.agileinfotickwthree li input[type="checkbox"]+label {
+  position: relative;
+  padding-left: 50px;
+  border: #F0F8FF;
+  display: inline-block;
+  font-size: 15px;
+    color: #fff;
+}
+ul.agileinfotickwthree a {
+    float: right;
+    margin-right: 40px;
+    color: #fff;
+    font-size: 15px;
+}
+ul.agileinfotickwthree a:hover {
+    color: #29ca8e;
+}
+ul.agileinfotickwthree li input[type="checkbox"]+label span:first-child {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  border: 2px solid #29ca8e;
+  position: absolute;
+  top: -1px;
+  left: 20px;
+  bottom: 4px;
+}
+
+ul.agileinfotickwthree li input[type="checkbox"]:checked+label span:first-child:before {
+  content: "";
+  background: url(../images/tick.png)no-repeat;
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  font-size: 10px;
+  width: 10px;
+  height: 10px;
+}
+
+input[type="submit"] {
+  font-size: 16px;
+  padding: 10px 65px;
+  background-color: #29ca8e;
+  color: #FFF;
+  border: none;
+  border-radius: 0px;
+  outline: none;
+  float:none;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #fff;
+    color: #29ca8e;
+}
+
+.aitssendbuttonw3ls p {
+    text-align: center;
+    margin-top: 40px;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+}
+
+.aitssendbuttonw3ls p a {
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 20px;
+    border: 1px solid #fff;
+}
+
+.aitssendbuttonw3ls p a span {
+  font-size: 18px;
+}
+
+.aitssendbuttonw3ls p a:hover {
+  color: #29ca8e;
+    border: 1px solid #29ca8e
+}
+
+::-webkit-input-placeholder {
+  color: #FFF;
+}
+
+::-moz-placeholder {
+  color: #FFF;
+}
+
+::-moz-placeholder {
+  color: #FFF;
+}
+
+::-ms-input-placeholder {
+  color: #FFF;
+}
+
+.w3footeragile {
+  margin: 100px 0px 20px;
+}
+
+.w3footeragile p a {
+  color: #000;
+  font-weight:700;
+}
+
+.w3footeragile p {
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.w3footeragile p a:hover {
+  color: #fff;
+}
+
+@media screen and (max-width: 480px) {
+  input[type="text"], input[type="password"], input[type="email"]{
+    width: 100%;
+  }
+  .aitssendbuttonw3ls p a, .aitssendbuttonw3ls p a:hover {
+    margin-left: 13px;
+    border: none;}
+  ul.agileinfotickwthree {
+    width: 100%;}
+}

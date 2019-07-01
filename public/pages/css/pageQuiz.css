@@ -1,0 +1,21 @@
+.answer li{
+	display: -webkit-box;
+	padding: 10px;
+}
+.contentQuestion{
+	margin: 40px;
+}
+.answer{
+	margin-left: 50px;
+	margin-bottom: 50px;
+}
+.btnQuiz button{
+	float: right;
+	margin-bottom: 50px;
+}
+.simpleQuiz{
+	padding-right: 35px;
+    padding-left: 35px;
+    margin-right: auto;
+    margin-left: auto;
+}

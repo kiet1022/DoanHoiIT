@@ -255,4 +255,22 @@ use \Carbon\Carbon;
 		return $result;
 	}
 
+	function changeCatColor($color){
+		$class ='';
+		if($color == 1 || $color == 3 || $color == 5 || $color == 7 || $color == 9) {
+			$class = 'cat-1';
+		}if($color == 11 || $color == 13 || $color == 15 || $color == 17 || $color == 19) {
+			$class = 'cat-2';
+		}if($color == 21 || $color == 23 || $color == 25) {
+			$class = 'cat-3';
+		}if($color == 2 || $color == 4 || $color == 6 || $color == 8 || $color == 10) {
+			$class = 'cat-4';
+		}if($color == 12 || $color == 14 || $color == 16 || $color == 18) {
+			$class = 'cat-5';
+		}if($color == 20 || $color == 22 || $color == 24) {
+			$class = 'cat-7';
+		}
+		return $class;
+	}
+
 	?>
