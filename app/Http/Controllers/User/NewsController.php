@@ -20,12 +20,14 @@ use App\Models\NewsType;
 class NewsController extends Controller
 {
 	public function getNewDetail($id){   
-        $news = News::find($id);
-        $type_id=$news->ofType->id;
-        $newsType = NewsType::where('deleted_at', null)->get();
-        $lastedNews = News::where('deleted_at', null)->orderBy('id', 'desc')->limit(4)->get();
-        $relatedPost = News::where('deleted_at', null)->where('type_id', $type_id)->limit(2)->get();
-        return view('user.news.new_detail', compact('news','newsType', 'lastedNews','relatedPost'));
+        $this->data['detail'] = News::find($id);
+        // $type_id=$news->ofType->id;
+        $this->data['newsType'] = NewsType::all();
+        // $lastedNews = News::where('deleted_at', null)->orderBy('id', 'desc')->limit(4)->get();
+        $this->data['relatedPost'] = News::with(['ofType'])->where('type_id', $this->data['detail']->ofType->id)->inRandomOrder()->take(5)->get();
+        // return view('user.news.new_detail', compact('news','newsType', 'lastedNews','relatedPost'));
+        // return $this->data['detail'];
+        return view('student.news-detail')->with($this->data);
     }
     public function getNewsByCategory($id){  
 

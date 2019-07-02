@@ -41,33 +41,35 @@ class ActivityController extends Controller
 
         return view('user.activity.index', compact('activity', 'newsType', 'lastedNews', 'registActivity'));
     }
+
     public function getActivityInfo(Request $req)
     {
-        $activity = Activity::find($req->id);
-        return response()->view('user.activity.modal_activity_detail', compact('activity'));
+        $this->data['activity'] = Activity::find($req->id);
+        $this->data['isAttend'] = $req->user()->student->isAttend($req->id, Auth::user()->student->student_id);
+        return view('student.activity_detail')->with($this->data);
     }
-    public function registActivity(Request $req)
-    {
-        try {
-            $activity = Activity::find($req->id);
-            $user = User::find(Auth::user()->id);
-            $limitRegister=$activity->max_regis_num;
-            $getRegist =  Attender::where('activity_id', $req->id)->get();
-            $count = $getRegist->count();
-            if ($count>=$limitRegister) {
-                return response()->json(["result" => "FAIL"]);
-            }else{
-                $attender = new Attender;
-                $attender->activity_id = $req->id;
-                $attender->student_id = $user->student_id;
-                $attender->created_at = time();
-                $attender->created_by = Auth::user()->id;
-                $attender->save();
-                return response()->json(["result" => "OK"]);
-            }
-            
-        } catch (Exception $ex) {
-            return response()->json(["result" => "FAIL"]);
+
+    public function attendActivity(Request $req){
+        $attender = new Attender;
+        $attender->activity_id = $req->activity_id;
+        $attender->student_id = Auth::user()->student->student_id;
+        $attender->save();
+
+        $activity = Activity::find($req->activity_id);
+        $activity->max_regis_num ++;
+        $activity->save();
+
+        return redirect()->back()->with(config('constants.SUCCESS'),'Đăng ký thành công!');
+    }
+
+    public function cancelRegisActivity(Request $req){
+        $attender = Attender::where('activity_id',$req->activity_id)->where('student_id',Auth::user()->student->student_id)->get();
+        foreach ($attender as $at) {
+            $at->delete();
         }
+        $activity = Activity::find($req->activity_id);
+        $activity->max_regis_num --;
+        $activity->save();
+        return redirect()->back()->with(config('constants.SUCCESS'),'Hủy đăng ký thành công!');
     }
 }

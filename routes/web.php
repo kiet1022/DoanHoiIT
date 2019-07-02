@@ -370,7 +370,18 @@ Route::get('/test', function(){
 |--------------------------------------------------------------------------
 */
 Route::prefix('user')->group(function(){
-    Route::get('/new/{id}.php', 'User\NewsController@getNewDetail')->name('get_new');
+
+    Route::prefix('news')->group(function(){
+        Route::get('/{id}.php', 'User\NewsController@getNewDetail')->name('get_new_detail');
+    });
+
+    Route::prefix('activities')->group(function(){
+        Route::get('detail/{id}.php','User\ActivityController@getActivityInfo')->name('user_get_activity_detail');
+        Route::post('attend.php','User\ActivityController@attendActivity')->name('attend_activity');
+        Route::post('cancel-regis.php','User\ActivityController@cancelRegisActivity')->name('cancel_regis_activity');
+        
+    });
+
     Route::get('/category/{id}.php', 'User\NewsController@getNewsByCategory')->name('get_new_by_ctg');
     Route::get('/infomation.php', 'User\UserController@getUserInfo')->name('get_profile');
     Route::get('/editInfomation.php', 'User\UserController@getEditUserInfo')->name('get_edit_info');

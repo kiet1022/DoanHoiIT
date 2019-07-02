@@ -22,7 +22,7 @@
 										<a class="post-category {{changeCatColor($newNews[0]->ofType->id)}}" href="category.html">{{$newNews[0]->ofType->name}}</a>
 										<span class="post-date">Ngày đăng: {{date('d/m/Y',strtotime($newNews[0]->created_at))}}</span>
 									</div>
-									<h3 class="post-title"><a href="">{{$newNews[0]->title}}</a></h3>
+									<h3 class="post-title"><a href="{{ route('get_new_detail',['id'=>$newNews[0]->id]) }}">{{$newNews[0]->title}}</a></h3>
 								</div>
 							</div>
 						</div>
@@ -46,7 +46,7 @@
 										<br>
 										<span class="post-date">Ngày đăng: {{date('d/m/Y',strtotime($new->created_at))}}</span>
 									</div>
-									<h3 class="post-title"><a href="">{{$new->title}}</a></h3>
+									<h3 class="post-title"><a href="{{ route('get_new_detail',['id'=>$new->id]) }}">{{$new->title}}</a></h3>
 								</div>
 							</div>
 						</div>
@@ -71,7 +71,7 @@
 										<br>
 										<span class="post-date">Ngày đăng: {{date('d/m/Y',strtotime($new->created_at))}}</span>
 									</div>
-									<h3 class="post-title"><a href="">{{$new->title}}</a></h3>
+									<h3 class="post-title"><a href="{{ route('get_new_detail',['id'=>$new->id]) }}">{{$new->title}}</a></h3>
 								</div>
 							</div>
 						</div>
@@ -94,9 +94,9 @@
 						</div> --}}
 						@foreach($activities as $act)
 						<div class="post post-widget">
-							<a class="post-img" href=""><img style="width: 90px; height: 49px;" src="{{ asset('images/news/'.$newNews[0]->image) }}" alt="Lỗi"></a>
+							<a class="post-img" href="{{ route('user_get_activity_detail',['id'=>$act->id]) }}"><img style="width: 90px; height: 49px;" src="{{ asset('images/news/'.$newNews[0]->image) }}" alt="Lỗi"></a>
 							<div class="post-body">
-								<h3 class="post-title"><a href="">{{$act->name}}</a></h3>
+								<h3 class="post-title"><a href="{{ route('user_get_activity_detail',['id'=>$act->id]) }}">{{$act->name}}</a></h3>
 								<span class="post-date">Thời gian: {{date('d/m/Y',strtotime($act->start_date))}} - {{date('d/m/Y',strtotime($act->end_date))}}</span>
 							</div>
 						</div>

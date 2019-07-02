@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Attender;
 class Student extends Model
 {
     use SoftDeletes;
@@ -22,7 +23,7 @@ class Student extends Model
 
     public function attends()
     {
-    	return $this->hasMany('App\Models\Attender','student_id','id');
+    	return $this->belongsTo(Attender::class);
     }
 
     public function checkin()
@@ -64,4 +65,10 @@ class Student extends Model
     public function leadActivity(){
         return $this->hasMany('App\Models\Activity','leader','student_id');
     }
+
+    public function isAttend($activity_id, $student_id){
+        return null !== Attender::where('activity_id', $activity_id)->where('student_id', $student_id)->first();
+    }
+
+
 }
