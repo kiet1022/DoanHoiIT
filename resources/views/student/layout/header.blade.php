@@ -32,7 +32,7 @@
                               <li class="dropdown">
                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{Auth::user()->student->name}}</a>
                                    <ul class="dropdown-menu clearfix" role="menu">
-                                        <li><a href="">Trang cá nhân</a></li>
+                                        <li><a href="{{ route('get_user_info') }}">Trang cá nhân</a></li>
                                         @if(Auth::user()->level == 1)
                                         <li><a href="{{route("admin_dashboard")}}">Trang quản trị</a></li>
                                         @endif

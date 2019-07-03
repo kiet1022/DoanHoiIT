@@ -2,16 +2,16 @@
 				<div class="profile-sidebar">
 					<!-- SIDEBAR USERPIC -->
 					<div class="profile-userpic">
-						<img src="images/admin.jpg" class="img-responsive" alt="">
+						<img src="{{ asset('assets/img/students/'.Auth::user()->student->image) }}" class="img-responsive" alt="">
 					</div>
 					<!-- END SIDEBAR USERPIC -->
 					<!-- SIDEBAR USER TITLE -->
 					<div class="profile-usertitle">
 						<div class="profile-usertitle-name">
-							{{$user->info->name}}
+							{{Auth::user()->student->name}}
 						</div>
 						<div class="profile-usertitle-job">
-							{{changeRole($user->level)}}
+							{{-- {{changeRole($user->level)}} --}}
 						</div>
 					</div>
 					<!-- END SIDEBAR USER TITLE -->
@@ -24,8 +24,8 @@
 					<!-- SIDEBAR MENU -->
 					<div class="profile-usermenu">
 						<ul class="nav">
-							<li @if($check_page == 'info'){!!'class="active"'!!} @endif>
-								<a href="{{ route('get_user_info_page',['id'=>$user->id]) }}">
+							<li @if($status === "info"){!!'class="active"'!!} @endif>
+								<a href="">
 									<i class="glyphicon glyphicon-home"></i>
 								Thông tin chung </a>
 							</li>
@@ -39,10 +39,10 @@
 									<i class="glyphicon glyphicon-user"></i>
 								Các bài thi đã tạo </a>
 							</li> --}}
-							<li @if($check_page == 'result'){!!'class="active"'!!} @endif>
-								<a href="{{route('get_user_test_result',['iduser'=>$user->id])}}">
-									<i class="glyphicon glyphicon-ok"></i>
-								Kết quả thi </a>
+							<li @if($status === "changepass"){!!'class="active"'!!} @endif>
+								<a href="{{ route('get_user_change_pass') }}">
+									<i class="glyphicon glyphicon-wrench"></i>
+								Đổi mật khẩu</a>
 							</li>
 	{{-- 						<li>
 								<a href="#">

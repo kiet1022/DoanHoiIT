@@ -18,50 +18,25 @@ use App\Models\Log;
 use App\Models\News;
 use App\Models\NewsType;
 use App\Models\CheckinDetail;
-
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
-	public function getUserInfo(){    
-		if (isset( Auth::user()->id)) {
-			$id = Auth::user()->id;
-			$user = User::find($id);
-			$checkinActivity = CheckinDetail::where('student_id', $user->student_id)->get();
-	        return view('user.userInfo.userProfile', compact('user', 'checkinActivity'));
-		}
-		else{
-			return view('auth.login');
-		}
-		
-    }
-    public function getEditUserInfo(){    
-		if (isset( Auth::user()->id)) {
-			$id = Auth::user()->id;
-			$user = User::find($id);
-	        return view('user.userInfo.editInfo', compact('user'));
-		}
-		else{
-			return view('auth.login');
-		}
-		
-    }
-    public function postEditUserInfo(Request $re){    
-		if (isset( Auth::user()->id)) {
-			$id = Auth::user()->id;
-			DB::beginTransaction();
-			$user = User::find($id);
-			$student_id=$user->student_id;
-	        $student = Student::find($student_id);
-	        // $student->name = $re->name;
-	        $student->birthday = $re->studentBirthday;
-	        $student->address = $re->address; 
-	        // $student->province = $re->studentProvince; 
-	        // $student->district = $re->studentDistrict; 
-	        // $student->ward = $re->studentWard; 
-	        $student->phone_no = $re->phone_number; 
-	        $student->identity_card = $re->identity_card; 
+	public function getUserInfo(){
+		$this->data['status'] = "info";
+		return view('student.user_detail')->with($this->data);
+	}
 
-	        if($re->hasFile('image')){
-	        	error_log("--------hasfile-----------");
+	public function postEditUserInfo(Request $re){
+			DB::beginTransaction();
+			$student = Student::find($re->sid);
+			$student->name = $re->name;
+			$student->birthday = $re->birth_of_date;
+			$student->address = $re->address;
+			$student->phone_no = $re->phone_no; 
+			$student->identity_card = $re->idcard;
+			$student->sex = $re->sex;
+
+			if($re->hasFile('image')){
 				$file = $re->file('image');
 				$duoi = $file->getClientOriginalExtension();
 				if($duoi != 'jpg' && $duoi != 'png' && $duoi != 'jpeg'){
@@ -75,14 +50,26 @@ class UserController extends Controller
 				$file->move("assets/img/students",$image);
 				$student->image = $image;
 			}
+			
+			$student->save();
+			DB::commit();
+			return redirect()->back()->with(config('constants.SUCCESS'),'Cập nhật thành công!');
+	}
 
-	        $student->save();
-	        DB::commit();
-	        return view('user.userInfo.userProfile', compact('user'));
-		}
-		else{
-			return view('auth.login');
-		}
-		
-    }
+	public function getChangePass(){
+		$this->data['status'] = "changepass";
+		return view('student.change_pass')->with($this->data);
+	}
+
+	public function PostChangePass(Request $re){
+				$user = Auth::user();
+        if(Hash::check($re->oldpass, $user->password)){
+            //return $user;
+            $user->password = Hash::make($re->newpass);
+            $user->save();
+            return redirect()->back()->with(config('constants.SUCCESS'),'Đổi mật khẩu thành công!');
+        }else{
+					return redirect()->back()->with(config('constants.ERROR'),'Mật khẩu cũ không đúng!');
+        }
+	}
 }

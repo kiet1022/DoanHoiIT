@@ -17,6 +17,9 @@
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="pages/css/templatemo-style.css">
      <link rel="stylesheet" href="{{ asset('pages/css/userinfo.css') }}">
+     <link rel="stylesheet" href="{{ asset('assets/vendor/animate.css-master/animate.min.css') }}">
+     <link rel="stylesheet" href="{{ asset('pages/css/font-awesome.min.css')}}">
+     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap4-dialog/css/bootstrap-dialog.min.css') }}" >
      @yield('style')
 
 </head>
@@ -30,27 +33,31 @@
           </div>
      </section>
      <!-- MENU -->
-     @include('pages.layout.header')
+     @include('student.layout.header')
      <!-- HOME -->
      @yield('extends')
      <section style="padding-top: 20px; padding-bottom: 20px;" id="register">
           @yield('breadcrumb')
           <div class="container">
                <div class="row profile">
-                    @include('pages.layout.usersidebar')
+                    @include('student.layout.usersidebar')
                     @yield('content')
                </div>
           </div>
      </section>
      <!-- ABOUT -->
      <!-- FOOTER -->
-     @include('pages.layout.footer')
+     @include('student.layout.footer')
      <!-- SCRIPTS -->
      <script src="pages/js/jquery.js"></script>
      <script src="{{ asset('pages/css/bootstrap-3.3.6/dist/js/bootstrap.min.js') }}"></script>
      <script src="pages/js/owl.carousel.min.js"></script>
      <script src="pages/js/smoothscroll.js"></script>
      <script src="pages/js/custom.js"></script>
-     @yield('script')
+     <script src="{{asset('assets/vendor/bootstrap-notify-master/bootstrap-notify.min.js')}}"></script>
+     <script src="{{asset('assets/vendor/bootstrap4-dialog/js/bootstrap-dialog.min.js')}}"></script>
+     <script src="{{asset('assets/vendor/jquery.blockUI.js')}}"></script>
+     <script src="{{ asset('assets/js/common.js') }}"></script>
+     @yield('js')
 </body>
 </html>

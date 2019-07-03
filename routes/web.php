@@ -359,10 +359,10 @@ Route::prefix('admin')->group(function(){
 });
 
 Route::get('/test', function(){
-    // $user = User::find(187);
+    // $user = User::find(177);
     // $user->password = bcrypt(123456);
     // $user->save();
-    return view('student.index');
+    // return view('student.index');
 });
 /*
 |--------------------------------------------------------------------------
@@ -382,9 +382,18 @@ Route::prefix('user')->group(function(){
         
     });
 
+    Route::prefix('info')->group(function(){
+
+        Route::get('/detail.php', 'User\UserController@getUserInfo')->name('get_user_info');
+
+        Route::post('/update.php', 'User\UserController@postEditUserInfo')->name('post_edit_user_info');
+
+        Route::get('changepass.php', 'User\UserController@getChangePass')->name('get_user_change_pass');
+
+        Route::post('changepass.php', 'User\UserController@postChangePass')->name('post_user_change_pass');
+    });
+
     Route::get('/category/{id}.php', 'User\NewsController@getNewsByCategory')->name('get_new_by_ctg');
-    Route::get('/infomation.php', 'User\UserController@getUserInfo')->name('get_profile');
-    Route::get('/editInfomation.php', 'User\UserController@getEditUserInfo')->name('get_edit_info');
     Route::post('/updateInfomation.php', 'User\UserController@postEditUserInfo')->name('post_edit_info');
     Route::get('/activity.php', 'User\ActivityController@getListActivity')->name('get_list_activity_user');
     Route::post('/activity/view.php', 'User\ActivityController@getActivityInfo')->name('get_activity');
