@@ -85,7 +85,7 @@
 
 .profile-usermenu ul li a:hover {
   background-color: #f6f9fb;
-  color: #29ca8e;
+  color: #4e73df;
 }
 
 .profile-usermenu ul li.active {
@@ -93,9 +93,9 @@
 }
 
 .profile-usermenu ul li.active a {
-    color: #29ca8e;
+    color: #4e73df;
     background-color: #f6f9fb;
-    border-left: 2px solid #29ca8e;
+    border-left: 2px solid #4e73df;
     margin-left: -2px;
 }
 

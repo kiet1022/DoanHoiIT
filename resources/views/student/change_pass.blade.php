@@ -4,7 +4,7 @@
 @endsection
 @section('breadcrumb')
 <div class="container">
-	<ol class="breadcrumb" style="background-color: #ffffff; margin-bottom: 0px; border-left: 5px solid #29ca8e;">
+	<ol class="breadcrumb" style="background-color: #ffffff; margin-bottom: 0px; border-left: 5px solid #4e73df;">
 		<li><a href="{{ route('get_home_page') }}" class="text-info">Trang chủ</a></li>
     <li>Thông tin cá nhân</li>
     <li>Đổi mật khẩu</li>
