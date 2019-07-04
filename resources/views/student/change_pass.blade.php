@@ -11,6 +11,9 @@
 	</ol>
 </div>
 @endsection
+@section('style')
+
+@endsection
 @section('content')
 <div class="col-md-9" style="background: white; padding-top: 30px;">
 	@if(count($errors)>0)
@@ -29,21 +32,22 @@
 			@csrf
 			<div class="form-group">
 					<label for="oldpass">Nhập mật khẩu cũ:</label>
-					<input type="text" class="form-control" id="oldpass" placeholder="Nhập mật khẩu cũ" name="oldpass">
+					<input type="password" class="form-control" id="oldpass" placeholder="Nhập mật khẩu cũ" name="oldpass">
 			</div>
 
 			<div class="form-group">
 				<label for="newpass">Nhập mật khẩu mới:</label>
-					<input type="text" class="form-control" id="newpass" placeholder="Nhập mật khẩu mới" name="newpass">
+					<input type="password" class="form-control" id="newpass" placeholder="Nhập mật khẩu mới" name="newpass">
       </div>
       
       <div class="form-group">
 				<label for="renewpass">Nhập lại mật khẩu mới:</label>
-					<input type="text" class="form-control" id="renewpass" placeholder="Nhập lại mật khẩu mới" name="renewpass">
-      </div>
+					<input type="password" class="form-control input" id="renewpass" placeholder="Nhập lại mật khẩu mới" name="renewpass">
+					<span style="display: none" id="notmatch"><small style="color:red">Mật khẩu mới chưa trùng khớp</small></span>
+			</div>
 
 			<div class="form-group text-center">  
-					<button type="submit" class="btn" style="width: 150px;background: #4e73df; color:white">Lưu</button>
+					<button id="btnsubmit" type="submit" class="btn" style="width: 150px;background: #4e73df; color:white">Lưu</button>
 			</div>
 		</form>
 	</div>
@@ -51,12 +55,6 @@
 @endsection
 @section('js')
 <script>
-	//load preview image
-	var loadFile = function(event) {
-		var output = document.getElementById('output');
-		output.src = URL.createObjectURL(event.target.files[0]);
-	};
-
 	$('form').on('submit', function(){
 		blockUI(true);
 	})
@@ -74,5 +72,19 @@
     $('form').on('submit', function(){
       blockUI(true);
     });
+
+	// Check if new password not match
+	$('.input').on('keyup', function(e){
+		var newpass = $('#newpass').val();
+		if(newpass != e.target.value){
+			$(this).css({"outline": "none !important","border":"1px solid red","box-shadow": "0 0 10px #719ECE"});
+			$('#btnsubmit').attr("disabled",true);
+			$('#notmatch').css({"display":"block"});
+		} else if(newpass === e.target.value){
+			$(this).css({"outline": "none !important","border":"1px solid green","box-shadow": "0 0 10px #719ECE"});
+			$('#btnsubmit').attr("disabled",false);
+			$('#notmatch').css({"display":"none"});
+		}
+	});
 </script>		
 @endsection

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+     
      <title>@yield('title')</title>
      <meta charset="UTF-8">
      <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -20,18 +20,14 @@
      <link rel="stylesheet" href="{{ asset('assets/vendor/animate.css-master/animate.min.css') }}">
      <link rel="stylesheet" href="{{ asset('pages/css/font-awesome.min.css')}}">
      <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap4-dialog/css/bootstrap-dialog.min.css') }}" >
+     <style>
+          .dropdown:hover .dropdown-menu {
+               display: block;
+          }
+     </style>
      @yield('style')
-
 </head>
 <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
-     <!-- PRE LOADER -->
-     <section class="preloader">
-          <div class="spinner">
-
-               <span class="spinner-rotate"></span>
-               
-          </div>
-     </section>
      <!-- MENU -->
      @include('student.layout.header')
      <!-- HOME -->

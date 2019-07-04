@@ -94,7 +94,7 @@
                 @endauth
                 @guest
                 <td colspan="2" class="text-center">
-                    <span class="label label-warning">Vui lòng đăng nhập để đăng kí tham gia chương trình</span>
+                    <span class="label label-warning" style="font-size: 100%">Vui lòng đăng nhập để đăng kí tham gia chương trình</span>
                 </td>
                 @endguest
               </tr>

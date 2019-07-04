@@ -13,14 +13,6 @@
                
                <!-- MENU LINKS -->
                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-nav-first">
-                         <li><a href="#news" style="padding: 0;"><a href="" class="smoothScroll">Trang chủ</a></a></li>
-                         {{--                          <li><a href="#forum" style="padding: 0;"><a href="{{route('get_forum_page')}}" class="smoothScroll">Diễn Đàn</a></a></li> --}}
-                         {{--                          <li><a href="#about" class="smoothScroll">Về chúng tôi</a></li> --}}
-                         {{--                          <li><a href="#contact" class="smoothScroll">Liên hệ</a></li> --}}
-                         <li><a href="#test" style="padding: 0;"><a href="" class="smoothScroll">Làm bài thi</a></a></li>
-                         
-                    </ul>
                     @guest
                     <ul class="nav navbar-nav navbar-right">
                          {{--  <li><a href="#register" style="padding: 0;"><a href="{{route('get_register_page')}}">Đăng ký</a></a></li> --}}
@@ -30,7 +22,7 @@
                     @auth
                     <ul class="nav navbar-nav navbar-right">
                               <li class="dropdown">
-                                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{Auth::user()->student->name}}</a>
+                                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->student->name}}</a>
                                    <ul class="dropdown-menu clearfix" role="menu">
                                         <li><a href="{{ route('get_user_info') }}">Trang cá nhân</a></li>
                                         @if(Auth::user()->level == 1)

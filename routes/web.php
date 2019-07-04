@@ -379,6 +379,7 @@ Route::prefix('user')->group(function(){
         Route::get('detail/{id}.php','User\ActivityController@getActivityInfo')->name('user_get_activity_detail');
         Route::post('attend.php','User\ActivityController@attendActivity')->name('attend_activity');
         Route::post('cancel-regis.php','User\ActivityController@cancelRegisActivity')->name('cancel_regis_activity');
+        Route::get('registed.php','User\ActivityController@getRegistedActivity')->name('get_registed_ac');
         
     });
 

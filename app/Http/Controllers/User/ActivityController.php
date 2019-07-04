@@ -72,4 +72,11 @@ class ActivityController extends Controller
         $activity->save();
         return redirect()->back()->with(config('constants.SUCCESS'),'Hủy đăng ký thành công!');
     }
+
+    public function getRegistedActivity(){
+        $this->data['status'] = "registedac";
+        $this->data['attended'] = Attender::with('ofActivity')->where('student_id',Auth::user()->student->student_id)->get();
+        // return $this->data['attended'];
+        return view('student.registerd_activity')->with($this->data);
+    }
 }

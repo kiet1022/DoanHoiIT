@@ -44,6 +44,12 @@
 									<i class="glyphicon glyphicon-wrench"></i>
 								Đổi mật khẩu</a>
 							</li>
+
+							<li @if($status === "registedac"){!!'class="active"'!!} @endif>
+									<a href="{{ route('get_registed_ac') }}">
+										<i class="	glyphicon glyphicon-list-alt"></i>
+									Chương trình đã đăng ký</a>
+							</li>
 	{{-- 						<li>
 								<a href="#">
 									<i class="glyphicon glyphicon-flag"></i>
