@@ -10,6 +10,7 @@ use App\Models\ExecComm;
 use App\Models\AssociationEc;
 use App\Models\Collaborator;
 use App\Models\Activity;
+use App\Models\Attender;
 use App\Models\ActivityFund;
 use App\Models\ActivityFundDetail;
 use App\Models\SchoolYear;
@@ -18,6 +19,7 @@ use App\Models\Checkin;
 use App\Models\CheckinDetail;
 use App\Models\WorkFlow;
 use App\Models\WorkFlowDetail;
+use App\Exports\MarksExport;
 use DateTime;
 use Carbon;
 use StringUtil;
@@ -63,6 +65,45 @@ class ActivityController extends Controller
     return view('admin.activity.list_activity')->with($this->data);
   }
   
+  /**
+   * Get activities attender list
+   * 
+   */
+  public function getAttenderList(Request $req){
+
+    // Check user role
+		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    // delete session if exist
+    session()->forget('_old_input');
+    $this->data['activities'] = Activity::with(['attenders.ofStudent'])->where('year','2018 - 2019')->get();
+    // return $this->data['activities'];
+    $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
+    return view('admin.activity.list_activity_attender')->with($this->data);
+  }
+
+  public function filterAttenderList(Request $req){
+
+    $this->data['year'] = SchoolYear::where('type',1)->get();
+    $this->data['activities'] = Activity::with(['attenders.ofStudent']);
+    if(StringUtil::pureString($req->year) != null){
+      $this->data['activities'] = $this->data['activities']->where('year',$req->year);
+    } if (StringUtil::pureString($req->semester) != null) {
+      $this->data['activities'] = $this->data['activities']->where('semester',$req->semester);
+    } if (StringUtil::pureString($req->month) != null){
+      $firstDay = (new Carbon('first day of '.$req->month.' 2019'))->format('Y-m-d');
+      $lastDay = (new Carbon('last day of '.$req->month.' 2019'))->format('Y-m-d');
+      $this->data['activities'] = $this->data['activities']->where('start_date','>=',$firstDay)->where('end_date','<=',$lastDay);
+    }
+    $this->data['activities'] = $this->data['activities']->get();
+    $req->flash();
+    return view('admin.activity.list_activity_attender')->with($this->data);
+  }
+
+  public function ExportAttenderList($activity_id){
+    $details = Attender::with(['ofStudent','ofActivity'])->where('activity_id',$activity_id)->get();
+    $export_name = "Danh sách đăng ký_".$details[0]->ofActivity->name.".xlsx";
+    return (new MarksExport($details))->download($export_name);
+  }
   /**
   * Get add activity page
   * 

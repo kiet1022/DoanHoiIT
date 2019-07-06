@@ -13,14 +13,9 @@ class HomeController extends Controller
      */
     public function getLogin(){
         if(Auth::check()){
-            // if(Auth::user()->level == 1){
-            //     return redirect()->route('admin_dashboard');
-            // } else if (Auth::user()->level == 0){
-            //     return redirect()->route('get_home_page');
-            // }
             return redirect()->route('get_home_page');
         }else{
-            return view('login');
+            return view('auth.login');
         }
     }
     
@@ -36,7 +31,7 @@ class HomeController extends Controller
         if(Auth::attempt($login,$remember)){
             return redirect()->back();
         }else{
-            return redirect()->back()->with('error','Tên đăng nhập hoặc mật khẩu không đúng.');
+            return redirect()->back()->with(config('constants.ERROR'),'Email hoặc mật khẩu không đúng!');
         }
     }
     

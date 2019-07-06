@@ -32,17 +32,17 @@
 			@csrf
 			<div class="form-group">
 					<label for="oldpass">Nhập mật khẩu cũ:</label>
-					<input type="password" class="form-control" id="oldpass" placeholder="Nhập mật khẩu cũ" name="oldpass">
+					<input type="password" class="form-control" id="oldpass" placeholder="Nhập mật khẩu cũ" name="oldpass" required>
 			</div>
 
 			<div class="form-group">
 				<label for="newpass">Nhập mật khẩu mới:</label>
-					<input type="password" class="form-control" id="newpass" placeholder="Nhập mật khẩu mới" name="newpass">
+					<input type="password" class="form-control" id="newpass" placeholder="Nhập mật khẩu mới" name="newpass" required>
       </div>
       
       <div class="form-group">
 				<label for="renewpass">Nhập lại mật khẩu mới:</label>
-					<input type="password" class="form-control input" id="renewpass" placeholder="Nhập lại mật khẩu mới" name="renewpass">
+					<input type="password" class="form-control input" id="renewpass" placeholder="Nhập lại mật khẩu mới" name="renewpass" required>
 					<span style="display: none" id="notmatch"><small style="color:red">Mật khẩu mới chưa trùng khớp</small></span>
 			</div>
 

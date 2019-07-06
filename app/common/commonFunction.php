@@ -104,8 +104,8 @@ use \Carbon\Carbon;
 		}
 		return $result;
 	}
-
-		/**
+	
+	/**
 	* Change selected status
 	* 
 	*/
@@ -158,7 +158,7 @@ use \Carbon\Carbon;
 		}
 		return $result;
 	}
-
+	
 	/**
 	* Change payed status
 	* 
@@ -212,22 +212,22 @@ use \Carbon\Carbon;
 			}
 			break;
 			case 3:
-				$result = '<span class="badge badge-success">Phó bí thư (LCH Trưởng)</span>';
+			$result = '<span class="badge badge-success">Phó bí thư (LCH Trưởng)</span>';
 			break;
 			case 0:
-				$result = '<span class="badge badge-info">Ủy viên BCH</span>';
+			$result = '<span class="badge badge-info">Ủy viên BCH</span>';
 			break;
 			default:
-				$result = '<span class="badge badge-info">CTV</span>';
+			$result = '<span class="badge badge-info">CTV</span>';
 			break;
 		}
 		return $result;
 	}
 	
 	/**
-	 * Change activity status by begin date and end date
-	 * 
-	 */
+	* Change activity status by begin date and end date
+	* 
+	*/
 	function changeActivityStatus($beginDate, $endDate){
 		$now =  new DateTime(date("Y-m-d H:i:s"));
 		$begin = new DateTime($beginDate);
@@ -242,7 +242,7 @@ use \Carbon\Carbon;
 		}
 		return $result;
 	}
-
+	
 	function changeProgressbarColor($progress){
 		$result = '';
 		if($progress >= 1 && $progress <= 50){
@@ -254,7 +254,7 @@ use \Carbon\Carbon;
 		}
 		return $result;
 	}
-
+	
 	function changeCatColor($color){
 		$class ='';
 		if($color == 1 || $color == 3 || $color == 5 || $color == 7 || $color == 9) {
@@ -272,5 +272,48 @@ use \Carbon\Carbon;
 		}
 		return $class;
 	}
-
+	
+	// Change month number to string format
+	function numberToStringMonth($month){
+		$result = "";
+		switch ($month) {
+			case '1':
+			$result = 'January';
+			break;
+			case '2':
+			$result = 'February';
+			break;
+			case '3':
+			$result = 'March';
+			break;
+			case '4':
+			$result = 'April';
+			break;
+			case '5':
+			$result = 'May';
+			break;
+			case '6':
+			$result = 'June';
+			break;
+			case '7':
+			$result = 'July';
+			break;
+			case '8':
+			$result = 'August';
+			break;
+			case '9':
+			$result = 'September';
+			break;
+			case '10':
+			$result = 'October';
+			break;
+			case '11':
+			$result = 'November';
+			break;
+			default:
+			$result = 'December';
+			break;
+		}
+		return $result;
+	}
 	?>

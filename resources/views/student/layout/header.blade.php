@@ -8,7 +8,7 @@
                     </button>
                     
                     <!-- lOGO TEXT HERE -->
-                    <a href="{{route('get_home_page')}}" class="navbar-brand"><img src="{{asset('assets/img/faculty_banner.png')}}" alt="" style="width: 20%"></a>
+                    <a href="{{route('get_home_page')}}" class="navbar-brand" style="padding: 10px;"><img src="{{asset('assets/img/faculty_banner.png')}}" alt="" style="width: 25%"></a>
                </div>
                
                <!-- MENU LINKS -->

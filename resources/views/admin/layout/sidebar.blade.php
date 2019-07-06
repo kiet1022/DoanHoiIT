@@ -60,6 +60,7 @@
               <h6 class="collapse-header">Trước chương trình: </h6>
             <a class="collapse-item" href="{{ route('get_list_activity') }}">Danh sách chương trình</a>
               <a class="collapse-item" href="{{ route('get_add_activity') }}">Thêm chương trình</a>
+              <a class="collapse-item" href="{{ route('get_ac_attender_list') }}">Danh sách đăng ký</a>
               <h6 class="collapse-header">Trong chương trình: </h6>
             <a class="collapse-item" href="{{ route('get_workflow_list')}}">Tiến độ công việc</a>
               <a class="collapse-item" href="{{ route('get_add_workflow',['id'=>'null']) }}">Phân công công việc</a>
