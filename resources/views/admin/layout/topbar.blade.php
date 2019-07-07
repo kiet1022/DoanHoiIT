@@ -6,16 +6,11 @@
     </button>
 
     <!-- Topbar Search -->
-    {{-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
       <div class="input-group">
-        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button">
-            <i class="fas fa-search fa-sm"></i>
-          </button>
-        </div>
+          <a href="{{ route('get_home_page') }}"><img src="{{asset('assets/img/faculty_banner.png')}}" alt="" style="width: 25%"></img></a>
       </div>
-    </form> --}}
+    </form>
     {{-- <p>Đoàn TN - Hội SV Khoa Công nghệ Thông Tin ĐH SPKT TP.HCM</p> --}}
 
     <!-- Topbar Navbar -->

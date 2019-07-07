@@ -32,7 +32,7 @@ Dashboard
     </div>
   </div>
   
-  <!-- Earnings (Monthly) Card Example -->
+  <!-- Quản lý chương trình -->
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-success shadow h-100 py-2">
       <div class="card-body">
@@ -66,7 +66,7 @@ Dashboard
     </div>
   </div>
   
-  <!-- Earnings (Monthly) Card Example -->
+  <!-- Quản lý ĐRL - CTXH -->
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
       <div class="card-body">
@@ -85,7 +85,7 @@ Dashboard
     </div>
   </div>
   
-  <!-- Pending Requests Card Example -->
+  <!-- Quản lý thành viên ban chấp hành -->
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-warning shadow h-100 py-2">
       <div class="card-body">
@@ -124,7 +124,7 @@ Dashboard
     </div>
   </div>
   
-  <!-- Earnings (Monthly) Card Example -->
+  <!-- Quản lý tin tức -->
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-success shadow h-100 py-2">
       <div class="card-body">
@@ -133,9 +133,6 @@ Dashboard
             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Quản lý tin tức</div>
             <div class="mb-0 font-weight-bold">
                 <i class="far fa-hand-point-right"></i><a href="{{ route('get_news_type_list') }}" class="text-gray-800"> Danh sách loại tin</a>
-            </div>
-            <div class="mb-0 font-weight-bold">
-                <i class="far fa-hand-point-right"></i><a href="{{ route('get_add_new_type') }}" class="text-gray-800"> Thêm loại tin</a>
             </div>
             <div class="mb-0 font-weight-bold">
                 <i class="far fa-hand-point-right"></i><a href="{{ route('get_news_list') }}" class="text-gray-800"> Danh sách bài đăng</a>
@@ -152,7 +149,7 @@ Dashboard
     </div>
   </div>
 
-    <!-- Earnings (Monthly) Card Example -->
+    <!-- Quản lý người dùng -->
     <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
@@ -171,7 +168,7 @@ Dashboard
       </div>
     </div>
   
-      <!-- Pending Requests Card Example -->
+      <!-- Quản lý dự trù -->
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-warning shadow h-100 py-2">
       <div class="card-body">

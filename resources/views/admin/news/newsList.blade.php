@@ -17,11 +17,6 @@ Quản lí tin tức
         </nav>
       </div>
     <div class="row">
-        <div class="col page-title-header">
-                <h4>Danh sách bài viết</h4>
-        </div>
-    </div>
-    <div class="row">
         {{-- filter condition --}}
         <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
             <form action="" method="get" class="col-md-12">
@@ -57,7 +52,6 @@ Quản lí tin tức
                             <th></th>
                             <th>ID</th>
                             <th>Loại tin</th>
-                            <th>Hình ảnh nổi bật</th>
                             <th>Tiêu đề</th>
                             <th>Tóm tắt</th>
                             <th></th>
@@ -69,14 +63,11 @@ Quản lí tin tức
                             <td><input type="hidden" value="{{$list->id}}"></td>
                             <td>{{$list->id}}</td>
                             <td>{{$list->ofType->name}}</td>
-                            @if($list->image != "") 
-                                <td><img class="featured-image" src="{{asset('images/news')}}/{{$list->image}}"></td>
-                            @else 
-                                <td><img class="featured-image" src="{{asset('assets/img/image-not-available.png')}}"></td>
-                            @endif
                             <td>{{$list->title}}</td>
                             <td>{{$list->sumary}}</td>
-                            <td><i class="far fa-edit"></i> <a href="{{ route('get_edit_new',['id'=>$list->id]) }}">Sửa</a></td>
+                            <td class="text-center">
+                                <a href="{{ route('get_edit_new',['id'=>$list->id]) }}"><i class="fas fa-edit cm-label text-primary" title="Chỉnh sửa tin tức" data-toggle="tooltip" data-placement="top"></i></a>
+                            </td>
                             </tr>
                           @endforeach
                         </tbody>

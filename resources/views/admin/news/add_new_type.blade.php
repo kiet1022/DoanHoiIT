@@ -20,8 +20,7 @@ Thêm loại tin
                                 <label for="typename" class="col-md-4 common-label-inline">Tên thể loại <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <input type="text" class="form-control col-md-8" id="typename" name="typename" placeholder="" required value="">
                             </div>
-                            
-                            
+
                         </div>
                     </div>
                 </div>

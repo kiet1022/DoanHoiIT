@@ -150,7 +150,6 @@ class ActivityController extends Controller
       $activity->content = $req->activityContent;
       $activity->practise_marks = $req->practiseMark;
       $activity->social_marks = $req->socialMark;
-      $activity->register_number = $req->maxRegisNum;
       $activity->year = $req->year;
       $activity->semester = $req->semester;
       // upload plan file
@@ -344,14 +343,6 @@ class ActivityController extends Controller
         $activity->social_marks = $req->socialMark;
         // create log new data
         $newData .= "Điểm CTXH: ".$req->socialMark."<br>";
-      }
-      
-      if($activity->register_number != $req->maxRegisNum){
-        // create log old data
-        $oldData .= "Số lượng đăng ký tối đa: ".$activity->register_number."<br>";
-        $activity->register_number = $req->maxRegisNum;
-        // create log new data
-        $newData .= "Số lượng đăng ký tối đa: ".$req->maxRegisNum."<br>";
       }
       
       if($activity->year != $req->year){

@@ -1,7 +1,8 @@
 //load preview image
 var loadFile = function(event) {
-    var output = document.getElementById('output');
+    var output = document.getElementById('myImg');
     output.src = URL.createObjectURL(event.target.files[0]);
+    output.style.display = "block";
 };
 
 //click delete current img

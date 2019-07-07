@@ -192,23 +192,6 @@
           
           {{-- Student ID --}}
           <div class="form-inline cm-inline-form">
-            <label for="maxRegisNum" class="col-md-6 common-label-inline">Số lượng tham gia:</label>
-            <input type="number" class="form-control col-md-6" id="maxRegisNum" name="maxRegisNum" placeholder="Số lượng sinh viên tham gia" value="{{old('maxRegisNum')}}">
-          </div>
-          
-          {{-- error --}}
-          @if ($errors->get('maxRegisNum'))
-          <div class="form-inline cm-inline-form cm-error">
-            <ul class="col-md-6 offset-md-6 cm-ul-error">
-              @foreach ($errors->get('maxRegisNum') as $maxRegisNum)
-              <li>{{$maxRegisNum}}</li>
-              @endforeach
-            </ul>
-          </div>
-          @endif
-          
-          {{-- Student ID --}}
-          <div class="form-inline cm-inline-form">
             <label for="practiseMark" class="col-md-6 common-label-inline">Điểm rèn luyện:</label>
             <input type="number" class="form-control col-md-6" id="practiseMark" name="practiseMark" placeholder="Điểm rèn luyện" value="{{old('practiseMark')}}">
           </div>

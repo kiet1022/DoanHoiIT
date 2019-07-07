@@ -72,6 +72,7 @@ $('#addType').on('click', function(){
 });
 // Show edit modal
 $('.editToggle').on('click', function(){
+  blockUI(true);
   // alert('edit');
     var id = $(this).data('id');
     console.log(id);
@@ -82,9 +83,11 @@ $('.editToggle').on('click', function(){
             id: id,
         }
     }).done(function(data) {
+      blockUI(false);
         $('#formEditType').html(data);
         $('#formEditType').modal('show');
     }).fail(function(xhr, status, error) {
+      blockUI(false);
         console.log('lala');
         console.log(this.url);
         console.log(error);

@@ -147,10 +147,9 @@
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Loại tin: </h6>
               <a class="collapse-item" href="{{ route('get_news_type_list') }}">Danh sách loại tin</a>
-              <a class="collapse-item" href="{{ route('get_add_new_type') }}">Thêm loại tin</a>
-              <h6 class="collapse-header">Bài đăng: </h6>
-              <a class="collapse-item" href="{{ route('get_news_list') }}">Danh sách bài đăng</a>
-              <a class="collapse-item" href="{{ route('get_add_new') }}">Thêm bài đăng</a>
+              <h6 class="collapse-header">Tin tức: </h6>
+              <a class="collapse-item" href="{{ route('get_news_list') }}">Danh sách bài viết</a>
+              <a class="collapse-item" href="{{ route('get_add_new') }}">Thêm bài viết</a>
             </div>
           </div>
         </li>

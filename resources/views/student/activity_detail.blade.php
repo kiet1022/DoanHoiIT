@@ -115,10 +115,10 @@
     <div class="col-md-4">
       <!-- ad -->
       <div class="col-md-12 text-center" style="margin-bottom: 15px; padding: 0">
-        <div class="col-md-8 badge-header-warning">
+        <div class="col-md-8 badge-header-primary">
           <h4 style="color: white; margin: 5px">Chương trình tháng {{ (\Carbon\Carbon::now())->format('m') }}</h4>
         </div>
-        <div class="col-md-12" style="border-bottom: 2px solid #f4b619 ;">
+        <div class="col-md-12" style="border-bottom: 2px solid #4e73df ;">
         </div>
       </div>
       <div class="aside-widget">

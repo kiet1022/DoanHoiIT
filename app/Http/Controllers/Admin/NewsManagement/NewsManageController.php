@@ -80,7 +80,7 @@ class NewsManageController extends Controller
 		Log::AddToLog('Thêm bài viết', "", $newData);
 		$success = true;
 		// return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Thêm tin thành công"]);
-		return redirect()->back()->with('success','Thêm tin thành công');
+		return redirect()->back()->with(config('constants.SUCCESS'),'Thêm tin thành công!');
 	}
 
 	public function getEditNew($id, Request $req){
@@ -134,9 +134,9 @@ class NewsManageController extends Controller
 					$news->save();
 					Log::AddToLog('Chỉnh sửa bài viết', $oldData, $newData);
 					
-					return redirect()->back()->with('success','Lưu tin thành công');
+					return redirect()->back()->with(config('constants.SUCCESS'),'Sửa tin thành công!');
 				}catch(Exception $ex){
-					return redirect()->back()->with('error','Thêm tin thất bại');
+					return redirect()->back()->with(config('constants.ERROR'),'Sửa tin thất bại!');
 				}
 			}
 			public function deleteAll(Request $request){

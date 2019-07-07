@@ -14,11 +14,6 @@ Quản lí tin tức
     </nav>
   </div>
   <div class="row">
-    <div class="col page-title-header">
-      <h4>Danh mục loại tin</h4>
-    </div>
-  </div>
-  <div class="row">
     {{-- User list --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
       <!-- Begin Page Content -->      
@@ -46,10 +41,8 @@ Quản lí tin tức
                   <td>{{$list->id}}</td>
                   <td>{{$list->name}}</td>
                   <td>{{$list->created_at}}</td>
-                  <td>
-                    <i class="far fa-edit"></i> 
-                    <!-- <a href="{{ route('get_edit_news_type',['id'=>$list->id]) }}">Sửa</a> -->
-                    <a class="editToggle" data-id="{{$list->id}}" data-toggle="modal" href="">Sửa</a>
+                  <td class="text-center">
+                      <a href="" class="editToggle" data-toggle="modal" data-id="{{$list->id}}"><i class="fas fa-edit cm-label text-primary" title="Chỉnh sửa loại tin" data-toggle="tooltip" data-placement="top"></i></a>
                   </td>
                 </tr>
                 @endforeach
@@ -59,7 +52,7 @@ Quản lí tin tức
         </div>
       </div>
       <!-- /.container-fluid -->  <!-- href="{{route('get_add_new_type')}}" -->
-      <a class="btn btn-success" id="addType"><i class="fas fa-plus-circle"></i> Thêm loại tin</a>
+      <a class="btn btn-success text-white" id="addType"><i class="fas fa-plus-circle"></i> Thêm loại tin</a>
       <button onclick="deleteType()" class="btn" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
     </div>
   </div>

@@ -72,7 +72,7 @@ class NewsTypeManageController extends Controller
     }
     public function postEditNewsType( Request $re){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
+		$re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         try{ 
             DB::beginTransaction();
             $newsType = NewsType::find($re->id);
