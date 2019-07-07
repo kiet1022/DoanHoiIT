@@ -9,6 +9,7 @@
      <meta name="keywords" content="">
      <meta name="author" content="">
      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+     <link rel="shortcut icon" href="{{asset('assets/img/faculty_banner.png')}}"> 
      <base href="{{ asset('') }}">
      <link rel="stylesheet" href="{{ asset('pages/css/bootstrap-3.3.6/dist/css/bootstrap.min.css')}}">
      <link rel="stylesheet" href="{{ asset('pages/css/font-awesome.min.css')}}">
