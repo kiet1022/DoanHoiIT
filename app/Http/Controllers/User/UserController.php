@@ -40,7 +40,7 @@ class UserController extends Controller
 
 			if($re->hasFile('image')){
 				$file = $re->file('image');
-				return $file;
+				// return $file;
 				$duoi = $file->getClientOriginalExtension();
 				if($duoi != 'jpg' && $duoi != 'png' && $duoi != 'jpeg'){
 					return redirect()->back()->with('error','Vui lòng chọn đúng định dạng hình');

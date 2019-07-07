@@ -27,7 +27,7 @@ Danh mục tin
           <!-- post -->
            @foreach ($news as $list)
           <div class="post post-row">
-            <a class="post-img" href="{{ route('get_new',['id'=>$list->id]) }}">
+              <a>
               @if($list->image != "") 
                   <img src="{{asset('images/news')}}/{{$list->image}}" alt="">
                   @else 
@@ -38,7 +38,7 @@ Danh mục tin
               <div class="post-category">
                 <a href="{{ route('get_new_by_ctg',['id'=>$list->ofType->id]) }}">{{$list->ofType->name}}</a>
               </div>
-              <h3 class="post-title"><a href="{{ route('get_new',['id'=>$list->id]) }}">{{$list->title}}</a></h3>
+              <h3 class="post-title"><a href="">{{$list->title}}</a></h3>
               <ul class="post-meta">
                 <li><a href="#">{{$list->ofUser->student->name}}</a></li>
                 <li>{{$list->created_at->format('F j Y')}}</li>

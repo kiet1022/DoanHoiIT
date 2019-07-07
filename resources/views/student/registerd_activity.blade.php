@@ -37,7 +37,7 @@
                   @if ($at->ofActivity->practise_marks > 0)
                   {{ $at->ofActivity->practise_marks }} ĐRL
               @elseif ($at->ofActivity->social_marks > 0)
-                {{ $at->ofActivity->practise_marks }} Điểm CTXH
+                {{ $at->ofActivity->social_marks }} Điểm CTXH
               @endif
               </td>
               <td>                  

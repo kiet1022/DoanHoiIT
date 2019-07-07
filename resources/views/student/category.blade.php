@@ -1,6 +1,6 @@
 @extends('student.layout.index')
 @section('title')
-{{$detail->title}}
+fff
 @endsection
 @section('style')
 <link rel="stylesheet" href="{{ asset('pages/css/new.css') }}">
@@ -10,15 +10,14 @@
 <!-- section -->
 <!-- Page Header -->
 <div id="post-header" class="page-header">
-  <div class="background-img" style="background-image: url('{{ asset('images/news/'.$detail->image) }}');"></div>
   <div class="container">
     <div class="row">
-      <div class="col-md-10">
+      <div class="col-md-7">
         <div class="post-meta">
-          <a class="post-category {{changeCatColor($detail->type_id)}}" href="{{ route('get_new_by_ctg',['id'=>$detail->type_id]) }}">{{$detail->ofType->name}}</a>
-          <span class="post-date">Ngày đăng: {{date('d/m/Y',strtotime($detail->created_at))}}</span>
+
+        	
         </div>
-        <h1>{{$detail->title}}</h1>
+
       </div>
     </div>
   </div>
@@ -32,7 +31,21 @@
     <div class="col-md-8">
       <div class="section-row sticky-container">
         <div class="main-post">
-          {!! $detail->content !!}
+    @foreach($news as $new)
+			<div class="col-md-6">
+				<div class="post">
+					<a class="post-img" href="{{ route('get_new_detail',['id'=>$new->id]) }}"><img style="width: 360px; height: 197px;" src="{{ asset('images/news/'.$new->image) }}" alt="Lỗi"></a>
+					<div class="post-body">
+						<div class="post-meta">
+							<a class="post-category {{changeCatColor($new->ofType->id)}}" href="{{ route('get_new_by_ctg',['id'=>$new->type_id]) }}">{{$new->ofType->name}}</a>
+							<br>
+							<span class="post-date">Ngày đăng: {{date('d/m/Y',strtotime($new->created_at))}}</span>
+						</div>
+						<h3 class="post-title"><a href="{{ route('get_new_detail',['id'=>$new->id]) }}">{{$new->title}}</a></h3>
+					</div>
+				</div>
+			</div>
+			@endforeach
         </div>
         <div class="post-shares sticky-shares">
           <a href="https://www.facebook.com/DoanHoiITUTE/" target="_blank" class="share-facebook"><i class="fa fa-facebook"></i></a>
@@ -53,30 +66,7 @@
       </div>
       <!-- /ad -->
       
-      <!-- post widget -->
-      <div class="aside-widget">
-        <div class="col-md-12 text-center" style="margin-bottom: 15px; padding: 0">
-          <div class="col-md-7 badge-header-warning">
-            <h4 style="color: white; margin: 5px">Bài viết cùng chủ đề</h4>
-          </div>
-          <div class="col-md-12" style="border-bottom: 2px solid #f4b619 ;">
-          </div>
-        </div>
-        @foreach($relatedPost as $rl)
-        <div class="post post-thumb">
-          <a class="post-img" href="{{ route('get_new_detail',['id'=>$rl->id]) }}">
-            <img src="{{ asset('images/news/'.$rl->image) }}" alt="Lỗi" style="width: 360px; height: 197px;">
-          </a>
-          <div class="post-body">
-            <div class="post-meta">
-              <a class="post-category {{changeCatColor($rl->type_id)}}" href="">{{$rl->ofType->name}}</a>
-              <span class="post-date">Ngày đăng: {{date('d/m/Y',strtotime($rl->created_at))}}</span>
-            </div>
-            <h3 class="post-title"><a href="{{ route('get_new_detail',['id'=>$rl->id]) }}">{{$rl->title}}</a></h3>
-          </div>
-        </div>
-        @endforeach
-      </div>
+
       <!-- /post widget -->
       
 					<!-- catagories -->
