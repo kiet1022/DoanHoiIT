@@ -87,18 +87,12 @@
         <!-- Collapse Funds manager -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#fundsManagerCollapse" aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Quản lý kinh phí</span>
+            <i class="fas fa-dollar-sign"></i>
+            <span>Quản lý dự trù</span>
           </a>
           <div id="fundsManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Theo năm: </h6>
-              <a class="collapse-item" href="{{ route('get_list_funding') }}">Danh sách</a>
-              <div class="collapse-divider"></div>
-              <h6 class="collapse-header">Theo chương trình: </h6>
-              <a class="collapse-item" href="login.html">Danh sách</a>
-              <h6 class="collapse-header">Tổng hợp thu chi: </h6>
-              <a class="collapse-item" href="404.html">Tổng hợp</a>
+              <a class="collapse-item" href="{{ route('get_list_funding') }}">Danh sách DTKP</a>
             </div>
           </div>
         </li>
@@ -119,14 +113,12 @@
         <!-- Collapse User manager -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#userManagerCollapse" aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-address-book"></i>
             <span>Quản lý người dùng</span>
           </a>
           <div id="userManagerCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="{{ route('get_user_list') }}">Quản lý Users</a>
-              <a class="collapse-item" href="{{ route('get_roles_list') }}">Danh sách quyền</a>
-              {{-- <a class="collapse-item" href="{{ route('attach_role') }}">Phân quyền người dùng</a> --}}
+              <a class="collapse-item" href="{{ route('get_user_list') }}">Danh sách người dùng</a>
             </div>
           </div>
         </li>

@@ -32,7 +32,7 @@
           <tr>
               <td>{{ $at->ofActivity->name }}</td>
               <td>{{date('d/m/Y',strtotime($at->ofActivity->start_date))}} - {{date('d/m/Y',strtotime($at->ofActivity->end_date))}}</td>
-              <td>{{ $at->ofActivity->max_regis_num }}</td>
+              <td>{{ $at->ofActivity->register_number }}</td>
               <td>
                   @if ($at->ofActivity->practise_marks > 0)
                   {{ $at->ofActivity->practise_marks }} ĐRL

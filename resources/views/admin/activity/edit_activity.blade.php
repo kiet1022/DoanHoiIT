@@ -1,6 +1,13 @@
 @extends('admin.layout.layout')
 @section('title','Sửa hoạt động')
 @section('style')
+<link href="{{asset('assets/css/admin/cm-news.css')}}" rel="stylesheet" type="text/css">
+<style>
+  #ac_image:hover {
+    opacity: 0.7;
+    cursor: pointer;
+    transition: 0.3s;}
+</style>
 @endsection
 @section('main_content')
 <div class="row">
@@ -188,7 +195,7 @@
               {{-- Student ID --}}
               <div class="form-inline cm-inline-form">
                 <label for="maxRegisNum" class="col-md-6 common-label-inline">Số lượng tham gia:</label>
-                <input type="number" class="form-control col-md-6" id="maxRegisNum" name="maxRegisNum" placeholder="Số lượng sinh viên tham gia" @if($errors->any()) value="{{ old('maxRegisNum') }}" @else value="{{ $activity->max_regis_num }}" @endif>
+                <input type="number" class="form-control col-md-6" id="maxRegisNum" name="maxRegisNum" placeholder="Số lượng sinh viên tham gia" @if($errors->any()) value="{{ old('maxRegisNum') }}" @else value="{{ $activity->register_number }}" @endif>
               </div>
               
               {{-- error --}}
@@ -235,6 +242,65 @@
                 </ul>
               </div>
               @endif
+
+              <div class="form-inline cm-inline-form">
+                  <label for="planUrl" class="col-md-6 common-label-inline">Upload file kế hoạch:</label>
+                  <input type="file" name="planUrl" id="planUrl" class="col-md-6 col-xs-6 col-sm-6 form-control" style="height: auto;">
+                  
+                  @if(($activity->plan_url) != "")
+                  <a href="{{ asset('assets/fileupload/activities/plans/'.$activity->plan_url) }}"><i class="far fa-hand-point-right"></i>  {{$activity->plan_url}}</a>
+                  @endif
+                </div>
+                {{-- error --}}
+                @if ($errors->get('planUrl'))
+                <div class="form-inline cm-inline-form cm-error">
+                  <ul class="col-md-6 cm-ul-error">
+                    @foreach ($errors->get('planUrl') as $planUrl)
+                    <li>{{$planUrl}}</li>
+                    @endforeach
+                  </ul>
+                </div>
+                @endif
+                
+                <div class="form-inline cm-inline-form">
+                  <label for="fundUrl" class="col-md-6 common-label-inline">Upload file dự trù:</label>
+                  <input type="file" name="fundUrl" id="fundUrl" class="col-md-6 col-xs-6 col-sm-6 form-control" style="height: auto;" value="{{ $activity->fund_url }}">
+                  @if(($activity->plan_url) != "")
+                  <a href="{{ asset('assets/fileupload/activities/funds/'.$activity->fund_url) }}"><i class="far fa-hand-point-right"></i> {{$activity->fund_url}}</a>
+                  @endif
+                </div>
+                {{-- error --}}
+                @if ($errors->get('fundUrl'))
+                <div class="form-inline cm-inline-form cm-error">
+                  <ul class="col-md-6 cm-ul-error">
+                    @foreach ($errors->get('fundUrl') as $fundUrl)
+                    <li>{{$fundUrl}}</li>
+                    @endforeach
+                  </ul>
+                </div>
+                @endif
+
+                <div class="form-inline cm-inline-form">
+                    <label for="image" class="col-md-6 common-label-inline">Upload hình ảnh:</label>
+                    <input type="file" name="image" id="image" class="col-md-6 col-xs-6 col-sm-6 form-control image-new" style="height: auto;">
+                </div>
+
+                @if ($activity->image)
+                <div class="form-inline cm-inline-form justify-content-center">
+                    <img id="ac_image" src="{{ asset('assets/fileupload/activities/images/'.$activity->image) }}" class="rounded" alt="Cinque Terre" style="width: 30%; margin-top: 10px">
+                </div>
+                @else
+                <div class="form-inline cm-inline-form justify-content-center">
+                    <img id="ac_image" class="rounded" alt="Cinque Terre" style="width: 30%; margin-top: 10px; display: none">
+                </div>
+                @endif
+
+                {{-- Modal that show image in large --}}
+                <div id="myModal" class="modal">
+                    <span class="close">&times;</span><!-- The Close Button -->
+                    <img class="modal-content" id="img01"><!-- Modal Content (The Image) -->
+                    <div id="caption"></div><!-- Modal Caption (Image Text) -->
+                </div>
             </div>
           </div>
         </div>
@@ -251,42 +317,6 @@
                 <textarea id="activityContent" name="activityContent">@if($errors->any()) {!! old('activityContent') !!} @else {!! $activity->content !!} @endif</textarea>
               </div>
               
-              <div class="form-inline cm-inline-form">
-                <label for="planUrl" class="col-md-6 common-label-inline">Upload file kế hoạch:</label>
-                <input type="file" name="planUrl" id="planUrl" class="col-md-12 col-xs-12 col-sm-12 form-control" style="height: auto;">
-                
-                @if(($activity->plan_url) != "")
-                <a href="{{ asset('assets/fileupload/activities/plans/'.$activity->plan_url) }}"><i class="far fa-hand-point-right"></i>  {{$activity->plan_url}}</a>
-                @endif
-              </div>
-              {{-- error --}}
-              @if ($errors->get('planUrl'))
-              <div class="form-inline cm-inline-form cm-error">
-                <ul class="col-md-12 cm-ul-error">
-                  @foreach ($errors->get('planUrl') as $planUrl)
-                  <li>{{$planUrl}}</li>
-                  @endforeach
-                </ul>
-              </div>
-              @endif
-              
-              <div class="form-inline cm-inline-form">
-                <label for="fundUrl" class="col-md-6 common-label-inline">Upload file dự trù:</label>
-                <input type="file" name="fundUrl" id="fundUrl" class="col-md-12 col-xs-12 col-sm-12 form-control" style="height: auto;" value="{{ $activity->fund_url }}">
-                @if(($activity->plan_url) != "")
-                <a href="{{ asset('assets/fileupload/activities/funds/'.$activity->fund_url) }}"><i class="far fa-hand-point-right"></i> {{$activity->fund_url}}</a>
-                @endif
-              </div>
-              {{-- error --}}
-              @if ($errors->get('fundUrl'))
-              <div class="form-inline cm-inline-form cm-error">
-                <ul class="col-md-12 cm-ul-error">
-                  @foreach ($errors->get('fundUrl') as $fundUrl)
-                  <li>{{$fundUrl}}</li>
-                  @endforeach
-                </ul>
-              </div>
-              @endif
             </div>
           </div> 
         </div>

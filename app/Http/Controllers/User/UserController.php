@@ -18,6 +18,7 @@ use App\Models\Log;
 use App\Models\News;
 use App\Models\NewsType;
 use App\Models\CheckinDetail;
+use DateTimeUtil;
 use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
@@ -27,10 +28,11 @@ class UserController extends Controller
 	}
 
 	public function postEditUserInfo(Request $re){
+		// return
 			DB::beginTransaction();
 			$student = Student::find($re->sid);
 			$student->name = $re->name;
-			$student->birthday = $re->birth_of_date;
+			$student->birthday = DateTimeUtil::convertToYmd($re->birth_of_date);
 			$student->address = $re->address;
 			$student->phone_no = $re->phone_no; 
 			$student->identity_card = $re->idcard;
@@ -38,6 +40,7 @@ class UserController extends Controller
 
 			if($re->hasFile('image')){
 				$file = $re->file('image');
+				return $file;
 				$duoi = $file->getClientOriginalExtension();
 				if($duoi != 'jpg' && $duoi != 'png' && $duoi != 'jpeg'){
 					return redirect()->back()->with('error','Vui lòng chọn đúng định dạng hình');

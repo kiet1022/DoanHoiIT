@@ -10,7 +10,7 @@
 <!-- section -->
 <!-- Page Header -->
 <div id="post-header" class="page-header" style="padding-top: 10%; padding-bottom: 10%;">
-  <div class="background-img" style="background-image: url('{{ asset('images/news/vzql_background.jpg') }}');"></div>
+  <div class="background-img" style="background-image: url('{{ asset('assets/fileupload/activities/images/'.$activity->image) }}');"></div>
   {{-- {{ asset('images/news/'.$detail->image) }} --}}
   <div class="container">
     <div class="row">
@@ -47,7 +47,7 @@
               
               <tr>
                 <th>Số lượng đăng ký</th>
-                <td>{{ $activity->max_regis_num }}</td>
+                <td>{{ $activity->register_number }}</td>
               </tr>
               
               <tr>
@@ -114,10 +114,29 @@
     <!-- aside -->
     <div class="col-md-4">
       <!-- ad -->
-      <div class="aside-widget text-center">
-        <a href="#" style="display: inline-block;margin: auto;">
-          <img class="img-responsive" src="./img/ad-1.jpg" alt="">
-        </a>
+      <div class="col-md-12 text-center" style="margin-bottom: 15px; padding: 0">
+        <div class="col-md-8 badge-header-warning">
+          <h4 style="color: white; margin: 5px">Chương trình tháng {{ (\Carbon\Carbon::now())->format('m') }}</h4>
+        </div>
+        <div class="col-md-12" style="border-bottom: 2px solid #f4b619 ;">
+        </div>
+      </div>
+      <div class="aside-widget">
+        @foreach($activities as $act)
+        <div class="post post-widget">
+          <a class="post-img" href="{{ route('user_get_activity_detail',['id'=>$act->id]) }}">
+              @if ($act->image)
+              <img style="width: 90px; height: 49px;" src="{{ asset('assets/fileupload/activities/images/'.$act->image) }}" alt="Lỗi">
+              @else
+              <img style="width: 90px; height: 49px;" src="{{ asset('assets/img/faculty_banner.png') }}" alt="Lỗi">
+              @endif
+          </a>
+          <div class="post-body">
+            <h3 class="post-title"><a href="{{ route('user_get_activity_detail',['id'=>$act->id]) }}">{{$act->name}}</a></h3>
+            <span class="post-date">Thời gian: {{date('d/m/Y',strtotime($act->start_date))}} - {{date('d/m/Y',strtotime($act->end_date))}}</span>
+          </div>
+        </div>
+        @endforeach
       </div>
       <!-- /ad -->
       

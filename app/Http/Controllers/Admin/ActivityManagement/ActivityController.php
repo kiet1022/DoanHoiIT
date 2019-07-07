@@ -35,7 +35,7 @@ class ActivityController extends Controller
   */
   public function getListActivity(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     // delete session if exist
     session()->forget('_old_input');
     $this->data['activities'] = Activity::with(['leadBy','fund'])->where('year','2018 - 2019')->get();
@@ -50,7 +50,7 @@ class ActivityController extends Controller
   */
   public function filterActivity(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $this->data['year'] = SchoolYear::where('type',1)->get();
     if(StringUtil::pureString($req->year) == null && StringUtil::pureString($req->semester) == null){
       $this->data['activities'] = Activity::with(['leadBy'])->get();
@@ -66,13 +66,13 @@ class ActivityController extends Controller
   }
   
   /**
-   * Get activities attender list
-   * 
-   */
+  * Get activities attender list
+  * 
+  */
   public function getAttenderList(Request $req){
-
+    
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     // delete session if exist
     session()->forget('_old_input');
     $this->data['activities'] = Activity::with(['attenders.ofStudent'])->where('year','2018 - 2019')->get();
@@ -80,9 +80,9 @@ class ActivityController extends Controller
     $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
     return view('admin.activity.list_activity_attender')->with($this->data);
   }
-
+  
   public function filterAttenderList(Request $req){
-
+    
     $this->data['year'] = SchoolYear::where('type',1)->get();
     $this->data['activities'] = Activity::with(['attenders.ofStudent']);
     if(StringUtil::pureString($req->year) != null){
@@ -98,7 +98,7 @@ class ActivityController extends Controller
     $req->flash();
     return view('admin.activity.list_activity_attender')->with($this->data);
   }
-
+  
   public function ExportAttenderList($activity_id){
     $details = Attender::with(['ofStudent','ofActivity'])->where('activity_id',$activity_id)->get();
     $export_name = "Danh sách đăng ký_".$details[0]->ofActivity->name.".xlsx";
@@ -110,7 +110,7 @@ class ActivityController extends Controller
   */
   public function getAddActivity(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $ex = ExecComm::with(['ofStudent'])->get();
     $ass = AssociationEc::with(['ofStudent'])->get();
     $col = Collaborator::with(['ofStudent'])->get();
@@ -135,8 +135,9 @@ class ActivityController extends Controller
   * @param $req AddNewActivityRequest
   */
   public function postAddActivity(Request $re, AddNewActivityRequest $req){
+    // return $re;
     // Check user role
-		$re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    $re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     try {
       DB::beginTransaction();
       $activity = new Activity;
@@ -149,7 +150,7 @@ class ActivityController extends Controller
       $activity->content = $req->activityContent;
       $activity->practise_marks = $req->practiseMark;
       $activity->social_marks = $req->socialMark;
-      $activity->max_regis_num = $req->maxRegisNum;
+      $activity->register_number = $req->maxRegisNum;
       $activity->year = $req->year;
       $activity->semester = $req->semester;
       // upload plan file
@@ -182,6 +183,25 @@ class ActivityController extends Controller
       }else{
         $activity->fund_url = "";
       }
+      
+      // upload image file
+      if($re->hasFile('image')){
+        $file = $re->file('image');
+        $duoi = $file->getClientOriginalExtension();
+        if($duoi != 'jpg' && $duoi != 'png' && $duoi != 'jpeg'){
+          return redirect()->back()->with('error','Vui lòng chọn đúng định dạng hình');
+        }
+        $name = $file->getClientOriginalName();
+        $image = str_random(4)."_".$name;
+        while (file_exists("assets/fileupload/activities/images/".$image)) {
+          $image = str_random(4)."_".$name;
+        }
+        $file->move("assets/fileupload/activities/images",$image);
+        $activity->image = $image;
+      } else {
+        $activity->image = "";
+      }
+      
       $activity->created_by = Auth::user()->id;
       $activity->save();
       
@@ -223,7 +243,7 @@ class ActivityController extends Controller
   */
   public function getEditActivity(Request $req, $id){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $ex = ExecComm::with(['ofStudent'])->get();
     $ass = AssociationEc::with(['ofStudent'])->get();
     $col = Collaborator::with(['ofStudent'])->get();
@@ -247,7 +267,7 @@ class ActivityController extends Controller
   */
   public function postEditActivity(Request $re ,AddNewActivityRequest $req, $id){
     // Check user role
-		$re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    $re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $activity = Activity::find($id);
     $oldData = "";
     $newData = "";
@@ -326,10 +346,10 @@ class ActivityController extends Controller
         $newData .= "Điểm CTXH: ".$req->socialMark."<br>";
       }
       
-      if($activity->max_regis_num != $req->maxRegisNum){
+      if($activity->register_number != $req->maxRegisNum){
         // create log old data
-        $oldData .= "Số lượng đăng ký tối đa: ".$activity->max_regis_num."<br>";
-        $activity->max_regis_num = $req->maxRegisNum;
+        $oldData .= "Số lượng đăng ký tối đa: ".$activity->register_number."<br>";
+        $activity->register_number = $req->maxRegisNum;
         // create log new data
         $newData .= "Số lượng đăng ký tối đa: ".$req->maxRegisNum."<br>";
       }
@@ -381,6 +401,24 @@ class ActivityController extends Controller
         $activity->fund_url = "";
       }
       
+      // upload image file
+      if($re->hasFile('image')){
+        $file = $re->file('image');
+        $duoi = $file->getClientOriginalExtension();
+        if($duoi != 'jpg' && $duoi != 'png' && $duoi != 'jpeg'){
+          return redirect()->back()->with('error','Vui lòng chọn đúng định dạng hình');
+        }
+        $name = $file->getClientOriginalName();
+        $image = str_random(4)."_".$name;
+        while (file_exists("assets/fileupload/activities/images/".$image)) {
+          $image = str_random(4)."_".$name;
+        }
+        $file->move("assets/fileupload/activities/images",$image);
+        $activity->image = $image;
+      } else {
+        $activity->image = "";
+      }
+      
       $activity->updated_by = Auth::user()->id;
       $activity->save();
       
@@ -400,7 +438,7 @@ class ActivityController extends Controller
   */
   public function deleteActivity(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     foreach($req->activity_id as $id){
       $activityFundDetail = ActivityFund::with(['details'])->where('activity_id',$id)->get();
       if(count($activityFundDetail) > 0){
@@ -414,14 +452,14 @@ class ActivityController extends Controller
     }
     return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Thành công!"]);
   }
-
+  
   /**
   * Get check in page
   * 
   */
   public function getCheckin(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
+    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $now = Carbon::now();
     $this->data['activities'] = Activity::where('end_date','>=',$now)->get();
     $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->first();
@@ -437,22 +475,22 @@ class ActivityController extends Controller
   public function saveCheckin(Request $req){
     // return response()->json($req);
     $activityid = $req->activityId;
-
+    
     switch ($req->checkinType) {
       case '0':
-        $student_id = $req->arr_attender;
-        $content = "Điểm danh sinh viên tham gia chương trình";
-        break;
+      $student_id = $req->arr_attender;
+      $content = "Điểm danh sinh viên tham gia chương trình";
+      break;
       case '1':
-        $student_id = $req->arr_organizers;
-        $content = "Điểm danh ban tổ chức";
-        break;
+      $student_id = $req->arr_organizers;
+      $content = "Điểm danh ban tổ chức";
+      break;
       default:
-        $student_id = $req->arr_collaborator;
-        $content = "Điểm danh cộng tác viên";
-        break;
+      $student_id = $req->arr_collaborator;
+      $content = "Điểm danh cộng tác viên";
+      break;
     }
-
+    
     if(!isset($student_id)){
       return response()->json(["status"=>config('constants.ERROR'),"message"=>"Danh sách điểm danh rỗng!"]);
     }
@@ -461,7 +499,7 @@ class ActivityController extends Controller
       $type = 0;
       $marks = $activity->practise_marks;
     }
-
+    
     if($activity->social_marks != 0){
       $type = 1;
       $marks = $activity->social_marks;
@@ -490,5 +528,5 @@ class ActivityController extends Controller
       return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Lưu danh sách điểm danh thất bại!"]);
     }
   }
-
+  
 }

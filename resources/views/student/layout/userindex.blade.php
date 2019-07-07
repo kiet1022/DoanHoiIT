@@ -9,6 +9,7 @@
      <meta name="keywords" content="">
      <meta name="author" content="">
      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+     <link rel="shortcut icon" href="{{asset('assets/img/faculty_banner.png')}}"> 
      <base href="{{ asset('') }}">
      <link rel="stylesheet" href="{{ asset('pages/css/bootstrap-3.3.6/dist/css/bootstrap.min.css') }}">
      <link rel="stylesheet" href="pages/css/font-awesome.min.css">
@@ -20,6 +21,7 @@
      <link rel="stylesheet" href="{{ asset('assets/vendor/animate.css-master/animate.min.css') }}">
      <link rel="stylesheet" href="{{ asset('pages/css/font-awesome.min.css')}}">
      <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap4-dialog/css/bootstrap-dialog.min.css') }}" >
+     <link rel="stylesheet" href="{{ asset('assets/vendor/datepicker-master/dist/datepicker.css') }}">
      <style>
           .dropdown:hover .dropdown-menu {
                display: block;
@@ -54,6 +56,8 @@
      <script src="{{asset('assets/vendor/bootstrap4-dialog/js/bootstrap-dialog.min.js')}}"></script>
      <script src="{{asset('assets/vendor/jquery.blockUI.js')}}"></script>
      <script src="{{ asset('assets/js/common.js') }}"></script>
+     <script src="{{ asset('assets/vendor/datepicker-master/dist/datepicker.js') }}"></script>
+     <script src="{{ asset('assets/vendor/datepicker-master/i18n/datepicker.vi-VN.js') }}"></script>
      @yield('js')
 </body>
 </html>

@@ -46,6 +46,9 @@ Dashboard
                 <i class="far fa-hand-point-right"></i><a href="{{ route('get_add_activity') }}" class="text-gray-800"> Thêm chương trình</a>
             </div>
             <div class="mb-0 font-weight-bold">
+              <i class="far fa-hand-point-right"></i><a href="{{ route('get_ac_attender_list') }}" class="text-gray-800"> Danh sách đăng ký</a>
+            </div>
+            <div class="mb-0 font-weight-bold">
                 <i class="far fa-hand-point-right"></i><a href="{{ route('get_check_in') }}" class="text-gray-800"> Điểm danh</a>
             </div>
             <div class="mb-0 font-weight-bold">
@@ -148,7 +151,44 @@ Dashboard
       </div>
     </div>
   </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Quản lý người dùng</div>
+              <div class="mb-0 font-weight-bold">
+                  <i class="far fa-hand-point-right"></i><a href="{{ route('get_user_list') }}" class="text-gray-800"> Danh sách người dùng</a>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-address-book fa-2x text-info"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   
+      <!-- Pending Requests Card Example -->
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-warning shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Quản lý dự trù</div>
+            <div class="mb-0 font-weight-bold">
+                <i class="far fa-hand-point-right"></i><a href="{{route('get_list_funding')}}" class="text-gray-800"> Danh sách DTKP</a>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-dollar-sign fa-2x text-warning"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -185,7 +225,7 @@ Dashboard
                 <td>{{ $activity->name }}</td>
                 <td>{{$activity->leadBy->name}} - {{$activity->leadBy->student_id}}</td>
                 <td>{{date('d/m/Y',strtotime($activity->start_date))}} - {{date('d/m/Y',strtotime($activity->end_date))}}</td>
-                <td>{{ $activity->max_regis_num }}</td>
+                <td>{{ $activity->register_number }}</td>
                 <td>
                   @if (  count($activity->workflows) != 0)
                         @php

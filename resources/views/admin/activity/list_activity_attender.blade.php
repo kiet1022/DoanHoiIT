@@ -35,7 +35,7 @@ Danh sách đăng ký chương trình
         @csrf
         <div class="form-row">
           {{-- Birthday --}}
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-3 offset-md-1">
             <label for="year" class="col-12 common-label-inline">Năm học:</label>
             <div class="col-8 px-0">
               <select name="year" id="year" class="form-control">
@@ -52,7 +52,7 @@ Danh sách đăng ký chương trình
             </div>
             
             {{-- Birthday --}}
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label for="semester" class="col-12 common-label-inline">Học kỳ:</label>
               <div class="col-8 px-0">
                 <select name="semester" id="semester" class="form-control">
@@ -70,7 +70,7 @@ Danh sách đăng ký chương trình
             </div>
             
             {{-- Month --}}
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label for="month" class="col-12 common-label-inline">Tháng:</label>
               <div class="col-8 px-0">
                 <select name="month" id="month" class="form-control">
@@ -82,9 +82,9 @@ Danh sách đăng ký chương trình
               </div>
             </div>
             
-          </div>
-          <div class="form-group col-md-2 offset-md-10">
-            <button type="submit" class="btn btn-primary right"><i class="fas fa-filter"></i> Lọc</button>
+            <div class="form-group col-md-1 d-flex align-items-end">
+              <button type="submit" class="btn btn-primary right"><i class="fas fa-filter"></i> Lọc</button>
+            </div>
           </div>
         </form>
       </div>
@@ -122,9 +122,9 @@ Danh sách đăng ký chương trình
                     <td>{{date('d/m/Y',strtotime($activity->start_date))}} - {{date('d/m/Y',strtotime($activity->end_date))}}</td>
                     <td>{{$activity->leadBy->name}} - {{$activity->leadBy->student_id}}</td>
                     <td class="text-center">{!! changeActivityStatus($activity->start_date, $activity->end_date) !!}</td>
-                    <td>{{ $activity->max_regis_num }}</td>
+                    <td>{{ $activity->register_number }}</td>
                     <td>
-                      @if ($activity->max_regis_num > 0)
+                      @if ($activity->register_number > 0)
                       <a href="{{ route('export_attender_list',['activity_id'=>$activity->id]) }}" class="btn btn-primary btn-sm">Xuất DS</a>
                       @endif
                     </td>

@@ -21,11 +21,11 @@ Danh sách sinh viên
   <div class="row">
     {{-- basic filter condition --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-    <form action="{{ route('post_filter_student') }}" method="POST" class="col-md-12">
+    <form action="{{ route('post_filter_student') }}" method="POST">
       @csrf
         <div class="form-row">
           <div class="form-group col-md-3 offset-md-3">
-            <label for="studentShoolYear" class="col-md-4 common-label-inline">Niên khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
+            <label for="studentShoolYear" class="common-label-inline">Niên khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
             <select id="studentShoolYear" class="form-control" name="studentShoolYear" required>
               @foreach ($schoolYears as $sy)
               <option value="{{$sy->id}}" {{ changeSelectedStatus(old('studentShoolYear'),"$sy->id") }}>{{$sy->course}}</option>
@@ -33,7 +33,7 @@ Danh sách sinh viên
             </select>
           </div>
           <div class="form-group col-md-3">
-            <label for="studentClass" class="col-md-4 common-label-inline">Lớp <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
+            <label for="studentClass" class="common-label-inline">Lớp <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
             <select id="studentClass" class="form-control" name="studentClass" required>
               @foreach ($class as $sy)
               <option value="{{$sy->id}}" {{ changeSelectedStatus(old('studentClass'),"$sy->id") }}>{{$sy->class_name}}</option>
@@ -79,9 +79,9 @@ Danh sách sinh viên
               </div>
           </div>
         </div>
-        <div class="form-group col-md-2 offset-md-10">
-            <button type="submit" class="btn btn-primary right"><i class="fas fa-filter"></i> Lọc</button>
-          </div>
+        <div class="row justify-content-center">
+          <button type="submit" class="btn btn-primary cm-btn-form"><i class="fas fa-filter"></i> Lọc</button>
+        </div>
       </form>
     </div>
     {{-- Student list --}}

@@ -83,18 +83,22 @@
 				<div class="col-md-5">
 					<div class="col-md-12 text-center" style="margin-bottom: 15px; padding: 0">
 						<div class="col-md-6 badge-header-warning">
-							<h4 style="color: white; margin: 5px">Chương trình sắp tới</h4>
+							<h4 style="color: white; margin: 5px">Chương trình trong tháng</h4>
 						</div>
 						<div class="col-md-12" style="border-bottom: 2px solid #f4b619 ;">
 						</div>
 					</div>
 					<div class="aside-widget">
-						{{-- <div class="section-title" style="margin-bottom: 0;padding-bottom: 0;">
-							<h2>Chương trình sắp tới</h2>
-						</div> --}}
 						@foreach($activities as $act)
 						<div class="post post-widget">
-							<a class="post-img" href="{{ route('user_get_activity_detail',['id'=>$act->id]) }}"><img style="width: 90px; height: 49px;" src="{{ asset('images/news/'.$newNews[0]->image) }}" alt="Lỗi"></a>
+							<a class="post-img" href="{{ route('user_get_activity_detail',['id'=>$act->id]) }}">
+								@if ($act->image)
+								<img style="width: 90px; height: 49px;" src="{{ asset('assets/fileupload/activities/images/'.$act->image) }}" alt="Lỗi">
+								@else
+								<img style="width: 90px; height: 49px;" src="{{ asset('assets/img/faculty_banner.png') }}" alt="Lỗi">
+								@endif
+								
+							</a>
 							<div class="post-body">
 								<h3 class="post-title"><a href="{{ route('user_get_activity_detail',['id'=>$act->id]) }}">{{$act->name}}</a></h3>
 								<span class="post-date">Thời gian: {{date('d/m/Y',strtotime($act->start_date))}} - {{date('d/m/Y',strtotime($act->end_date))}}</span>

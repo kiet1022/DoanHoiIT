@@ -64,7 +64,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="birthday">Ngày sinh:</label>
 				<div class="col-sm-4">
-					<input type="date" class="form-control" id="birthday" placeholder="Nhập địa chỉ" name="birth_of_date" value="{{Auth::user()->student->birthday}}">
+					<input type="text" class="form-control" id="birthday" placeholder="Nhập địa chỉ" name="birth_of_date" value="{{ConvertToStringDate(Auth::user()->student->birthday)}}">
 				</div>
 				<label class="control-label col-sm-2" for="sex">Giới tính:</label>
 				<div class="col-sm-4">
@@ -120,6 +120,16 @@
 
     $('form').on('submit', function(){
       blockUI(true);
-    });
+		});
+		
+		        // Birthday Date picker
+						$('#birthday').datepicker({
+          //  uiLibrary: 'bootstrap4',
+            //keyboardNavigation: true
+            format:'dd/mm/yyyy',
+            language:'vi-VN', 
+            autoHide:true,
+            inline:true
+        });
 </script>		
 @endsection
