@@ -38,13 +38,13 @@ class NewsController extends Controller
         if (isset($type_id)) {
             if ($type_id!=0) {
                 $news = News::where('deleted_at', null)->where('type_id', $type_id)->get();
-                return view('user.news.category', compact('news','newsType','type_id', 'lastedNews'));
+                return view('student.category', compact('news','newsType','type_id', 'lastedNews'));
             }
             else{
                 $news = News::where('deleted_at', null)->get();
             }
         }
         
-        return view('user.news.category', compact('news','newsType','type_id', 'lastedNews'));
+        return view('student.category', compact('news','newsType','type_id', 'lastedNews'));
     }
 }

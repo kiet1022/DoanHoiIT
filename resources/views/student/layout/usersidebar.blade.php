@@ -25,7 +25,7 @@
 					<div class="profile-usermenu">
 						<ul class="nav">
 							<li @if($status === "info"){!!'class="active"'!!} @endif>
-								<a href="">
+								<a href="{{route('get_user_info')}}">
 									<i class="glyphicon glyphicon-home"></i>
 								Thông tin chung </a>
 							</li>

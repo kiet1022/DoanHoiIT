@@ -16,7 +16,7 @@
 						<!-- Tin lớn -->
 						<div class="col-md-12">
 							<div class="post post-thumb">
-								<a class="post-img" href=""><img style="width: 750px; height: 410px;" src="{{ asset('images/news/'.$newNews[0]->image) }}" alt="Lỗi"></a>
+								<a class="post-img" href="{{ route('get_new_detail',['id'=>$newNews[0]->id]) }}"><img style="width: 750px; height: 410px;" src="{{ asset('images/news/'.$newNews[0]->image) }}" alt="Lỗi"></a>
 								<div class="post-body">
 									<div class="post-meta">
 										<a class="post-category {{changeCatColor($newNews[0]->ofType->id)}}" href="category.html">{{$newNews[0]->ofType->name}}</a>
@@ -39,7 +39,7 @@
 						@foreach($news as $new)
 						<div class="col-md-6">
 							<div class="post">
-								<a class="post-img" href=""><img style="width: 360px; height: 197px;" src="{{ asset('images/news/'.$new->image) }}" alt="Lỗi"></a>
+								<a class="post-img" href="{{ route('get_new_detail',['id'=>$new->id]) }}"><img style="width: 360px; height: 197px;" src="{{ asset('images/news/'.$new->image) }}" alt="Lỗi"></a>
 								<div class="post-body">
 									<div class="post-meta">
 										<a class="post-category {{changeCatColor($new->ofType->id)}}" href="category.html">{{$new->ofType->name}}</a>
@@ -64,10 +64,10 @@
 						@foreach($news as $new)
 						<div class="col-md-6">
 							<div class="post">
-								<a class="post-img" href=""><img style="width: 360px; height: 197px;" src="{{ asset('images/news/'.$new->image) }}" alt="Lỗi"></a>
+								<a class="post-img" href="{{ route('get_new_detail',['id'=>$new->id]) }}"><img style="width: 360px; height: 197px;" src="{{ asset('images/news/'.$new->image) }}" alt="Lỗi"></a>
 								<div class="post-body">
 									<div class="post-meta">
-										<a class="post-category {{changeCatColor($new->ofType->id)}}" href="category.html">{{$new->ofType->name}}</a>
+										<a class="post-category {{changeCatColor($new->ofType->id)}}" href="{{ route('get_new_by_ctg',['id'=>$new->type_id]) }}">{{$new->ofType->name}}</a>
 										<br>
 										<span class="post-date">Ngày đăng: {{date('d/m/Y',strtotime($new->created_at))}}</span>
 									</div>
@@ -123,7 +123,7 @@
 						<div class="category-widget">
 							<ul>
 								@foreach($newsType as $nt)
-								<li><a href="#" class="{{changeCatColor($nt->id)}}">{{$nt->name}}<span>{{count($nt->news)}}</span></a></li>
+								<li><a href="{{ route('get_new_by_ctg',['id'=>$nt->id]) }}" class="{{changeCatColor($nt->id)}}">{{$nt->name}}<span>{{count($nt->news)}}</span></a></li>
 								@endforeach
 							</ul>
 						</div>
