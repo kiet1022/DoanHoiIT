@@ -1,6 +1,6 @@
 @extends('student.layout.index')
 @section('title')
-fff
+{{$category[0]->name}}
 @endsection
 @section('style')
 <link rel="stylesheet" href="{{ asset('pages/css/new.css') }}">
@@ -34,7 +34,13 @@ fff
     @foreach($news as $new)
 			<div class="col-md-6">
 				<div class="post">
-					<a class="post-img" href="{{ route('get_new_detail',['id'=>$new->id]) }}"><img style="width: 360px; height: 197px;" src="{{ asset('images/news/'.$new->image) }}" alt="Lỗi"></a>
+					<a class="post-img" href="{{ route('get_new_detail',['id'=>$new->id]) }}">
+						  @if($new->image!=null && $new->image!="")
+						<img style="width: 360px; height: 197px;" src="{{ asset('images/news/'.$new->image) }}" alt="Lỗi">
+						@else
+									<img style=" height: 197px;" src="{{ asset('images/no-image.png') }}">
+						@endif
+					</a>
 					<div class="post-body">
 						<div class="post-meta">
 							<a class="post-category {{changeCatColor($new->ofType->id)}}" href="{{ route('get_new_by_ctg',['id'=>$new->type_id]) }}">{{$new->ofType->name}}</a>

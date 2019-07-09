@@ -10,7 +10,9 @@
 <!-- section -->
 <!-- Page Header -->
 <div id="post-header" class="page-header">
+  @if($detail->image!=null && $detail->image!="")
   <div class="background-img" style="background-image: url('{{ asset('images/news/'.$detail->image) }}');"></div>
+  @endif
   <div class="container">
     <div class="row">
       <div class="col-md-10">
