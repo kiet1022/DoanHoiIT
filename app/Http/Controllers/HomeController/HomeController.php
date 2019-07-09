@@ -44,7 +44,20 @@ class HomeController extends Controller
         return redirect()->route('get_home_page');
     }
 
-    public function getAdminDashBoard(){
+    public function getAdminDashBoard(Request $req){
+        $req->user()->authorizeRoles(
+            [
+                config('constants.FULL_ROLES'), 
+                config('constants.STUDENT_MANAGE_ROLE'),
+                config('constants.ACTIVITY_MANAGE_ROLE'),
+                config('constants.MARK_MANAGE_ROLE'),
+                config('constants.FUNDING_MANAGE_ROLE'),
+                config('constants.EXEC_MANAGE_ROLE'),
+                config('constants.USER_MANAGE_ROLE'),
+                config('constants.STATICS_MANAGE_ROLE'),
+                config('constants.NEWS_MANAGE_ROLE'),
+                config('constants.STUDENT_ROLE')
+            ]);
         // Get the current day
         $now = date("Y-m-d H:i:s");
         $firstDay = date('Y-m-01', strtotime($now));

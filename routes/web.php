@@ -3,6 +3,7 @@ use App\Models\District;
 use App\Models\Province;
 use App\Models\Ward;
 use App\Models\User;
+use App\Models\Role;
 use App\Models\Student;
 use App\Models\ExecComm;
 use App\Models\CheckinDetail;
@@ -366,7 +367,11 @@ Route::prefix('admin')->group(function(){
 });
 
 Route::get('/test', function(){
-    // $user = User::find(177);
+    $user = User::all();
+    $role = Role::find(9);
+    foreach ($user as $us ) {
+        $us->roles()->attach($role);
+    }
     // $user->password = bcrypt(123456);
     // $user->save();
     // return view('student.index');

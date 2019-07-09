@@ -26,17 +26,17 @@
         
         <div class="card-body">
           <div class="form-row">
-            <div class="form-group col-3">
+            <div class="form-group col-4">
               <label for="id">ID người dùng:</label>
               <input type="text" class="form-control" name="id" id="id" value="{{ $user->id }}" readonly>
             </div>
             
-            <div class="form-group col-3">
+            <div class="form-group col-4">
               <label for="student_id">MSSV:</label>
               <input type="text" class="form-control" name="student_id" id="student_id" value="{{ $user->student_id }}" readonly>
             </div>
             
-            <div class="form-group col-3">
+            <div class="form-group col-4">
               <label for="name">Họ tên:</label>
               <input type="text" class="form-control" name="name" id="name" value="{{ $user->student->name }}" readonly>
             </div>
@@ -54,13 +54,13 @@
             <div class="form-row">
               <input type="hidden" name="iduser" value="{{ $user->id }}">
               {{-- is Union --}}
-              <div class="form-group cm-inline-form col-md-3">
+              {{-- <div class="form-group cm-inline-form col-md-3">
                 <label for="0" class="col-md-12 p-0">Toàn quyền</label>
                 <input class="form-control" id="toggleisUnion_0" name="status" type="checkbox" data-width="170" data-height="20">
-              </div>
+              </div> --}}
               @foreach ($roles as $role)
               <div class="form-group cm-inline-form col-md-3">
-                <label for="{{ $role->id }}" class="col-md-12 p-0">{{ $role->name}}</label>
+                <label for="{{ $role->id }}" class="col-md-12 p-0">{{ $role->description}}</label>
                 <input class="form-control toggleisUnion" id="{{ $role->id }}" name="role_id[]" type="checkbox" data-width="170" data-height="20" value="{{ $role->id }}"
                 {{ changeCheckedRoleStatus($ownRoles,"$role->id") }}>
               </div>
