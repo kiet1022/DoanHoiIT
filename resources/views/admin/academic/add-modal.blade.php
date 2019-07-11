@@ -13,14 +13,14 @@
                             
                             <div class="card-body editDetail">
                                 <div class="form-inline cm-inline-form">
-                                    <label for="type" class="col-md-2 common-label-inline">Khóa <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
+                                    <label for="type" class="col-md-2 common-label-inline">Thời gian đào tạo <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                     <select id="type" class="form-control col-md-2" name="type">
                                         <option value="2">2 năm</option>
                                         <option value="4">4 năm</option>
                                     </select>
                                 </div> 
                                 <div class="form-inline cm-inline-form">
-                                    <label for="type" class="col-md-2 common-label-inline">Thời gian đào tạo <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
+                                    <label for="type" class="col-md-2 common-label-inline">Năm học <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                     <select id="start" class="form-control col-md-2" name="start">
                                         @for ($i =2000; $i <= 2050; $i++)
                                         <option value="{{$i}}" @if( date('Y') ==$i) {{"selected"}} @endif>{{ $i }}</option>
