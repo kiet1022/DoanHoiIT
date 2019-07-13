@@ -43,6 +43,8 @@ var table = $('#dataTable').DataTable({
 });
 
 function format (data) {
+
+  console.log(data)
   var count = 0;
   // `d` is the original data object for the row
   var html = '<table table-bordered table-striped table-hover cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="table-detail">';

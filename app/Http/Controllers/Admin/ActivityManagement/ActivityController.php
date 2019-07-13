@@ -35,7 +35,6 @@ class ActivityController extends Controller
   */
   public function getListActivity(Request $req){
     // Check user role
-    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     // delete session if exist
     session()->forget('_old_input');
     $this->data['activities'] = Activity::with(['leadBy','fund'])->where('year','2018 - 2019')->get();
@@ -50,7 +49,6 @@ class ActivityController extends Controller
   */
   public function filterActivity(Request $req){
     // Check user role
-    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $this->data['year'] = SchoolYear::where('type',1)->get();
     if(StringUtil::pureString($req->year) == null && StringUtil::pureString($req->semester) == null){
       $this->data['activities'] = Activity::with(['leadBy'])->get();
@@ -72,7 +70,6 @@ class ActivityController extends Controller
   public function getAttenderList(Request $req){
     
     // Check user role
-    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     // delete session if exist
     session()->forget('_old_input');
     $this->data['activities'] = Activity::with(['attenders.ofStudent'])->where('year','2018 - 2019')->get();
@@ -110,7 +107,6 @@ class ActivityController extends Controller
   */
   public function getAddActivity(Request $req){
     // Check user role
-    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $ex = ExecComm::with(['ofStudent'])->get();
     $ass = AssociationEc::with(['ofStudent'])->get();
     $col = Collaborator::with(['ofStudent'])->get();
@@ -137,7 +133,6 @@ class ActivityController extends Controller
   public function postAddActivity(Request $re, AddNewActivityRequest $req){
     // return $re;
     // Check user role
-    $re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     try {
       DB::beginTransaction();
       $activity = new Activity;
@@ -242,7 +237,6 @@ class ActivityController extends Controller
   */
   public function getEditActivity(Request $req, $id){
     // Check user role
-    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $ex = ExecComm::with(['ofStudent'])->get();
     $ass = AssociationEc::with(['ofStudent'])->get();
     $col = Collaborator::with(['ofStudent'])->get();
@@ -266,7 +260,6 @@ class ActivityController extends Controller
   */
   public function postEditActivity(Request $re ,AddNewActivityRequest $req, $id){
     // Check user role
-    $re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $activity = Activity::find($id);
     $oldData = "";
     $newData = "";
@@ -429,7 +422,6 @@ class ActivityController extends Controller
   */
   public function deleteActivity(Request $req){
     // Check user role
-    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     foreach($req->activity_id as $id){
       $activityFundDetail = ActivityFund::with(['details'])->where('activity_id',$id)->get();
       if(count($activityFundDetail) > 0){
@@ -450,7 +442,6 @@ class ActivityController extends Controller
   */
   public function getCheckin(Request $req){
     // Check user role
-    $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
     $now = Carbon::now();
     $this->data['activities'] = Activity::where('end_date','>=',$now)->get();
     $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->first();

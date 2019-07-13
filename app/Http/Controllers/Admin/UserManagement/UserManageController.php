@@ -31,7 +31,7 @@ class UserManageController extends Controller
 	 */
 	public function getUserList(Request $req){
 		// Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.USER_MANAGE_ROLE')]);
+
 		$schoolYears = SchoolYear::where('type',2)->get();
 		$studentList = User::where('deleted_at',null)->get();
 		return view('admin.user.user_list',compact('schoolYears','studentList'));
@@ -39,7 +39,6 @@ class UserManageController extends Controller
 
   //   public function addUser(AddUserRequest $request){
 	// 		// Check user role
-	// 		$req->user()->authorizeRoles([config('constants.STATICS_MANAGE_ROLE')]);
 	// 	try{
 	// 		$user = new User;
   //        // $user->username = $request->email;
@@ -60,7 +59,7 @@ class UserManageController extends Controller
 
 	public function deleteUser($id){
 		// Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.USER_MANAGE_ROLE')]);
+
 		try{
 			$user = User::find($id);
 			$user->status=1;
@@ -74,7 +73,6 @@ class UserManageController extends Controller
 	}
 	
 	// public function getRolesList(Request $req){
-	// 	$req->user()->authorizeRoles(['Quản lý Sinh viên']);
 	// 	$this->data['roles'] = Role::all();
 	// 	return view('admin.user.roles_list')->with($this->data);
 	// }
@@ -118,7 +116,7 @@ class UserManageController extends Controller
 	 */
 	public function getAttachRoles(Request $req, $userid){
 		// Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.USER_MANAGE_ROLE')]);
+
 		$this->data['user'] = User::where('id',$userid)->with(['student'])->first();
 		// return $this->data['students'];
 		$this->data['roles'] = Role::all();
@@ -138,7 +136,7 @@ class UserManageController extends Controller
 	 */
 	public function postAttachRole(Request $req){
 		// Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.USER_MANAGE_ROLE')]);
+
 		try {
 			DB::beginTransaction();
 			$user = User::find($req->iduser);

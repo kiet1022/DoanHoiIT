@@ -26,7 +26,6 @@ class FundingController extends Controller
 {
   public function getListFunding(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     // delete session if exist
     session()->forget('_old_input');
     $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
@@ -49,7 +48,6 @@ class FundingController extends Controller
   */
   public function getAddActivityFund(Request $req, $id){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     $this->data['activity'] = Activity::with(['leadBy'])->where('id',$id)->first();
     
     $this->data['content_'] = old('content_', []);
@@ -68,7 +66,6 @@ class FundingController extends Controller
   */
   public function postAddActivityFund(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     // return back()->withInput()->withErrors(['message' => 'chos kiet']);
     DB::beginTransaction();
     try {
@@ -119,7 +116,6 @@ class FundingController extends Controller
   */
   public function getEditActivityFund(Request $req, $id){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     $this->data['activityFund'] = ActivityFundDetail::with(['fund.activity'])->where('fund_id',$id)->get();
     // Check if there is no activity fund
     if(count($this->data['activityFund']) == 0){
@@ -135,8 +131,8 @@ class FundingController extends Controller
   * @param Object $req The request that user sent
   */
   public function postEditActivityFund($id, Request $req){
+    return $req;
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     // return count($req->detail_id_);
     $this->data['activityDetail'] = ActivityFundDetail::where('fund_id',$id)->get();
     $arrayDetaiIdFund = [];
@@ -154,12 +150,19 @@ class FundingController extends Controller
         }
       }
       $ac_fund = ActivityFund::find($id);
-      $total = 0;
+      $totalexpected = 0;
+      $totalactual = 0;
+      // Save expected value into parent
       foreach ($req->expectedValue_ as $expected) {
-        $total += intval(join(explode(",",$expected)));
+        $totalexpected += intval(join(explode(",",$expected)));
       }
-      $ac_fund->initial_funds = $total;
-      $ac_fund->actual_funds = 0;
+      // Save actual value into parent
+      foreach ($req->actualValue_ as $actual) {
+        $totalactual += intval(join(explode(",",$actual)));
+      }
+      $ac_fund->initial_funds = $totalexpected;
+      $ac_fund->actual_funds = $totalactual;
+      // Update payment status of parent
       if(isset($req->status)){
         $ac_fund->status = $req->status;
       } else {
@@ -168,6 +171,7 @@ class FundingController extends Controller
       
       $ac_fund->created_by = Auth::user()->id;
       $ac_fund->save();
+
       // Update old funding detail
       for($i = 0; $i < count($req->detail_id_); $i++){
         if($req->detail_id_[$i] == 0){
@@ -186,7 +190,7 @@ class FundingController extends Controller
           // save expected_value
           $new_fund_detail->expected_value = intval(join(explode(",",$req->expectedValue_[$i])));
           // save actual
-          $new_fund_detail->actual_value = 0;
+          $new_fund_detail->actual_value = intval(join(explode(",",$req->actualValue_[$i])));
           // save created_by
           $new_fund_detail->created_by = Auth::user()->id;
           $new_fund_detail->save();
@@ -206,7 +210,7 @@ class FundingController extends Controller
           // save expected_value
           $old_fund_detail->expected_value = intval(join(explode(",",$req->expectedValue_[$i])));
           // save actual
-          $old_fund_detail->actual_value = 0;
+          $old_fund_detail->actual_value = intval(join(explode(",",$req->actualValue_[$i])));;
           // save created_by
           $old_fund_detail->created_by = Auth::user()->id;
           $old_fund_detail->save();
@@ -222,7 +226,6 @@ class FundingController extends Controller
   
   public function deleteActivityFunding(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     $fundId = $req->activityFundId;
     $this->data['activityFundDetail'] = ActivityFundDetail::where('fund_id',$fundId)->get();
     foreach ($this->data['activityFundDetail'] as $detail) {
@@ -238,7 +241,6 @@ class FundingController extends Controller
   
   public function deleteManyActivityFunding(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     foreach ($req->fund_id as $fundId) {
       $this->data['activityFundDetail'] = ActivityFundDetail::where('fund_id',$fundId)->get();
       foreach ($this->data['activityFundDetail'] as $detail) {
@@ -255,7 +257,6 @@ class FundingController extends Controller
   
   public function filterActivityFunding(Request $req){
     // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE'), config('constants.FUNDING_MANAGE_ROLE')]);
     $this->data['year'] = SchoolYear::where('type',1)->orderBy('name','desc')->get();
     $this->data['activities'] = Activity::where('year','2018 - 2019')->get();
     if(StringUtil::pureString($req->semester) == null && StringUtil::pureString($req->activity) == null){

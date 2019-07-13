@@ -78,6 +78,29 @@ $(document).on( "keyup",".expectedValue", function( event ) {
         return ( input === 0 ) ? "" : input.toLocaleString( "en-US" );
     });
 });
+
+// actual value event
+$(document).on( "keyup",".actualValue", function( event ) {
+    var total = 0;
+    // When user select text in the document, also abort.
+    var selection = window.getSelection().toString();
+    if ( selection !== '' ) {
+        return;
+    }
+    // When the arrow keys are pressed, abort.
+    if ( $.inArray( event.keyCode, [38,40,37,39] ) !== -1 ) {
+        return;
+    }
+    var $this = $( this );
+    // Get the value.
+    var input = $this.val();
+    var input = input.replace(/[\D\s\._\-]+/g, "");
+    input = input ? parseInt( input, 10 ) : 0;
+    $this.val( function() {
+        return ( input === 0 ) ? "" : input.toLocaleString( "en-US" );
+    });
+});
+
 // render more fund detail
 var i = 10000;
 $(document).on('click','.add', function(e){
@@ -118,23 +141,33 @@ $(document).on('click','.add', function(e){
     html += '<label for="amount_'+i+'">Số lượng:</label>';
     html += '<input type="number"  class="form-control" name="amount_[]" id="amount_'+i+'" data-id="0" required>';
     html += '</div>';
+
     html += '<div class="form-inline cm-inline-form col-md-2">';
     html += '<label for="expectedValue_'+i+'">Thành tiền:</label>';
     html += '<input type="text"  class="form-control expectedValue" name="expectedValue_[]" id="expectedValue_'+i+'" data-id="0" required>';
     html += '</div>';
+
+    html += '<div class="form-inline cm-inline-form col-md-2">';
+    html += '<label for="actualValue_'+i+'">Thực chi:</label>'
+    html += '<input type="text"  class="form-control actualValue" name="actualValue_[]" id="actualValue_'+i+'" data-id="0" required>';
+    html += '</div>';
+
+    html += '</div>';
+
+    html += '<div class="form-row justify-content-center">';
     html += '<div class="form-inline cm-inline-form col-md-2">';
     html += '<label for="paymentType_'+i+'">Hình thức thanh toán:</label>';
     html += '<select name="paymentType_[]" id="paymentType_'+i+'" class="form-control" style="width:80%;" data-id="0" required>';
-    html += '<option value="Ký nhận">Ký nhận</option>';
     html += '<option value="Hóa đơn đỏ">Hóa đơn đỏ</option>';
+    html += '<option value="Ký nhận">Ký nhận</option>';
     html += '</select>';
     html += '</div>';
+
     html += '</div>';
     html += '</div>';
     html += '</div>';
     $('#in-card-content').append(html);
     checkCount();
-    console.log('count: '+count);
 });
 
 // Remove fund detail
@@ -166,7 +199,7 @@ function checkCount(){
 
 // block UI when submit form
 $(document).on('submit',"form", function(e){
-    console.log('aaa');
+    console.log(e);
     blockUI(true);
 });
 

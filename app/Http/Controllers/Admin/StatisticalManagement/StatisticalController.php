@@ -28,7 +28,6 @@ class StatisticalController extends Controller
 {
     public function stStudentSchoolYear(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STATICS_MANAGE_ROLE')]);
         
         $this->data['years'] = SchoolYear::where('type',2)->get();
         $this->data['classes'] = Classes::all();
@@ -42,7 +41,6 @@ class StatisticalController extends Controller
 
     public function stFilterStudent(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STATICS_MANAGE_ROLE')]);
         
         $this->data['chartYear'] = [];
         $this->data['chartdetail'] = [];
@@ -67,7 +65,6 @@ class StatisticalController extends Controller
 
     public function stUnionFee(Request $req){
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.STATICS_MANAGE_ROLE')]);
 
         // forget session
         session()->forget('_old_input');

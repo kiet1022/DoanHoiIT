@@ -21,7 +21,6 @@ class ExecCommController extends Controller
     */
     public function getExecCommList(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.EXEC_MANAGE_ROLE')]);
         // check if client pass different commType
         if (!in_array($req->type, [
             config('constants.EXEC_COMM_TYPE'), 
@@ -53,7 +52,6 @@ class ExecCommController extends Controller
     */
     public function getExecCommChart(Request $req, $type){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.EXEC_MANAGE_ROLE')]);
         // check if client pass different commType
         if (!in_array($type, [
             config('constants.EXEC_COMM_TYPE'), 
@@ -110,7 +108,6 @@ class ExecCommController extends Controller
     */
     public function saveInfo(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.EXEC_MANAGE_ROLE')]);
         // 0: BCH Doan, 1: BCH LCH
         $type = $req->type;
         // Truong hop edit BCH Doan

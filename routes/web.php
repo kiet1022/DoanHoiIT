@@ -34,17 +34,13 @@ Route::get('/auth/{provide}/callback', 'SocialAuthController@handleProviderCallb
 */
 Route::prefix('admin')->group(function(){
 
-    Route::get('dashboard.php','HomeController\HomeController@getAdminDashBoard')->name('admin_dashboard');
-
-    Route::prefix('dashboard')->group(function(){
-
-    });
+    Route::get('dashboard.php','HomeController\HomeController@getAdminDashBoard')->name('admin_dashboard')->middleware('dashboard');
     
     /**
     * Student management Routing
     * 
     */
-    Route::prefix('student')->group( function(){
+    Route::middleware(['student-manager'])->prefix('student')->group(function(){
         
         // list of student
         Route::get('student-list.php','Admin\StudentManagement\StudentManageController@getStudentList')->name('get_student_list');
@@ -75,7 +71,7 @@ Route::prefix('admin')->group(function(){
     * User management routing
     * 
     */
-    Route::prefix('user')->group( function(){
+    Route::middleware(['user'])->prefix('user')->group( function(){
         
         // List of users
         Route::get('user-list.php','Admin\UserManagement\UserManageController@getUserList')->name('get_user_list');
@@ -96,7 +92,7 @@ Route::prefix('admin')->group(function(){
     * News management routing
     * 
     */
-    Route::prefix('news')->group(function(){
+    Route::middleware(['news'])->prefix('news')->group(function(){
         
         /**
         * News type management routing
@@ -143,7 +139,7 @@ Route::prefix('admin')->group(function(){
     * School years management routing
     * 
     */
-    Route::prefix('school-year')->group(function(){
+    Route::middleware(['school-year'])->prefix('school-year')->group(function(){
         
         // School year list
         Route::get('education-program','Admin\AcademicManagement\AcademicManageController@getSchoolYearList')->name('educationProgramList');
@@ -165,7 +161,7 @@ Route::prefix('admin')->group(function(){
     * Classes Management
     * 
     */
-    Route::prefix('classes')->group(function(){
+    Route::middleware(['classes'])->prefix('classes')->group(function(){
 
         // List of classes
         Route::get('list.php','Admin\ClassManagement\ClassManageController@getClassList')->name('get_class_list');
@@ -186,7 +182,7 @@ Route::prefix('admin')->group(function(){
      * Executive committee management
      * 
      */
-    Route::prefix('exec-com')->group(function(){
+    Route::middleware(['exec-com'])->prefix('exec-com')->group(function(){
 
         // List of executive committee
         Route::get('list.php','Admin\ExecCommManagement\ExecCommController@getExecCommList')->name('get_ec_list');
@@ -208,7 +204,7 @@ Route::prefix('admin')->group(function(){
      * Logs management
      * 
      */
-    Route::prefix('activities')->group(function(){
+    Route::middleware(['activities'])->prefix('activities')->group(function(){
 
         // Show logs page
         Route::get('logs.php','Admin\ActivityManagement\LogController@getActivityLog')->name('get_logs');
@@ -311,7 +307,7 @@ Route::prefix('admin')->group(function(){
         });
     });
 
-    Route::prefix('statistical')->group(function(){
+    Route::middleware(['statistical'])->prefix('statistical')->group(function(){
 
         Route::prefix('students')->group(function(){
             // Statis student by shool year
@@ -348,7 +344,7 @@ Route::prefix('admin')->group(function(){
      * Marks management
      * 
      */
-    Route::prefix('marks')->group(function(){
+    Route::middleware(['marks'])->prefix('marks')->group(function(){
 
         Route::get('list.php','Admin\MarksManagement\MarksController@getMarksList')->name('get_marks_list');
 
@@ -381,7 +377,7 @@ Route::get('/test', function(){
 | User management Routes
 |--------------------------------------------------------------------------
 */
-Route::prefix('user')->group(function(){
+Route::middleware(['user'])->prefix('user')->group(function(){
 
     Route::prefix('news')->group(function(){
         Route::get('/{id}.php', 'User\NewsController@getNewDetail')->name('get_new_detail');

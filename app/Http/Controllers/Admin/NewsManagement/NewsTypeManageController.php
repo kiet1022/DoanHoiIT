@@ -24,14 +24,12 @@ class NewsTypeManageController extends Controller
 {
     public function getNewTypesList(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         $newsType = NewsType::all();
         return view('admin.news.newsTypeList', compact('newsType'));
     }
 
     public function getAddNewType(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         // return view('admin.news.add_new_type');
             return response()->view('admin.news.add_new_type_modal');
     }
@@ -65,14 +63,12 @@ class NewsTypeManageController extends Controller
 
 	public function getEditNewsType(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         $newsType = NewsType::find($req->id);
         return response()->view('admin.news.edit_new_type_modal',compact('newsType'));
         // return response()->view('admin.news.edit_new_type_modal', $newsType);
     }
     public function postEditNewsType( Request $re){
         // Check user role
-		$re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         try{ 
             DB::beginTransaction();
             $newsType = NewsType::find($re->id);

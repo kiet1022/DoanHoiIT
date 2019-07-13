@@ -19,21 +19,18 @@ class ClassManageController extends Controller
 {
 	public function getClassList(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         $classes = Classes::all();
         return view('admin.classes.classes_list',compact('classes'));
     }
 
     public function getAddClass(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         $schoolYear = SchoolYear::where('type',2)->get();
         return response()->view('admin.classes.add-modal',compact('schoolYear'));
     }
 
     public function postAddClass(Request $re){
         // Check user role
-		$re->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         try{
             $class = new Classes;
             $class->class_id = $re->name;
@@ -55,7 +52,6 @@ class ClassManageController extends Controller
 
     public function postEditClass(Request $re){
         // Check user role
-		$re->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         try{
             $class = Classes::find($re->id);
             $class->class_name = $re->name;
@@ -69,7 +65,6 @@ class ClassManageController extends Controller
 
     public function delete(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         // if (!isset(Auth::user()->id)) {
         //     return view('login'); //redirect to loginpage if no have session login
         // }

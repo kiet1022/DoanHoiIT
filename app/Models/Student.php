@@ -31,16 +31,6 @@ class Student extends Model
     	return $this->hasMany('App\Models\Checkin','student_id','id');
     }
 
-    public function practiseMarks()
-    {
-    	return $this->hasMany('App\Models\PractiseMark','student_id','id');
-    }
-
-    public function socialMarks()
-    {
-    	return $this->hasMany('App\Models\SocialMark','student_id','id');
-    }
-
     public function class()
     {
     	return $this->belongsTo('App\Models\Classes','class_id','id');

@@ -23,7 +23,6 @@ class NewsManageController extends Controller
 {
 	public function getNewsList(Request $req){
 		// Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
 		$news = News::all();
 		$newsType = NewsType::all();
 		$type_id=request('type_id');
@@ -41,7 +40,6 @@ class NewsManageController extends Controller
 
 	public function getAddNew(Request $req){
 		// Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
 		$newsType = NewsType::all();
 		return view('admin.news.add_new', compact('newsType'));
 	}
@@ -85,7 +83,6 @@ class NewsManageController extends Controller
 
 	public function getEditNew($id, Request $req){
 		// Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
 		// $news = News::where('id',$id)->first();
 		$news = News::find($id);
 		$newsType = NewsType::all();
@@ -94,7 +91,6 @@ class NewsManageController extends Controller
 
 	public function postEditNew($id, Request $re){
 		// Check user role
-		$re->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
 		try{
 			$news = News::find($id);
 			// Create Log

@@ -28,7 +28,6 @@ class WorkflowController extends Controller
     */
     public function getAddAcWorkFlow(Request $req, $id = null){
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
         if($id != 'null'){
             $this->data['acid'] = $id;
         }
@@ -45,7 +44,6 @@ class WorkflowController extends Controller
     */
     public function postAddAcWorkFlow(Request $req){
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
         try {
             DB::beginTransaction();
             for($i = 0; $i < count($req->leader_) ; $i++){
@@ -74,7 +72,6 @@ class WorkflowController extends Controller
     */
     public function getListWorkFlow(Request $req, $id = null){
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
         $this->data['workflows'] = WorkFlow::with(['details','ofStudent','ofActivity'])->where('activity_id',$id)->get();
         // return $this->data['workflows'];
         return view('admin.workflow.workflow_list')->with($this->data);
@@ -100,7 +97,6 @@ class WorkflowController extends Controller
     */
     public function postEditWorkFlowDetail(Request $req){
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
         $wfdetail = WorkFlow::where('id',$req->id)->with(['details','ofStudent','ofActivity'])->first();
         $arrDetailId = [];
         foreach ($wfdetail->details as $detail) {
@@ -161,7 +157,6 @@ class WorkflowController extends Controller
     */
     public function deleteWorkFlow(Request $req, $id){
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
         $workflow = WorkFlow::with(['details'])->find($id);
         foreach ($workflow->details as $detail) {
             $detail->delete();
@@ -178,7 +173,6 @@ class WorkflowController extends Controller
     */
     public function getWorkFlowList(Request $req){
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.ACTIVITY_MANAGE_ROLE')]);
         // delete session if exist
         session()->forget('_old_input');
         if($req->user()->hasRole(config('constants.FULL_ROLES'))){

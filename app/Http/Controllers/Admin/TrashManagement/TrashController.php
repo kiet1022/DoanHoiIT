@@ -16,7 +16,6 @@ class TrashController extends Controller
      */
     public function getTrashBin(Request $req){
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         $this->data['activities'] = Activity::onlyTrashed()->get();
         return view('admin.trash.trash_list')->with($this->data);
     }
@@ -55,7 +54,6 @@ class TrashController extends Controller
      */
     public function restoreTrash(Request $req){
         // Check user role
-        $req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
 
         if($req->action === config('constants.TRASH_ACTIVITIES')){
             foreach($req->ids as $id){

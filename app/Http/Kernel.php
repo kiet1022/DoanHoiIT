@@ -61,6 +61,17 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'trimInput' => \App\Http\Middleware\TrimInput::class,
+        'activities' => \App\Http\Middleware\ActivityManagementRole::class,
+        'classes' => \App\Http\Middleware\ClassManagementRole::class,
+        'exec-com' => \App\Http\Middleware\ExecManagementRole::class,
+        'marks' => \App\Http\Middleware\MarkManagementRole::class,
+        'school-year' => \App\Http\Middleware\SchoolYearManagementRole::class,
+        'statistical' => \App\Http\Middleware\StatisticalManagementRole::class,
+        'student-manager' => \App\Http\Middleware\StudentManagementRole::class,
+        'user' => \App\Http\Middleware\UserManagementRole::class,
+        'student' => \App\Http\Middleware\StudentRole::class,
+        'dashboard' => \App\Http\Middleware\DashBoardAccess::class,
+        'news' => \App\Http\Middleware\NewsManagementRole::class,
     ];
 
     /**

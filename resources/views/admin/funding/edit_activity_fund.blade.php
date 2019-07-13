@@ -21,6 +21,7 @@
     {{-- basic filter condition --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
       <form action="{{ route('post_edit_activity_funding',['id'=> $activityFund[0]->fund->id]) }}" method="post" >
+          @csrf
         <div class="form-row">
           {{-- Birthday --}}
           <div class="form-group cm-inline-form col-md-4 ">
@@ -49,7 +50,6 @@
     </div>
     {{-- Student list --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-        @csrf
         <input type="hidden" name="id"  value="{{ $activityFund[0]->fund->activity->id }}">
         <div id="in-card-content">
           @foreach ($activityFund as $detail)
@@ -70,36 +70,53 @@
             </div>
             <div class="card-body">
               <div class="form-row">
-                <div class="form-inline cm-inline-form col-md-2">
+
+                {{-- Nội dung --}}
+                <div class="form-inline cm-inline-form col-xl-2">
                   <label for="accontent_0">Nội dung:</label>
                   <input type="text"  class="form-control" name="content_[]" id="accontent_{{$detail->id}}"  data-id="{{$detail->id}}"  value="{{$detail->content}}" required>
                 </div>
                 
-                <div class="form-inline cm-inline-form col-md-2">
+                {{-- Đơn vị tính --}}
+                <div class="form-inline cm-inline-form col-xl-2">
                   <label for="unit_0">Đơn vị tính:</label>
                   <input type="text"  class="form-control" name="unit_[]" id="unit_{{$detail->id}}" data-id="{{$detail->id}}" value="{{$detail->unit}}">
                 </div>
                 
-                <div class="form-inline cm-inline-form col-md-2">
+                {{-- Đơn giá --}}
+                <div class="form-inline cm-inline-form col-xl-2">
                   <label for="unitPrice_0">Đơn giá:</label>
                   <input type="text"  class="form-control unitPrice" name="unitPrice_[]" id="unitPrice_{{$detail->id}}" data-id="{{$detail->id}}" value="{{number_format($detail->unit_price)}}" required>
                 </div>
                 
-                <div class="form-inline cm-inline-form col-md-2">
+                {{-- Số lượng --}}
+                <div class="form-inline cm-inline-form col-xl-2">
                   <label for="amount_0">Số lượng:</label>
                   <input type="number"  class="form-control" name="amount_[]" id="amount_{{$detail->id}}" data-id="{{$detail->id}}"  value="{{$detail->amount}}" required>
                 </div>
-                <div class="form-inline cm-inline-form col-md-2">
+
+                {{-- Thành tiền --}}
+                <div class="form-inline cm-inline-form col-xl-2">
                   <label for="expectedValue_0">Thành tiền:</label>
                   <input type="text"  class="form-control expectedValue" name="expectedValue_[]" id="expectedValue_{{$detail->id}}" data-id="{{$detail->id}}" value="{{number_format($detail->expected_value)}}" required>
                 </div>
-                <div class="form-inline cm-inline-form col-md-2">
-                  <label for="paymentType_0">Hình thức thanh toán:</label>
-                  <select name="paymentType_[]" id="paymentType_0" class="form-control" style="width:80%;" data-id="0" required>
-                    <option value="Ký nhận" {{ changeSelectedStatus("Ký nhận","$detail->payment_type") }}>Ký nhận</option>
-                    <option value="Hóa đơn đỏ" {{ changeSelectedStatus("Hóa đơn đỏ","$detail->payment_type") }}>Hóa đơn đỏ</option>
-                  </select>
+
+                {{-- Thực chi --}}
+                <div class="form-inline cm-inline-form col-xl-2">
+                  <label for="actualValue_0">Thực chi:</label>
+                  <input type="text"  class="form-control actualValue" name="actualValue_[]" id="actualValue_{{$detail->id}}" data-id="{{$detail->id}}" value="{{number_format($detail->actual_value)}}" required>
                 </div>
+
+              </div>
+
+              <div class="form-row justify-content-center">
+                  <div class="form-inline cm-inline-form col-xl-2">
+                      <label for="paymentType_0">Hình thức thanh toán:</label>
+                      <select name="paymentType_[]" id="paymentType_0" class="form-control" style="width:80%;" data-id="0" required>
+                          <option value="Hóa đơn đỏ" {{ changeSelectedStatus("Hóa đơn đỏ","$detail->payment_type") }}>Hóa đơn đỏ</option>
+                        <option value="Ký nhận" {{ changeSelectedStatus("Ký nhận","$detail->payment_type") }}>Ký nhận</option>
+                      </select>
+                    </div>
               </div>
             </div>
           </div>

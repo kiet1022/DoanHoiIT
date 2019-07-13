@@ -14,7 +14,6 @@ class LogController extends Controller
      */
     public function getActivityLog(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         // forget old date if it exist
         session()->forget('_old_input');
 
@@ -30,7 +29,6 @@ class LogController extends Controller
      */
     public function filterActivityLog(Request $req){
         // Check user role
-		$req->user()->authorizeRoles([config('constants.FULL_ROLES')]);
         $beginDate = DateTimeUtil::convertToYmd($req->beginDate);
         $endDate = DateTimeUtil::convertToYmd($req->endDate);
         //return $beginDate." ".$endDate;
