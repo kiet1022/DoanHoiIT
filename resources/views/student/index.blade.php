@@ -1,5 +1,5 @@
 @extends('student.layout.index')
-@section('title', 'Trang chủ')
+@section('title', 'Đoàn TN - Hội SV Khoa Công nghệ Thông tin')
 @section('style')
 <link rel="stylesheet" href="{{ asset('pages/css/homepagenews.css')}}">
 @endsection

@@ -131,7 +131,6 @@ class FundingController extends Controller
   * @param Object $req The request that user sent
   */
   public function postEditActivityFund($id, Request $req){
-    return $req;
     // Check user role
     // return count($req->detail_id_);
     $this->data['activityDetail'] = ActivityFundDetail::where('fund_id',$id)->get();

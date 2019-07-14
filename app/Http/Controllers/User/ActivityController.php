@@ -45,7 +45,9 @@ class ActivityController extends Controller
     public function getActivityInfo(Request $req)
     {
         $this->data['activity'] = Activity::find($req->id);
-        $this->data['isAttend'] = $req->user()->student->isAttend($req->id, Auth::user()->student->student_id);
+        if (Auth::check()){
+            $this->data['isAttend'] = $req->user()->student->isAttend($req->id, Auth::user()->student->student_id);
+        }
         // Get the current day
         $now = DateTimeUtil::getCurrentStringMonth();
         $firstDay = DateTimeUtil::getFirstDayByGivenMonthInYmd($now);

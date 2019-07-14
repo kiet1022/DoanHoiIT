@@ -377,14 +377,13 @@ Route::get('/test', function(){
 | User management Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware(['user'])->prefix('user')->group(function(){
+Route::middleware(['student'])->prefix('user')->group(function(){
 
     Route::prefix('news')->group(function(){
         Route::get('/{id}.php', 'User\NewsController@getNewDetail')->name('get_new_detail');
     });
 
     Route::prefix('activities')->group(function(){
-        Route::get('detail/{id}.php','User\ActivityController@getActivityInfo')->name('user_get_activity_detail');
         Route::post('attend.php','User\ActivityController@attendActivity')->name('attend_activity');
         Route::post('cancel-regis.php','User\ActivityController@cancelRegisActivity')->name('cancel_regis_activity');
         Route::get('registed.php','User\ActivityController@getRegistedActivity')->name('get_registed_ac');
@@ -409,6 +408,8 @@ Route::middleware(['user'])->prefix('user')->group(function(){
     Route::post('/activity/registActivity.php', 'User\ActivityController@registActivity')->name('regist_activity');
     Route::post('activity/filter.php','User\ActivityController@postFilterActivity')->name('post_filter_activity');
 });
+
+Route::get('activities/detail/{id}.php','User\ActivityController@getActivityInfo')->name('user_get_activity_detail');
 
 // Route::get('/home', 'HomeController@index')->name('home');
 

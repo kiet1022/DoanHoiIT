@@ -20,8 +20,7 @@
   <div class="row">
     {{-- basic filter condition --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
-      <form action="{{ route('post_edit_activity_funding',['id'=> $activityFund[0]->fund->id]) }}" method="post" >
-          @csrf
+      <form action="#" method="post" >
         <div class="form-row">
           {{-- Birthday --}}
           <div class="form-group cm-inline-form col-md-4 ">
@@ -47,9 +46,12 @@
           <input class="form-control" id="toggleisUnion" name="status" type="checkbox" data-width="170" data-height="20" @if($activityFund[0]->fund->status == 1) {{"checked value=1"}} @else {{ "value=0" }}@endif>
           </div>
         </div>
+      </form>
     </div>
     {{-- Student list --}}
     <div class="col-md-12 col-sm-12 col-xs-12 custom_panel">
+        <form action="{{ route('post_edit_activity_funding',['id'=> $activityFund[0]->fund->id]) }}" method="post" >
+            @csrf
         <input type="hidden" name="id"  value="{{ $activityFund[0]->fund->activity->id }}">
         <div id="in-card-content">
           @foreach ($activityFund as $detail)
