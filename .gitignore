@@ -9,3 +9,5 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+database/news.sql
+database/news_types.sql
