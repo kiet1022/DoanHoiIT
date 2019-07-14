@@ -15,7 +15,7 @@ class ClassManagementRole
      */
     public function handle($request, Closure $next)
     {
-        $request->user()->authorizeRoles([config('constants.TT'), config('constants.BCS')]);
+        $request->user()->authorizeRoles([config('constants.TT')]);
         return $next($request);
     }
 }
