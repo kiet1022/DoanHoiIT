@@ -1,6 +1,6 @@
 @extends('admin.layout.layout')
 @section('title')
-Chương trình đào tạo
+Niên khóa
 @endsection
 @section('style')
 @endsection
@@ -33,7 +33,7 @@ Chương trình đào tạo
                             <th style="display: none;"></th>
                             <th>Niên khóa</th>
                             <th>Khóa</th>
-                            <th>Thời gian đào tạo</th>
+                            <th>Loại thời gian</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -59,7 +59,7 @@ Chương trình đào tạo
                 </div>
                 <!-- /.container-fluid -->
                 <!-- <a class="btn btn-success" href="{{route('get_add_program')}}"><i class="fas fa-plus-circle"></i> Thêm tin</a> -->
-                <a class="btn btn-success" id="addProgram"><i class="fas fa-plus-circle"></i> Thêm chương trình đào tạo</a>
+                <a class="btn btn-success text-white" id="addProgram"><i class="fas fa-plus-circle"></i> Thêm niên khóa</a>
                 <button onclick="deleteProgram()" class="btn delete_all" style="background-color: #D98880; color: #fff"><i class="fas fa-minus-circle"></i> Xóa</button> 
         </div>
     </div>

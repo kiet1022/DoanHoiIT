@@ -7,7 +7,7 @@ Chương trình đào tạo
 @section('main_content')
 <div class="row">
     <div class="col page-title-header">
-        <h4>Chỉnh sửa chương trình đào tạo</h4>
+        <h4>Chỉnh sửa niên khóa</h4>
     </div>
 </div>
 <div class="row">
@@ -25,7 +25,7 @@ Chương trình đào tạo
                                 </select>
                             </div> 
                             <div class="form-inline cm-inline-form">
-                                <label for="type" class="col-md-2 common-label-inline">Thời gian đào tạo <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
+                                <label for="type" class="col-md-2 common-label-inline">Loại thời gian <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                 <select disabled="" id="start" class="form-control col-md-2" name="start">
                                     <option value>{{$yearStart}}</option>
                                 </select>

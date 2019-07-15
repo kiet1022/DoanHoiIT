@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Thêm chương trình đào tạo</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Thêm niên khóa</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,7 +13,7 @@
                             
                             <div class="card-body editDetail">
                                 <div class="form-inline cm-inline-form">
-                                    <label for="type" class="col-md-2 common-label-inline">Thời gian đào tạo <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
+                                    <label for="type" class="col-md-2 common-label-inline">Loại thời gian <small class="common-required" data-toggle="tooltip" data-placement="top" title="Bắt buộc">(*)</small>:</label>
                                     <select id="type" class="form-control col-md-2" name="type">
                                         <option value="2">2 năm</option>
                                         <option value="4">4 năm</option>

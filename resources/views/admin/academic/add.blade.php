@@ -1,6 +1,6 @@
 @extends('admin.layout.layout')
 @section('title')
-Thêm chương trình đào tạo
+Thêm niên k
 @endsection
 @section('style')
 @endsection

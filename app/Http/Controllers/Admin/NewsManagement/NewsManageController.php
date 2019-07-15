@@ -45,8 +45,6 @@ class NewsManageController extends Controller
 	}
 
 	public function postAddNew(Request $request){
-		// Check user role
-		$request->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
 		$news = new News;
 		$news->sumary = $request->sumary;
 		$news->content = $request->content_news;
@@ -70,13 +68,6 @@ class NewsManageController extends Controller
 		}
 		$news->created_by = Auth::user()->id;
 		$news->save();
-		// Create Log
-		$newData = "Type id: ".intval($request->type)."<br>
-		Title: ".$request->title."<br>
-		Sumary: ".$request->sumary."<br>
-		Content: ".$request->content."";
-		Log::AddToLog('Thêm bài viết', "", $newData);
-		$success = true;
 		// return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Thêm tin thành công"]);
 		return redirect()->back()->with(config('constants.SUCCESS'),'Thêm tin thành công!');
 	}
@@ -93,15 +84,6 @@ class NewsManageController extends Controller
 		// Check user role
 		try{
 			$news = News::find($id);
-			// Create Log
-			$oldData = "Old type_id: ".$news->type_id."<br>
-			Old Title: ".$news->title."<br>
-			Old sumary: ".$news->sumary."<br>
-			Old content: ".$news->content."";
-			$newData = "New type_id: ".$re->type."<br>
-			New Title: ".$re->title."<br>
-			New sumary: ".$re->sumary."<br>
-			New content: ".$re->content."";
 			
 			$news->type_id = $re->type;
 			$news->title = $re->title;
@@ -128,27 +110,27 @@ class NewsManageController extends Controller
 					$news->updated_at = time();
 					$news->updated_by = Auth::user()->id;
 					$news->save();
-					Log::AddToLog('Chỉnh sửa bài viết', $oldData, $newData);
 					
 					return redirect()->back()->with(config('constants.SUCCESS'),'Sửa tin thành công!');
-				}catch(Exception $ex){
+		}catch(Exception $ex){
 					return redirect()->back()->with(config('constants.ERROR'),'Sửa tin thất bại!');
-				}
-			}
-			public function deleteAll(Request $request){
-				$deleteNew = "Xóa tin: ";
-				foreach($request->id as $sid){
-					$news = News::find($sid);
-					$news->updated_by = Auth::user()->id;
-					$news->updated_at = time();
-					$news->save();
-					$news->delete();
-					// Create Log
-					$deleteNew .= "".$sid.", ";
-				}
-				Log::AddToLog('Xóa tin', "", $deleteNew);
-				return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa bài viết thành công!"]);
-				
-			}
 		}
+	}
+
+	public function deleteAll(Request $request){
+		$deleteNew = "Xóa tin: ";
+		foreach($request->id as $sid){
+			$news = News::find($sid);
+			$news->updated_by = Auth::user()->id;
+			$news->updated_at = time();
+			$news->save();
+			$news->delete();
+			// Create Log
+			$deleteNew .= "".$sid.", ";
+		}
+		Log::AddToLog('Xóa tin', "", $deleteNew);
+		return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa bài viết thành công!"]);
+		
+	}
+}
 		

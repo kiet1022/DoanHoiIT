@@ -175,9 +175,9 @@ class WorkflowController extends Controller
         // Check user role
         // delete session if exist
         session()->forget('_old_input');
-        if($req->user()->hasRole(config('constants.FULL_ROLES'))){
+        if($req->user()->hasRole(config('constants.TT'))){
             $this->data['activities'] = Activity::all();
-        } else if ($req->user()->hasRole(config('constants.ACTIVITY_MANAGE_ROLE'))){
+        } else if ($req->user()->hasRole(config('constants.UVBCH'))){
             $this->data['activities'] = Activity::where('leader',Auth::user()->student->student_id)->get();
         }
         return view('admin.workflow.list_workflow')->with($this->data);
@@ -191,9 +191,9 @@ class WorkflowController extends Controller
     */
     public function filterWorkFlow(Request $req){
         // return $req->all();
-        if($req->user()->hasRole(config('constants.FULL_ROLES'))){
+        if($req->user()->hasRole(config('constants.TT'))){
             $this->data['activities'] = Activity::all();
-        } else if ($req->user()->hasRole(config('constants.ACTIVITY_MANAGE_ROLE'))){
+        } else if ($req->user()->hasRole(config('constants.UVBCH'))){
             $this->data['activities'] = Activity::where('leader',Auth::user()->student->student_id)->get();
         }
         $this->data['workflows'] = WorkFlow::with(['details','ofStudent','ofActivity'])->where('activity_id',$req->activity)->get();
