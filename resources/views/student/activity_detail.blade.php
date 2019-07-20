@@ -46,10 +46,15 @@
               </tr>
               
               <tr>
-                <th>Số lượng đăng ký</th>
+                <th>Số lượng đăng ký hiện tại</th>
                 <td>{{ $activity->register_number }}</td>
               </tr>
               
+              <tr>
+                <th>Số lượng đăng ký tối đa</th>
+                <td>{{ $activity->max_regis }}</td>
+              </tr>
+
               <tr>
                 <th>Thời gian diễn ra chương trình</th>
                 <td>Từ ngày {{date('d/m/Y',strtotime($activity->start_date))}} đến ngày {{date('d/m/Y',strtotime($activity->end_date))}}</td>
@@ -77,7 +82,9 @@
               <tr>
                 @auth
                 <td colspan="2" class="text-center">
-                  @if ($isAttend)
+                  @if($activity->register_number != 0 && $activity->register_number == $activity->max_regis)
+                  <span class="label label-warning" style="font-size: 100%">Hiện tại đã đủ số lượng sinh viên đăng kí tham gia chương trình</span>
+                  @elseif ($isAttend)
                   <form action="{{ route('cancel_regis_activity')}}" method="POST">
                       @csrf
                       <input type="hidden" name="activity_id" value="{{ $activity->id }}">

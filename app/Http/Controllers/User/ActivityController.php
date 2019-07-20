@@ -83,7 +83,9 @@ class ActivityController extends Controller
     
     public function getRegistedActivity(){
         $this->data['status'] = "registedac";
-        $this->data['attended'] = Attender::with('ofActivity')->where('student_id',Auth::user()->student->student_id)->get();
+        $this->data['attended'] = Attender::with(['ofActivity' => function($q){
+            $q->withTrashed();
+        }])->where('student_id',Auth::user()->student->student_id)->get();
         // return $this->data['attended'];
         return view('student.registerd_activity')->with($this->data);
     }

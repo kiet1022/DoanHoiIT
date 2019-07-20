@@ -147,6 +147,7 @@ class ActivityController extends Controller
       $activity->social_marks = $req->socialMark;
       $activity->year = $req->year;
       $activity->semester = $req->semester;
+      $activity->max_regis = $req->maxRegis;
       // upload plan file
       if($req->hasFile('planUrl')){
         //return dd($req->planUrl);
@@ -353,7 +354,7 @@ class ActivityController extends Controller
         // create log new data
         $newData .= "Học kỳ: ".$req->semester."<br>";
       }
-      
+      $activity->max_regis = $req->maxRegis;
       // upload plan file
       if($req->hasFile('planUrl')){
         //return dd($req->planUrl);

@@ -1,15 +1,25 @@
 @extends('admin.layout.layout')
-@section('title','Tạo dự trù')
+@section('title','Tiến độ công việc')
 @section('style')
 <link href="{{asset('assets/css/admin/activity/workflow_list.css')}}" rel="stylesheet" type="text/css">
 @endsection
 @section('main_content')
 <div class="container-fluid">
-  <div class="row">
+    <div class="row">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
+                <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Quản lý chương trình</li>
+                <li class="breadcrumb-item"><i class="fas fa-angle-right"></i><a href="{{ route('get_list_activity') }}"> Danh sách chương trình</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Tiến độ công việc chương trình {{ $workflows[0]->ofActivity->name }}</li>
+            </ol>
+        </nav>
+    </div>
+  {{-- <div class="row">
     <div class="col page-title-header">
       <h4>Tiến độ công việc chương trình {{ $workflows[0]->ofActivity->name }}</h4>
     </div>
-  </div>
+  </div> --}}
   <div class="row">
   </div>
   <div class="row custom_panel">
@@ -39,10 +49,12 @@
                   </ul>
               </div>
               <div class="card-footer">
+                  @if ($workflow->student_id === Auth::user()->student->student_id)
                   <div class="d-flex m-1">
                       <a href="#" class="btn btn-primary btn-sm detail mr-1" style="width:50%" data-content="{{$workflow}}"><i class="fas fa-edit"></i> Chỉnh sửa</a>
                       <a href="{{ route('delete_workflow',['id'=>$workflow->id])}}" class="btn btn-danger btn-sm ml-1" style="width:50%" "><i class="fas fa-minus"></i> Xóa</a>
                   </div>
+                  @endif
               </div>
 
               {{-- <div class="card-footer  p-0 d-flex">

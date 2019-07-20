@@ -223,6 +223,23 @@
             </ul>
           </div>
           @endif
+
+          {{-- Max register --}}
+          <div class="form-inline cm-inline-form">
+            <label for="maxRegis" class="col-md-6 common-label-inline">Số lượng đăng kí tối đa:</label>
+            <input type="number" class="form-control col-md-6" id="maxRegis" name="maxRegis" placeholder="Số lượng đăng kí tối đa" value="{{old('maxRegis')}}">
+          </div>
+
+          {{-- error --}}
+          @if ($errors->get('maxRegis'))
+          <div class="form-inline cm-inline-form cm-error">
+            <ul class="col-md-6 offset-md-6 cm-ul-error">
+              @foreach ($errors->get('maxRegis') as $socialMark)
+              <li>{{$maxRegis}}</li>
+              @endforeach
+            </ul>
+          </div>
+          @endif
           
           <div class="form-inline cm-inline-form">
             <label for="planUrl" class="col-md-6 common-label-inline">Upload file kế hoạch:</label>

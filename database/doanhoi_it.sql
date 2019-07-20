@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 15, 2019 lúc 04:31 PM
+-- Thời gian đã tạo: Th7 20, 2019 lúc 04:15 PM
 -- Phiên bản máy phục vụ: 10.1.34-MariaDB
 -- Phiên bản PHP: 7.2.8
 
@@ -21,6 +21,673 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `doanhoi_it`
 --
+
+DELIMITER $$
+--
+-- Thủ tục
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `statis_student_by_class` (IN `class` INT)  BEGIN
+	select count(*) as SoLuong from students where class_id = class and is_study = 1
+    union all select count(*)  from students where class_id = class and is_study = 2
+	union all select count(*)  from students where class_id = class and is_study = 3
+    union all select count(*)  from students where class_id = class and is_study = 4;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `statis_student_by_class_and_year` (IN `years` INT, IN `class` INT)  BEGIN
+	select count(*) as SoLuong from students where class_id = class and school_year_id = years and is_study = 1
+    union all select count(*)  from students where class_id = class and school_year_id = years and is_study = 2
+	union all select count(*)  from students where class_id = class and school_year_id = years and is_study = 3
+    union all select count(*)  from students where class_id = class and school_year_id = years and is_study = 4;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `statis_student_by_schoolyear` (IN `schoolYear` INT)  BEGIN
+	select count(*) as SoLuong from students where school_year_id = schoolYear and is_study = 1
+    union all select count(*)  from students where school_year_id = schoolYear and is_study = 2
+	union all select count(*)  from students where school_year_id = schoolYear and is_study = 3
+    union all select count(*)  from students where school_year_id = schoolYear and is_study = 4;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `statis_union_fee` (IN `schoolYear` INT)  BEGIN
+	select count(*) as SoLuong from students where school_year_id = schoolYear and is_payed_union_fee = 1
+    union all select count(*)  from students where school_year_id = schoolYear and is_payed_union_fee = 0;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `statis_union_fee_by_class` (IN `class` INT)  BEGIN
+	select count(*) as SoLuong from students where class_id = class and is_payed_union_fee = 1
+    union all select count(*)  from students where class_id = class and is_payed_union_fee = 0;
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `activities`
+--
+
+CREATE TABLE `activities` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `year` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `semester` int(11) NOT NULL DEFAULT '1' COMMENT '1: ky 1, 2: ky 2',
+  `start_regis_date` date NOT NULL,
+  `end_regis_date` date NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `practise_marks` tinyint(4) DEFAULT '0',
+  `social_marks` tinyint(4) DEFAULT '0',
+  `register_number` int(11) DEFAULT NULL,
+  `max_regis` int(10) DEFAULT '0',
+  `leader` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `plan_url` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fund_url` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `image` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `activities`
+--
+
+INSERT INTO `activities` (`id`, `name`, `year`, `semester`, `start_regis_date`, `end_regis_date`, `start_date`, `end_date`, `content`, `practise_marks`, `social_marks`, `register_number`, `max_regis`, `leader`, `plan_url`, `fund_url`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`, `image`) VALUES
+(2, 'MIT', '2018-2019', 1, '2019-04-23', '2019-04-24', '2019-04-29', '2019-05-04', '', NULL, NULL, 0, 0, '15110237', '', '', '2019-04-29 08:00:36', '2019-05-30 08:17:24', NULL, NULL, '2019-05-30 08:17:24', NULL),
+(3, 'Mastering IT 2019', '2018 - 2019', 2, '2019-04-18', '2019-04-20', '2019-07-01', '2019-07-04', '<p><span style=\"color:#2ecc71;\">Kh&ocirc;ng c&oacute; nội dung</span></p>', 20, 0, 2, 0, '18133064', '', '', '2019-04-29 08:02:31', '2019-07-14 20:08:59', NULL, 187, '2019-07-14 20:08:59', NULL),
+(4, 'MIT 2019 nè mày ơi', '2016 - 2017', 2, '2019-04-25', '2019-04-30', '2019-05-02', '2019-05-03', '<p><span style=\"color:#1abc9c;\">MIT</span> <strong>năm 2019</strong></p>', 5, 0, 0, 0, '16110376', 'GFSo_DHSPKT-Uu-dai-1.docx', '1XYx_[OK]DuTruKinhPhiDoan2017-2018.doc', '2019-05-01 05:34:56', '2019-05-23 07:18:31', NULL, 1, '2019-05-23 07:18:31', NULL),
+(5, 'Hội Thao 2019', '2015 - 2016', 1, '2019-04-29', '2019-04-30', '2019-06-01', '2019-06-03', '<p><strong>Nội dung</strong> đ&acirc;y</p>', 5, 0, 0, 0, '18110371', '', '', '2019-05-01 06:47:34', '2019-06-01 22:25:12', NULL, 1, NULL, NULL),
+(6, 'tEST', '2015 - 2016', 2, '2019-05-01', '2019-05-02', '2019-05-04', '2019-05-26', '', NULL, NULL, 0, 0, '15110237', '', '', '2019-05-01 07:39:26', '2019-05-30 08:17:24', NULL, NULL, '2019-05-30 08:17:24', NULL),
+(7, 'Tập Huấn kỹ năng 2019', '2018 - 2019', 2, '2019-05-23', '2019-05-30', '2019-06-02', '2019-06-03', '', 0, 5, 0, 0, '15110237', '', '', '2019-05-23 08:00:09', '2019-07-14 20:08:59', 1, 187, '2019-07-14 20:08:59', NULL),
+(8, 'Chào đón tân sinh viên', '2018 - 2019', 1, '2019-06-01', '2019-06-01', '2019-07-01', '2019-07-05', '', NULL, 5, 1, 0, '15110237', '', '', '2019-05-31 21:06:48', '2019-07-14 20:08:59', 1, 1, '2019-07-14 20:08:59', NULL),
+(9, 'Mùa Hè Xanh', '2018 - 2019', 2, '2019-06-09', '2019-07-31', '2019-07-07', '2019-07-13', '<p><strong><strong>V&agrave;o 02 ng&agrave;y 23 &amp; 24/11/2018, Trường Đại học Sư phạm Kỹ thuật Tp.HCM (ĐHSPKT TPHCM) phối hợp c&ugrave;ng Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo tổ chức &ldquo;Hội thảo quốc tế C&ocirc;ng nghệ xanh ph&aacute;t triển bền vững lần thứ 4&rdquo; năm 2018 tại tầng 6 v&agrave; tầng 12 T&ograve;a nh&agrave; Trung t&acirc;m trường ĐH Sư phạm Kỹ thuật Tp. HCM.</strong><br />\r\n<br />\r\nVề tham dự buổi lễ, c&oacute; sự hiện diện của PGS.TS Ng&ocirc; Văn Thuy&ecirc;n, Chủ tịch hội đồng trường, trường ĐHSPKTTPHCM; PGS.TS L&ecirc; Hiếu Giang, Ph&oacute; Hiệu Trưởng trường ĐHSPKT TPHCM;&nbsp; GS. TS. Yo-Ping Huang, NTUT, Đ&agrave;i Loan v&agrave; c&aacute;c đại biểu l&agrave; t&aacute;c giả b&agrave;i viết.<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H1.JPG\" /></strong></p>\r\n\r\n<p><strong><em>Hội nghị thu h&uacute;t đ&ocirc;ng đảo c&aacute;c học giả, nh&agrave; nghi&ecirc;n cứu, nh&agrave; khoa học,&hellip;</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Về ph&iacute;a kh&aacute;ch mời danh dự c&oacute; c&aacute;c vị đại biểu: TS. K.Srikar Reddy, Tổng l&atilde;nh Sự qu&aacute;n Ấn Độ tại TPHCM, Việt Nam; TS. Trần Nam T&uacute;, đại diện Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo; GS.TS Yan-Kuin Su, Nguy&ecirc;n Hiệu trưởng trường đại học Kun Shan, Đ&agrave;i Loan; GS.TS Chang &ndash;Ren Chen, Trường đại học Kun Shan, Đ&agrave;i Loan; GS. TS Kai &ndash; Yew Lum, Đại học Quốc gia Chi nan, Đ&agrave;i Loan; Mr. Andreas Wade, Gi&aacute;m đốc ph&aacute;t triển bền vững to&agrave;n cầu, First Solar; PGS.TS Jau Huai Lu, Đại học quốc gia Chung Hsing Đ&agrave;i Loan; &Ocirc;ng Cao Ph&uacute; Hải, Gi&aacute;m đốc sản xuất c&ocirc;ng ty ABB, Việt Nam; c&ugrave;ng c&aacute;c đại biểu đến từ Đ&agrave;i Loan, Nhật Bản, Trung Quốc, H&agrave;n Quốc, Th&aacute;i Lan, Bangladesh, Kazakhstan, Nga v&agrave; Việt Nam.&nbsp;<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H2.JPG\" /></strong></p>\r\n\r\n<p><strong><em>Đại diện c&aacute;c trường Đại học từ trong v&agrave; ngo&agrave;i nước tham dự Hội nghị</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Trong hơn mười năm trở lại đ&acirc;y, kh&aacute;i niệm về &ldquo;C&ocirc;ng nghệ xanh&rdquo; v&agrave; &ldquo;Ph&aacute;t triển bền vững&rdquo; đ&atilde; trở n&ecirc;n hết sức được ch&uacute; trọng, nhất l&agrave; khi mối đe dọa về sự thiếu hụt nguồn năng lượng v&agrave; biến đổi kh&iacute; hậu to&agrave;n cầu ng&agrave;y c&agrave;ng trở n&ecirc;n nghi&ecirc;m trọng hơn. Theo đ&oacute;, c&aacute;c &quot;giải ph&aacute;p xanh&quot; trong kinh tế v&agrave; c&ocirc;ng nghệ li&ecirc;n quan đến sự ph&aacute;t triển bền vững đ&atilde; v&agrave; đang trở th&agrave;nh một trong những đề t&agrave;i được quan t&acirc;m nhất hiện nay, đặc biệt l&agrave; ở những nước đang vươn m&igrave;nh ph&aacute;t triển nhanh ch&oacute;ng như Trung Quốc, Ấn Độ, Việt Nam&hellip; &ldquo;Hội thảo quốc tế C&ocirc;ng nghệ xanh ph&aacute;t triển bền vững lần thứ 4&rdquo; đ&atilde; trở th&agrave;nh diễn đ&agrave;n hấp dẫn cho những chuy&ecirc;n gia, nh&agrave; nghi&ecirc;n cứu v&agrave; những người quan t&acirc;m cả trong lẫn ngo&agrave;i nước gặp gỡ v&agrave; chia những kết quả nghi&ecirc;n cứu mới, những giải ph&aacute;p mang t&iacute;nh to&agrave;n cầu nhằm trong lĩnh vực c&ocirc;ng nghệ xanh v&agrave; ph&aacute;t triển bền vững.&nbsp;<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H3%20(1).JPG\" /></strong></p>\r\n\r\n<p><strong><em>PGS.TS L&ecirc; Hiếu Giang &ndash; Ph&oacute; B&iacute; thư Đảng ủy, Ph&oacute; Hiệu trưởng ĐHSPKT TPHCM&nbsp;<br />\r\nph&aacute;t biểu ch&agrave;o mừng tại Hội thảo</em></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>Đ&acirc;y l&agrave; hội thảo lần thứ 4 nằm trong chuỗi hội thảo quốc tế C&ocirc;ng nghệ Xanh v&agrave; Ph&aacute;t triển bền vững được tổ chức định kỳ hai năm/lần. Đồng tổ chức Hội thảo gồm Trường đại học Sư phạm Kỹ thuật TPHCM, Sở Khoa học v&agrave; C&ocirc;ng nghệ TPHCM, Viện năng lượng mặt trời, Ấn Độ; Trường đại học Kun Shan, Đ&agrave;i Loan.<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H4.JPG\" /></strong></p>\r\n\r\n<p><strong><em>TS. Trần Nam T&uacute; - đại diện Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Ph&aacute;t biểu tại Hội nghị, TS. Trần Nam T&uacute;, đại diện Vụ Khoa học, C&ocirc;ng ngh&ecirc; v&agrave; M&ocirc;i trường - Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo, đề cập đến vấn đề về m&ocirc;i trường v&agrave; &ocirc; nhiễm đang c&oacute; những t&aacute;c động xấu đến sự ph&aacute;t triển bền vững của Việt Nam cũng như thế giới. Do đ&oacute;, &ocirc;ng đ&aacute;nh gi&aacute; rất cao về tầm nh&igrave;n v&agrave; vai tr&ograve; của Hội nghị lần n&agrave;y: &ldquo;B&ecirc;n cạnh &yacute; nghĩa khoa học, hội thảo l&agrave; cực kỳ quan trọng trong hội nhập v&agrave; hợp t&aacute;c quốc tế. Hội nghị l&agrave; cơ hội cho c&aacute;c nh&agrave; khoa học Việt Nam v&agrave; quốc tế, c&aacute;c tổ chức học thuật tr&ecirc;n thế giới chia sẻ kiến thức, kinh nghiệm, kết quả nghi&ecirc;n cứu li&ecirc;n quan đến c&ocirc;ng nghệ xanh v&agrave; ph&aacute;t triển bền vững. Đ&acirc;y l&agrave; một đ&oacute;ng g&oacute;p quan trọng cho hoạt động nghi&ecirc;n cứu v&agrave; đ&agrave;o tạo trong gi&aacute;o dục đại học cũng như tham gia ph&aacute;t triển kinh tế - x&atilde; hội, bảo vệ m&ocirc;i trường bền vững&rdquo;. Qua đ&oacute;, &ocirc;ng cũng nhấn mạnh về định hướng chiến lược của Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo Việt Nam l&agrave; đẩy nhanh việc chuyển giao kết quả nghi&ecirc;n cứu v&agrave;o sản xuất, trong đ&oacute; c&ocirc;ng nghệ xanh v&agrave; ph&aacute;t triển bền vững l&agrave; một ưu ti&ecirc;n h&agrave;ng đầu: &ldquo;T&ocirc;i hy vọng th&ocirc;ng qua hội thảo n&agrave;y, ch&uacute;ng ta c&oacute; thể tạo ra một sự tiến bộ cho sự hợp t&aacute;c chung về C&ocirc;ng nghệ v&agrave; Gi&aacute;o dục, đặc biệt l&agrave; th&agrave;nh phố Hồ Ch&iacute; Minh v&agrave; c&aacute;c trường đại học kh&aacute;c sẽ tiếp tục duy tr&igrave; tổ chức chuỗi hội thảo n&agrave;y trong tương lai.&rdquo;<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H5%20(1).JPG\" /></strong></p>\r\n\r\n<p><strong><em>GS.TS Yan-Kuin Su, Nguy&ecirc;n Hiệu trưởng trường đại học Kun Shan, Đ&agrave;i Loan ph&aacute;t biểu</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Hội thảo đ&atilde; thu h&uacute;t hơn 250 b&agrave;i b&aacute;o l&agrave; kết quả nghi&ecirc;n cứu từ c&aacute;c nh&agrave; khoa học, học giả. Sau qu&aacute; tr&igrave;nh phản biện, hội thảo c&ograve;n 162 b&agrave;i viết được mời b&aacute;o c&aacute;o, chia sẻ tại 11 ph&acirc;n ban trong hội nghị.&nbsp;<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H6.JPG\" /></strong></p>\r\n\r\n<p><strong><em><img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H6a.JPG\" /><br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H6c.JPG\" /><br />\r\nC&aacute;c nh&agrave; khoa học, diễn giả tr&igrave;nh b&agrave;y v&agrave; thảo luận tại Hội nghị</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Nội dung Hội thảo xoay quanh c&aacute;c vấn đề: Năng lượng t&aacute;i tạo, Kỹ thuật Điện-Điện tử, Kỹ thuật d&acirc;n dụng, Tự động h&oacute;a, Hệ thống th&ocirc;ng tin, khoa học ứng dụng, C&ocirc;ng nghệ nhiệt, Ph&aacute;t triển nền kinh tế, gi&aacute;o dục bền vững, C&ocirc;ng nghệ h&oacute;a v&agrave; m&ocirc;i trường, C&ocirc;ng nghệ Kỹ thuật cơ kh&iacute;.<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H7.JPG\" /></strong></p>\r\n\r\n<p><strong><em>C&aacute;c đại biểu chụp ảnh lưu niệm tại lễ khai mạc Hội thảo</em></strong></p>', NULL, 20, 1, 0, '15110347', '', '', '2019-07-06 22:23:14', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59', ''),
+(10, 'CT TEST', '2018 - 2019', 2, '2019-07-01', '2019-07-04', '2019-07-08', '2019-07-12', '', NULL, NULL, NULL, 0, '15110237', '', '', '2019-07-06 22:50:36', '2019-07-14 20:08:59', 187, 187, '2019-07-14 20:08:59', 'zqeN_4.jpg'),
+(11, 'Cuộc thi học thuật MIT 2019', '2018 - 2019', 2, '2019-07-15', '2019-07-19', '2019-07-20', '2019-07-21', '<p><span style=\"color:#2ecc71;\"><span style=\"font-size:14px;\">Cuộc thi học thuật thường ni&ecirc;n Mastering IT&nbsp;lớn nhất khoa đ&atilde; ch&iacute;nh thức khởi động rồi c&aacute;c bạn ơi,</span></span></p>\r\n\r\n<p><span style=\"color:#2ecc71;\"><span style=\"font-size:14px;\">c&ograve;n chần chờ chi m&agrave; kh&ocirc;ng nhanh tay đăng k&iacute; tham gia đi n&egrave; ^^</span></span></p>', NULL, 5, 0, 50, '15110347', '', '', '2019-07-14 20:08:15', '2019-07-20 07:09:07', 187, NULL, NULL, '1mg4_MIT.jpg'),
+(12, 'Cuộc thi Hackathon lần I 2019', '2018 - 2019', 2, '2019-07-16', '2019-07-21', '2019-07-30', '2019-07-30', '<p>C&ugrave;ng đăng k&iacute; tham gia cuộc thi Hackathon lần đầu c&oacute; mặt tại khoa CNTT ĐH SPKT TP. HCM.</p>', 6, NULL, NULL, 50, '15110237', '', '', '2019-07-14 20:13:37', '2019-07-20 07:02:53', 187, 187, NULL, ''),
+(13, 'Tập huấn kỹ năng cán bộ Đoàn hội', '2018 - 2019', 2, '2019-07-08', '2019-07-20', '2019-07-23', '2019-07-24', '<p>[TẬP HUẤN KỸ NĂNG 2019]<br />\r\nLoa loa loa&nbsp;🎉🎉🎉<br />\r\nNg&agrave;y 1/3 sắp tới, c&aacute;c bạn đ&atilde; c&oacute; dự định g&igrave; chưa? Vậy tại sao kh&ocirc;ng thử tham gia Tập huấn kỹ năng 2019 để c&oacute; th&ecirc;m những trải nghiệm th&uacute; vị v&agrave; tuyệt vời n&agrave;o!<br />\r\n📣📣📣&nbsp;Th&aacute;ng Thanh ni&ecirc;n nổ ra cũng l&agrave; l&uacute;c Tập huấn kỹ năng được triển khai nhằm tạo điều kiện v&agrave; s&acirc;n chơi cho c&aacute;c bạn được học hỏi kinh nghiệm, r&egrave;n luyện kỹ năng mềm v&agrave; đặc biệt l&agrave; giao lưu kết bạn mới. Như đ&atilde; th&ocirc;ng b&aacute;o, Tập huấn kỹ năng lần n&agrave;y sẽ c&oacute; 2 nội dung ch&iacute;nh l&agrave;:<br />\r\n- Tập huấn kỹ năng văn bản v&agrave;o ng&agrave;y 1/3, cho c&aacute;c bạn c&oacute; th&ecirc;m c&aacute;c kỹ năng cần thiết khi l&agrave;m đơn, viết giấy tờ,...<br />\r\n- Tập huấn kỹ năng lều trại v&agrave;o ng&agrave;y 2/3 đến ng&agrave;y 3/3, nhằm tạo cho c&aacute;c bạn cơ hội học tập v&agrave; biết th&ecirc;m c&aacute;c kỹ năng mềm cần thiết như c&aacute;ch dựng lều trại, kỹ năng l&agrave;m việc nh&oacute;m,... , c&ugrave;ng c&aacute;c tr&ograve; chơi mang tinh thần đồng đội cao v&agrave; v&ocirc; c&ugrave;ng th&uacute; vị.<br />\r\n😍&nbsp;H&atilde;y c&ugrave;ng chờ đ&oacute;n nh&eacute;!<br />\r\n⏲⏲Thời gian: từ ng&agrave;y 1/3 đến ng&agrave;y 3/3.<br />\r\n🏁&nbsp;Địa điểm: Khu Đền H&ugrave;ng, quận 9, nơi c&oacute; phong cảnh v&ocirc; c&ugrave;ng đẹp v&agrave; đặc sắc, cũng như mang m&agrave;u sắc Văn h&oacute;a đ&acirc;m đ&agrave; chắc chắn sẽ l&agrave; nơi dừng ch&acirc;n l&yacute; tưởng cho c&aacute;c bạn.<br />\r\nLệ ph&iacute; : 180k/ người.<br />\r\n👉&nbsp;Đối tượng tham gia: c&aacute;c bạn c&oacute; mong muốn học tập v&agrave; l&agrave;m việc trong Đo&agrave;n Hội Khoa CNTT, c&aacute;c bạn hiện đang l&agrave; CTV, BCS v&agrave; BCH Đo&agrave;n Hội Khoa CNTT.<br />\r\n💞&nbsp;Với Tập huấn kỹ năng 2019, chắc chắn c&aacute;c bạn sẽ c&oacute; th&ecirc;m nhiều kiến thức bổ &iacute;ch cũng như kỹ năng mềm được ho&agrave;n thiện, biết đ&acirc;u sau Tập huấn kỹ năng lần n&agrave;y, c&aacute;c bạn sẽ t&igrave;m được 1 nửa của m&igrave;nh ^^ Vậy th&igrave; ngại g&igrave; kh&ocirc;ng c&ugrave;ng tham gia!<br />\r\nLink đăng k&iacute;:&nbsp;<a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"asynclazy\" href=\"https://l.facebook.com/l.php?u=https%3A%2F%2Fbit.ly%2F2GzDESO%3Ffbclid%3DIwAR0-H0OwGpLy4xTLvCQixu5L1_ja0gGcYsPafz5O_IK1_wrH42FgbSfUfMI&amp;h=AT16zF6JapYjYkg0HRqhEiGtcfKrfj_oT8fYEKrzb0VgS-YmM4EvRHYvcEVMod_5IpE3-TL0SYP6GF5exUBFESOG-SpzZSn66Z1q3sCenD0Txo5zAnGi1MU6F1HkCMoIzFxExaGQQSD9OHpCRTtCFSLOJzo\" rel=\"noopener nofollow\" target=\"_blank\">http://bit.ly/2GzDESO</a></p>', NULL, 10, NULL, 0, '16110423', '', '', '2019-07-14 20:17:42', '2019-07-14 20:17:42', 187, NULL, NULL, 'TOIu_52667545_2301792956717846_4882336376177033216_n.png');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `activity_funds`
+--
+
+CREATE TABLE `activity_funds` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `activity_id` int(10) UNSIGNED NOT NULL,
+  `initial_funds` bigint(20) NOT NULL,
+  `actual_funds` bigint(20) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `status` int(11) DEFAULT '0' COMMENT '0: chưa thanh toán, 1: đã thanh toán'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `activity_funds`
+--
+
+INSERT INTO `activity_funds` (`id`, `activity_id`, `initial_funds`, `actual_funds`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`, `status`) VALUES
+(9, 2, 300000, 0, '2019-05-18 19:55:06', '2019-05-19 07:56:07', 1, NULL, '2019-05-19 07:56:07', 0),
+(10, 2, 800000, 0, '2019-05-19 08:02:47', '2019-05-19 08:11:27', 1, NULL, '2019-05-19 08:11:27', 0),
+(11, 2, 100000, 0, '2019-05-19 08:17:57', '2019-05-19 08:44:47', 1, NULL, '2019-05-19 08:44:47', 0),
+(12, 3, 6400000, 0, '2019-05-19 08:46:21', '2019-07-14 20:08:59', 1, NULL, '2019-07-14 20:08:59', 1),
+(13, 5, 100000, 0, '2019-05-19 08:47:00', '2019-05-19 08:50:51', 1, NULL, '2019-05-19 08:50:51', 0),
+(14, 4, 1111111, 0, '2019-05-19 08:50:20', '2019-05-23 07:18:31', 1, NULL, '2019-05-23 07:18:31', 0),
+(15, 5, 1000000, 0, '2019-05-20 08:34:41', '2019-06-01 22:25:12', 1, NULL, NULL, 0),
+(16, 7, 1050000, 0, '2019-05-23 08:01:51', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59', 1),
+(17, 8, 200000, 100000, '2019-06-21 23:44:01', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59', 0),
+(18, 9, 1000000, 0, '2019-07-13 08:11:56', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59', 0),
+(19, 11, 24450000, 23250000, '2019-07-14 20:22:20', '2019-07-14 20:32:46', 187, NULL, NULL, 0),
+(20, 12, 1000000, 0, '2019-07-15 05:36:24', '2019-07-15 05:36:24', 187, NULL, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `activity_fund_details`
+--
+
+CREATE TABLE `activity_fund_details` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `fund_id` int(10) UNSIGNED NOT NULL,
+  `content` varchar(500) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nội dung chi',
+  `expected_value` bigint(20) NOT NULL COMMENT 'Thành tiền (dự tính)',
+  `actual_value` bigint(20) NOT NULL DEFAULT '0' COMMENT 'Thực chi',
+  `payment_type` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Hình thức thanh toán: Hóa đơn, Ký nhận',
+  `unit` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Đơn vị tính',
+  `amount` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Số lượng',
+  `unit_price` bigint(20) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `activity_fund_details`
+--
+
+INSERT INTO `activity_fund_details` (`id`, `fund_id`, `content`, `expected_value`, `actual_value`, `payment_type`, `unit`, `amount`, `unit_price`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(11, 9, 'Nước uống', 100000, 0, 'Hóa đơn đỏ', 'Thùng', NULL, 100000, '2019-05-18 19:55:06', '2019-05-19 07:56:07', 1, NULL, '2019-05-19 07:56:07'),
+(12, 9, 'Quà', 200000, 0, 'Hóa đơn đỏ', 'cái', NULL, 100000, '2019-05-18 19:55:06', '2019-05-19 07:56:07', 1, NULL, '2019-05-19 07:56:07'),
+(13, 10, 'Background', 200000, 0, 'Hóa đơn đỏ', 'cái', '2', 100000, '2019-05-19 08:02:47', '2019-05-19 08:11:27', 1, NULL, '2019-05-19 08:11:27'),
+(14, 10, 'Quà', 100000, 0, 'Hóa đơn đỏ', NULL, '1', 100000, '2019-05-19 08:02:47', '2019-05-19 08:11:27', 1, NULL, '2019-05-19 08:11:27'),
+(15, 10, 'Nước uống', 500000, 0, 'Hóa đơn đỏ', 'Thùng', '5', 100000, '2019-05-19 08:02:47', '2019-05-19 08:11:27', 1, NULL, '2019-05-19 08:11:27'),
+(16, 11, 'Nước uống', 100000, 0, 'Hóa đơn đỏ', 'Thùng', '1', 100000, '2019-05-19 08:17:57', '2019-05-19 08:44:47', 1, NULL, '2019-05-19 08:44:47'),
+(17, 12, 'Nước uống', 500000, 0, 'Hóa đơn đỏ', 'Thùng', '5', 100000, '2019-05-19 08:46:21', '2019-07-14 20:08:59', 1, NULL, '2019-07-14 20:08:59'),
+(18, 12, 'Quà', 200000, 0, 'Hóa đơn đỏ', 'Phần', '2', 100000, '2019-05-19 08:46:21', '2019-07-14 20:08:59', 1, NULL, '2019-07-14 20:08:59'),
+(19, 13, 'Nước uống', 100000, 0, 'Hóa đơn đỏ', 'Thùng', '1', 100000, '2019-05-19 08:47:00', '2019-05-19 08:50:50', 1, NULL, '2019-05-19 08:50:50'),
+(20, 14, 'Nước uống', 1111111, 0, 'Hóa đơn đỏ', 'Thùng', '1', 100000, '2019-05-19 08:50:20', '2019-05-23 07:18:31', 1, NULL, '2019-05-23 07:18:31'),
+(21, 15, 'Detail 1', 200000, 0, 'Ký nhận', 'Cái', '2', 100000, '2019-05-20 08:34:41', '2019-06-01 22:25:12', 1, NULL, NULL),
+(22, 15, 'Detai 231', 300000, 0, 'Ký nhận', 'Thùng', '3', 100000, '2019-05-20 08:34:41', '2019-06-01 22:25:12', 1, NULL, NULL),
+(23, 15, 'Detai Thêm', 200000, 0, 'Hóa đơn đỏ', 'Hộp', '2', 100000, '2019-05-20 08:42:33', '2019-06-01 22:25:12', 1, NULL, NULL),
+(24, 15, 'Nước uống', 200000, 0, 'Hóa đơn đỏ', 'Thùng', '2', 100000, '2019-05-20 08:43:26', '2019-06-01 22:25:12', 1, NULL, NULL),
+(25, 15, 'Background', 100000, 0, 'Hóa đơn đỏ', 'Cái', '1', 100000, '2019-05-20 08:43:26', '2019-06-01 22:25:12', 1, NULL, NULL),
+(26, 16, 'Bạc trại', 350000, 0, 'Hóa đơn đỏ', 'bộ', '5', 70000, '2019-05-23 08:01:51', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59'),
+(27, 16, 'Nước uống', 350000, 0, 'Hóa đơn đỏ', 'Thùng', '2', 70000, '2019-05-23 08:01:51', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59'),
+(29, 16, 'Cơm trưa', 350000, 0, 'Ký nhận', 'Phần', '100', 70000, '2019-05-23 08:04:15', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59'),
+(30, 12, 'Bánh kẹo', 200000, 0, 'Hóa đơn đỏ', 'Phần', '1', 200000, '2019-05-31 21:25:49', '2019-07-14 20:08:59', 1, NULL, '2019-07-14 20:08:59'),
+(31, 12, 'Detai Thêm', 500000, 0, 'Ký nhận', 'Hộp', '10', 50000, '2019-05-31 21:52:17', '2019-07-14 20:08:59', 1, NULL, '2019-07-14 20:08:59'),
+(32, 12, 'Detail thêm nữa', 5000000, 0, 'Hóa đơn đỏ', 'Tá', '10', 500000, '2019-06-03 07:45:55', '2019-07-14 20:08:59', 1, NULL, '2019-07-14 20:08:59'),
+(33, 17, 'Bột màu', 200000, 100000, 'Hóa đơn đỏ', 'ký', '2', 100000, '2019-06-21 23:44:01', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59'),
+(35, 18, 'Dây nhợ', 500000, 0, 'Ký nhận', 'bộ', '5', 100000, '2019-07-13 08:11:56', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59'),
+(36, 18, 'Cáp', 500000, 0, 'Ký nhận', 'bộ', '10', 50000, '2019-07-13 08:11:56', '2019-07-14 20:08:59', 187, NULL, '2019-07-14 20:08:59'),
+(37, 19, 'Hỗ trợ thiết kế background, poster, hình ảnh tuyền truyền', 600000, 0, 'Ký nhận', 'Người', '3', 200000, '2019-07-14 20:22:20', '2019-07-14 20:22:20', 187, NULL, NULL),
+(38, 19, 'Băng rôn', 600000, 0, 'Hóa đơn đỏ', 'Cái', '2', 300000, '2019-07-14 20:22:20', '2019-07-14 20:22:20', 187, NULL, NULL),
+(39, 19, 'Hỗ trợ thiết kế và vận hành phần mềm cuộc thi', 1000000, 1000000, 'Ký nhận', 'Người', '1', 1000000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(40, 19, 'Nước uống', 1000000, 1000000, 'Hóa đơn đỏ', 'Thùng', '10', 100000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(41, 19, 'Hỗ trợ âm thanh, ánh sáng', 1000000, 1000000, 'Ký nhận', 'Người', '1', 1000000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(42, 19, 'Bánh kẹo', 1000000, 1000000, 'Hóa đơn đỏ', 'Phần', '1', 1000000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(43, 19, 'Vật dụng trang trí', 2000000, 2000000, 'Hóa đơn đỏ', 'Bộ', '1', 2000000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(44, 19, 'Cúp lưu niệm', 2400000, 2400000, 'Hóa đơn đỏ', 'Cái', '8', 300000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(45, 19, 'Cờ lưu niệm', 800000, 800000, 'Hóa đơn đỏ', 'Cái', '8', 100000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(46, 19, 'Giải nhất khối chuyên', 2500000, 2500000, 'Ký nhận', 'Giải', '1', 2500000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(47, 19, 'Giải nhì khối chuyên', 1500000, 1500000, 'Ký nhận', 'Giải', '1', 1500000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(48, 19, 'Giải ba khối chuyên', 1000000, 1000000, 'Ký nhận', 'Giải', '1', 1000000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(49, 19, 'Giải khuyến khích khối chuyên', 500000, 500000, 'Ký nhận', 'Giải', '1', 500000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(50, 19, 'Giải intro', 300000, 300000, 'Ký nhận', 'Giải', '1', 300000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(51, 19, 'Hoa tươi', 800000, 800000, 'Hóa đơn đỏ', 'Bó', '8', 100000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(52, 19, 'Bảng giải thưởng', 1350000, 1350000, 'Hóa đơn đỏ', 'Cái', '9', 150, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(53, 19, 'Quà khán giả', 500000, 500000, 'Hóa đơn đỏ', 'Phần', '5', 100000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(54, 19, 'Hỗ trợ MC', 600000, 600000, 'Ký nhận', 'Người', '2', 300000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(55, 19, 'Hỗ trợ văn nghệ', 1000000, 1000000, 'Ký nhận', 'Tiết mục', '2', 500000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(56, 19, 'Hỗ trợ BGK', 1200000, 1200000, 'Ký nhận', 'Người', '3', 400000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(57, 19, 'Hỗ trợ BTC', 2000000, 2000000, 'Ký nhận', 'Người', '20', 100000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(58, 19, 'Dây đeo thẻ BTC', 400000, 400000, 'Hóa đơn đỏ', 'Cái', '20', 20000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(59, 19, 'Tờ rơi', 400000, 400000, 'Hóa đơn đỏ', 'Tờ', '200', 2000, '2019-07-14 20:32:46', '2019-07-14 20:32:46', 187, NULL, NULL),
+(60, 20, 'Nước uống', 500000, 0, 'Hóa đơn đỏ', 'Thùng', '5', 100000, '2019-07-15 05:36:24', '2019-07-15 05:36:24', 187, NULL, NULL),
+(61, 20, 'Bánh kẹo', 500000, 0, 'Hóa đơn đỏ', 'Phần', '5', 100000, '2019-07-15 05:36:24', '2019-07-15 05:36:24', 187, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `association_ec`
+--
+
+CREATE TABLE `association_ec` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `level` int(11) NOT NULL DEFAULT '0' COMMENT '0: UV BCH, 1: LCH Trưởng, 2: LCH Phó',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `association_ec`
+--
+
+INSERT INTO `association_ec` (`id`, `student_id`, `level`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, '15110347', 1, NULL, '2019-05-04 06:19:25', NULL, 1, NULL),
+(2, '15110289', 2, NULL, '2019-04-13 10:19:57', NULL, 1, NULL),
+(3, '17110356', 2, NULL, '2019-06-14 20:21:11', NULL, 1, NULL),
+(4, '15110268', 0, NULL, NULL, NULL, NULL, NULL),
+(5, '15110176', 0, NULL, NULL, NULL, NULL, NULL),
+(6, '16110294', 0, NULL, NULL, NULL, NULL, NULL),
+(7, '16110324', 0, NULL, NULL, NULL, NULL, NULL),
+(8, '16110299', 0, NULL, NULL, NULL, NULL, NULL),
+(9, '17110393', 0, NULL, NULL, NULL, NULL, NULL),
+(10, '17110398', 0, NULL, NULL, NULL, NULL, NULL),
+(11, '17110340', 0, NULL, NULL, NULL, NULL, NULL),
+(12, '17110337', 0, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `attenders`
+--
+
+CREATE TABLE `attenders` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `activity_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `attenders`
+--
+
+INSERT INTO `attenders` (`id`, `student_id`, `activity_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(85, '15110204', 3, NULL, NULL, NULL, NULL, NULL),
+(86, '18110371', 3, NULL, NULL, NULL, NULL, NULL),
+(87, '15110370', 3, NULL, NULL, NULL, NULL, NULL),
+(89, '15110237', 8, '2019-07-06 20:50:32', '2019-07-06 20:50:32', NULL, NULL, NULL),
+(90, '15110237', 9, '2019-07-13 21:13:57', '2019-07-13 21:13:57', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `checkin`
+--
+
+CREATE TABLE `checkin` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `content` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `activity_id` int(10) UNSIGNED DEFAULT NULL,
+  `year` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `type` int(11) DEFAULT '0' COMMENT '0: DRL, 1:CTXH',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `marks` int(11) DEFAULT NULL COMMENT 'điểm cộng'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `checkin`
+--
+
+INSERT INTO `checkin` (`id`, `content`, `activity_id`, `year`, `type`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`, `marks`) VALUES
+(7, 'Điểm danh cộng tác viên', 7, '2018 - 2019', 1, '2019-05-26 07:43:08', '2019-05-26 07:43:08', 1, NULL, NULL, 5),
+(8, 'Điểm danh ban tổ chức', 7, '2018 - 2019', 1, '2019-05-26 07:43:19', '2019-05-26 07:43:19', 1, NULL, NULL, 5),
+(9, 'Điểm danh sinh viên tham gia chương trình', 7, '2018 - 2019', 0, '2019-05-26 07:43:33', '2019-05-26 07:43:33', 1, NULL, NULL, 3),
+(10, 'Điểm danh sinh viên tham gia chương trình', 7, '2018 - 2019', 0, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL, 5),
+(11, 'Điểm danh cộng tác viên', 7, '2018 - 2019', 1, '2019-05-27 09:10:03', '2019-05-27 09:10:03', 1, NULL, NULL, 3),
+(13, 'Cộng điểm BCH', NULL, '2018 - 2019', 0, '2019-05-29 07:18:38', '2019-05-29 07:18:38', 1, NULL, NULL, 6),
+(14, 'Điểm danh sinh viên tham gia chương trình', 5, '2018 - 2019', 0, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL, 5),
+(15, 'Điểm danh sinh viên tham gia chương trình', 8, '2018 - 2019', 1, '2019-05-31 21:55:42', '2019-05-31 21:55:42', 1, NULL, NULL, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `checkin_details`
+--
+
+CREATE TABLE `checkin_details` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `checkin_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `checkin_details`
+--
+
+INSERT INTO `checkin_details` (`id`, `student_id`, `checkin_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(22, '18110371', 7, '2019-05-26 07:43:08', '2019-05-26 07:43:08', 1, NULL, NULL),
+(23, '15110370', 8, '2019-05-26 07:43:19', '2019-05-26 07:43:19', 1, NULL, NULL),
+(24, '15110237', 9, '2019-05-26 07:43:33', '2019-05-26 07:43:33', 1, NULL, NULL),
+(25, '15110204', 10, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL),
+(26, '15110237', 10, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL),
+(27, '15110370', 10, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL),
+(28, '18110371', 10, '2019-05-27 06:48:49', '2019-05-27 06:48:49', 1, NULL, NULL),
+(29, '154545454545', 11, '2019-05-27 09:10:03', '2019-05-27 09:10:03', 1, NULL, NULL),
+(34, '15110237', 13, '2019-05-29 07:18:38', '2019-05-29 07:18:38', NULL, NULL, NULL),
+(35, '18110370', 13, '2019-05-29 07:18:38', '2019-05-29 07:18:38', NULL, NULL, NULL),
+(36, '18110371', 13, '2019-05-29 07:18:38', '2019-05-29 07:18:38', NULL, NULL, NULL),
+(37, '15110370', 13, '2019-05-29 07:18:38', '2019-05-29 07:18:38', NULL, NULL, NULL),
+(38, '15110237', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(39, '18110371', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(40, '18110372', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(41, '15110236', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(42, '15110238', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(43, '15110204', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(44, '15110370', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(45, '18110369', 14, '2019-05-30 08:21:52', '2019-05-30 08:21:52', 1, NULL, NULL),
+(46, '15110237', 15, '2019-05-31 21:55:42', '2019-05-31 21:55:42', 1, NULL, NULL),
+(47, '18110372', 15, '2019-05-31 21:55:42', '2019-05-31 21:55:42', 1, NULL, NULL),
+(48, '18110371', 15, '2019-05-31 21:55:42', '2019-05-31 21:55:42', 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `classes`
+--
+
+CREATE TABLE `classes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `class_name` varchar(191) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `school_year_id` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `classes`
+--
+
+INSERT INTO `classes` (`id`, `class_name`, `school_year_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, '151101', 1, NULL, NULL, NULL, NULL, NULL),
+(2, '151102', 1, NULL, NULL, NULL, NULL, NULL),
+(3, '151103', 1, NULL, NULL, NULL, NULL, NULL),
+(4, '159100', 1, NULL, NULL, NULL, NULL, NULL),
+(5, '161101', 2, NULL, NULL, NULL, NULL, NULL),
+(6, '161102', 2, NULL, NULL, NULL, NULL, NULL),
+(7, '169100', 2, NULL, NULL, NULL, NULL, NULL),
+(8, '171101', 3, NULL, NULL, NULL, NULL, NULL),
+(9, '171102', 3, NULL, NULL, NULL, NULL, NULL),
+(10, '179100', 3, NULL, NULL, NULL, NULL, NULL),
+(11, '171330', 3, NULL, NULL, NULL, NULL, NULL),
+(12, '181101', 4, NULL, NULL, NULL, NULL, NULL),
+(13, '181102', 4, NULL, NULL, NULL, NULL, NULL),
+(14, '181330', 4, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `collaborators`
+--
+
+CREATE TABLE `collaborators` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `exec_comm`
+--
+
+CREATE TABLE `exec_comm` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `level` int(11) DEFAULT NULL COMMENT '0: UV BCH Đoàn, 1: Bí Thư, 2: Phó bí thư, 3:Phó BT+LCH Trưởng',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `exec_comm`
+--
+
+INSERT INTO `exec_comm` (`id`, `student_id`, `level`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, '15110237', 1, NULL, '2019-04-13 21:44:27', NULL, 1, NULL),
+(2, '15110347', 3, NULL, '2019-05-04 06:19:25', NULL, 1, NULL),
+(3, '16110423', 2, NULL, NULL, NULL, NULL, NULL),
+(4, '16110294', 0, NULL, NULL, NULL, NULL, NULL),
+(5, '16110539', 0, NULL, NULL, NULL, NULL, NULL),
+(6, '16110376', 0, NULL, NULL, NULL, NULL, NULL),
+(7, '16110440', 0, NULL, NULL, NULL, NULL, NULL),
+(8, '17110386', 0, NULL, NULL, NULL, NULL, NULL),
+(9, '17110356', 0, NULL, NULL, NULL, NULL, NULL),
+(10, '18110362', 0, NULL, NULL, NULL, NULL, NULL),
+(11, '18110371', 0, NULL, NULL, NULL, NULL, NULL),
+(12, '18133064', 0, NULL, NULL, NULL, NULL, NULL),
+(13, '18110258', 0, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `logs`
+--
+
+CREATE TABLE `logs` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `student_name` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `role` varchar(191) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `action` text COLLATE utf8_unicode_ci NOT NULL,
+  `old_data` text COLLATE utf8_unicode_ci NOT NULL,
+  `new_data` text COLLATE utf8_unicode_ci NOT NULL,
+  `time_id` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `url` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `agent` varchar(191) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `logs`
+--
+
+INSERT INTO `logs` (`id`, `student_id`, `student_name`, `role`, `action`, `old_data`, `new_data`, `time_id`, `url`, `agent`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, 'dsdsdsd', '4554554', 'Admin', 'Cập nhật BCH', 'MSSV: 15110347<br>Chức vụ: 3<br>', 'MSSV: 18110371<br>Chức vụ: 3<br>', '2019-04-15 07:57:59', 'http://localhost:8080/DoanHoi/public/admin/exec-com/save-info.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.48 Safari/537.36 Edg/74.1.96.24', '2019-04-15 00:57:59', '2019-04-15 00:57:59', NULL, NULL, NULL),
+(2, '000000', '4554554', 'Admin', 'Cập nhật BCH', 'MSSV: 18110371<br>Chức vụ: 3<br>', 'MSSV: 15110347<br>Chức vụ: 3<br>', '2019-04-15 07:59:35', 'http://localhost:8080/DoanHoi/public/admin/exec-com/save-info.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.48 Safari/537.36 Edg/74.1.96.24', '2019-04-15 00:59:35', '2019-04-15 00:59:35', NULL, NULL, NULL),
+(3, '000000', 'Test', 'Admin', 'Cập nhật BCH', 'MSSV: 15110347<br>Chức vụ: 3<br>', 'MSSV: 18110371<br>Chức vụ: 3<br>', '2019-04-14 08:00:44', 'http://localhost:8080/DoanHoi/public/admin/exec-com/save-info.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.48 Safari/537.36 Edg/74.1.96.24', '2019-04-15 01:00:44', '2019-04-15 01:00:44', NULL, NULL, NULL),
+(4, '000000', 'Test', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Hội Thao 2019<br>Sinh viên đứng chính: 18110371<br>Thời gian bắt đầu: 01/05/2019<br>Thời gian kết thúc: 02/05/2019<br>', '2019-05-01 13:47:34', 'http://localhost:8080/DoanHoi/public/admin/activities/add', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.0 Safari/537.36 Edg/75.0.139.1', '2019-05-01 06:47:34', '2019-05-01 06:47:34', NULL, NULL, NULL),
+(5, '000000', 'Test', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: tEST<br>Sinh viên đứng chính: 15110237<br>Thời gian bắt đầu: 04/05/2019<br>Thời gian kết thúc: 06/05/2019<br>', '2019-05-01 14:39:26', 'http://localhost:8080/DoanHoi/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.0 Safari/537.36 Edg/75.0.139.1', '2019-05-01 07:39:26', '2019-05-01 07:39:26', NULL, NULL, NULL),
+(6, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Tên Chương trình: MIT 2019 nè<br>Sinh viên đứng chính: 16110423<br>Nội dung: <p><span style=\"color:#1abc9c;\">MIT</span> <strong>năm 2019</strong></p><br>', 'Tên Chương trình: MIT 2019 nè<br>Sinh viên đứng chính: 16110423<br>Nội dung: <p><span style=\"color:#1abc9c;\">MIT</span> <strong>năm 2019</strong></p>\r\n\r\n<p><strong>Năm nỳ</strong></p><br>', '2019-05-04 06:03:48', 'http://localhost:8080/DoanHoi/public/admin/activities/edit/4-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.18 Safari/537.36 Edg/75.0.139.4', '2019-05-03 23:03:48', '2019-05-03 23:03:48', NULL, NULL, NULL),
+(7, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Tên Chương trình: MIT 2019 nè<br>Sinh viên đứng chính: 16110423<br>Ngày bắt đầu: 01/05/2019<br>Ngày kết thúc: 02/05/2019<br>Ngày bắt đầu đăng ký: 24/04/2019<br>Nội dung: <p><span style=\"color:#1abc9c;\">MIT</span> <strong>năm 2019</strong></p>\r\n\r\n<p><strong>Năm nỳ</strong></p><br>Điểm rèn luyện: <p><span style=\"color:#1abc9c;\">MIT</span> <strong>năm 2019</strong></p><br>Điểm CTXH: 5<br>Số lượng đăng ký tối đa: 50<br>Năm học: 2018 - 2019<br>', 'Tên Chương trình: MIT 2019 nè mày ơi<br>Sinh viên đứng chính: 16110376<br>Ngày bắt đầu: 02/05/2019<br>Ngày bắt đầu: 02/05/2019<br>Ngày bắt đầu đăng ký: 25/04/2019<br>Nội dung: <p><span style=\"color:#1abc9c;\">MIT</span> <strong>năm 2019</strong></p><br>Điểm rèn luyện: 5<br>Điểm CTXH: 10<br>Số lượng đăng ký tối đa: 100<br>Năm học: 2016 - 2017<br>', '2019-05-04 06:07:34', 'http://localhost:8080/DoanHoi/public/admin/activities/edit/4-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.18 Safari/537.36 Edg/75.0.139.4', '2019-05-03 23:07:34', '2019-05-03 23:07:34', NULL, NULL, NULL),
+(8, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Tên Chương trình: MIT<br>Sinh viên đứng chính: 15110237<br>Nội dung: <br>Điểm rèn luyện: <br>Điểm CTXH: <br>Số lượng đăng ký tối đa: <br>Năm học: <br>Học kỳ: 1<br>', 'Tên Chương trình: MIT này test<br>Sinh viên đứng chính: 18133064<br>Nội dung: <p><span style=\"color:#2ecc71;\">Kh&ocirc;ng c&oacute; nội dung</span></p><br>Điểm rèn luyện: 20<br>Điểm CTXH: 5<br>Số lượng đăng ký tối đa: 100<br>Năm học: 2018 - 2019<br>Học kỳ: 2<br>', '2019-05-04 06:12:59', 'http://localhost:8080/DoanHoi/public/admin/activities/edit/3-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.18 Safari/537.36 Edg/75.0.139.4', '2019-05-03 23:12:59', '2019-05-03 23:12:59', NULL, NULL, NULL),
+(9, '000000', 'Test', 'Admin', 'Cập nhật BCH', 'MSSV: 18110371<br>Chức vụ: 3<br>', 'MSSV: 15110347<br>Chức vụ: 3<br>', '2019-05-04 13:19:25', 'http://localhost:8080/DoanHoi/public/admin/exec-com/save-info.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.18 Safari/537.36 Edg/75.0.139.4', '2019-05-04 06:19:25', '2019-05-04 06:19:25', NULL, NULL, NULL),
+(10, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Nội dung: <br>', 'Nội dung: <p><strong>Nội dung</strong> đ&acirc;y</p><br>', '2019-05-04 13:27:43', 'http://localhost:8080/DoanHoi/public/admin/activities/edit/5-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.18 Safari/537.36 Edg/75.0.139.4', '2019-05-04 06:27:43', '2019-05-04 06:27:43', NULL, NULL, NULL),
+(11, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-05-05 13:14:30', 'http://localhost:8080/DoanHoi/public/admin/activities/edit/4-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.18 Safari/537.36 Edg/75.0.139.4', '2019-05-05 06:14:30', '2019-05-05 06:14:30', NULL, NULL, NULL),
+(12, '000000', 'Test', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Tập Huấn kỹ năng 2019<br>Sinh viên đứng chính: 17110393<br>Thời gian bắt đầu: 01/06/2019<br>Thời gian kết thúc: 02/06/2019<br>', '2019-05-23 15:00:09', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3789.0 Safari/537.36 Edg/76.0.159.0', '2019-05-23 08:00:09', '2019-05-23 08:00:09', NULL, NULL, NULL),
+(13, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 01/05/2019<br>Ngày kết thúc: 02/05/2019<br>', 'Ngày bắt đầu: 01/06/2019<br>Ngày kết thúc: 03/06/2019<br>', '2019-05-30 15:20:37', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/5-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.167.1', '2019-05-30 08:20:37', '2019-05-30 08:20:37', NULL, NULL, NULL),
+(14, '000000', 'Test', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Chào đón tân sinh viên<br>Sinh viên đứng chính: 15110237<br>Thời gian bắt đầu: 04/06/2019<br>Thời gian kết thúc: 05/06/2019<br>', '2019-06-01 04:06:48', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.172.0', '2019-05-31 21:06:48', '2019-05-31 21:06:48', NULL, NULL, NULL),
+(15, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Sinh viên đứng chính: 17110393<br>Ngày kết thúc đăng ký: 31/05/2019<br>', 'Sinh viên đứng chính: 15110237<br>Ngày kết thúc đăng ký: 30/05/2019<br>', '2019-06-16 08:49:40', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/7-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.12 Safari/537.36 Edg/76.0.182.6', '2019-06-16 01:49:40', '2019-06-16 01:49:40', NULL, NULL, NULL),
+(16, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-06-16 08:51:18', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/7-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.12 Safari/537.36 Edg/76.0.182.6', '2019-06-16 01:51:18', '2019-06-16 01:51:18', NULL, NULL, NULL),
+(17, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 29/04/2019<br>Ngày kết thúc: 30/04/2019<br>', 'Ngày bắt đầu: 01/07/2019<br>Ngày kết thúc: 03/07/2019<br>', '2019-06-22 02:39:34', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/3-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3818.0 Safari/537.36 Edg/77.0.189.3', '2019-06-21 19:39:34', '2019-06-21 19:39:34', NULL, NULL, NULL),
+(18, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 01/07/2019<br>Ngày kết thúc: 03/07/2019<br>', 'Ngày bắt đầu: 21/06/2019<br>Ngày kết thúc: 23/06/2019<br>', '2019-06-22 02:53:31', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/3-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3818.0 Safari/537.36 Edg/77.0.189.3', '2019-06-21 19:53:31', '2019-06-21 19:53:31', NULL, NULL, NULL),
+(19, '000000', 'Test', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 04/06/2019<br>Ngày kết thúc: 05/06/2019<br>', 'Ngày bắt đầu: 01/07/2019<br>Ngày kết thúc: 05/07/2019<br>', '2019-06-22 02:54:12', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/8-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3818.0 Safari/537.36 Edg/77.0.189.3', '2019-06-21 19:54:12', '2019-06-21 19:54:12', NULL, NULL, NULL),
+(20, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm loại tin', ' ', 'Type: Thông tin đoàn hội<br>', '2019-06-30 13:19:09', 'http://localhost:8080/DoanHoiIT/public/admin/news/type/addType.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-06-30 06:19:09', '2019-06-30 06:19:09', NULL, NULL, NULL),
+(21, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm bài viết', '', 'Type id: 1<br>\r\n		Title: Hội thi MIT thành công tốt đẹp<br>\r\n		Sumary: Hội thi MIT thành công tốt đẹp<br>\r\n		Content: ', '2019-06-30 13:19:59', 'http://localhost:8080/DoanHoiIT/public/admin/news/addNew.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-06-30 06:19:59', '2019-06-30 06:19:59', NULL, NULL, NULL),
+(22, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm bài viết', '', 'Type id: 1<br>\r\n		Title: Chào đón tân sinh viên<br>\r\n		Sumary: Chào đón tân sinh viên<br>\r\n		Content: ', '2019-06-30 13:22:34', 'http://localhost:8080/DoanHoiIT/public/admin/news/addNew.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-06-30 06:22:34', '2019-06-30 06:22:34', NULL, NULL, NULL),
+(23, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm bài viết', '', 'Type id: 1<br>\r\n		Title: Ngày hội mở<br>\r\n		Sumary: Ngày mở 2019<br>\r\n		Content: ', '2019-06-30 13:24:32', 'http://localhost:8080/DoanHoiIT/public/admin/news/addNew.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-06-30 06:24:32', '2019-06-30 06:24:32', NULL, NULL, NULL),
+(24, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm bài viết', '', 'Type id: 1<br>\r\n		Title: Layout - OrgChart JS | BALKANGraph<br>\r\n		Sumary: zsdgdfhfcghcfgh<br>\r\n		Content: ', '2019-06-30 13:30:27', 'http://localhost:8080/DoanHoiIT/public/admin/news/addNew.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-06-30 06:30:27', '2019-06-30 06:30:27', NULL, NULL, NULL),
+(25, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa bài viết', 'Old type_id: 1<br>\r\n			Old Title: Hội thi MIT thành công tốt đẹp<br>\r\n			Old sumary: Hội thi MIT thành công tốt đẹp<br>\r\n			Old content: <p><strong>Hội thi MIT th&agrave;nh c&ocirc;ng tốt đẹp</strong></p>', 'New type_id: 1<br>\r\n			New Title: Hội thi MIT thành công tốt đẹp<br>\r\n			New sumary: Hội thi MIT thành công tốt đẹp<br>\r\n			New content: ', '2019-06-30 13:31:42', 'http://localhost:8080/DoanHoiIT/public/admin/news/edit/1.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-06-30 06:31:42', '2019-06-30 06:31:42', NULL, NULL, NULL),
+(26, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa bài viết', 'Old type_id: 1<br>\r\n			Old Title: Layout - OrgChart JS | BALKANGraph<br>\r\n			Old sumary: zsdgdfhfcghcfgh<br>\r\n			Old content: <p>dfgdfgdfgfdg</p>', 'New type_id: 1<br>\r\n			New Title: Layout - OrgChart JS | BALKANGraph<br>\r\n			New sumary: zsdgdfhfcghcfgh<br>\r\n			New content: ', '2019-06-30 14:33:46', 'http://localhost:8080/DoanHoiIT/public/admin/news/edit/4.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-06-30 07:33:46', '2019-06-30 07:33:46', NULL, NULL, NULL),
+(27, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa bài viết', 'Old type_id: 1<br>\r\n			Old Title: Layout - OrgChart JS | BALKANGraph<br>\r\n			Old sumary: zsdgdfhfcghcfgh<br>\r\n			Old content: <p>dfgdfgdfgfdg</p>', 'New type_id: 1<br>\r\n			New Title: Layout - OrgChart JS | BALKANGraph<br>\r\n			New sumary: zsdgdfhfcghcfgh<br>\r\n			New content: ', '2019-06-30 14:36:56', 'http://localhost:8080/DoanHoiIT/public/admin/news/edit/4.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-06-30 07:36:56', '2019-06-30 07:36:56', NULL, NULL, NULL),
+(28, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa bài viết', 'Old type_id: 1<br>\r\n			Old Title: Ngày hội mở<br>\r\n			Old sumary: Ngày mở 2019<br>\r\n			Old content: <p>sfdhghfdghdgfhdfghfdghdfghdfghdfgh</p>', 'New type_id: 1<br>\r\n			New Title: Ngày hội mở<br>\r\n			New sumary: Ngày mở 2019<br>\r\n			New content: ', '2019-06-30 14:44:53', 'http://localhost:8080/DoanHoiIT/public/admin/news/edit/3.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-06-30 07:44:53', '2019-06-30 07:44:53', NULL, NULL, NULL),
+(29, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 21/06/2019<br>Ngày kết thúc: 23/06/2019<br>', 'Ngày bắt đầu: 01/07/2019<br>Ngày kết thúc: 04/07/2019<br>', '2019-07-01 13:34:47', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/3-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-01 06:34:47', '2019-07-01 06:34:47', NULL, NULL, NULL),
+(30, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa chương trình', 'Ngày bắt đầu: 01/06/2019<br>Ngày kết thúc: 02/06/2019<br>', 'Ngày bắt đầu: 02/06/2019<br>Ngày kết thúc: 03/06/2019<br>', '2019-07-01 13:35:04', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/7-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-01 06:35:04', '2019-07-01 06:35:04', NULL, NULL, NULL),
+(31, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm loại tin', ' ', 'Type: Hoạt động nổi bật<br>', '2019-07-01 13:48:53', 'http://localhost:8080/DoanHoiIT/public/admin/news/type/addType.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-01 06:48:53', '2019-07-01 06:48:53', NULL, NULL, NULL),
+(32, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm loại tin', ' ', 'Type: Gương sinh viên 5 tốt<br>', '2019-07-01 13:49:10', 'http://localhost:8080/DoanHoiIT/public/admin/news/type/addType.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-01 06:49:10', '2019-07-01 06:49:10', NULL, NULL, NULL),
+(33, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm loại tin', ' ', 'Type: Hoạt động cơ sở<br>', '2019-07-01 13:51:32', 'http://localhost:8080/DoanHoiIT/public/admin/news/type/addType.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-01 06:51:32', '2019-07-01 06:51:32', NULL, NULL, NULL),
+(34, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa bài viết', 'Old type_id: 1<br>\r\n			Old Title: Layout - OrgChart JS | BALKANGraph<br>\r\n			Old sumary: zsdgdfhfcghcfgh<br>\r\n			Old content: <p>dfgdfgdfgfdg</p>', 'New type_id: 1<br>\r\n			New Title: Layout - OrgChart JS | BALKANGraph<br>\r\n			New sumary: zsdgdfhfcghcfgh<br>\r\n			New content: ', '2019-07-02 13:41:23', 'http://localhost:8080/DoanHoiIT/public/admin/news/edit/4.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-02 06:41:23', '2019-07-02 06:41:23', NULL, NULL, NULL),
+(35, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Mùa Hè Xanh<br>Sinh viên đứng chính: 15110347<br>Thời gian bắt đầu: 07/07/2019<br>Thời gian kết thúc: 13/07/2019<br>', '2019-07-07 05:23:14', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 22:23:14', '2019-07-06 22:23:14', NULL, NULL, NULL),
+(36, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm bài viết', '', 'Type id: 3<br>\r\n		Title: Sinh viên 5 tốt<br>\r\n		Sumary: Blabla<br>\r\n		Content: ', '2019-07-07 05:42:02', 'http://localhost:8080/DoanHoiIT/public/admin/news/addNew.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 22:42:02', '2019-07-06 22:42:02', NULL, NULL, NULL),
+(37, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa bài viết', 'Old type_id: 3<br>\r\n			Old Title: Sinh viên 5 tốt<br>\r\n			Old sumary: Blabla<br>\r\n			Old content: <p><strong>dfdfsdfsdf</strong></p>', 'New type_id: 3<br>\r\n			New Title: Sinh viên 5 tốt<br>\r\n			New sumary: Blabla<br>\r\n			New content: ', '2019-07-07 05:46:01', 'http://localhost:8080/DoanHoiIT/public/admin/news/edit/5.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 22:46:01', '2019-07-06 22:46:01', NULL, NULL, NULL),
+(38, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa bài viết', 'Old type_id: 3<br>\r\n			Old Title: Sinh viên 5 tốt<br>\r\n			Old sumary: Blabla<br>\r\n			Old content: <p><strong>dfdfsdfsdf</strong></p>', 'New type_id: 3<br>\r\n			New Title: Sinh viên 5 tốt<br>\r\n			New sumary: Blabla<br>\r\n			New content: ', '2019-07-07 05:47:00', 'http://localhost:8080/DoanHoiIT/public/admin/news/edit/5.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 22:47:00', '2019-07-06 22:47:00', NULL, NULL, NULL),
+(39, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: CT TEST<br>Sinh viên đứng chính: 15110237<br>Thời gian bắt đầu: 08/07/2019<br>Thời gian kết thúc: 12/07/2019<br>', '2019-07-07 05:50:36', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 22:50:36', '2019-07-06 22:50:36', NULL, NULL, NULL),
+(40, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-07-07 06:06:33', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/10-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 23:06:33', '2019-07-06 23:06:33', NULL, NULL, NULL),
+(41, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-07-07 06:17:52', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/10-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 23:17:52', '2019-07-06 23:17:52', NULL, NULL, NULL),
+(42, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-07-07 06:22:34', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/10-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 23:22:34', '2019-07-06 23:22:34', NULL, NULL, NULL),
+(43, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-07-07 06:22:49', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/10-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 23:22:49', '2019-07-06 23:22:49', NULL, NULL, NULL),
+(44, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-07-07 06:23:15', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/10-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-06 23:23:15', '2019-07-06 23:23:15', NULL, NULL, NULL),
+(45, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm bài viết', '', 'Type id: 2<br>\r\n		Title: Chào mừng 11 năm thành lập khoa công nghệ thông tin<br>\r\n		Sumary: Chào mừng 11 năm thành lập khoa công nghệ thông tin<br>\r\n		Content: ', '2019-07-07 08:52:28', 'http://localhost:8080/DoanHoiIT/public/admin/news/addNew.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-07 01:52:28', '2019-07-07 01:52:28', NULL, NULL, NULL),
+(46, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm bài viết', '', 'Type id: 4<br>\r\n		Title: Chào mừng<br>\r\n		Sumary: Hello<br>\r\n		Content: ', '2019-07-07 08:55:11', 'http://localhost:8080/DoanHoiIT/public/admin/news/addNew.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-07 01:55:11', '2019-07-07 01:55:11', NULL, NULL, NULL),
+(47, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa bài viết', 'Old type_id: 2<br>\r\n			Old Title: Chào mừng 11 năm thành lập khoa công nghệ thông tin<br>\r\n			Old sumary: Chào mừng 11 năm thành lập khoa công nghệ thông tin<br>\r\n			Old content: <p><span style=\"color:#27ae60;\"><strong>Ch&agrave;o mừng 11 năm th&agrave;nh lập khoa c&ocirc;ng nghệ th&ocirc;ng tin.</strong></span></p>', 'New type_id: 2<br>\r\n			New Title: Chào mừng 11 năm thành lập khoa công nghệ thông tin<br>\r\n			New sumary: Chào mừng 11 năm thành lập khoa công nghệ thông tin nef<br>\r\n			New content: ', '2019-07-07 09:07:29', 'http://localhost:8080/DoanHoiIT/public/admin/news/edit/6.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-07 02:07:29', '2019-07-07 02:07:29', NULL, NULL, NULL),
+(48, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa bài viết', 'Old type_id: 2<br>\r\n			Old Title: Chào mừng 11 năm thành lập khoa công nghệ thông tin<br>\r\n			Old sumary: Chào mừng 11 năm thành lập khoa công nghệ thông tin nef<br>\r\n			Old content: <p><span style=\"color:#27ae60;\"><strong>Ch&agrave;o mừng 11 năm th&agrave;nh lập khoa c&ocirc;ng nghệ th&ocirc;ng tin.</strong></span></p>', 'New type_id: 2<br>\r\n			New Title: Chào mừng 11 năm thành lập khoa công nghệ thông tin<br>\r\n			New sumary: Chào mừng 11 năm thành lập khoa công nghệ thông tin<br>\r\n			New content: ', '2019-07-07 09:08:57', 'http://localhost:8080/DoanHoiIT/public/admin/news/edit/6.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-07 02:08:57', '2019-07-07 02:08:57', NULL, NULL, NULL),
+(49, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa loại tin', 'Old Type: Thông tin đoàn hội', 'New Type: Thông tin đoàn hội nè<br>', '2019-07-07 09:21:32', 'http://localhost:8080/DoanHoiIT/public/admin/news/type/saveType.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-07 02:21:32', '2019-07-07 02:21:32', NULL, NULL, NULL),
+(50, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa loại tin', 'Old Type: Thông tin đoàn hội nè', 'New Type: Thông tin đoàn hội<br>', '2019-07-07 09:21:42', 'http://localhost:8080/DoanHoiIT/public/admin/news/type/saveType.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3829.0 Safari/537.36 Edg/77.0.197.1', '2019-07-07 02:21:42', '2019-07-07 02:21:42', NULL, NULL, NULL),
+(51, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Xóa tin', '', 'Xóa tin: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ', '2019-07-15 02:27:49', 'http://localhost:8080/DoanHoiIT/public/admin/news/delete.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3837.0 Safari/537.36 Edg/77.0.211.3', '2019-07-14 19:27:49', '2019-07-14 19:27:49', NULL, NULL, NULL),
+(52, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Xóa tin', '', 'Xóa tin: 12, ', '2019-07-15 02:49:51', 'http://localhost:8080/DoanHoiIT/public/admin/news/delete.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3837.0 Safari/537.36 Edg/77.0.211.3', '2019-07-14 19:49:51', '2019-07-14 19:49:51', NULL, NULL, NULL),
+(53, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa loại tin', 'Old Type: Học tập', 'New Type: Mùa hè xanh 2019<br>', '2019-07-15 02:59:56', 'http://localhost:8080/DoanHoiIT/public/admin/news/type/saveType.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3837.0 Safari/537.36 Edg/77.0.211.3', '2019-07-14 19:59:56', '2019-07-14 19:59:56', NULL, NULL, NULL),
+(54, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Cuộc thi học thuật MIT 2019<br>Sinh viên đứng chính: 15110347<br>Thời gian bắt đầu: 20/07/2019<br>Thời gian kết thúc: 21/07/2019<br>', '2019-07-15 03:08:15', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3837.0 Safari/537.36 Edg/77.0.211.3', '2019-07-14 20:08:15', '2019-07-14 20:08:15', NULL, NULL, NULL),
+(55, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Cuộc thi Hackathon lần I 2019<br>Sinh viên đứng chính: 15110237<br>Thời gian bắt đầu: 30/07/2019<br>Thời gian kết thúc: 30/07/2019<br>', '2019-07-15 03:13:37', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3837.0 Safari/537.36 Edg/77.0.211.3', '2019-07-14 20:13:37', '2019-07-14 20:13:37', NULL, NULL, NULL),
+(56, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Thêm chương trình', '', 'Tên Chương trình: Tập huấn kỹ năng cán bộ Đoàn hội<br>Sinh viên đứng chính: 16110423<br>Thời gian bắt đầu: 23/07/2019<br>Thời gian kết thúc: 24/07/2019<br>', '2019-07-15 03:17:42', 'http://localhost:8080/DoanHoiIT/public/admin/activities/add.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3837.0 Safari/537.36 Edg/77.0.211.3', '2019-07-14 20:17:42', '2019-07-14 20:17:42', NULL, NULL, NULL),
+(57, '15110237', 'Dương Tuấn Kiệt', 'Admin', 'Chỉnh sửa chương trình', '', '', '2019-07-20 14:02:53', 'http://localhost:8080/DoanHoiIT/public/admin/activities/edit/12-activity.php', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3843.0 Safari/537.36 Edg/77.0.218.4', '2019-07-20 07:02:53', '2019-07-20 07:02:53', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(6, '2019_03_08_170435_create_roles_table', 1),
+(7, '2019_03_08_170509_create_users_table', 1),
+(8, '2019_03_08_170543_create_password_resets_table', 1),
+(9, '2019_03_08_170705_create_classes_table', 1),
+(10, '2019_03_08_170735_create_shool_years_table', 1),
+(11, '2019_03_08_170859_create_activities_table', 1),
+(12, '2019_03_08_170930_create_workflows_table', 1),
+(13, '2019_03_08_171037_create_activity_funds_table', 1),
+(14, '2019_03_08_171124_create_provinces_table', 1),
+(15, '2019_03_08_171144_create_districts_table', 1),
+(16, '2019_03_08_171309_create_activity_fund_details_table', 1),
+(17, '2019_03_08_171335_create_attenders_table', 1),
+(18, '2019_03_08_171406_create_checkin_table', 1),
+(19, '2019_03_08_171510_create_practise_marks_table', 1),
+(20, '2019_03_08_171534_create_social_marks_table', 1),
+(21, '2019_03_08_171649_create_yearly_funds_table', 1),
+(22, '2019_03_08_171712_create_news_types_table', 1),
+(23, '2019_03_08_171724_create_news_table', 1),
+(24, '2019_03_08_171748_create_union_fees_table', 1),
+(25, '2019_03_08_171839_create_wards_table', 1),
+(26, '2019_03_09_064015_create_students_table', 1),
+(27, '2019_03_09_133158_create_user_roles_table', 1),
+(28, '2019_03_11_132555_create_notifications_table', 2),
+(29, '2019_03_12_131821_create_course_table', 3),
+(31, '2019_04_09_140841_create_exec_comm_table', 4),
+(32, '2019_04_13_134721_create_association_ec_table', 5),
+(33, '2019_04_13_140223_create_collaborators_table', 6),
+(35, '2019_04_14_081243_create_table_logs', 7),
+(36, '2019_06_29_061937_alter_users_table', 8);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `news`
+--
+
+CREATE TABLE `news` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `sumary` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `news`
+--
+
+INSERT INTO `news` (`id`, `sumary`, `content`, `title`, `image`, `type_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, 'Cuộc thi Học thuật Mastering IT 2019 là một trong những sân chơi vô cùng bổ ích và thú vị dành cho các bạn sinh viên có niềm đam mê và yêu thích trong lĩnh vực Công nghệ, không chỉ dành riêng cho sinh viên Khoa Công Nghệ Thông Tin, mà còn cho tất cả sinh viên trường ĐH Sư Phạm Kỹ Thuật TP HCM.', '<p><strong>&nbsp;&nbsp;Cuộc thi Học thuật Mastering IT 2019 l&agrave; một trong những s&acirc;n chơi v&ocirc; c&ugrave;ng bổ &iacute;ch v&agrave; th&uacute; vị d&agrave;nh cho c&aacute;c bạn sinh vi&ecirc;n c&oacute; niềm đam m&ecirc; v&agrave; y&ecirc;u th&iacute;ch trong lĩnh vực C&ocirc;ng nghệ, kh&ocirc;ng chỉ d&agrave;nh ri&ecirc;ng cho sinh vi&ecirc;n Khoa C&ocirc;ng Nghệ Th&ocirc;ng Tin, m&agrave; c&ograve;n cho tất cả sinh vi&ecirc;n trường ĐH Sư Phạm Kỹ Thuật TP HCM.</strong></p>\r\n\r\n<figure><img alt=\"\" height=\"280\" src=\"https://scontent.fsgn3-1.fna.fbcdn.net/v/t1.15752-0/p280x280/59851906_290876985193574_5731450933854863360_n.png?_nc_cat=111&amp;_nc_ht=scontent.fsgn3-1.fna&amp;oh=c3e4f763053407aa33edc695b5f8be44&amp;oe=5D66E922\" width=\"498\" />\r\n<figcaption>Mastering IT 2019</figcaption>\r\n</figure>\r\n\r\n<p>Với mong muốn tạo điều kiện cho c&aacute;c bạn sinh vi&ecirc;n ph&aacute;t huy khả năng tư duy v&agrave; kiến thức về C&ocirc;ng nghệ, tăng khả năng l&agrave;m việc nh&oacute;m v&agrave; bản lĩnh tự tin, Mastering IT 2019 đ&atilde; được tổ chức diễn ra với 2 v&ograve;ng thi:&nbsp;<em>V&ograve;ng Sơ loại</em>&nbsp;v&agrave;&nbsp;<em>V&ograve;ng Chung kết</em>&nbsp;với giải thưởng v&ocirc; c&ugrave;ng hấp dẫn.</p>\r\n\r\n<p><strong>Mastering IT</strong>&nbsp;l&agrave; cuộc thi thường ni&ecirc;n với quy m&ocirc; lớn của khoa C&ocirc;ng nghệ Th&ocirc;ng tin. Năm nay, đồng h&agrave;nh xuy&ecirc;n suốt chương tr&igrave;nh, kh&ocirc;ng thể kh&ocirc;ng kể đến 2 nh&agrave; t&agrave;i trợ ch&iacute;nh l&agrave;&nbsp;<em><strong>FPT Sofware</strong></em>&nbsp;v&agrave;&nbsp;<strong><em>Fujinet Systems SJC</em></strong>, đ&atilde; g&oacute;p phần quan trọng tạo n&ecirc;n sự th&agrave;nh c&ocirc;ng của chương tr&igrave;nh.</p>\r\n\r\n<figure><img alt=\"\" height=\"280\" src=\"https://scontent.fsgn4-1.fna.fbcdn.net/v/t1.15752-0/p280x280/59632152_442460659659888_7303559730427854848_n.jpg?_nc_cat=101&amp;_nc_ht=scontent.fsgn4-1.fna&amp;oh=39d740b97a7aa4f406bf97d832aa2491&amp;oe=5D777E7B\" width=\"420\" />\r\n<figcaption>V&ograve;ng Sơ loại MIT</figcaption>\r\n</figure>\r\n\r\n<p><em>&nbsp; &nbsp; &nbsp;V&ograve;ng Sơ loại</em>&nbsp;kịch t&iacute;nh vừa diễn ra v&agrave;o ng&agrave;y 6/5/2019 vừa qua, đ&atilde; chọn được 4 đội Kh&ocirc;ng Chuy&ecirc;n v&agrave; 4 đội Chuy&ecirc;n xứng đ&aacute;ng để bước tiếp v&agrave;o&nbsp;<em>V&ograve;ng Chung kết</em>, sẽ được diễn ra v&agrave;o ng&agrave;y 12/5/2019 tại Hội trường lớn khu A trường ĐH Sư Phạm Kỹ Thuật TP HCM.</p>\r\n\r\n<figure><img alt=\"\" height=\"280\" src=\"https://scontent.fsgn3-1.fna.fbcdn.net/v/t1.15752-0/p280x280/59566800_325739818116728_9120186061748699136_n.jpg?_nc_cat=107&amp;_nc_ht=scontent.fsgn3-1.fna&amp;oh=9a521180baa8e8b776224d3ba1c84848&amp;oe=5D5C8661\" width=\"420\" />\r\n<figcaption>V&ograve;ng Sơ loại MIT 2019</figcaption>\r\n</figure>\r\n\r\n<p>C&oacute; thể thấy, trong suốt 45 ph&uacute;t thi&nbsp;<em>v&ograve;ng Sơ loại</em>, với h&igrave;nh thức l&agrave;m trắc nghiệm trực tuyến, tự m&igrave;nh đối mặt với đề thi v&agrave; m&aacute;y t&iacute;nh, c&aacute;c bạn đ&atilde; chứng tỏ được sự tự tin v&agrave; vốn hiểu biết trong kh&ocirc;ng chỉ lĩnh vực học thuật, m&agrave; c&ograve;n cả trong thực tế của nền C&ocirc;ng nghệ hiện nay.</p>\r\n\r\n<p><strong>&nbsp; &nbsp; &nbsp;H&atilde;y c&ugrave;ng Khoa C&ocirc;ng Nghệ Th&ocirc;ng Tin theo d&otilde;i V&ograve;ng Chung kết, hứa hẹn sẽ mang đến những cung bậc cảm x&uacute;c v&ocirc; c&ugrave;ng kịch t&iacute;nh v&agrave; b&ugrave;ng nổ, chắc chắn sẽ kh&ocirc;ng l&agrave;m bạn thất vọng!</strong></p>', 'CUỘC THI HỌC THUẬT MASTERING IT 2019', 'Cmz1_59851906_290876985193574_5731450933854863360_n.png', 1, '2019-06-29 23:19:59', '2019-07-14 19:27:48', 187, 187, '2019-07-14 19:27:48'),
+(2, 'Chào đón tân sinh viên', '<p><a data-caption=\"\" href=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9293.jpg\"><img alt=\"\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9293-696x464.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9293-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9293-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9293-1024x683.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9293-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9293-630x420.jpg 630w\" title=\"IMG_9293\" width=\"696\" /></a></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp;<em><strong>&nbsp;Sau 1 th&aacute;ng tuyển qu&acirc;n v&agrave; chuẩn bị, v&agrave;o ng&agrave;y 4, th&aacute;ng 7, năm 2019, tại hội trường lớn khu A, trường ĐH SPKT TP HCM, c&aacute;c chiến sĩ M&ugrave;a h&egrave; xanh năm 2019 đ&atilde; ch&iacute;nh thức ra qu&acirc;n.</strong></em></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Buổi lễ đ&atilde; được diễn ra với sự g&oacute;p mặt của 2 nh&agrave; t&agrave;i trợ lớn BIDV v&agrave; SOUNDMAX, Th&agrave;nh Đo&agrave;n TP HCM, thầy Đỗ Văn Dũng &ndash; hiệu trưởng trường ĐH SPKT, đ/c L&ecirc; Xu&acirc;n Th&acirc;n &ndash; chỉ huy trưởng chiến dịch MHX năm 2019, ban chỉ huy chiến dịch c&ugrave;ng với hơn 300 chiến sĩ t&igrave;nh nguyện v&agrave; đặc biệt hơn hết, đ&oacute; ch&iacute;nh l&agrave; đại sứ chiến dịch M&ugrave;a h&egrave; xanh trường ĐH SPKT &ndash; hoa hậu Trần Tiểu Vy.</p>\r\n\r\n<p><img alt=\"Thầy Đỗ Văn Dũng và hoa hậu Trần Tiểu Vy\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-1024x683.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-1024x683.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-630x420.jpg 630w\" width=\"696\" /></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Mở đầu buổi lễ l&agrave; c&aacute;c tiết mục văn nghệ đặc sắc đến từ đội Văn nghệ thanh ni&ecirc;n xung k&iacute;ch, một phần đ&atilde; tiếp th&ecirc;m năng lượng cho c&aacute;c bạn chiến sĩ về mặt tinh thần để khởi h&agrave;nh tới c&aacute;c mặt trận tr&ecirc;n mọi miền Đất nước. Đến với buổi lễ, đ/c L&ecirc; Xu&acirc;n Th&acirc;n đ&atilde; đọc ph&aacute;t biểu khai mạc, khẳng định lại mục ti&ecirc;u của chiến dịch v&agrave; đưa ra những lời khuy&ecirc;n cho c&aacute;c bạn chiến sĩ.</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5666\" id=\"attachment_5666\"><img alt=\"CLB Văn nghệ\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9335-1024x683.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9335-1024x683.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9335-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9335-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9335-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9335-630x420.jpg 630w\" width=\"696\" />\r\n<figcaption id=\"caption-attachment-5666\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CLB Văn nghệ xung k&iacute;ch</figcaption>\r\n</figure>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Tiếp sau đ&oacute; l&agrave; phần chia sẻ của thầy Đỗ Văn Dũng, thầy đ&atilde; gi&uacute;p c&aacute;c bạn hiểu hơn về cuộc sống của c&aacute;c v&ugrave;ng ngh&egrave;o kh&oacute;, tiếp th&ecirc;m sự thấu hiểu v&agrave; đồng cảm cho c&aacute;c bạn sinh vi&ecirc;n đối với người d&acirc;n ngh&egrave;o ở c&aacute;c v&ugrave;ng kh&oacute; khăn xa x&ocirc;i.</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5668\" id=\"attachment_5668\"><img alt=\"Thầy Đỗ Văn Dũng đang phát biểu\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9361-1024x683.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9361-1024x683.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9361-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9361-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9361-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9361-630x420.jpg 630w\" width=\"696\" />\r\n<figcaption id=\"caption-attachment-5668\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Thầy Đỗ Văn Dũng ph&aacute;t biểu chỉ đạo trước khi c&aacute;c chiến sĩ l&ecirc;n đường</figcaption>\r\n</figure>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Tiếp theo của buổi lễ, bạn B&ugrave;i Minh Nhật đ&atilde; thay mặt hơn 300 bạn chiến sĩ đọc lời hứa l&ecirc;n d&acirc;y c&oacute;t tinh thần để l&ecirc;n đường thực hiện nhiệm vụ. B&ecirc;n cạnh đ&oacute;, Hoa hậu Việt Nam 2018 &ndash; Trần Tiểu Vy cũng chia sẻ th&ecirc;m, &ldquo;Vy cảm nhận được cuộc sống c&oacute; rất nhiều &yacute; nghĩa khi tham gia chiến dịch t&igrave;nh nguyện M&ugrave;a h&egrave; xanh, bởi v&igrave; đ&acirc;y l&agrave; một chiến dịch đầy nh&acirc;n văn v&agrave; t&igrave;nh người.&rdquo;.</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5669\" id=\"attachment_5669\"><img alt=\"Bạn Bùi Minh Nhật\" height=\"619\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9372-683x1024.jpg\" width=\"414\" />\r\n<figcaption id=\"caption-attachment-5669\">&nbsp; &nbsp; Chiến sĩ B&ugrave;i Minh Nhật đại diện hơn 300 ph&aacute;t biểu tuy&ecirc;n thệ&nbsp;</figcaption>\r\n</figure>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Chiến dịch MHX năm nay c&oacute; nhiều t&agrave;i trợ lớn gi&uacute;p đỡ v&agrave; đ&oacute;ng g&oacute;p để chiến dịch được trọn vẹn, biết được điều đ&oacute;, nh&agrave; trường đ&atilde; trao tặng c&aacute;c phần qu&agrave; &yacute; nghĩa để tỏ l&ograve;ng biết ơn đến c&aacute;c nh&agrave; t&agrave;i trợ.</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5673\" id=\"attachment_5673\"><img alt=\"Trưởng chiến dịch trao thư cảm ơn cho nhà tài trợ\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9388-1-1024x683.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9388-1-1024x683.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9388-1-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9388-1-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9388-1-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9388-1-630x420.jpg 630w\" width=\"696\" />\r\n<figcaption id=\"caption-attachment-5673\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Chỉ huy trưởng chiến dịch trao thư cảm ơn cho nh&agrave; t&agrave;i trợ</figcaption>\r\n</figure>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Kh&eacute;p lại buổi lễ l&agrave; phần trao tặng hoa cho c&aacute;c chỉ huy trưởng của c&aacute;c mặt trận v&agrave; phất l&aacute; cờ l&agrave; biểu tượng của chiến dịch t&igrave;nh nguyện M&ugrave;a h&egrave; xanh, b&aacute;o hiệu chiến dịch ch&iacute;nh thức bắt đầu.</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5671\" id=\"attachment_5671\"><img alt=\"Lá cờ của chiến dịch Mùa hè xanh đã được phất lên\" height=\"548\" sizes=\"(max-width: 821px) 100vw, 821px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409.jpg 821w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409-768x513.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409-696x465.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409-629x420.jpg 629w\" width=\"821\" />\r\n<figcaption id=\"caption-attachment-5671\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; L&aacute; cờ của chiến dịch M&ugrave;a h&egrave; xanh đ&atilde; được phất l&ecirc;n</figcaption>\r\n</figure>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; V&agrave; cũng trong ng&agrave;y h&ocirc;m nay, c&aacute;c bạn chiến sĩ tại mặt trận Nh&agrave; B&egrave; đ&atilde; l&ecirc;n xe để thực hiện nhiệm vụ đầu ti&ecirc;n của m&ugrave;a h&egrave; năm&nbsp;2019.</p>', 'LỄ RA QUÂN CHIẾN DỊCH TÌNH NGUYỆN MÙA HÈ XANH', 'soXe_faculty_banner.png', 1, '2019-06-29 23:22:34', '2019-07-14 19:27:48', 187, 187, '2019-07-14 19:27:48'),
+(3, 'Thông tin về cuộc thi Location Tech Hackathon 2018', '<p>Th&ocirc;ng tin cuộc thi Hackathon phối hợp c&ugrave;ng với HERE.com</p>\r\n\r\n<p>Link th&ocirc;ng tin cuộc thi:&nbsp;<a data-saferedirecturl=\"https://www.google.com/url?q=http://shtpic.org/locationhackathon2018/&amp;source=gmail&amp;ust=1541080832470000&amp;usg=AFQjCNFplWWnYhqdmOEFfZWK4JrNNmTrOQ\" href=\"http://shtpic.org/locationhackathon2018/\" rel=\"noreferrer\" target=\"_blank\">Hackathon Information Page</a></p>\r\n\r\n<p>Link facebook về cuộc thi:&nbsp;<a data-saferedirecturl=\"https://www.google.com/url?q=https://www.facebook.com/events/468239786998329&amp;source=gmail&amp;ust=1541080832470000&amp;usg=AFQjCNHVK447ZCMglClCG3v4OLmlWiJ0tg\" href=\"https://www.facebook.com/events/468239786998329\" rel=\"noreferrer\" target=\"_blank\">Hackathon Facebook page</a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>H&igrave;nh ảnh sự kiện đ&iacute;nh k&egrave;m file.<br />\r\n<img alt=\"\" src=\"http://fit.hcmute.edu.vn/Resources/Images/SubDomain/fit/20182019/HKI/HACKTHON.jpg\" /></p>', 'Thông tin về cuộc thi Location Tech Hackathon 2018', 'nklo_HACKTHON.jpg', 5, '2019-06-29 23:24:32', '2019-07-14 19:27:49', 187, 187, '2019-07-14 19:27:49'),
+(4, 'Vào 02 ngày 23 & 24/11/2018, Trường Đại học Sư phạm Kỹ thuật Tp.HCM (ĐHSPKT TPHCM) phối hợp cùng Bộ Giáo dục và Đào tạo tổ chức “Hội thảo quốc tế Công nghệ xanh phát triển bền vững lần thứ 4” năm 2018 tại tầng 6 và tầng 12 Tòa nhà Trung tâm trường ĐH Sư phạm Kỹ thuật Tp. HCM.', '<p><strong><strong>V&agrave;o 02 ng&agrave;y 23 &amp; 24/11/2018, Trường Đại học Sư phạm Kỹ thuật Tp.HCM (ĐHSPKT TPHCM) phối hợp c&ugrave;ng Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo tổ chức &ldquo;Hội thảo quốc tế C&ocirc;ng nghệ xanh ph&aacute;t triển bền vững lần thứ 4&rdquo; năm 2018 tại tầng 6 v&agrave; tầng 12 T&ograve;a nh&agrave; Trung t&acirc;m trường ĐH Sư phạm Kỹ thuật Tp. HCM.</strong><br />\r\n<br />\r\nVề tham dự buổi lễ, c&oacute; sự hiện diện của PGS.TS Ng&ocirc; Văn Thuy&ecirc;n, Chủ tịch hội đồng trường, trường ĐHSPKTTPHCM; PGS.TS L&ecirc; Hiếu Giang, Ph&oacute; Hiệu Trưởng trường ĐHSPKT TPHCM;&nbsp; GS. TS. Yo-Ping Huang, NTUT, Đ&agrave;i Loan v&agrave; c&aacute;c đại biểu l&agrave; t&aacute;c giả b&agrave;i viết.<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H1.JPG\" /></strong></p>\r\n\r\n<p><strong><em>Hội nghị thu h&uacute;t đ&ocirc;ng đảo c&aacute;c học giả, nh&agrave; nghi&ecirc;n cứu, nh&agrave; khoa học,&hellip;</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Về ph&iacute;a kh&aacute;ch mời danh dự c&oacute; c&aacute;c vị đại biểu: TS. K.Srikar Reddy, Tổng l&atilde;nh Sự qu&aacute;n Ấn Độ tại TPHCM, Việt Nam; TS. Trần Nam T&uacute;, đại diện Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo; GS.TS Yan-Kuin Su, Nguy&ecirc;n Hiệu trưởng trường đại học Kun Shan, Đ&agrave;i Loan; GS.TS Chang &ndash;Ren Chen, Trường đại học Kun Shan, Đ&agrave;i Loan; GS. TS Kai &ndash; Yew Lum, Đại học Quốc gia Chi nan, Đ&agrave;i Loan; Mr. Andreas Wade, Gi&aacute;m đốc ph&aacute;t triển bền vững to&agrave;n cầu, First Solar; PGS.TS Jau Huai Lu, Đại học quốc gia Chung Hsing Đ&agrave;i Loan; &Ocirc;ng Cao Ph&uacute; Hải, Gi&aacute;m đốc sản xuất c&ocirc;ng ty ABB, Việt Nam; c&ugrave;ng c&aacute;c đại biểu đến từ Đ&agrave;i Loan, Nhật Bản, Trung Quốc, H&agrave;n Quốc, Th&aacute;i Lan, Bangladesh, Kazakhstan, Nga v&agrave; Việt Nam.&nbsp;<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H2.JPG\" /></strong></p>\r\n\r\n<p><strong><em>Đại diện c&aacute;c trường Đại học từ trong v&agrave; ngo&agrave;i nước tham dự Hội nghị</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Trong hơn mười năm trở lại đ&acirc;y, kh&aacute;i niệm về &ldquo;C&ocirc;ng nghệ xanh&rdquo; v&agrave; &ldquo;Ph&aacute;t triển bền vững&rdquo; đ&atilde; trở n&ecirc;n hết sức được ch&uacute; trọng, nhất l&agrave; khi mối đe dọa về sự thiếu hụt nguồn năng lượng v&agrave; biến đổi kh&iacute; hậu to&agrave;n cầu ng&agrave;y c&agrave;ng trở n&ecirc;n nghi&ecirc;m trọng hơn. Theo đ&oacute;, c&aacute;c &quot;giải ph&aacute;p xanh&quot; trong kinh tế v&agrave; c&ocirc;ng nghệ li&ecirc;n quan đến sự ph&aacute;t triển bền vững đ&atilde; v&agrave; đang trở th&agrave;nh một trong những đề t&agrave;i được quan t&acirc;m nhất hiện nay, đặc biệt l&agrave; ở những nước đang vươn m&igrave;nh ph&aacute;t triển nhanh ch&oacute;ng như Trung Quốc, Ấn Độ, Việt Nam&hellip; &ldquo;Hội thảo quốc tế C&ocirc;ng nghệ xanh ph&aacute;t triển bền vững lần thứ 4&rdquo; đ&atilde; trở th&agrave;nh diễn đ&agrave;n hấp dẫn cho những chuy&ecirc;n gia, nh&agrave; nghi&ecirc;n cứu v&agrave; những người quan t&acirc;m cả trong lẫn ngo&agrave;i nước gặp gỡ v&agrave; chia những kết quả nghi&ecirc;n cứu mới, những giải ph&aacute;p mang t&iacute;nh to&agrave;n cầu nhằm trong lĩnh vực c&ocirc;ng nghệ xanh v&agrave; ph&aacute;t triển bền vững.&nbsp;<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H3%20(1).JPG\" /></strong></p>\r\n\r\n<p><strong><em>PGS.TS L&ecirc; Hiếu Giang &ndash; Ph&oacute; B&iacute; thư Đảng ủy, Ph&oacute; Hiệu trưởng ĐHSPKT TPHCM&nbsp;<br />\r\nph&aacute;t biểu ch&agrave;o mừng tại Hội thảo</em></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>Đ&acirc;y l&agrave; hội thảo lần thứ 4 nằm trong chuỗi hội thảo quốc tế C&ocirc;ng nghệ Xanh v&agrave; Ph&aacute;t triển bền vững được tổ chức định kỳ hai năm/lần. Đồng tổ chức Hội thảo gồm Trường đại học Sư phạm Kỹ thuật TPHCM, Sở Khoa học v&agrave; C&ocirc;ng nghệ TPHCM, Viện năng lượng mặt trời, Ấn Độ; Trường đại học Kun Shan, Đ&agrave;i Loan.<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H4.JPG\" /></strong></p>\r\n\r\n<p><strong><em>TS. Trần Nam T&uacute; - đại diện Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Ph&aacute;t biểu tại Hội nghị, TS. Trần Nam T&uacute;, đại diện Vụ Khoa học, C&ocirc;ng ngh&ecirc; v&agrave; M&ocirc;i trường - Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo, đề cập đến vấn đề về m&ocirc;i trường v&agrave; &ocirc; nhiễm đang c&oacute; những t&aacute;c động xấu đến sự ph&aacute;t triển bền vững của Việt Nam cũng như thế giới. Do đ&oacute;, &ocirc;ng đ&aacute;nh gi&aacute; rất cao về tầm nh&igrave;n v&agrave; vai tr&ograve; của Hội nghị lần n&agrave;y: &ldquo;B&ecirc;n cạnh &yacute; nghĩa khoa học, hội thảo l&agrave; cực kỳ quan trọng trong hội nhập v&agrave; hợp t&aacute;c quốc tế. Hội nghị l&agrave; cơ hội cho c&aacute;c nh&agrave; khoa học Việt Nam v&agrave; quốc tế, c&aacute;c tổ chức học thuật tr&ecirc;n thế giới chia sẻ kiến thức, kinh nghiệm, kết quả nghi&ecirc;n cứu li&ecirc;n quan đến c&ocirc;ng nghệ xanh v&agrave; ph&aacute;t triển bền vững. Đ&acirc;y l&agrave; một đ&oacute;ng g&oacute;p quan trọng cho hoạt động nghi&ecirc;n cứu v&agrave; đ&agrave;o tạo trong gi&aacute;o dục đại học cũng như tham gia ph&aacute;t triển kinh tế - x&atilde; hội, bảo vệ m&ocirc;i trường bền vững&rdquo;. Qua đ&oacute;, &ocirc;ng cũng nhấn mạnh về định hướng chiến lược của Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo Việt Nam l&agrave; đẩy nhanh việc chuyển giao kết quả nghi&ecirc;n cứu v&agrave;o sản xuất, trong đ&oacute; c&ocirc;ng nghệ xanh v&agrave; ph&aacute;t triển bền vững l&agrave; một ưu ti&ecirc;n h&agrave;ng đầu: &ldquo;T&ocirc;i hy vọng th&ocirc;ng qua hội thảo n&agrave;y, ch&uacute;ng ta c&oacute; thể tạo ra một sự tiến bộ cho sự hợp t&aacute;c chung về C&ocirc;ng nghệ v&agrave; Gi&aacute;o dục, đặc biệt l&agrave; th&agrave;nh phố Hồ Ch&iacute; Minh v&agrave; c&aacute;c trường đại học kh&aacute;c sẽ tiếp tục duy tr&igrave; tổ chức chuỗi hội thảo n&agrave;y trong tương lai.&rdquo;<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H5%20(1).JPG\" /></strong></p>\r\n\r\n<p><strong><em>GS.TS Yan-Kuin Su, Nguy&ecirc;n Hiệu trưởng trường đại học Kun Shan, Đ&agrave;i Loan ph&aacute;t biểu</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Hội thảo đ&atilde; thu h&uacute;t hơn 250 b&agrave;i b&aacute;o l&agrave; kết quả nghi&ecirc;n cứu từ c&aacute;c nh&agrave; khoa học, học giả. Sau qu&aacute; tr&igrave;nh phản biện, hội thảo c&ograve;n 162 b&agrave;i viết được mời b&aacute;o c&aacute;o, chia sẻ tại 11 ph&acirc;n ban trong hội nghị.&nbsp;<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H6.JPG\" /></strong></p>\r\n\r\n<p><strong><em><img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H6a.JPG\" /><br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H6c.JPG\" /><br />\r\nC&aacute;c nh&agrave; khoa học, diễn giả tr&igrave;nh b&agrave;y v&agrave; thảo luận tại Hội nghị</em></strong></p>\r\n\r\n<p><br />\r\n<strong>Nội dung Hội thảo xoay quanh c&aacute;c vấn đề: Năng lượng t&aacute;i tạo, Kỹ thuật Điện-Điện tử, Kỹ thuật d&acirc;n dụng, Tự động h&oacute;a, Hệ thống th&ocirc;ng tin, khoa học ứng dụng, C&ocirc;ng nghệ nhiệt, Ph&aacute;t triển nền kinh tế, gi&aacute;o dục bền vững, C&ocirc;ng nghệ h&oacute;a v&agrave; m&ocirc;i trường, C&ocirc;ng nghệ Kỹ thuật cơ kh&iacute;.<br />\r\n<br />\r\n<img alt=\"\" src=\"http://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/tin%20tuc/Nam%202018/Thang%2011-2018/Cong%20nghe%20xanh/H7.JPG\" /></strong></p>\r\n\r\n<p><strong><em>C&aacute;c đại biểu chụp ảnh lưu niệm tại lễ khai mạc Hội thảo</em></strong></p>', 'TIN TỨC - SỰ KIỆN “Hội thảo quốc tế Công nghệ xanh phát triển bền vững lần thứ 4” năm 2018', '3zvl_H6a.jpg', 2, '2019-06-29 23:30:27', '2019-07-14 19:27:49', 187, 187, '2019-07-14 19:27:49'),
+(5, '', '<p>HD Bank tuyển dụng thực tập</p>\r\n\r\n<p>Nh&acirc;n vi&ecirc;n thực tập kiểm thử ứng dụng &ndash; P. NHĐT<br />\r\nM&ocirc; Tả C&ocirc;ng Việc<br />\r\n&bull; Kiểm thử ứng dụng phần mềm thuộc c&aacute;c dự &aacute;n mBanking, iBanking v&agrave; dự &aacute;n Digital Banking của ng&acirc;n h&agrave;ng.&nbsp;<br />\r\n&bull; T&igrave;m hiểu c&aacute;c sản phẩm, quy tr&igrave;nh nghiệp vụ của Ng&acirc;n h&agrave;ng.<br />\r\n&bull; T&igrave;m hiểu c&aacute;c ứng dụng của Ng&acirc;n h&agrave;ng.<br />\r\n&bull; Tham gia viết kịch bản kiểm thử, lập kế hoạch kiểm thử cho c&aacute;c sản phẩm, ứng dụng.</p>\r\n\r\n<p>Y&ecirc;u Cầu C&ocirc;ng Việc<br />\r\n&bull; Sinh vi&ecirc;n năm cuối chuy&ecirc;n ng&agrave;nh C&ocirc;ng nghệ Th&ocirc;ng tin.<br />\r\n&bull; C&oacute; kiến thức về: kiểm thử, cơ cở dữ liệu, lập tr&igrave;nh.<br />\r\n&bull; Kỹ năng l&agrave;m việc nh&oacute;m tốt.<br />\r\n&bull; Cẩn thận, tỉ mỉ, c&oacute; tr&aacute;ch nhiệm với c&ocirc;ng việc, khả năng chịu được &aacute;p lực c&ocirc;ng việc cao.<br />\r\n&bull; Đọc, hiểu tiếng Anh chuy&ecirc;n ng&agrave;nh.<br />\r\n&bull; Ưu ti&ecirc;n sinh vi&ecirc;n c&oacute; tham gia c&aacute;c kh&oacute;a kiểm thử phần mềm.<br />\r\n&bull; Lương: 2,000,000VND/người/th&aacute;ng.</p>\r\n\r\n<p>Li&ecirc;n hệ nộp hồ sơ:</p>\r\n\r\n<p>TRẦN THỊ TỐ T&Acirc;M | Trưởng Bộ phận - Ph&ograve;ng Tuyển dụng | Khối Nh&acirc;n sự</p>\r\n\r\n<p>E: tamttt3@hdbank.com.vn</p>\r\n\r\n<p>M: 0944 05 11 83</p>\r\n\r\n<p>W:&nbsp;<a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"async\" href=\"https://l.facebook.com/l.php?u=http%3A%2F%2Fwww.hdbank.com.vn%2F%3Ffbclid%3DIwAR0MnmPfVKYdPr2fakZabviimd1VUU0DcKgXr1Iio9lywrRXCnvv46wtvao&amp;h=AT14LRoRBvc20KoQzDnJbM3Lp-SoyVpjLcn83tXtshyY9g-EqMAewcVdcppcyYPr-ggzCXjq1RMVlFOaSeL0k-YjiXj9BGk4_5rEhxyvkkDMNHWtcBpe4gCSzFvCjD6iWWIhu13ea44zOMhp2zRlI-pi08I5WNt-UNb2jodyukuLGv8MMPocHCQBcZbjwrv2bfHf4Da4VQxv--CrMqh9SrYtK8VY3wEwLc7acbHy04ZduZBEOC07ZyOlNIviywXTvVoXnb7IQDtU3kqExUJwV01NMQ41klfRgiKq06FH75a4CkkttZBGtq81pMZA3haY-AYwCCa7bfjth-Ikz0qggnzyTUAZYP72aZuuMWAXxhZao_qLEMR0vRcjSxXQQG4jYkgu34VM4IVbUCXw30m6G7VgyrIZlIU7g6vN1Jc2bQpm-i_OOZYH52KYY0_Yz2wRDgQIPZlc91YnXf3RyHWhWV8kuC753Z-delg44DsuDPu88BgcHCmDpFoYnvsWlHY_AUUj8aqBdNJSbAdLkIqBxumUmJQt-PY7L1SR1cuhs7-i3NSSptz_g_Vm_D4Gl5Ivzdyj3yTVe89WQCC1fOvMeW9gAzLcoh0o1CijuM4EuYAUp35xh2eA9cOV0zRks2k3WyIVSA\" rel=\"noopener nofollow\" target=\"_blank\">www.hdbank.com.vn</a></p>\r\n\r\n<p>T: +84 8 62 915 916 &ndash; Ext: 1472</p>', 'HD Bank tuyển dụng thực tập', 'Lk5q_Logo.png', 6, '2019-07-06 15:42:02', '2019-07-14 19:27:49', 187, 187, '2019-07-14 19:27:49'),
+(6, '', '<p>Khoa CNTT khảo s&aacute;t th&ocirc;ng tin c&aacute;c bạn cựu sinh vi&ecirc;n v&agrave; doanh nghiệp c&aacute;c bạn đang l&agrave;m việc. Rất mong c&aacute;c bạn hỗ trợ l&agrave;m khảo s&aacute;t ngắn trong trong link. Cảm ơn c&aacute;c bạn.<br />\r\nBCN Khoa.<br />\r\nTS. L&ecirc; Văn Vinh.</p>\r\n\r\n<p><a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"async\" data-lynx-uri=\"https://l.facebook.com/l.php?u=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2F1EsiikUYSggRoDZMTKF6FsBnTt6ap0ZSZPMtpwlZd3K4%2Fedit%3Ffbclid%3DIwAR0bg3swLzGMyXaoDfx6QaELSCXKbhKNQRL4aUqqhN63CJsFO6xO8une5-g&amp;h=AT2MpPBcs6oxfUy9QvQOAOUMMjuRW82LkkcJeYULVuLcaXZmyG69ACMIyn65rG3PF0LaoCxsayd-oo26TjEtE-llTuPSkTBDTl-wE2UbuiMI_fyMOqgIy7UgBUFcL95k4CR_487sujW_OKUFHsXhNP417GRHTlMXIa8ImPQhanrpQFDwkRps-ncvEq8X76a13IzP4YQxnaBDE7HejZTWsttWOLcXO7KnVvgwZ3i8ysjFjc4ji2qBKQRzzfFNsv1SqV3d3P9J8k6QO_mlg8sqvNCcl4MwmxpKwuwlZdrqqCKSGpZivCrX4VOV-ngrppbrzy69vxT4AP6jr2df9PL7qlKxPO8tY2FYlygroGvMTqJqJOkyot-NrC5gsX5_rqycLkfUEX5EpM9bK00o7qFpTCVThsE8j2Uy_2rtps8Nuxa_d4oKcJ_QvezXg4nTWAc819wM1gLRRlvyLqCgJX_iQ4e5ScXlIJ_mJiZnT3ae9G75ue2hVSlOGPb79XfFwGVuRZJBVQeCNifcR0kX3WhnpWbf83q2V0Oe2Kb4Tikqdoti4n9DH8pYEjgp1lM4feedtJtSzfM67mbZ_r950G4TbQJ8A1V_7oZtQ0ga1foZlyBvOCGcM3Ipg35zZQoOA2lISppcNQ\" href=\"https://docs.google.com/forms/d/1EsiikUYSggRoDZMTKF6FsBnTt6ap0ZSZPMtpwlZd3K4/edit?fbclid=IwAR0bg3swLzGMyXaoDfx6QaELSCXKbhKNQRL4aUqqhN63CJsFO6xO8une5-g\" rel=\"noopener nofollow\" target=\"_blank\">https://docs.google.com/&hellip;/1EsiikUYSggRoDZMTKF6FsBnTt6a&hellip;/edit</a></p>', 'Khảo sát', 'kgom_faculty_banner.png', 4, '2019-07-06 18:52:28', '2019-07-14 19:27:49', 187, 187, '2019-07-14 19:27:49'),
+(7, '', '<p>TH&Ocirc;NG B&Aacute;O V/v: Tuyển dụng Kỹ sư C&ocirc;ng Nghệ Th&ocirc;ng Tin 2019&nbsp;<br />\r\nC&ocirc;ng ty TNHH C&ocirc;ng Nghiệp Nặng Doosan Việt Nam th&ocirc;ng b&aacute;o tuyển dụng nh&acirc;n sự như sau: 1. Vị tr&iacute; tuyển: Kỹ sư IT 2. Số lượng tuyển: 5 Kỹ sư 3. Y&ecirc;u cầu&nbsp;<br />\r\n- Hạn nhận hồ sơ: 17.06.2019, ưu ti&ecirc;n ứng vi&ecirc;n nộp hồ sơ sớm - Sinh vi&ecirc;n thuộc khoa C&ocirc;ng Nghệ Th&ocirc;ng Tin, chuy&ecirc;n ng&agrave;nh li&ecirc;n quan đến C&ocirc;ng Nghệ Th&ocirc;ng Tin&nbsp;<br />\r\nHệ đại học ch&iacute;nh quy - Xếp loại học lực: Kh&aacute; trở l&ecirc;n - Kinh nghiệm: Sinh vi&ecirc;n mới tốt nghiệp, sẽ được đ&agrave;o tạo khi l&agrave;m việc tại C&ocirc;ng ty&nbsp;<br />\r\n- Ưu ti&ecirc;n cho sinh vi&ecirc;n c&oacute; hộ khẩu thường tr&uacute; tại Quảng Ng&atilde;i v&agrave; c&aacute;c tỉnh miền Trung 4. Ph&uacute;c lợi l&agrave;m việc&nbsp;<br />\r\n- L&agrave;m việc từ thứ 2 &ndash; thứ 6, nghỉ thứ 7 v&agrave; chủ nhật - Mức lương hấp dẫn, m&ocirc;i trường l&agrave;m việc chuy&ecirc;n nghiệp&nbsp;<br />\r\nThưởng lương th&aacute;ng 13, thưởng th&agrave;nh quả c&ocirc;ng việc v&agrave; c&aacute;c dịp lễ, Tết trong năm - Cơ hội tham gia c&aacute;c chương tr&igrave;nh đ&agrave;o tạo n&acirc;ng cao năng lực trong nước v&agrave; nước ngo&agrave;i (H&agrave;n Quốc)&nbsp;<br />\r\nC&oacute; kỳ nghỉ h&egrave; h&agrave;ng năm (Được hưởng đầy đủ lương) - Hỗ trợ nh&agrave; ở (Căn hộ cho người lập gia đ&igrave;nh/K&yacute; t&uacute;c x&aacute; cho người độc th&acirc;n) - Hỗ trợ xe đưa đ&oacute;n h&agrave;ng ng&agrave;y, ăn uống v&agrave; đồng phục c&ocirc;ng ty&nbsp;<br />\r\n- Kh&aacute;m sức khỏe định kỳ, tham gia bảo hiểm đầy đủ v&agrave; c&aacute;c chế độ kh&aacute;c theo quy định của ph&aacute;p luật. 5. Địa điểm l&agrave;m việc&nbsp;<br />\r\nC&ocirc;ng ty TNHH C&ocirc;ng Nghiệp Nặng Doosan Việt Nam&nbsp;<br />\r\nKhu Kinh tế Dung Quất, X&atilde; B&igrave;nh Thuận, Huyện B&igrave;nh Sơn, Tỉnh Quảng Ng&atilde;i 6. Hồ sơ ứng tuyển bao gồm&nbsp;<br />\r\n- CV theo mẫu Doosan VINA (Tải form CV tại đ&acirc;y:&nbsp;<a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"async\" href=\"https://l.facebook.com/l.php?u=http%3A%2F%2Fwww.doosan%2F%3Ffbclid%3DIwAR2uMb0Il8ZPZ1hUFbxivzKYEr7FIOFf60YK21AcDcaRy6MuEYIVVzJW8zg&amp;h=AT2Lz23nEZeQA99V0qtBW4N1ACdnW3LvZRUW64smMHHFLI4xeYpKnEkKE7f-17FxsO6aKI7rtymWUiTs1P78wyNY2_caTKwfxem76U2no_vCEgjrxGwPNRKl9U-2gDMiAzNQkbF4re2GQQs32UDP_GaNU4FJ2pqurYVyQ8KdWpDhDIyMbxYxhRiUAE7HJpEy1QenDOSNJNauTchFmTLzi8TjIXrye_94e-lF414QkSRZtPNKCYX0b5N7C6hVvRMO8LXuiOZYqoLrbMjCcoxMttk9XtIqzzNwb-6fzHkvOCi7jErs1za6jPtEP3Aph81smUT9a2vM05ARcTaPtTGvVDtk6P5jBqoYwi8DrVkh64sG24a5F8F-7EuJKp3PsgTAEfbcBwy-DPbqj6tIagmmH2RMeUwcj2pyC9fLndMjw7mA8mV6nxzeuc_LkE9V-Te0pNUNY3lufG4Ni-VPKRfV1_b47AjgIM3bVfON5af2KHKyqreKonfC0nrPsA4TMobNyV6fBvDijp6MBs4LqevPPAGxns-94bwUXrRys1srYkomwn826Oftnp3FtHbtK4QDHVSxtRD7B3T-4g8qlG4czyjLKaNFjLdpOSAPk166KNdOqmLzoy-YvtTTSsU1yvBx6g-bkw\" rel=\"noopener nofollow\" target=\"_blank\">http://www.doosan</a>&nbsp;<br />\r\n<a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"async\" href=\"https://l.facebook.com/l.php?u=http%3A%2F%2Fvina.com%2Fdoosanvina%2Fen%2Fcareers%2Findex.html%3Ffbclid%3DIwAR3NvgvwqRrJcrgfluMyV3gSoiMYfKyjQ-xbpMgwKSSG8bfP6g-qoM2l_sY&amp;h=AT0Q9DdKDgfHuNIji2Ku5f2cWhZQ1h-lxTKGA0w5aMeKAhoKrwCuFi4cbk8p5jcmmIbPXoZVdLS8XSY-IFcce9wrdfazapZdGixt1mjxOPDl0SClHqfmJKk2f4wT7U55c_b_qMHLbsTkUTZUFcZPvUijD_I8GUHD_kmsNLyqq8reT5PlFkVxw7cplm4mNdaJ_P7SOHV8iR9GjXQIREqcAqo-57XnccxOUicmft_YEhzYknmnBBdLm_baVfKzv6L1efe3YLqqbUh5LXXsbB0nWCPKtiynA-DambBDsAE6CX9wLgzAZQca2faINb0CLBvHFzJQQ9-t2PPzONCnkvOv_juHlZFvvO62eHhNanA_UFIimmHRMtXk7wRDmlMZgugTjqcw85kAra8M6mrLKejIkDoMEdxy8e656f1CdZ1OalE96CjIxMDGNeJagaa6R0hTfqU4aJTh2DSbaJP5l3vpolB17UFSRW2umY9w7_fTZ9D2T2tLxXlbT7RH3A3iRIaBZfGWZJbZz9CfyhAWmHnb2yRSNzFNcW0FMg7t99Y26iRa4_3ZEI7lQNYP2rlivnrCxXXvdxi0_FQReDpenFVEYEvMtWkW0ZUwnXzRZKmM61Z7DQlL9-ZH3srLB2FDiUM9cG9hTw\" rel=\"noopener nofollow\" target=\"_blank\">vina.com/doosanvina/en/careers/index.html</a>) - Bảng điểm trong qu&aacute; tr&igrave;nh học tập, bản sao CMND v&agrave; c&aacute;c bằng cấp, chứng chỉ li&ecirc;n quan (Nếu c&oacute;) 7. Nơi nhận hồ sơ&nbsp;<br />\r\n- Nộp hồ sơ trực tiếp qua địa chỉ email: dvhr@doosan.com&nbsp;<br />\r\nMọi thắc mắc c&oacute; thể li&ecirc;n hệ: Ms. Trịnh Thị Kim Oanh Ph&ograve;ng Quản l&yacute; Nh&acirc;n sự Mail: oanh.trinhthikim@<a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"async\" data-lynx-uri=\"https://l.facebook.com/l.php?u=http%3A%2F%2Fdoosan.com%2F%3Ffbclid%3DIwAR2nOv-XJNmW4jjnTjw8wcLztF86C7IQRP7GQmNnlhWqfzxbzItvCw9V9mk&amp;h=AT123ZP0XosLoAtMB5iRRmFgaAUk6cyYaRi0cdvl6W6b2-cKDHC9l21HJm0WabBm2rVS5b2-zt4B-AGd8o8Gjqe50uv3ByOwEgmzT7aZZ4wLK8y49K01g8dVdECVM7tK7aNSQQ4WZhsAtnKMGoWfDmK9DS6OuCYhOOi8Mp4ysE6KdUAtzJx2z3akdMNmjwNeonMgeLLfJlSRtQrtx50ErKft3AEJbr_UEYv8nqLPZeqZ4DfL_ygp-4gSMHMaxqqS5TaSgK3V3SmiudmiPOP_0TbRm_Sg_Qe23Zv9-2vCGEbhpWlfCk5qWa0wdkluWbgwbLeI4KZ_YYL6ieajB5I3aRh2vMTWX345LiK-0rb0y8ywst5bmYfuG2wHoYSJoLTvRQgeHqxasij-OSvuGbjC0rUSAATq_zBVpsI4bZjOBBr5pgXLVRPIIbrGboJEb2dKI1jUIMGocGSC7kKeO8phquo-CVgrsvktE8jQZqxSEEQDn8QtmAQKnoa8xuDeRZl_4FKYPI6sfrNPPkyb2eLQwDbkiCA0YbxXqQkPsnK_kdRxjRCbW01l30Mlc2Z3pMvQ9z8fe16xsYK0_SzW6ECijceptHoa3gJPE-ndYAB2_TPqnYjW3aqNq33Pz5TsnrhpVRB-Bw\" href=\"http://doosan.com/?fbclid=IwAR2nOv-XJNmW4jjnTjw8wcLztF86C7IQRP7GQmNnlhWqfzxbzItvCw9V9mk\" rel=\"noopener nofollow\" target=\"_blank\">doosan.com/</a>&nbsp;Tel: 0967 957602</p>', 'THÔNG BÁO V/v: Tuyển dụng Kỹ sư Công Nghệ Thông Tin 2019 ', '7tLq_faculty_banner.png', 6, '2019-07-06 18:55:11', '2019-07-14 19:27:49', 187, 187, '2019-07-14 19:27:49'),
+(8, '', '<p><a href=\"http://fit.hcmute.edu.vn/?ArticleId=647943ca-4e2f-4ba7-95ea-2e827a71d43b\">Lịch nộp v&agrave; bảo vệ kh&oacute;a luận tốt nghiệp năm 2018 - 2019</a></p>\r\n\r\n<p><img alt=\"\" src=\"http://fit.hcmute.edu.vn/Resources/Images/SubDomain/fit/20182019/HKII/tb2.PNG\" /></p>', 'Lịch nộp và bảo vệ khóa luận tốt nghiệp năm 2018 - 2019', '', 5, '2019-07-09 02:41:11', '2019-07-14 19:27:49', 187, 187, '2019-07-14 19:27:49'),
+(9, '', '<p><img alt=\"\" src=\"http://fit.hcmute.edu.vn/Resources/Images/SubDomain/fit/TuyenDung/FoundationTrainingTuyenDung.jpg\" /></p>', 'TMA Solutions tuyển dụng sinh viên CNTT', 'WGPE_FoundationTrainingTuyenDung.jpg', 6, '2019-07-11 02:29:30', '2019-07-14 19:27:49', 187, 187, '2019-07-14 19:27:49'),
+(10, '', '<p>TH&Ocirc;NG B&Aacute;O CHI&Ecirc;U SINH C&Aacute;C KH&Oacute;A HỌC TH&Aacute;NG 5</p>\r\n\r\n<p>ƯU Đ&Atilde;I D&Agrave;NH RI&Ecirc;NG CHO SINH VI&Ecirc;N ĐẠI HỌC SPKT TP.HCM</p>\r\n\r\n<p>Trung t&acirc;m Đ&agrave;o tạo NewStar th&ocirc;ng b&aacute;o chi&ecirc;u sinh c&aacute;c kh&oacute;a học về mạng v&agrave; lập tr&igrave;nh. Th&ocirc;ng tin chi tiết như sau<br />\r\n:<br />\r\n1. Python cơ bản<br />\r\n- Học ph&iacute;: 2.200.000đ<br />\r\n- Thời gian học: 18h30-21h thứ 2, 6<br />\r\n2. MCSA<br />\r\n- Học ph&iacute;: 4.999.000đ<br />\r\n- Thời gian học: 18h30-21h thứ 2,4,6 hoặc 3,5,7<br />\r\n- Giảm 20% cho c&aacute; nh&acirc;n, 30% cho nh&oacute;m 2 người, 40% cho nh&oacute;m 3 người trở l&ecirc;n<br />\r\n- Giảm th&ecirc;m 10% khi đăng k&yacute; trước ng&agrave;y khai giảng 14 ng&agrave;y<br />\r\n3. CCNA<br />\r\n- Học ph&iacute;: 5.800.000đ<br />\r\n- Thời gian học: 18h30-21h thứ 2,4,6 hoặc 3,5,7<br />\r\n- Giảm 20% cho c&aacute; nh&acirc;n, 30% cho nh&oacute;m 2 người, 40% cho nh&oacute;m 3 người trở l&ecirc;n<br />\r\n- Giảm th&ecirc;m 10% khi đăng k&yacute; trước ng&agrave;y khai giảng 14 ng&agrave;y<br />\r\n4. CCNP<br />\r\n- Học ph&iacute;: 4.990.000đ (gi&aacute; gốc 7.200.000đ)<br />\r\n- Thời gian học: 18h30-21h thứ 2,4,6 hoặc 3,5,7<br />\r\n5. LINUX<br />\r\n- Học ph&iacute;: 2.990.000đ (gi&aacute; gốc 4.000.000đ)<br />\r\n- Thời gian học: 18h30-21h thứ 2,4,6 hoặc 3,5,7<br />\r\n6. PHP&amp;MySQL<br />\r\n- Học ph&iacute;: 2.990.000đ (gi&aacute; gốc 3.500.000đ)<br />\r\n- Thời gian học: 18h30-21h thứ 2,4,6 hoặc 3,5,7<br />\r\n7. JAVA<br />\r\n- Học ph&iacute;: 2.990.000đ (gi&aacute; gốc 3.500.000đ)<br />\r\n- Thời gian học: 18h30-21h thứ 2,4,6 hoặc 3,5,7<br />\r\n8. C++<br />\r\n- Học ph&iacute;: 2.990.000đ<br />\r\n- Thời gian học: 18h30-21h thứ 2,4,6 hoặc 3,5,7<br />\r\n9.&nbsp;<a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"async\" href=\"https://l.facebook.com/l.php?u=https%3A%2F%2FASP.NET%2F%3Ffbclid%3DIwAR04MKTC3lsBUQTi5uxa7tWXSg2EqpO9DXF4V-b0rgyfEufnJvDe7vgsx8g&amp;h=AT2aphgNgHWisUSk98HbtS5_eET5KmGqQ8LmfN_x2Y2jsDAoVftLk2vnnsBnyh1uAwsuCdcBYvtDjKYwsHtlYXUqW-0BkGtkOrIVJkJ2E78I4cxv4w6ZlWdSKMBcWEAD1ybwcjfZNbBPW-YfXbmVYfZ8Srx3kAA-YTeX2NBmiIuZi5FzCURSs08WPcAGggmuFPgPpRcccX8EoUWF9JzumxB3oavvEGLcmH869jzM1wxQu-t0INavJ99i21QDqf6yZyOWb6_1LJ4L07AhfJz9TJ4CHXyJ9dW4U-ArHfsgX9mU5vR0B-gwH0VJvqLwNKZZ5k-nkOoRdZvPzgHXAsZG18b0ngnjnQO1oDaF35DlwHPtR2ktYcSQVJBlkU4E6ziQoAPD-foTzppSUG6-IgbXWebFBkejwEBrFe4GQRHy-R5YtfkLYINQIa8WExGkW21BJyr3jfpc-9NITg88Cce-F32ZXl0ZInfKxFOpff3kevEs3ImawZsgdJR2unHnx3CbR2osbqHpmoXwbHs_7qofbJrSqbfPU58w8KgVAm3-Rh-flpSkqryAwT7Era4Fay5WrWeh_yREP5rWB1immnmuMklzfKQv0IlWa0j3FQITUKUir1oGwEYB89ueWhiqtsr0lhBuhW2zxHVOeBm-\" rel=\"noopener nofollow\" target=\"_blank\">ASP.NET</a><br />\r\n- Học ph&iacute;: 2.990.000đ<br />\r\n- Thời gian học: 18h30-21h thứ 2,4,6 hoặc 3,5,7<br />\r\n10. ANDROID<br />\r\n- Học ph&iacute;: 2.990.000đ (gi&aacute; gốc 4.200.000đ)<br />\r\n- Thời gian học: 18h30-21h thứ 2,4,6 hoặc 3,5,7</p>\r\n\r\n<p>Địa điểm học: Lầu 2 T&ograve;a nh&agrave; 240 V&otilde; Văn Ng&acirc;n, Thủ Đức<br />\r\nMọi chi tiết vui l&ograve;ng li&ecirc;n hệ hotline: 028 3722 5858 - 0962 090 270 hoặc truy cập website&nbsp;<a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"async\" data-lynx-uri=\"https://l.facebook.com/l.php?u=http%3A%2F%2Fnewstar.vn%2F%3Ffbclid%3DIwAR1oJ29vOVwgPiYf64lyJAt6DTwTWJju1r3Lfnv15qplDbmzScJrTwRLDJM&amp;h=AT2RAMW6RQ4Aym2g1yJyBV-Rs-C_lGL2Di3TFItpCSvHl1WfyXeBY4zzcs5xhc92ZYnhszkaVOXWud7hSFYsbkD2k1sTurY8n3xzeI0UFlGmNJbW3ZE-KCwBi4DRG5UamVSRKND9KCQLAgIvGYNaJKKuIl4-JYqAmBOmnS5GLyeiHxKh8xXQPQ0SpcKFG83wvlFBRLsem1xyOxRw2EQ270RKxq7HG2yckZ6qAyWWVOBDDg9ldLk0HTw8ES5K-DqVgoBbX14Creu2C3WN8GkF3jr89vcTvLOy8cw_9d7z_D_y2k4pGh3QUOPihV3bZagIyDDw0coD_N-L4GJXI1U3lR6v4AdRpJceE1KuplgVKoHnaTSkb8nP2IyWcH3si3nlMOyBEi_E1Qx4t62_OThBJG6ESufEJKzN0A4g4cgpF26DHUXZNdHvGHv4Ho5nz00UMo28ZrOTdHMRY7_xaDyRy6O_sRZP898VNSWbiNy2NIv1FPrCimMBsRtqAPA1Y6xlUz-SCek3Lu6uw9EQMx3_lu-H65GJ69AtnKjnGNDdbAQS98GzYA_wtdsU7xq_PLuVKy1SplSJ9Ff4Mr5nNAFu4oTu3-i68fSM_klIDXhk4cBMlRZ_AnIdP2cl080KXfNKDekoJJkXyQImNeDY\" href=\"http://newstar.vn/?fbclid=IwAR1oJ29vOVwgPiYf64lyJAt6DTwTWJju1r3Lfnv15qplDbmzScJrTwRLDJM\" rel=\"noopener nofollow\" target=\"_blank\">http://newstar.vn</a></p>', 'THÔNG BÁO CHIÊU SINH CÁC KHÓA HỌC THÁNG 5 NewStar', '4BAQ_logo (1).png', 5, '2019-07-11 02:41:46', '2019-07-14 19:27:49', 187, 187, '2019-07-14 19:27:49'),
+(11, '🎉🎉🎉 Đến hẹn lại lên, Cuộc thi Học thuật Mastering IT do Khoa CNTT tổ chức và được tài trợ bởi FPT Software và Fujinet Systems JSC sắp chính thức khởi động, hứa hẹn những màn tranh tài nảy lửa và cân sức giữa các đội chơi ⚡⚡⚡', '<h4>🎉🎉🎉&nbsp;Đến hẹn lại l&ecirc;n, Cuộc thi Học thuật Mastering IT do Khoa CNTT tổ chức v&agrave; được t&agrave;i trợ bởi FPT Software v&agrave; Fujinet Systems JSC sắp ch&iacute;nh thức khởi động, hứa hẹn những m&agrave;n tranh t&agrave;i nảy lửa v&agrave; c&acirc;n sức giữa c&aacute;c đội chơi&nbsp;⚡⚡⚡</h4>\r\n\r\n<p>❗❗❗&nbsp;Với mong muốn tạo ra s&acirc;n chơi bổ &iacute;ch v&agrave; l&agrave;nh mạnh cho c&aacute;c bạn sinh vi&ecirc;n c&oacute; đam m&ecirc; với lĩnh vực c&ocirc;ng nghệ, t&igrave;m kiếm v&agrave; ph&aacute;t hiện những nh&acirc;n t&agrave;i mới trong lĩnh vực IT, Đo&agrave;n- Hội Khoa CNTT tổ chức Cuộc thi Học thuật Mastering IT 2019 c&ugrave;ng cơ cấu giải thưởng v&ocirc; c&ugrave;ng hấp dẫn l&ecirc;n đến 11 triệu 300 ngh&igrave;n đồng&nbsp;💸💸💸</p>\r\n\r\n<p>Giải I : 2.500.000Đ<br />\r\nGiải II : 1.500.000Đ<br />\r\nGiải III : 1.000.000Đ<br />\r\nGiải Khuyến kh&iacute;ch : 500.000Đ<br />\r\nĐặc biệt, chia th&agrave;nh 2 cơ cấu giải thưởng cho cả 2 khối.<br />\r\n1 Giải Intro ấn tượng : 300.000Đ</p>\r\n\r\n<p>👉&nbsp;Theo đ&oacute;, MIT năm nay sẽ được tổ chức cho cả 2 khối chuy&ecirc;n v&agrave; kh&ocirc;ng chuy&ecirc;n, ph&ugrave; hợp với tất cả c&aacute;c bạn c&oacute; đam m&ecirc; với lĩnh vực CNTT&nbsp;😉</p>\r\n\r\n<p>🚫&nbsp;V&ograve;ng sơ loại diễn ra v&agrave;o ng&agrave;y&nbsp;6️⃣/5️⃣/2️⃣0️⃣1️⃣9️⃣<br />\r\n🏆&nbsp;V&ograve;ng chung kết ng&agrave;y&nbsp;1️⃣2️⃣/5️⃣/2️⃣0️⃣1️⃣9️⃣</p>\r\n\r\n<p>Qu&aacute; hấp dẫn đ&uacute;ng kh&ocirc;ng n&agrave;o? H&atilde;y like v&agrave; share Page để biết th&ecirc;m th&ocirc;ng tin về cuộc thi c&aacute;c bạn nh&eacute;&nbsp;😉&nbsp;Hẹn gặp lại c&aacute;c bạn ở MIT 2019 lần n&agrave;y&nbsp;💕💕💕</p>\r\n\r\n<p>- H&igrave;nh thức đăng k&iacute;:&nbsp;<br />\r\n&nbsp;+&nbsp;<a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"async\" href=\"https://l.facebook.com/l.php?u=https%3A%2F%2Fbit.ly%2F2U0IJvl%3Ffbclid%3DIwAR2OSpHCkYA9UqD2VP2Nxp_rhnRMU0Cjd4S7Ey4_QdHUeBoiBpWc6giLrZ4&amp;h=AT3q4XcvQZvJbqy0MW6eAYSD2zQuidbtKWtKDdk-WOC-i3LsfRaC541e00ydK5IapFbRDMwcj9mWdbK1lHQGNl_plh8Wp9tfYQAa2fvdmN-CGsWeyGKTcj3ymodhFoajXyoR6CzUvdVfNqzAnbMfPQLByuD8YcVI0bMMpBr-V7u4vyfC8J4puqcqwRlNQM5XAMn13_kIVKZCZfnirJmFRIdjgaWIHjQ6LJaS8U3vAqP6ftKhL0t95NRIz0ZV11U3qrKGvigy7ABBJEQUV7XLr0MW7E72pFvcplQ2xNGZ9AtuClVwvvlVVDfZTL28kyJZuX9wfCpAhWMoSQVa1TiVXygkm0GIFAWOcIpOvSFUtTBMOc4zUU9bIYbk2AxFCcdscifrW57cXoHrGKK9RD-wlTsrmhYVUhlz3e_CPwzeUtLGehdiTOewWySAwpMhItEvq4d3pVdgYUpMX5SffDn7ylyafoa5dNA4Job_PGyQsYGYYg1Rxuo9tzuOe88yF0sJ8GDRO7Ks9soW7GIz_U25ZpLRn1cWS19zfuGTLEeZHdFm1-j_SmdOI61Ei87HuIaM4k6kbMC6W-_vFnM_bWPzrAI6hykJa5VL4XCVbVeB8kXmDxOkVIvy06t7O5Rrq8IvgD5EtfUg\" rel=\"noopener nofollow\" target=\"_blank\">http://bit.ly/2U0IJvl</a><br />\r\n+ Đăng k&yacute; th&ocirc;ng qua facebook, email<br />\r\n+ Facebook: &nbsp;<a href=\"https://www.facebook.com/MasteringITUTE/?fref=ts\" re_target=\"null\" target=\"_blank\">https://www.facebook.com/MasteringITUTE/?fref=ts</a>&nbsp;<br />\r\n+ E-Mail: &nbsp;Doanhoiitspkt@gmail.com.</p>', 'Cuộc thi Học thuật Mastering IT 2019 chính thức khởi động', 'FqlK_MIT.jpg', 1, '2019-07-14 19:46:51', '2019-07-14 19:46:51', 187, NULL, NULL),
+(12, '🎉🎉🎉 Đến hẹn lại lên, Cuộc thi Học thuật Mastering IT do Khoa CNTT tổ chức và được tài trợ bởi FPT Software và Fujinet Systems JSC sắp chính thức khởi động, hứa hẹn những màn tranh tài nảy lửa và cân sức giữa các đội chơi ⚡⚡⚡', '<h4>🎉🎉🎉&nbsp;Đến hẹn lại l&ecirc;n, Cuộc thi Học thuật Mastering IT do Khoa CNTT tổ chức v&agrave; được t&agrave;i trợ bởi FPT Software v&agrave; Fujinet Systems JSC sắp ch&iacute;nh thức khởi động, hứa hẹn những m&agrave;n tranh t&agrave;i nảy lửa v&agrave; c&acirc;n sức giữa c&aacute;c đội chơi&nbsp;⚡⚡⚡</h4>\r\n\r\n<p>❗❗❗&nbsp;Với mong muốn tạo ra s&acirc;n chơi bổ &iacute;ch v&agrave; l&agrave;nh mạnh cho c&aacute;c bạn sinh vi&ecirc;n c&oacute; đam m&ecirc; với lĩnh vực c&ocirc;ng nghệ, t&igrave;m kiếm v&agrave; ph&aacute;t hiện những nh&acirc;n t&agrave;i mới trong lĩnh vực IT, Đo&agrave;n- Hội Khoa CNTT tổ chức Cuộc thi Học thuật Mastering IT 2019 c&ugrave;ng cơ cấu giải thưởng v&ocirc; c&ugrave;ng hấp dẫn l&ecirc;n đến 11 triệu 300 ngh&igrave;n đồng&nbsp;💸💸💸</p>\r\n\r\n<p>Giải I : 2.500.000Đ<br />\r\nGiải II : 1.500.000Đ<br />\r\nGiải III : 1.000.000Đ<br />\r\nGiải Khuyến kh&iacute;ch : 500.000Đ<br />\r\nĐặc biệt, chia th&agrave;nh 2 cơ cấu giải thưởng cho cả 2 khối.<br />\r\n1 Giải Intro ấn tượng : 300.000Đ</p>\r\n\r\n<p>👉&nbsp;Theo đ&oacute;, MIT năm nay sẽ được tổ chức cho cả 2 khối chuy&ecirc;n v&agrave; kh&ocirc;ng chuy&ecirc;n, ph&ugrave; hợp với tất cả c&aacute;c bạn c&oacute; đam m&ecirc; với lĩnh vực CNTT&nbsp;😉</p>\r\n\r\n<p>🚫&nbsp;V&ograve;ng sơ loại diễn ra v&agrave;o ng&agrave;y&nbsp;6️⃣/5️⃣/2️⃣0️⃣1️⃣9️⃣<br />\r\n🏆&nbsp;V&ograve;ng chung kết ng&agrave;y&nbsp;1️⃣2️⃣/5️⃣/2️⃣0️⃣1️⃣9️⃣</p>\r\n\r\n<p>Qu&aacute; hấp dẫn đ&uacute;ng kh&ocirc;ng n&agrave;o? H&atilde;y like v&agrave; share Page để biết th&ecirc;m th&ocirc;ng tin về cuộc thi c&aacute;c bạn nh&eacute;&nbsp;😉&nbsp;Hẹn gặp lại c&aacute;c bạn ở MIT 2019 lần n&agrave;y&nbsp;💕💕💕</p>\r\n\r\n<p>- H&igrave;nh thức đăng k&iacute;:&nbsp;<br />\r\n&nbsp;+&nbsp;<a data-ft=\"{&quot;tn&quot;:&quot;-U&quot;}\" data-lynx-mode=\"async\" href=\"https://l.facebook.com/l.php?u=https%3A%2F%2Fbit.ly%2F2U0IJvl%3Ffbclid%3DIwAR2OSpHCkYA9UqD2VP2Nxp_rhnRMU0Cjd4S7Ey4_QdHUeBoiBpWc6giLrZ4&amp;h=AT3q4XcvQZvJbqy0MW6eAYSD2zQuidbtKWtKDdk-WOC-i3LsfRaC541e00ydK5IapFbRDMwcj9mWdbK1lHQGNl_plh8Wp9tfYQAa2fvdmN-CGsWeyGKTcj3ymodhFoajXyoR6CzUvdVfNqzAnbMfPQLByuD8YcVI0bMMpBr-V7u4vyfC8J4puqcqwRlNQM5XAMn13_kIVKZCZfnirJmFRIdjgaWIHjQ6LJaS8U3vAqP6ftKhL0t95NRIz0ZV11U3qrKGvigy7ABBJEQUV7XLr0MW7E72pFvcplQ2xNGZ9AtuClVwvvlVVDfZTL28kyJZuX9wfCpAhWMoSQVa1TiVXygkm0GIFAWOcIpOvSFUtTBMOc4zUU9bIYbk2AxFCcdscifrW57cXoHrGKK9RD-wlTsrmhYVUhlz3e_CPwzeUtLGehdiTOewWySAwpMhItEvq4d3pVdgYUpMX5SffDn7ylyafoa5dNA4Job_PGyQsYGYYg1Rxuo9tzuOe88yF0sJ8GDRO7Ks9soW7GIz_U25ZpLRn1cWS19zfuGTLEeZHdFm1-j_SmdOI61Ei87HuIaM4k6kbMC6W-_vFnM_bWPzrAI6hykJa5VL4XCVbVeB8kXmDxOkVIvy06t7O5Rrq8IvgD5EtfUg\" rel=\"noopener nofollow\" target=\"_blank\">http://bit.ly/2U0IJvl</a><br />\r\n+ Đăng k&yacute; th&ocirc;ng qua facebook, email<br />\r\n+ Facebook: &nbsp;<a href=\"https://www.facebook.com/MasteringITUTE/?fref=ts\" re_target=\"null\" target=\"_blank\">https://www.facebook.com/MasteringITUTE/?fref=ts</a>&nbsp;<br />\r\n+ E-Mail: &nbsp;Doanhoiitspkt@gmail.com.</p>', 'Cuộc thi Học thuật Mastering IT 2019 chính thức khởi động', 'mLC3_MIT.jpg', 1, '2019-07-14 19:49:36', '2019-07-14 19:49:51', 187, 187, '2019-07-14 19:49:51'),
+(13, 'Thông tin cuộc thi Hackathon phối hợp cùng với HERE.com', '<p>Th&ocirc;ng tin cuộc thi Hackathon phối hợp c&ugrave;ng với HERE.com</p>\r\n\r\n<p>Link th&ocirc;ng tin cuộc thi:&nbsp;<a data-saferedirecturl=\"https://www.google.com/url?q=http://shtpic.org/locationhackathon2018/&amp;source=gmail&amp;ust=1541080832470000&amp;usg=AFQjCNFplWWnYhqdmOEFfZWK4JrNNmTrOQ\" href=\"http://shtpic.org/locationhackathon2018/\" rel=\"noreferrer\" target=\"_blank\">Hackathon Information Page</a></p>\r\n\r\n<p>Link facebook về cuộc thi:&nbsp;<a data-saferedirecturl=\"https://www.google.com/url?q=https://www.facebook.com/events/468239786998329&amp;source=gmail&amp;ust=1541080832470000&amp;usg=AFQjCNHVK447ZCMglClCG3v4OLmlWiJ0tg\" href=\"https://www.facebook.com/events/468239786998329\" rel=\"noreferrer\" target=\"_blank\">Hackathon Facebook page</a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>H&igrave;nh ảnh sự kiện đ&iacute;nh k&egrave;m file.<br />\r\n<img alt=\"\" src=\"http://fit.hcmute.edu.vn/Resources/Images/SubDomain/fit/20182019/HKI/HACKTHON.jpg\" style=\"width: 400px; height: 200px;\" /></p>', 'Thông tin cuộc thi Hackathon phối hợp cùng với HERE.com', 'HnKy_HACKTHON.jpg', 2, '2019-07-14 19:52:49', '2019-07-14 19:52:49', 187, NULL, NULL);
+INSERT INTO `news` (`id`, `sumary`, `content`, `title`, `image`, `type_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(14, 'Hoa hậu Việt Nam 2018 – Trần Tiểu Vy làm đại sứ chiến dịch tình nguyện Mùa hè xanh năm 2019', '<p><a data-caption=\"\" href=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9380.jpg\"><img alt=\"\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9380-696x464.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9380-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9380-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9380-1024x683.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9380-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9380-630x420.jpg 630w\" style=\"width: 600px; height: 400px;\" title=\"IMG_9380\" /></a></p>\r\n\r\n<p><strong>&nbsp; &nbsp; &nbsp; Vừa qua Hoa hậu Việt Nam 2018 &ndash; Trần Tiểu Vy c&oacute; mặt tại hội trường lớn khu A, trường Đại học Sư phạm Kỹ thuật TP.HCM để tham gia lễ ra qu&acirc;n chiến dịch t&igrave;nh nguyện M&ugrave;a h&egrave; xanh với vai tr&ograve; Đại sứ của chiến dịch năm 2019.</strong></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; C&oacute; mặt tại s&acirc;n trường, Trần Tiểu Vy truy&ecirc;̀n cảm hứng với vẻ ngo&agrave;i giản dị, tươi trẻ khi mặc tr&ecirc;n người chiếc &aacute;o xanh truyền thống của chiến dịch M&ugrave;a h&egrave; xanh. C&ocirc; b&agrave;y tỏ niềm hạnh ph&uacute;c khi được đồng h&agrave;nh với c&aacute;c bạn sinh vi&ecirc;n mang đến một m&ugrave;a h&egrave; &yacute; nghĩa v&agrave; đầy ắp t&igrave;nh thương cho người d&acirc;n phương xa.</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5702\" id=\"attachment_5702\"><img alt=\"\" sizes=\"(max-width: 800px) 100vw, 800px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9382.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9382.jpg 800w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9382-768x1047.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9382-751x1024.jpg 751w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9382-696x949.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9382-308x420.jpg 308w\" style=\"width: 600px; height: 818px;\" />\r\n<figcaption id=\"caption-attachment-5702\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Hoa hậu Việt Nam 2018- Trần Tiểu Vy ph&aacute;t biểu tại buổi lễ ra qu&acirc;n chiến dịch M&ugrave;a h&egrave; xanh 2019</figcaption>\r\n</figure>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Hoa hậu Trần Tiểu Vy cũng tr&ocirc;ng th&acirc;̣t ph&acirc;́n khởi khi được biết năm nay lượng sinh vi&ecirc;n tham gia chiến dịch&nbsp;<em>M&ugrave;a h&egrave; xanh</em>&nbsp;thật đ&ocirc;ng đảo với nhiều hoạt động &yacute; nghĩa, hỗ trợ tinh thần lẫn vật chất cho người d&acirc;n mu&ocirc;n nơi.</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5701\" id=\"attachment_5701\"><img alt=\"\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9288-1024x683.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9288-1024x683.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9288-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9288-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9288-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9288-630x420.jpg 630w\" style=\"width: 600px; height: 400px;\" />\r\n<figcaption id=\"caption-attachment-5701\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Tinh thần nhiệt huyết của c&aacute;c chiến sĩ tại buổi lễ ra qu&acirc;n chiến dịch</figcaption>\r\n</figure>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Chia sẻ về vai tr&ograve; mới, Tiểu Vy cho biết từ thời điểm thi Hoa hậu Việt Nam 2018, c&ocirc; lu&ocirc;n đồng h&agrave;nh trong c&aacute;c hoạt động của Đo&agrave;n thanh ni&ecirc;n v&agrave; Hội sinh vi&ecirc;n trường ĐH Sư phạm kỹ thuật Tp. Hồ Ch&iacute; Minh, v&igrave; thế c&ocirc; hiểu được &yacute; nghĩa thiết thực m&agrave; chiến dịch M&ugrave;a h&egrave; xanh Sư phạm kỹ thuật Tp. Hồ Ch&iacute; Minh mang đến.</p>\r\n\r\n<p><img alt=\"Thầy Đỗ Văn Dũng và hoa hậu Trần Tiểu Vy\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-1024x683.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-1024x683.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9411-630x420.jpg 630w\" style=\"width: 600px; height: 400px;\" /></p>\r\n\r\n<p><em>PGS.TS Đỗ Văn Dũng B&iacute; thư Đảng Ủy, Hiệu trưởng nh&agrave; trường, Trưởng Ban chỉ đạo chiến dịch (B&ecirc;n tr&aacute;i) c&ugrave;ng Hoa Hậu Việt Nam Trần Tiểu Vy (B&ecirc;n phải)</em></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Việc trở th&agrave;nh đại sứ của chiến dịch&nbsp;<em>M&ugrave;a h&egrave; xanh</em>&nbsp;khiến người đẹp cảm thấy hạnh ph&uacute;c v&agrave; x&uacute;c động v&igrave; nhớ lại qu&atilde;ng thời gian c&ugrave;ng c&aacute;c th&iacute; sinh của Hoa hậu c&ugrave;ng chung tay thực hiện những việc l&agrave;m &yacute; nghĩa v&agrave; đầy t&igrave;nh người.</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &ldquo;Vai tr&ograve; lần n&agrave;y Vy đảm nhận mang &yacute; nghĩa rất đặc biệt bởi v&igrave; Vy rất hiểu ho&agrave;nh cảnh kh&oacute; khăn của nh&acirc;n d&acirc;n ta ở c&aacute;c miền xa x&ocirc;i v&agrave; sẽ l&agrave; người đồng h&agrave;nh c&ugrave;ng c&aacute;c bạn chiến sĩ trong suốt h&agrave;nh tr&igrave;nh của chiến dịch năm nay&rdquo;, Tiểu Vy nói.</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; C&ocirc; chia sẻ: &ldquo;T&ocirc;i tin rằng trong chiến dịch 2019, c&aacute;c bạn sinh vi&ecirc;n sẽ lan rộng tinh thần t&igrave;nh nguyện của sức trẻ trường ĐH Sư phạm Kỹ thuật đi khắp mọi mặt trận v&agrave; mang về cho m&igrave;nh thật nhiều kỷ niệm thật tuyệt vời sau khi M&ugrave;a h&egrave; xanh kết th&uacute;c&rdquo;.</p>\r\n\r\n<p><img alt=\"Lá cờ của chiến dịch Mùa hè xanh đã được phất lên\" sizes=\"(max-width: 821px) 100vw, 821px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409.jpg 821w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409-768x513.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409-696x465.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/img_9409-629x420.jpg 629w\" style=\"width: 600px; height: 400px;\" /></p>\r\n\r\n<p>Đại sứ chiến dịch Trần Tiểu Vy rạng rỡ khi l&aacute; cờ của chiến dịch được phất cao b&aacute;o hiệu chiến dịch ch&iacute;nh thức bắt đầu</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Sau buổi ra qu&acirc;n, Tiểu Vy đ&atilde; tiễn ch&acirc;n c&aacute;c chiến sĩ của mặt trận huyện Nh&agrave; B&egrave; &ndash; TP.HCM l&ecirc;n đường l&agrave;m nhiệm vụ. Những hoạt động tiếp theo của Tiểu Vy với vai tr&ograve; đại sứ chiến dịch t&igrave;nh nguyện m&ugrave;a h&egrave; xanh của ĐH SPKT TP.HCM sẽ được Ban chỉ huy chiến dịch th&ocirc;ng tin tr&ecirc;n c&aacute;c phương tiện truyền th&ocirc;ng của nh&agrave; trường.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>Đội h&igrave;nh truyền th&ocirc;ng chiến dịch</strong></p>', 'Hoa hậu Việt Nam 2018 – Trần Tiểu Vy làm đại sứ chiến dịch tình nguyện Mùa hè xanh năm 2019', '3SyI_img_9380.jpg', 5, '2019-07-14 19:55:45', '2019-07-14 20:00:27', 187, 187, NULL),
+(15, 'MÙA HÈ XANH 2019: RA MẮT NHỮNG CÔNG TRÌNH TRỌNG ĐIỂM TRONG CHIẾN DỊCH', '<p><a data-caption=\"\" href=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot.jpg\"><img alt=\"\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-696x464.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-1024x682.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-630x420.jpg 630w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot.jpg 1430w\" title=\"Đ/c Lê Xuân Thân phất lá cờ biểu trưng MHX báo hiệu chiến dịch bắt đầu\" width=\"696\" /></a></p>\r\n\r\n<p><strong><em>&nbsp; &nbsp; &nbsp; S&aacute;ng ng&agrave;y 4 th&aacute;ng 7 năm 2019, tại hội trường lớn khu A trường ĐH Sư phạm kỹ thuật TPHCM đ&atilde; diễn ra buổi ra qu&acirc;n Chiến dịch m&ugrave;a h&egrave; xanh năm 2019 với sự tham gia của gần 350 bạn chiến sĩ đến từ c&aacute;c mặt trận.</em></strong></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Buổi lễ c&ograve;n c&oacute; sự g&oacute;p mặt của PGS-TS Đỗ Văn Dũng &ndash; Hiệu trưởng nh&agrave; trường v&agrave; đặc biệt l&agrave; sự xuất hiện của Hoa hậu Việt Nam năm 2018- Trần Tiểu Vy với vai tr&ograve; l&agrave; đại sứ&nbsp; truyền th&ocirc;ng của chiến dịch năm nay.</p>\r\n\r\n<p><img alt=\"Hoa hậu Việt Nam 2018 - Trần Tiểu Vy - Đại sứ chiến dịch tình nguyện MHX2019 phát biểu cảm nghỉ tại lễ ra quân\" height=\"286\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/hia-hau.jpg\" width=\"429\" /></p>\r\n\r\n<p><em>Hoa hậu Việt Nam 2018 &ndash; Trần Tiểu Vy &ndash; Đại sứ chiến dịch t&igrave;nh nguyện MHX2019 ph&aacute;t biểu cảm nghỉ tại lễ ra qu&acirc;n</em></p>\r\n\r\n<p><img alt=\"Đ/c Lê Xuân Thân - Phó bí thư Đoàn trường - Chỉ huy trưởng chiến dịch tuyên bố khởi động chiến dịch Mùa hè xanh 2019\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/a-than-1024x683.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/a-than-1024x683.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/a-than-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/a-than-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/a-than-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/a-than-630x420.jpg 630w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/a-than.jpg 1201w\" width=\"696\" /></p>\r\n\r\n<p><em>Đ/c L&ecirc; Xu&acirc;n Th&acirc;n &ndash; Ph&oacute; b&iacute; thư Đo&agrave;n trường &ndash; Chỉ huy trưởng chiến dịch tuy&ecirc;n bố khởi động chiến dịch M&ugrave;a h&egrave; xanh 2019</em></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Tại buổi lễ ra qu&acirc;n chiến dịch, c&aacute;c mặt trận v&agrave; c&aacute;c đội h&igrave;nh cũng ch&iacute;nh thức được ra mắt. V&agrave; b&ecirc;n cạnh đ&oacute;, c&aacute;c c&ocirc;ng tr&igrave;nh của chiến dịch năm nay cũng ch&iacute;nh thức được c&ocirc;ng bố bao gồm: 01 C&ocirc;ng tr&igrave;nh Thủy điện mini kết hệ thống thắp s&aacute;ng đường qu&ecirc; n&ocirc;ng th&ocirc;n, 04 c&ocirc;ng tr&igrave;nh thắp s&aacute;ng đường qu&ecirc; với tổng chiều d&agrave;i 6,5 Km, 02 c&ocirc;ng tr&igrave;nh b&ecirc; t&ocirc;ng h&oacute;a đường qu&ecirc; n&ocirc;ng th&ocirc;n d&agrave;i 200m, 04 c&ocirc;ng tr&igrave;nh khu vui chơi thiếu nhi, 01 C&ocirc;ng tr&igrave;nh Tủ s&aacute;ch Thiếu nhi, 01 C&ocirc;ng tr&igrave;nh B&ecirc; t&ocirc;ng h&oacute;a s&acirc;n Nh&agrave; văn h&oacute;a v&agrave; c&ugrave;ng nhiều c&ocirc;ng tr&igrave;nh, phần việc &yacute; nghĩa kh&aacute;c.</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5682\" id=\"attachment_5682\"><img alt=\"Mô hình công trình thủy điện Mini\" sizes=\"(max-width: 960px) 100vw, 960px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thuy-dien-mini.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thuy-dien-mini.jpg 960w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thuy-dien-mini-768x576.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thuy-dien-mini-80x60.jpg 80w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thuy-dien-mini-265x198.jpg 265w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thuy-dien-mini-696x522.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thuy-dien-mini-560x420.jpg 560w\" style=\"width: 600px; height: 450px;\" />\r\n<figcaption id=\"caption-attachment-5682\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;M&ocirc; h&igrave;nh c&ocirc;ng tr&igrave;nh thủy điện Mini</figcaption>\r\n</figure>\r\n\r\n<figure aria-describedby=\"caption-attachment-5683\" id=\"attachment_5683\"><img alt=\"\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-nong-thon-1024x682.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-nong-thon-1024x682.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-nong-thon-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-nong-thon-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-nong-thon-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-nong-thon-630x420.jpg 630w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-nong-thon.jpg 1220w\" width=\"696\" />\r\n<figcaption id=\"caption-attachment-5683\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Tư liệu MHX 2017 &ndash; c&ocirc;ng tr&igrave;nh thắp s&aacute;ng đường qu&ecirc; n&ocirc;ng th&ocirc;n</figcaption>\r\n</figure>\r\n\r\n<figure aria-describedby=\"caption-attachment-5684\" id=\"attachment_5684\"><img alt=\"\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-2-1024x682.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-2-1024x682.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-2-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-2-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-2-1068x711.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-2-630x420.jpg 630w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thap-sang-2.jpg 1342w\" width=\"696\" />\r\n<figcaption id=\"caption-attachment-5684\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Tư liệu MHX 2017 &ndash; c&ocirc;ng tr&igrave;nh thắp s&aacute;ng đường qu&ecirc; n&ocirc;ng th&ocirc;n</figcaption>\r\n</figure>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5686\" id=\"attachment_5686\"><img alt=\"Công trình Bê tông hóa\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/be-tong-hoa-1024x682.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/be-tong-hoa-1024x682.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/be-tong-hoa-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/be-tong-hoa-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/be-tong-hoa-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/be-tong-hoa-630x420.jpg 630w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/be-tong-hoa.jpg 1430w\" width=\"696\" />\r\n<figcaption id=\"caption-attachment-5686\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;C&ocirc;ng tr&igrave;nh B&ecirc; t&ocirc;ng h&oacute;a</figcaption>\r\n</figure>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Ph&aacute;t biểu tại buổi lễ ra qu&acirc;n, PGS-TS Đỗ Văn Dũng- Hiệu trưởng nh&agrave; trường chia sẻ v&agrave; mong muốn với sự ra đời của thuỷ điện mini sẽ thắp s&aacute;ng đường qu&ecirc; v&agrave; gi&uacute;p đỡ người d&acirc;n ngh&egrave;o trong cuộc sống b&ecirc;n cạnh đ&oacute; đem gi&aacute; trị &ldquo;nh&acirc;n bản&rdquo; nh&acirc;n rộng hơn nữa trong cuộc sống.</p>\r\n\r\n<p><img alt=\"PGS.TS Đỗ Văn Dũng - Bí thư Đảng Ủy hiệu trưởng nhà trường, Trưởng ban chỉ đạo chiến dịch phát biểu tại buổi lễ\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thay-dung-1024x682.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thay-dung-1024x682.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thay-dung-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thay-dung-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thay-dung-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thay-dung-630x420.jpg 630w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/thay-dung.jpg 1430w\" width=\"696\" /></p>\r\n\r\n<p><em>PGS.TS Đỗ Văn Dũng &ndash; B&iacute; thư Đảng Ủy hiệu trưởng nh&agrave; trường, Trưởng ban chỉ đạo chiến dịch ph&aacute;t biểu tại buổi lễ</em></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; Chiến dịch m&ugrave;a h&egrave; xanh đ&atilde; ch&iacute;nh thức khởi động, cầu ch&uacute;c cho những chiến sĩ với những tr&aacute;i tim mang sức trẻ v&agrave; tinh thần t&igrave;nh nguyện sẽ l&agrave;m n&ecirc;n một chiến dịch thật sự th&agrave;nh c&ocirc;ng v&agrave; đem y&ecirc;u thương lan toả khắp mu&ocirc;n nơi.</p>\r\n\r\n<figure aria-describedby=\"caption-attachment-5687\" id=\"attachment_5687\"><img alt=\"Đ/c Lê Xuân Thân phất lá cờ biểu trưng MHX báo hiệu chiến dịch chính thức bắt đầu\" height=\"464\" sizes=\"(max-width: 696px) 100vw, 696px\" src=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-1024x682.jpg\" srcset=\"https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-1024x682.jpg 1024w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-768x512.jpg 768w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-696x464.jpg 696w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-1068x712.jpg 1068w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot-630x420.jpg 630w, https://tuoitre.hcmute.edu.vn/wp-content/uploads/2019/07/chot.jpg 1430w\" width=\"696\" />\r\n<figcaption id=\"caption-attachment-5687\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Đ/c L&ecirc; Xu&acirc;n Th&acirc;n phất l&aacute; cờ biểu trưng MHX b&aacute;o hiệu chiến dịch ch&iacute;nh thức bắt đầu</figcaption>\r\n</figure>\r\n\r\n<p><strong>T&aacute;c giả: Thanh Phong</strong></p>\r\n\r\n<p><strong>Bi&ecirc;n tập: Anh Nguyễn</strong></p>\r\n\r\n<p><strong>Ảnh: MECUTE</strong></p>', 'MÙA HÈ XANH 2019: RA MẮT NHỮNG CÔNG TRÌNH TRỌNG ĐIỂM TRONG CHIẾN DỊCH', 'nmUu_chot-696x464.jpg', 5, '2019-07-14 20:01:48', '2019-07-14 20:01:48', 187, NULL, NULL),
+(16, 'Cuộc thi Học thuật Mastering IT 2019 là một trong những sân chơi vô cùng bổ ích và thú vị dành cho các bạn sinh viên có niềm đam mê và yêu thích trong lĩnh vực Công nghệ, không chỉ dành riêng cho sinh viên Khoa Công Nghệ Thông Tin, mà còn cho tất cả sinh viên trường ĐH Sư Phạm Kỹ Thuật TP HCM.', '<p><strong>Cuộc thi Học thuật Mastering IT 2019 l&agrave; một trong những s&acirc;n chơi v&ocirc; c&ugrave;ng bổ &iacute;ch v&agrave; th&uacute; vị d&agrave;nh cho c&aacute;c bạn sinh vi&ecirc;n c&oacute; niềm đam m&ecirc; v&agrave; y&ecirc;u th&iacute;ch trong lĩnh vực C&ocirc;ng nghệ, kh&ocirc;ng chỉ d&agrave;nh ri&ecirc;ng cho sinh vi&ecirc;n Khoa C&ocirc;ng Nghệ Th&ocirc;ng Tin, m&agrave; c&ograve;n cho tất cả sinh vi&ecirc;n trường ĐH Sư Phạm Kỹ Thuật TP HCM.</strong></p>\r\n\r\n<figure><img alt=\"\" height=\"280\" src=\"https://scontent.fsgn3-1.fna.fbcdn.net/v/t1.15752-0/p280x280/59851906_290876985193574_5731450933854863360_n.png?_nc_cat=111&amp;_nc_ht=scontent.fsgn3-1.fna&amp;oh=c3e4f763053407aa33edc695b5f8be44&amp;oe=5D66E922\" width=\"498\" />\r\n<figcaption>Mastering IT 2019</figcaption>\r\n</figure>\r\n\r\n<p>Với mong muốn tạo điều kiện cho c&aacute;c bạn sinh vi&ecirc;n ph&aacute;t huy khả năng tư duy v&agrave; kiến thức về C&ocirc;ng nghệ, tăng khả năng l&agrave;m việc nh&oacute;m v&agrave; bản lĩnh tự tin, Mastering IT 2019 đ&atilde; được tổ chức diễn ra với 2 v&ograve;ng thi:&nbsp;<em>V&ograve;ng Sơ loại</em>&nbsp;v&agrave;&nbsp;<em>V&ograve;ng Chung kết</em>&nbsp;với giải thưởng v&ocirc; c&ugrave;ng hấp dẫn.</p>\r\n\r\n<p><strong>Mastering IT</strong>&nbsp;l&agrave; cuộc thi thường ni&ecirc;n với quy m&ocirc; lớn của khoa C&ocirc;ng nghệ Th&ocirc;ng tin. Năm nay, đồng h&agrave;nh xuy&ecirc;n suốt chương tr&igrave;nh, kh&ocirc;ng thể kh&ocirc;ng kể đến 2 nh&agrave; t&agrave;i trợ ch&iacute;nh l&agrave;&nbsp;<em><strong>FPT Sofware</strong></em>&nbsp;v&agrave;&nbsp;<strong><em>Fujinet Systems SJC</em></strong>, đ&atilde; g&oacute;p phần quan trọng tạo n&ecirc;n sự th&agrave;nh c&ocirc;ng của chương tr&igrave;nh.</p>\r\n\r\n<figure><img alt=\"\" height=\"280\" src=\"https://scontent.fsgn4-1.fna.fbcdn.net/v/t1.15752-0/p280x280/59632152_442460659659888_7303559730427854848_n.jpg?_nc_cat=101&amp;_nc_ht=scontent.fsgn4-1.fna&amp;oh=39d740b97a7aa4f406bf97d832aa2491&amp;oe=5D777E7B\" width=\"420\" />\r\n<figcaption>V&ograve;ng Sơ loại MIT</figcaption>\r\n</figure>\r\n\r\n<p><em>&nbsp; &nbsp; &nbsp;V&ograve;ng Sơ loại</em>&nbsp;kịch t&iacute;nh vừa diễn ra v&agrave;o ng&agrave;y 6/5/2019 vừa qua, đ&atilde; chọn được 4 đội Kh&ocirc;ng Chuy&ecirc;n v&agrave; 4 đội Chuy&ecirc;n xứng đ&aacute;ng để bước tiếp v&agrave;o&nbsp;<em>V&ograve;ng Chung kết</em>, sẽ được diễn ra v&agrave;o ng&agrave;y 12/5/2019 tại Hội trường lớn khu A trường ĐH Sư Phạm Kỹ Thuật TP HCM.</p>\r\n\r\n<figure><img alt=\"\" height=\"280\" src=\"https://scontent.fsgn3-1.fna.fbcdn.net/v/t1.15752-0/p280x280/59566800_325739818116728_9120186061748699136_n.jpg?_nc_cat=107&amp;_nc_ht=scontent.fsgn3-1.fna&amp;oh=9a521180baa8e8b776224d3ba1c84848&amp;oe=5D5C8661\" width=\"420\" />\r\n<figcaption>V&ograve;ng Sơ loại MIT 2019</figcaption>\r\n</figure>\r\n\r\n<p>C&oacute; thể thấy, trong suốt 45 ph&uacute;t thi&nbsp;<em>v&ograve;ng Sơ loại</em>, với h&igrave;nh thức l&agrave;m trắc nghiệm trực tuyến, tự m&igrave;nh đối mặt với đề thi v&agrave; m&aacute;y t&iacute;nh, c&aacute;c bạn đ&atilde; chứng tỏ được sự tự tin v&agrave; vốn hiểu biết trong kh&ocirc;ng chỉ lĩnh vực học thuật, m&agrave; c&ograve;n cả trong thực tế của nền C&ocirc;ng nghệ hiện nay.</p>\r\n\r\n<p><strong>&nbsp; &nbsp; &nbsp;H&atilde;y c&ugrave;ng Khoa C&ocirc;ng Nghệ Th&ocirc;ng Tin theo d&otilde;i V&ograve;ng Chung kết, hứa hẹn sẽ mang đến những cung bậc cảm x&uacute;c v&ocirc; c&ugrave;ng kịch t&iacute;nh v&agrave; b&ugrave;ng nổ, chắc chắn sẽ kh&ocirc;ng l&agrave;m bạn thất vọng!</strong></p>\r\n\r\n<p>Vy Huỳnh</p>', 'Cuộc thi Học thuật Mastering IT 2019', '7mVn_55630448_2321976881366120_4331372267729584128_n.jpg', 4, '2019-07-14 20:03:37', '2019-07-14 20:40:14', 187, 187, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `news_types`
+--
+
+CREATE TABLE `news_types` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `news_types`
+--
+
+INSERT INTO `news_types` (`id`, `name`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, 'Thông tin đoàn hội', '2019-06-29 23:19:09', '2019-07-06 19:21:42', 187, NULL, NULL),
+(2, 'Hoạt động nổi bật', '2019-06-30 23:48:53', '2019-06-30 23:48:53', 187, NULL, NULL),
+(3, 'Gương sinh viên 5 tốt', '2019-06-30 23:49:10', '2019-06-30 23:49:10', 187, NULL, NULL),
+(4, 'Hoạt động cơ sở', '2019-06-30 23:51:32', '2019-06-30 23:51:32', 187, NULL, NULL),
+(5, 'Mùa hè xanh 2019', '2019-07-09 02:40:40', '2019-07-14 19:59:56', 187, NULL, NULL),
+(6, 'Tuyển dụng', '2019-07-11 02:28:33', '2019-07-11 02:28:33', 187, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `content` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -853,6 +1520,850 @@ INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`,
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `school_years`
+--
+
+CREATE TABLE `school_years` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `course` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '1: 2 nam, 2: 4 nam',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `school_years`
+--
+
+INSERT INTO `school_years` (`id`, `name`, `course`, `type`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, '2015 - 2019', 'K15', 2, NULL, NULL, NULL, NULL, NULL),
+(2, '2016 - 2020', 'K16', 2, NULL, NULL, NULL, NULL, NULL),
+(3, '2017 - 2021', 'K17', 2, NULL, NULL, NULL, NULL, NULL),
+(4, '2018 - 2022', 'K18', 2, NULL, NULL, NULL, NULL, NULL),
+(5, '2015 - 2016', NULL, 1, NULL, NULL, NULL, NULL, NULL),
+(6, '2016 - 2017', NULL, 1, NULL, NULL, NULL, NULL, NULL),
+(7, '2017 - 2018', NULL, 1, NULL, NULL, NULL, NULL, NULL),
+(8, '2018 - 2019', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `students`
+--
+
+CREATE TABLE `students` (
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `class_id` int(10) UNSIGNED NOT NULL,
+  `school_year_id` int(10) UNSIGNED NOT NULL,
+  `address` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `birthday` date NOT NULL,
+  `sex` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1: Male, 2: Female, 3: Other',
+  `identity_card` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `phone_no` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_youth_union_member` tinyint(1) DEFAULT '1' COMMENT '1: Yes, 2: No',
+  `is_study` tinyint(1) DEFAULT '1' COMMENT '1: Còn học, 2: Đã tốt nghiệp, 3: Bảo lưu, 4: Nghỉ học',
+  `date_on_union` date DEFAULT NULL,
+  `is_payed_union_fee` tinyint(1) DEFAULT '1' COMMENT '1: Đã đóng, 2: Chưa đóng',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `image` varchar(100) COLLATE utf8_unicode_ci DEFAULT 'null'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `students`
+--
+
+INSERT INTO `students` (`student_id`, `name`, `class_id`, `school_year_id`, `address`, `birthday`, `sex`, `identity_card`, `phone_no`, `is_youth_union_member`, `is_study`, `date_on_union`, `is_payed_union_fee`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`, `image`) VALUES
+('000000', 'Test', 1, 1, NULL, '1997-08-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:37:30', '2019-04-11 07:37:30', NULL, NULL, NULL, 'null'),
+('15110156', 'Phùng Văn An', 2, 1, '129, Trà Vong, H Tân Biên, Tây Ninh', '1995-01-02', 1, '291128561', '', 1, 1, NULL, 1, '2019-04-11 07:47:44', '2019-04-11 07:47:44', 1, NULL, NULL, 'null'),
+('15110158', 'Trần Bảo Ân', 2, 1, '11, Phú Long, H Hàm Thuận Bắc, Bình Thuận', '1997-01-15', 1, '261480605', NULL, 1, 2, NULL, 1, '2019-04-11 07:47:44', '2019-04-11 07:47:44', 1, NULL, NULL, 'null'),
+('15110159', 'Lê Ngọc Bảo', 2, 1, '5, Bảo Hòa, H Xuân Lộc, Đồng Nai', '1997-06-25', 1, '272620565', '01635691402', 1, 2, NULL, 1, '2019-04-11 07:47:44', '2019-04-11 07:47:44', 1, NULL, NULL, 'null'),
+('15110160', 'Nguyễn Lê Đức Bảo', 2, 1, '122B/68/29,KP6, Tân Tiến, Đồng Nai', '1997-04-17', 1, '272563252', '', 1, 1, NULL, 1, '2019-04-11 07:47:44', '2019-04-11 07:47:44', 1, NULL, NULL, 'null'),
+('15110161', 'Phạm Quốc Bảo', 2, 1, 'H Hóc Môn, TP. Hồ Chí Minh', '1997-11-03', 1, '025664768', '0903622217', 1, 1, NULL, 1, '2019-04-11 07:47:45', '2019-04-11 07:47:45', 1, NULL, NULL, 'null'),
+('15110162', 'Vũ Văn Bảo', 1, 1, 'H Krông Pắc, Đăk Lăk', '1997-07-24', 1, '241702998', NULL, 1, 3, '2019-06-16', 1, '2019-04-11 07:45:24', '2019-06-30 00:39:06', 1, NULL, NULL, 'null'),
+('15110164', 'Nguyễn Đức Bốn', 2, 1, 'H Thống Nhất, Đồng Nai', '1997-01-05', 1, '272494904', '0981679203', 1, 1, NULL, 1, '2019-04-11 07:47:45', '2019-04-11 07:47:45', 1, NULL, NULL, 'null'),
+('15110165', 'Nguyễn Lê Bửu', 2, 1, 'TX Buôn Hồ, Đăk Lăk', '1997-10-03', 1, '241691540', '', 1, 1, NULL, 1, '2019-04-11 07:47:45', '2019-04-11 07:47:45', 1, NULL, NULL, 'null'),
+('15110166', 'Huỳnh Minh Chiến', 1, 1, 'H Chợ Gạo, Tiền Giang', '1997-10-29', 1, '312329132', '', 1, 2, NULL, 1, '2019-04-11 07:45:24', '2019-05-05 05:39:44', 1, NULL, NULL, 'null'),
+('15110167', 'Trần Văn Chinh', 2, 1, 'H Tân Phú Đông, Tiền Giang', '1996-06-12', 1, '312283013', '01675309885', 1, 1, NULL, 1, '2019-04-11 07:47:45', '2019-04-11 07:47:45', 1, NULL, NULL, 'null'),
+('15110168', 'Nguyễn Tô Doanh Chuẩn', 1, 1, '363/6/40, Phường Bình Trị Đông A, Q Bình Tân, TP. Hồ Chí Minh', '1997-11-03', 1, '025794948', '', 1, 1, NULL, 1, '2019-04-11 07:45:24', '2019-04-11 07:45:24', 1, NULL, NULL, 'null'),
+('15110170', 'Trịnh Văn Công', 4, 1, NULL, '1997-01-16', 1, NULL, NULL, 1, 2, NULL, 1, '2019-04-11 07:58:10', '2019-04-11 07:58:10', 1, NULL, NULL, 'null'),
+('15110171', 'Trịnh Văn Công', 1, 1, 'Xã EaBung, H Ea Súp, Đăk Lăk', '1997-03-03', 1, '241643373', '01637012455', 1, 2, NULL, 1, '2019-04-11 07:45:24', '2019-04-11 07:45:24', 1, NULL, NULL, 'null'),
+('15110172', 'Huỳnh Thế Cương', 3, 1, '75/20, Xã Phú Hòa Đông, H Củ Chi, TP. Hồ Chí Minh', '1997-12-29', 1, '025564898', '', 1, 1, NULL, 1, '2019-04-11 07:56:07', '2019-04-11 07:56:07', 1, NULL, NULL, 'null'),
+('15110173', 'Bùi Phan Viết Cường', 2, 1, 'Phường Thác Mơ, H Phước Long, Bình Phước', '1997-09-03', 1, '285646130', '', 1, 2, NULL, 1, '2019-04-11 07:47:45', '2019-04-11 07:47:45', 1, NULL, NULL, 'null'),
+('15110174', 'Nguyễn Mạnh Cường', 2, 1, '118, Tân Phú 1 - xã Đinh Lạc, H Di Linh, Lâm Đồng', '1997-10-15', 1, '251082121', '0961923445', 1, 2, NULL, 1, '2019-04-11 07:47:45', '2019-04-11 07:47:45', 1, NULL, NULL, 'null'),
+('15110175', 'Trần Quốc Cường', 3, 1, '3/17, Nguyễn Văn Cừ, TP Qui Nhơn, Bình Định', '1997-10-21', 1, '215408252', NULL, 1, 2, NULL, 1, '2019-04-11 07:56:07', '2019-04-11 07:56:07', 1, NULL, NULL, 'null'),
+('15110176', 'Lê Thanh Danh', 2, 1, 'H Tư Nghĩa, Quảng Ngãi', '1997-02-20', 1, '212674237', '', 1, 2, NULL, 1, '2019-04-11 07:47:45', '2019-04-11 07:47:45', 1, NULL, NULL, '56395081_1099331386935764_6085244934967787520_n.jpg'),
+('15110177', 'Lê Thái Duy', 1, 1, 'H Triệu Phong, Quảng Trị', '1996-02-02', 1, '197339835', '', 1, 1, NULL, 1, '2019-04-11 07:45:24', '2019-04-11 07:45:24', 1, NULL, NULL, 'null'),
+('15110178', 'Nguyễn Hoàng Hiếu Duy', 1, 1, 'Số 9, Xã Lộc An, H Long Thành, Đồng Nai', '1990-04-10', 1, '272027259', '', 1, 2, NULL, 1, '2019-04-11 07:45:25', '2019-04-11 07:45:25', 1, NULL, NULL, 'null'),
+('15110179', 'Nguyễn Thành Duy', 3, 1, '100, xã Ea Yông, H Krông Pắc, Đăk Lăk', '1994-12-04', 1, '241540928', NULL, 1, 3, NULL, 1, '2019-04-11 07:56:07', '2019-04-11 07:56:07', 1, NULL, NULL, 'null'),
+('15110180', 'Phạm Nhật Duy', 3, 1, '88/13/19/2, An Phước, H Long Thành, Đồng Nai', '1997-09-06', 1, '272604315', '', 1, 1, NULL, 1, '2019-04-11 07:56:07', '2019-04-11 07:56:07', 1, NULL, NULL, 'null'),
+('15110181', 'Phạm Thanh Duy', 2, 1, '42/3, An Bình, H Long Hồ, Vĩnh Long', '1997-04-13', 1, '331843138', '0931800469', 1, 1, NULL, 1, '2019-04-11 07:47:45', '2019-04-11 07:47:45', 1, NULL, NULL, 'null'),
+('15110182', 'Vũ Thị Duyên', 1, 1, 'Xuân Bắc, H Xuân Lộc, Đồng Nai', '1997-02-08', 2, '272538914', '', 1, 2, NULL, 1, '2019-04-11 07:45:25', '2019-04-11 07:45:25', 1, NULL, NULL, 'null'),
+('15110183', 'Dương Đại Dũng', 1, 1, 'H Long Thành, Đồng Nai', '1997-09-19', 1, '272592436', '', 1, 1, NULL, 1, '2019-04-11 07:45:25', '2019-04-11 07:45:25', 1, NULL, NULL, 'null'),
+('15110184', 'Trần Tiến Dương', 2, 1, 'Nam Chính, H Tiền Hải, Thái Bình', '1997-08-01', 1, '152128204', '', 1, 2, NULL, 1, '2019-04-11 07:47:46', '2019-04-11 07:47:46', 1, NULL, NULL, 'null'),
+('15110185', 'Võ Trần Quốc Đại', 2, 1, 'Phổ Quang, H Đức Phổ, Quảng Ngãi', '1997-01-27', 1, '212279384', '', 1, 1, NULL, 1, '2019-04-11 07:47:46', '2019-04-11 07:47:46', 1, NULL, NULL, 'null'),
+('15110186', 'Diệp Thành Đạt', 4, 1, NULL, '1997-05-13', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 07:58:10', '2019-04-11 07:58:10', 1, NULL, NULL, 'null'),
+('15110187', 'Lê Công Đạt', 2, 1, 'H Hoà Thành, Tây Ninh', '1997-05-16', 1, '291140728', '', 1, 1, NULL, 1, '2019-04-11 07:47:46', '2019-04-11 07:47:46', 1, NULL, NULL, 'null'),
+('15110188', 'Nguyễn Quốc Đạt', 1, 1, '176, xã Diên Điền, H Diên Khánh, Khánh Hòa', '1997-05-24', 1, '225711932', '01693508795', 1, 3, NULL, 1, '2019-04-11 07:45:25', '2019-04-11 07:45:25', 1, NULL, NULL, 'null'),
+('15110190', 'Huỳnh Trung Đăng', 2, 1, 'TP Biên Hòa, Đồng Nai', '1997-01-28', 1, '272456435', '', 1, 1, NULL, 1, '2019-04-11 07:47:46', '2019-04-11 07:47:46', 1, NULL, NULL, 'null'),
+('15110191', 'Trần Mạnh Đô', 1, 1, 'H Đức Thọ, Hà Tĩnh', '1997-08-03', 1, '184261155', '', 1, 3, NULL, 1, '2019-04-11 07:45:25', '2019-04-11 07:45:25', 1, NULL, NULL, 'null'),
+('15110192', 'Lê Thiện Đức', 1, 1, '0870, Lê Chánh, H Tân Châu, An Giang', '1997-09-10', 1, '352306488', NULL, 1, 1, NULL, 1, '2019-04-11 07:45:25', '2019-04-11 07:45:25', 1, NULL, NULL, 'null'),
+('15110193', 'Nguyễn Phi Long Hoàng Giang', 1, 1, 'Lâm Đồng', '1996-07-22', 1, '251006521', '', 1, 3, NULL, 1, '2019-04-11 07:45:25', '2019-04-11 07:45:25', 1, NULL, NULL, 'null'),
+('15110194', 'Đinh Văn Giao', 2, 1, 'H Giao Thủy, Nam Định', '1996-07-03', 1, '163291473', '', 1, 1, NULL, 1, '2019-04-11 07:47:46', '2019-04-11 07:47:46', 1, NULL, NULL, 'null'),
+('15110195', 'Võ Hoàng Hà', 1, 1, 'Phường Long Phước, H Phước Long, Bình Phước', '1997-12-08', 1, '285647662', '', 1, 1, NULL, 1, '2019-04-11 07:45:25', '2019-04-11 07:45:25', 1, NULL, NULL, 'null'),
+('15110196', 'Lâm Chí Hào', 3, 1, 'H Cái Bè, Tiền Giang', '1997-02-13', 1, '312316978', '', 1, 1, NULL, 1, '2019-04-11 07:56:08', '2019-04-11 07:56:08', 1, NULL, NULL, 'null'),
+('15110197', 'Lê Hồng Hải', 2, 1, 'TX Bắc Ninh, Bắc Ninh', '1997-01-01', 1, '125691025', '', 1, 1, NULL, 1, '2019-04-11 07:47:46', '2019-04-11 07:47:46', 1, NULL, NULL, 'null'),
+('15110198', 'Đỗ Minh Hậu', 1, 1, 'Bảo Thạnh, H Ba Tri, Bến Tre', '1995-08-19', 1, '321533899', '', 1, 1, NULL, 1, '2019-04-11 07:45:25', '2019-04-11 07:45:25', 1, NULL, NULL, 'null'),
+('15110200', 'Trần Công Hậu', 2, 1, 'H Di Linh, Lâm Đồng', '1997-05-15', 1, '251069643', '', 1, 1, NULL, 1, '2019-04-11 07:47:46', '2019-04-11 07:47:46', 1, NULL, NULL, 'null'),
+('15110201', 'Nguyễn Thị Hiền', 1, 1, 'xã Cư ÊBur, TP Buôn Ma Thuột, Đăk Lăk', '1997-09-16', 2, '241791013', '', 1, 3, NULL, 1, '2019-04-11 07:45:26', '2019-04-11 07:45:26', 1, NULL, NULL, 'null'),
+('15110202', 'Đặng Ngọc Hiếu', 1, 1, '23, Phú Đông, TX Tuy Hòa, Phú Yên', '1997-08-14', 1, '221411732', '', 1, 1, NULL, 1, '2019-04-11 07:45:26', '2019-04-11 07:45:26', 1, NULL, NULL, 'null'),
+('15110203', 'Hoàng Minh Hiếu', 3, 1, 'Xuân Tâm, H Xuân Lộc, Đồng Nai', '1997-03-28', 1, '272556934', '', 1, 3, NULL, 1, '2019-04-11 07:56:08', '2019-04-11 07:56:08', 1, NULL, NULL, 'null'),
+('15110204', 'Lê Vy Nhật Hiếu', 3, 1, 'H Đăk Pơ, Gia Lai', '1997-09-09', 2, '231010242', NULL, 1, 1, NULL, 1, '2019-04-11 07:56:08', '2019-07-03 08:51:28', 1, NULL, NULL, 'kcq8_40108988_874935349361891_4670883634272534528_n.jpg'),
+('15110205', 'Hoàng Đức Hiệp', 3, 1, 'Ea Bung, H Ea Súp, Đăk Lăk', '1997-08-20', 1, '241640461', '', 1, 1, NULL, 1, '2019-04-11 07:56:08', '2019-04-11 07:56:08', 1, NULL, NULL, 'null'),
+('15110206', 'Lê Vũ Hoàng Hiệp', 3, 1, 'Hành Minh, H Nghĩa Hành, Quảng Ngãi', '1997-01-04', 1, '212797258', '', 1, 1, NULL, 1, '2019-04-11 07:56:08', '2019-04-11 07:56:08', 1, NULL, NULL, 'null'),
+('15110207', 'Phạm Đăng Hùng Hiệp', 3, 1, '52, Hiệp Ninh, TX Tây Ninh, Tây Ninh', '1997-02-23', 1, '291167100', '', 1, 4, NULL, 1, '2019-04-11 07:56:08', '2019-04-11 07:56:08', 1, NULL, NULL, 'null'),
+('15110208', 'Đinh Văn Hinh', 1, 1, 'Giao Long, H Giao Thủy, Nam Định', '1997-06-08', 1, '163319654', NULL, 1, 1, NULL, 1, '2019-04-11 07:45:26', '2019-04-11 07:45:26', 1, NULL, NULL, 'null'),
+('15110209', 'Nguyễn Huy Hoàng', 2, 1, 'H Cư Kuin, Đăk Lăk', '1997-01-20', 1, '241565697', NULL, 1, 1, NULL, 1, '2019-04-11 07:47:46', '2019-04-11 07:47:46', 1, NULL, NULL, 'null'),
+('15110210', 'Nguyễn Minh Hoàng', 4, 1, NULL, '1997-06-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:10', '2019-04-11 07:58:10', 1, NULL, NULL, 'null'),
+('15110211', 'Trần Kim Hoàng', 4, 1, NULL, '1997-01-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:10', '2019-04-11 07:58:10', 1, NULL, NULL, 'null'),
+('15110212', 'Hồ Huy Hòa', 1, 1, '59B, Đà Lạt, TP Đà Lạt, Lâm Đồng', '1997-01-22', 1, '250970910', NULL, 1, 4, NULL, 1, '2019-04-11 07:45:26', '2019-04-11 07:45:26', 1, NULL, NULL, 'null'),
+('15110213', 'Võ Long Hồ', 2, 1, '820/41, Bình Đức, TP Long Xuyên, An Giang', '1997-07-06', 1, '352388799', NULL, 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
+('15110214', 'Ngô Văn Huy', 3, 1, 'Đức Hòa, H Mộ Đức, Quảng Ngãi', '1997-04-20', 1, '212716100', '', 1, 1, NULL, 1, '2019-04-11 07:56:08', '2019-04-11 07:56:08', 1, NULL, NULL, 'null'),
+('15110215', 'Nguyễn Quang Huy', 3, 1, 'Xã Nghĩa Kỳ, H Tư Nghĩa, Quảng Ngãi', '1997-06-20', 1, '212383726', '', 1, 1, NULL, 1, '2019-04-11 07:56:08', '2019-04-11 07:56:08', 1, NULL, NULL, 'null'),
+('15110216', 'Nguyễn Khánh Huy', 3, 1, 'Xã Nghi Hợp, H Nghi Lộc, Nghệ An', '1997-11-11', 1, '187713456', '0985246727', 1, 1, NULL, 1, '2019-04-11 07:56:08', '2019-04-11 07:56:08', 1, NULL, NULL, 'null'),
+('15110217', 'Phạm Bảo Hoàng Huy', 3, 1, '368, xã phước đông, H Cần Đước, Long An', '1997-12-22', 1, '301605456', NULL, 1, 4, NULL, 1, '2019-04-11 07:56:09', '2019-04-11 07:56:09', 1, NULL, NULL, 'null'),
+('15110218', 'Phạm Ngọc Huy', 2, 1, '307, xã Eahu, H Cư Kuin, Đăk Lăk', '1997-06-11', 1, '241568362', '01639657978', 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
+('15110219', 'Đoàn Xuân Hùng', 1, 1, 'Xóm 2 Thôn Trúc Ly, Võ Ninh, H Quảng Ninh, Quảng Bình', '1997-09-02', 1, '194598072', '01635299937', 1, 1, NULL, 1, '2019-04-11 07:45:26', '2019-04-11 07:45:26', 1, NULL, NULL, 'null'),
+('15110220', 'Huỳnh Phi Hùng', 1, 1, '30/5, Liên Hiệp/Đức Trọng/Lâm Đồng, H Đức Trọng, Lâm Đồng', '1997-01-02', 1, '251020776', '0981720196', 1, 1, NULL, 1, '2019-04-11 07:45:26', '2019-04-11 07:45:26', 1, NULL, NULL, 'null'),
+('15110221', 'Nguyễn Đình Hùng', 2, 1, 'xóm, đại sơn, H Đô Lương, Nghệ An', '1996-03-17', 1, '187612076', '0976099453', 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
+('15110222', 'Nguyễn Văn Hùng', 3, 1, '30, Đức Mạnh, H Đăk Mil, Đăk Nông', '1997-11-10', 1, '245306264', '0987337257', 1, 1, NULL, 1, '2019-04-11 07:56:09', '2019-04-11 07:56:09', 1, NULL, NULL, 'null'),
+('15110223', 'Trịnh Thế Hùng', 1, 1, '168 Thôn Hòa An, Ea Nuôt, H Buôn Đôn, Đăk Lăk', '1997-06-17', 1, '241509331', '0969292301', 1, 4, NULL, 1, '2019-04-11 07:45:26', '2019-04-11 07:45:26', 1, NULL, NULL, 'null'),
+('15110224', 'Phan Văn Hưng', 3, 1, 'Đức Thành, H Yên Thành, Nghệ An', '1997-04-01', 1, '187657144', '01648626936', 1, 1, NULL, 1, '2019-04-11 07:56:09', '2019-04-11 07:56:09', 1, NULL, NULL, 'null'),
+('15110225', 'Phạm Thế Hữu', 4, 1, NULL, '1997-07-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:10', '2019-04-11 07:58:10', 1, NULL, NULL, 'null'),
+('15110226', 'Phạm Minh Kế', 1, 1, 'Nghĩa Ký, H Tư Nghĩa, Quảng Ngãi', '1997-05-10', 1, '212673885', '01644337163', 1, 1, NULL, 1, '2019-04-11 07:45:26', '2019-04-11 07:45:26', 1, NULL, NULL, 'null'),
+('15110227', 'Lê Hoàng Kha', 1, 1, '09, Thị trấn Cần Giuộc, H Cần Giuộc, Long An', '1997-09-28', 1, '301616888', '0932687444', 1, 1, NULL, 1, '2019-04-11 07:45:26', '2019-04-11 07:45:26', 1, NULL, NULL, 'null'),
+('15110228', 'Nguyễn Tiên Kha', 1, 1, 'Tịnh Hoà, Tp. Quảng Ngãi, Quảng Ngãi', '1997-07-28', 1, '212482947', '01645449251', 1, 4, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
+('15110229', 'Lê Tấn Khang', 1, 1, '09 Phương Câu, Vạn Thạnh, TP Nha Trang, Khánh Hòa', '1997-06-24', 1, '225596662', '01869404456', 1, 1, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
+('15110230', 'Nguyễn Quang Khải', 1, 1, '272 Quỳnh Ngọc I, Eana, H Krông Ana, Đăk Lăk', '1997-09-20', 1, '241564799', '0962221944', 1, 1, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
+('15110231', 'Hoàng Văn Khánh', 1, 1, 'Hưng Trạch, H Bố Trạch, Quảng Bình', '1997-09-02', 1, '194596409', '', 1, 4, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
+('15110232', 'Nguyễn Phi Khánh', 2, 1, '018, Xã Tăng Hòa, H Gò Công Đông, Tiền Giang', '1997-09-27', 1, '312301283', '01628986159', 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
+('15110233', 'Nguyễn Văn Khánh', 1, 1, '393, Phong Mỹ, TX Cao Lãnh, Đồng Tháp', '1997-08-25', 1, '341950036', '01204806531', 1, 1, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
+('15110234', 'Huỳnh Văn Khen', 1, 1, '35, Kiên Lương, H Kiên Lương, Kiên Giang', '1997-01-22', 1, '371810961', '', 1, 1, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
+('15110235', 'Nguyễn Dương Văn Khoa', 4, 1, NULL, '1997-04-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:10', '2019-04-11 07:58:10', 1, NULL, NULL, 'null'),
+('15110236', 'Bạch Trung Kiên', 1, 1, 'Hưng Phú, H Hưng Nguyên, Nghệ An', '1997-02-07', 1, '187439972', '0974039537', 1, 1, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
+('15110237', 'Dương Tuấn Kiệt', 3, 1, '49, Thị trấn Thanh Bình, H Bù Đốp, Bình Phước', '1997-08-08', 1, '285568919', '01646356275', 0, 1, '2019-04-13', 0, '2019-04-11 07:56:09', '2019-07-18 18:41:46', 1, NULL, NULL, 'y82D_40108988_874935349361891_4670883634272534528_n.jpg'),
+('15110238', 'Nguyễn Sơn Lâm', 3, 1, '14/109/66 Nguyễn Sơn, Gia Thụy, Q Long Biên, Hà Nội', '1996-01-03', 1, '013309246', '01634301455', 1, 1, NULL, 1, '2019-04-11 07:56:09', '2019-04-11 07:56:09', 1, NULL, NULL, 'null'),
+('15110240', 'Lâm Quang Lịch', 4, 1, NULL, '1997-12-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:10', '2019-04-11 07:58:10', 1, NULL, NULL, 'null'),
+('15110241', 'Đinh Anh Long', 2, 1, 'H Bảo Lâm, Lâm Đồng', '1997-08-19', 1, '251124444', NULL, 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
+('15110242', 'Nguyễn Hoàng Long', 1, 1, '262, xã Bình Khánh, H Cần Giờ, TP. Hồ Chí Minh', '1997-06-03', 1, '025447664', '01866266362', 1, 1, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
+('15110243', 'Nguyễn Đình Lộc', 2, 1, 'Ấp Phương Vỹ, Suối Cao, H Xuân Lộc, Đồng Nai', '1997-05-04', 1, '272676165', '01698595893', 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
+('15110244', 'Nguyễn Huỳnh Bá Lộc', 3, 1, 'Tiền Giang', '1997-09-18', 1, '312372900', NULL, 1, 1, NULL, 1, '2019-04-11 07:56:09', '2019-04-11 07:56:09', 1, NULL, NULL, 'null'),
+('15110245', 'Phạm Hữu Lộc', 1, 1, 'Ialy, Ialy, H Chư Păh, Gia Lai', '1997-10-25', 1, '231127863', '01685817658', 1, 1, NULL, 1, '2019-04-11 07:45:27', '2019-04-11 07:45:27', 1, NULL, NULL, 'null'),
+('15110246', 'Bùi Thế Lượng', 1, 1, 'Bình Hòa, H Thuận An, Bình Dương', '1997-03-15', 1, '215412556', '01656465814', 1, 1, NULL, 1, '2019-04-11 07:45:28', '2019-04-11 07:45:28', 1, NULL, NULL, 'null'),
+('15110247', 'Dư Minh Lực', 1, 1, '3/21, phường 4, TP Cà Mau, Cà Mau', '1997-11-12', 1, '381795767', '0947908617', 1, 1, NULL, 1, '2019-04-11 07:45:28', '2019-04-11 07:45:28', 1, NULL, NULL, 'null'),
+('15110248', 'Nguyễn Văn Lực', 3, 1, 'Đliêya, H Krông Năng, Đăk Lăk', '1996-01-27', 1, '221370991', '01649938122', 1, 1, NULL, 1, '2019-04-11 07:56:09', '2019-04-11 07:56:09', 1, NULL, NULL, 'null'),
+('15110249', 'Trần Minh', 2, 1, '180/1, 2, TP Vũng Tàu, Bà Rịa - Vũng Tàu', '1997-08-09', 1, '273642054', '0933984921', 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
+('15110250', 'Trần Quang Minh', 1, 1, 'Văn Tứ Đông, Cam Hòa, H Cam Lâm, Khánh Hòa', '1997-03-26', 1, '225760516', '01632458816', 1, 1, NULL, 1, '2019-04-11 07:45:28', '2019-04-11 07:45:28', 1, NULL, NULL, 'null'),
+('15110251', 'Nguyễn Thị Trúc My', 1, 1, 'Xã Tân Phước, H Gò Công Đông, Tiền Giang', '1997-02-18', 2, '312301847', '01672109425', 1, 1, NULL, 1, '2019-04-11 07:45:28', '2019-04-11 07:45:28', 1, NULL, NULL, 'null'),
+('15110252', 'Đào Thị Mỹ', 1, 1, 'Phổ Cường, H Đức Phổ, Quảng Ngãi', '1997-06-04', 2, '212281655', '0984372831', 1, 1, NULL, 1, '2019-04-11 07:45:28', '2019-04-11 07:45:28', 1, NULL, NULL, 'null'),
+('15110253', 'Phạm Lương Mỹ', 1, 1, '49, 11, Q Tân Bình, TP. Hồ Chí Minh', '1997-06-24', 1, '025549464', '0939097743', 1, 1, NULL, 1, '2019-04-11 07:45:28', '2019-04-11 07:45:28', 1, NULL, NULL, 'null'),
+('15110254', 'Lê Ngọc Nam', 3, 1, 'Xuân Tín, H Thọ Xuân, Thanh Hóa', '1997-11-13', 1, '174825210', '', 1, 1, NULL, 1, '2019-04-11 07:56:09', '2019-04-11 07:56:09', 1, NULL, NULL, 'null'),
+('15110255', 'Lưu Phước Phương Nam', 2, 1, 'xã Quảng Thành, H Châu Đức, Bà Rịa - Vũng Tàu', '1997-11-17', 1, '273629896', '0988575470', 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
+('15110256', 'Nguyễn Hải Nam', 4, 1, NULL, '1996-10-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110257', 'Vương Hoài Nam', 2, 1, '41/142, Long Hải, H Long Điền, Bà Rịa - Vũng Tàu', '1997-07-30', 1, '273599137', '01222667545', 1, 1, NULL, 1, '2019-04-11 07:47:47', '2019-04-11 07:47:47', 1, NULL, NULL, 'null'),
+('15110258', 'Đoàn Đức Nghĩa', 3, 1, '10 Đường 11, Kp.6, Hiệp Bình Chánh, H Nghĩa Hưng, Nam Định', '1997-07-07', 1, '163412119', '', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
+('15110259', 'Nguyễn Hữu Nghĩa', 2, 1, '140 Ấp Bình Hòa, Bình Thạnh, TX Cao Lãnh, Đồng Tháp', '1997-06-24', 1, '341831896', '01696757628', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
+('15110260', 'Đoàn Quang Nghị', 2, 1, 'Tổ 4 Ấp 13, Minh Đức, H Hớn Quản, Bình Phước', '1997-09-15', 1, '285641745', '01669154090', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
+('15110261', 'Nguyễn Hữu Nghị', 3, 1, '09, An Bình Tây, H Ba Tri, Bến Tre', '1997-11-08', 1, '321702958', '01649946546', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
+('15110262', 'Ngô Huỳnh Nguyên', 3, 1, '58/13a, Phường Tân Chánh Hiệp, Quận 12, TP. Hồ Chí Minh', '1997-03-23', 1, '025632012', '01887127403', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
+('15110263', 'Nguyễn Thanh Nhã', 1, 1, '387, Ấp 1, xã Bàu Cạn, Long Thành - Đồng Nai, H Long Thành, Đồng Nai', '1997-03-09', 1, '272541833', '', 1, 1, NULL, 1, '2019-04-11 07:45:28', '2019-04-11 07:45:28', 1, NULL, NULL, 'null'),
+('15110264', 'Lê Anh Nhân', 1, 1, 'Nghĩa Hòa, H Tư Nghĩa, Quảng Ngãi', '1997-10-09', 1, '212677958', '0935890697', 1, 1, NULL, 1, '2019-04-11 07:45:28', '2019-04-11 07:45:28', 1, NULL, NULL, 'null'),
+('15110265', 'Võ Hoàng Nhân', 2, 1, '108/PL, Phú Ngãi, H Ba Tri, Bến Tre', '1997-11-07', 1, '321701689', '0186182448', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
+('15110266', 'Cao Xuân Nhẫn', 2, 1, 'Cát Tiến, H Phù Cát, Bình Định', '1997-04-10', 1, '215416764', '01639879874', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
+('15110267', 'Nguyễn Đình Nhật', 2, 1, '141, Đắk Mâm, H KrôngNô, Đăk Nông', '1995-02-26', 1, '245266103', '01665026205', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
+('15110268', 'Lê Thị Thảo Nhi', 1, 1, '184, Long Điền B, H Chợ Mới, An Giang', '1997-06-05', 2, '352485103', '01652715956', 1, 1, NULL, 1, '2019-04-11 07:45:29', '2019-04-11 07:45:29', 1, NULL, NULL, '48421287_2000278446754334_5856016367102197760_n.jpg'),
+('15110269', 'Nguyễn Thị Yến Nhi', 4, 1, NULL, '1997-02-02', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110270', 'Viên Minh Nhựt', 1, 1, 'Tân Phú, H Đồng Phú, Bình Phước', '1997-05-19', 1, '285606060', '01697952833', 1, 1, NULL, 1, '2019-04-11 07:45:29', '2019-04-11 07:45:29', 1, NULL, NULL, 'null'),
+('15110271', 'Cao Xuân Ninh', 1, 1, '01/ tổ 9, Phước Hưng, H Long Điền, Bà Rịa - Vũng Tàu', '1997-11-26', 1, '273677417', '01678693100', 1, 1, NULL, 1, '2019-04-11 07:45:29', '2019-04-11 07:45:29', 1, NULL, NULL, 'null'),
+('15110272', 'Nguyễn Ngọc Phan', 3, 1, 'Nghĩa Mỹ, H Tư Nghĩa, Quảng Ngãi', '1997-04-20', 1, '212678078', '', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
+('15110274', 'Nguyễn Trần Tấn Phát', 4, 1, NULL, '1997-06-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110275', 'Trần Phạm Tấn Phát', 1, 1, 'Tam Quan Nam, H Hoài Nhơn, Bình Định', '1997-07-10', 1, '215432483', '01647822789', 1, 1, NULL, 1, '2019-04-11 07:45:29', '2019-04-11 07:45:29', 1, NULL, NULL, 'null'),
+('15110276', 'Trần Huỳnh Phiêu', 2, 1, 'Ấp Tân Thới, Xã Sơn Định, H Chợ Lách, Bến Tre', '1997-11-09', 1, '321566624', '', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
+('15110277', 'Hồ Văn Phong', 1, 1, 'Xóm 3 Thôn An Dưỡng I, Hoài Tân, H Hoài Nhơn, Bình Định', '1997-02-08', 1, '215389085', '01642642780', 1, 1, NULL, 1, '2019-04-11 07:45:29', '2019-04-11 07:45:29', 1, NULL, NULL, 'null'),
+('15110278', 'Dương Hồng Phúc', 4, 1, NULL, '1997-06-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110279', 'Nguyễn Thành Phúc', 1, 1, '90, Xã Định Hiệp, huyện Dầu Tiếng, H Dầu Tiếng, Bình Dương', '1997-01-25', 1, '281190383', '01638180818', 1, 1, NULL, 1, '2019-04-11 07:45:29', '2019-04-11 07:45:29', 1, NULL, NULL, 'null'),
+('15110280', 'Ông Thị Diễm Phúc', 1, 1, '28/27, phường Linh chiểu, Q Thủ Đức, TP. Hồ Chí Minh', '1997-10-26', 2, '352449170', '0971777095', 1, 1, NULL, 1, '2019-04-11 07:45:29', '2019-04-11 07:45:29', 1, NULL, NULL, 'null'),
+('15110281', 'Trần Lê Gia Hồng Phúc', 3, 1, '03, tổ 1, ấp 7, xã Tân Ân, H Cần Đước, Long An', '1997-11-17', 1, '301604156', '01629579956', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
+('15110282', 'Trần Thiên Phúc', 1, 1, '436/59/11 Cách Mạng Tháng Tám, 11, Quận 3, TP. Hồ Chí Minh', '1997-02-01', 1, '025641931', '01289998434', 1, 1, NULL, 1, '2019-04-11 07:45:29', '2019-04-11 07:45:29', 1, NULL, NULL, 'null'),
+('15110283', 'Hoàng Thị Kim Phụng', 1, 1, 'Xã ÊaPhê, H Krông Pắc, Đăk Lăk', '1994-09-07', 2, '241386440', '01668174561', 1, 1, NULL, 1, '2019-04-11 07:45:29', '2019-04-11 07:45:29', 1, NULL, NULL, 'null'),
+('15110284', 'Lê Thị Kiều Phụng', 4, 1, NULL, '1997-12-12', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110285', 'Lê Văn Phụng', 3, 1, '26, Nguyễn Thị Định, Phước Dân, H Ninh Phước, Ninh Thuận', '1995-09-07', 1, '264468073', '09699975478', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
+('15110286', 'Mai Quốc Như Nhật Phụng', 2, 1, 'Ấp Phú Cường, Phú Bình, H Tân Phú, Đồng Nai', '1997-12-12', 1, '272492087', '01658093430', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
+('15110287', 'Nguyễn Hoài Phương', 1, 1, 'An Thủy, H Ba Tri, Bến Tre', '1997-06-22', 1, '321567950', '0964824963', 1, 1, NULL, 0, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110288', 'Phạm Duy Phương', 3, 1, '120, Đoàn Thị Điểm, Lộc Thanh, TX Bảo Lộc, Lâm Đồng', '1997-01-22', 1, '251135139', '0925555570', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
+('15110289', 'Đào Thị Phượng', 1, 1, '71/85/9,tổ 62,kp8 (khu Âp Doi), F15, đường Thống Nhất, Liên Châu, H Yên Lạc, Vĩnh Phúc', '1997-03-09', 2, '135872362', '', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, '38245343_421904824996952_1455110649024610304_n.jpg'),
+('15110290', 'Đặng Trương Duy Quang', 1, 1, '493B, Phường Phú Khương, TX Bến Tre, Bến Tre', '1997-11-25', 1, '321593660', '01659432579', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110291', 'Nguyễn Kỳ Quang', 3, 1, '206/40 Đồng Đen, xã Tịnh Châu, Tp. Quảng Ngãi, Quảng Ngãi', '1996-12-25', 1, '212479675', '01674908941', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
+('15110292', 'Phùng Đức Quang', 1, 1, '13/7, Trần Quang Khải, Bình Tân, TX Buôn Hồ, Đăk Lăk', '1997-06-15', 1, '241523117', '09955632432', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110293', 'Phạm Thị Quà', 4, 1, NULL, '1997-06-11', 2, NULL, NULL, 1, 1, NULL, 0, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110294', 'Đỗ Hoàng Quân', 1, 1, '26b/1d, Phường Tăng Nhơn Phú B, Quận 9, TP. Hồ Chí Minh', '1997-03-05', 1, '025741978', '01285064732', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110295', 'Trần Lê Anh Quốc', 4, 1, NULL, '1997-03-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110297', 'Trần Phú Quý', 3, 1, 'Phường Long Thủy, H Phước Long, Bình Phước', '1997-12-30', 1, '258648351', '0969549644', 1, 1, NULL, 1, '2019-04-11 07:56:10', '2019-04-11 07:56:10', 1, NULL, NULL, 'null'),
+('15110298', 'Trần Phú Quý', 3, 1, 'Phổ Khánh, H Tư Nghĩa, Quảng Ngãi', '1997-11-08', 1, '212279818', '01649467408', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
+('15110299', 'Nguyễn Văn Sang', 4, 1, NULL, '1997-03-11', 1, NULL, NULL, 1, 1, NULL, 0, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110300', 'Nguyễn Thanh Sơn', 3, 1, '193, Bàn Long, H Châu Thành, Tiền Giang', '1997-01-01', 1, '312336908', '01213994014', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
+('15110301', 'Phạm Thanh Sơn', 1, 1, 'Đông Hải, TX Phan Rang-Tháp Chàm, Ninh Thuận', '1997-02-17', 1, '264448947', '01639157154', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110302', 'Võ Nguyễn Hoàng Sơn', 3, 1, '7/4, Phú Thuận, Quận 7, TP. Hồ Chí Minh', '1997-08-20', 1, '025682204', '01673587001', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
+('15110303', 'Nguyễn Văn Sỹ', 3, 1, 'Số 232, ấp 3, Gia Canh, H Định Quán, Đồng Nai', '1997-05-23', 1, '272551954', '0972736782', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
+('15110304', 'Giang Minh Tài', 2, 1, '11, Sùng Nhơn, H Đức Linh, Bình Thuận', '1997-03-11', 1, '261508593', '01685767192', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
+('15110305', 'Nguyễn Tấn Tài', 2, 1, 'Phú Lộc, H Krông Năng, Đăk Lăk', '1997-11-15', 1, '241705261', '01238233336', 1, 1, NULL, 1, '2019-04-11 07:47:48', '2019-04-11 07:47:48', 1, NULL, NULL, 'null'),
+('15110306', 'Nguyễn Văn Tài', 1, 1, '48, Đạ Teh, H Đạ Tẻh, Lâm Đồng', '1997-05-17', 1, '251111331', '01689618171', 1, 1, NULL, 0, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110307', 'Trương Tấn Tài', 2, 1, 'Sơn Hội, H Sơn Hòa, Phú Yên', '1997-09-15', 1, '221447017', '09676384149', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110308', 'Võ Phước Tân', 1, 1, '897/12, phường Bình Thắng, H Dĩ An, Bình Dương', '1997-05-06', 1, '281136389', '', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110309', 'Lê Phước Thanh', 3, 1, '82/3, Hiệp Bình Phước, Q Thủ Đức, TP. Hồ Chí Minh', '1997-03-31', 1, '026010891', '0937217351', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
+('15110310', 'Nguyễn Viết Thanh', 1, 1, 'Hồ Tùng Mậu, Tân Thanh, TX Tam Kỳ, Quảng Nam', '1997-01-01', 1, '206314588', '01634049975', 1, 1, NULL, 1, '2019-04-11 07:45:30', '2019-04-11 07:45:30', 1, NULL, NULL, 'null'),
+('15110311', 'Hồ Nhất Thành', 1, 1, 'Đội 6 Thôn Cộng Hòa I, Tịnh Ấn Tây, Tp. Quảng Ngãi, Quảng Ngãi', '1997-07-21', 1, '212474688', '01668718790', 0, 1, NULL, 0, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110312', 'Tạ Tích Thành', 1, 1, 'Cây Gáo, Trảng Bom, Đồng Nai', '1997-06-24', 1, '272667052', '0978169503', 1, 1, NULL, 0, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110313', 'Trần Minh Thành', 3, 1, 'Ngan Dừa, H Hồng Dân, Bạc Liêu', '1997-02-03', 1, '385756864', '', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
+('15110314', 'Nguyễn Thị Thanh Thảo', 2, 1, 'Thạnh Lợi, H Vĩnh Thanh, Cần Thơ', '1997-03-08', 2, '362484135', '01688360937', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110315', 'Phạm Đại Thạch', 1, 1, 'Củng Sơn, H Sơn Hòa, Phú Yên', '1997-02-25', 1, '221444366', '01694676100', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110316', 'Đoàn Thanh Thắng', 2, 1, 'Thiện Hưng, H Bù Đốp, Bình Phước', '1996-10-22', 1, '285570592', '', 1, 1, NULL, 0, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110317', 'Nguyễn Đức Thắng', 2, 1, 'H Phú Hòa, Phú Yên', '1997-06-20', 1, '221423755', '0944924822', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110318', 'Trần Hải Anh Thi', 2, 1, 'Hòa Trị, TX Bảo Lộc, Lâm Đồng', '1997-05-26', 1, '251029489', '0944924822', 1, 1, NULL, 0, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110319', 'Lương Trọng Thiên', 1, 1, '17,24, Mê Pu, H Đức Linh, Bình Thuận', '1997-12-21', 1, '261501292', '01687772887', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110320', 'Cao Ngọc Thiện', 1, 1, '22, Phan Châu Trinh, Minh An, TX Hội An, Quảng Nam', '1996-09-07', 1, '206055520', '01223421418', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110321', 'Phan Minh Thiện', 1, 1, '195, xã Thạnh Quới, H Vĩnh Thanh, Cần Thơ', '1996-12-21', 1, '362467830', '01697421797', 1, 1, NULL, 0, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110322', 'Lương Văn Thông', 3, 1, 'Số nhà 7, Tân Tiến, H Đồng Phú, Bình Phước', '1997-06-10', 1, '285608054', '01643084880', 1, 1, NULL, 1, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
+('15110323', 'Nguyễn Minh Thông', 3, 1, '324/9/1, Phước Hải, TP Nha Trang, Khánh Hòa', '1997-01-08', 1, '225908620', '01656522379 (gap phu', 1, 1, NULL, 0, '2019-04-11 07:56:11', '2019-04-11 07:56:11', 1, NULL, NULL, 'null'),
+('15110324', 'Hoàng Thị Thu', 4, 1, NULL, '1997-07-27', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:11', '2019-04-11 07:58:11', 1, NULL, NULL, 'null'),
+('15110326', 'Huỳnh Văn Thuận', 1, 1, '293, xã Long Trạch, H Cần Đước, Long An', '1997-05-02', 1, '301607024', '01223353674', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110327', 'Nguyễn Ngọc Minh Thuận', 1, 1, '107, Quốc Hương, Quận 2, TP. Hồ Chí Minh', '1997-10-24', 1, '025832129', '0971095395', 1, 1, NULL, 0, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110328', 'Cao Thị Thuyền', 1, 1, 'An Bình Tây, H Ba Tri, Bến Tre', '1997-03-18', 2, '321701131', '01645293097', 1, 1, NULL, 1, '2019-04-11 07:45:31', '2019-04-11 07:45:31', 1, NULL, NULL, 'null'),
+('15110329', 'Nguyễn Thị Thức', 3, 1, 'CÁT THẮNG, H Phù Cát, Bình Định', '1997-11-18', 2, '215418020', '01674730687', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110330', 'Đinh Phúc Tiến', 3, 1, 'Thạch Tiến, H Thạch Hà, Hà Tĩnh', '1997-04-09', 1, '184265245', '', 1, 1, NULL, 0, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110331', 'Nguyễn Bá Tiến', 1, 1, 'Phú Trung, H Bù Gia Mập, Bình Phước', '1997-01-14', 1, '285558624', '0987249905', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
+('15110332', 'Nguyễn Đức Tiến', 1, 1, 'phường Sơn Giang, H Phước Long, Bình Phước', '1997-03-04', 1, '285649177', '01636526505', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
+('15110333', 'Hà Văn Tình', 1, 1, 'Thôn Lộc Tây 2, quế Lộc, Nông Sơn, Quảng Nam', '1995-06-16', 1, '205863662', '0979443744', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
+('15110334', 'Lê Đức Toàn', 1, 1, 'Lương Hòa, H Châu Thành, Trà Vinh', '1997-03-16', 1, '334904218', '0988686491', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
+('15110335', 'Nguyễn Cảnh Toàn', 4, 1, NULL, '1997-09-01', 1, NULL, NULL, 1, 1, NULL, 0, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
+('15110336', 'Phạm Văn Tổng', 4, 1, NULL, '1997-09-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
+('15110337', 'Phạm Văn Tới', 1, 1, '5C/A1, Tmt 01, Quận 12, TP. Hồ Chí Minh', '1997-06-09', 1, '025596240', '0167 77 99 322', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
+('15110338', 'Bùi Xuân Trí', 1, 1, 'Phước Thắng, H Tuy Phước, Bình Định', '1997-09-02', 1, '215392922', '0987527849', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
+('15110339', 'Trần Quang Triều', 1, 1, 'Xã Thăng Hưng, H Chư Prông, Gia Lai', '1997-09-16', 1, '231103256', '01696718448', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
+('15110340', 'Trần Minh Trí', 3, 1, 'Long Hòa, H Bình Đại, Bến Tre', '1997-01-19', 1, '321553602', '0965539730', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110341', 'Trần Văn Trí', 1, 1, 'Hoài Hải, H Hoài Nhơn, Bình Định', '1997-10-05', 1, '215430952', '01659548682', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
+('15110342', 'Từ Hòa Trí', 1, 1, 'Ninh Thân, H Ninh Hòa, Khánh Hòa', '1997-01-04', 1, '225677066', '01206002680', 1, 1, NULL, 1, '2019-04-11 07:45:32', '2019-04-11 07:45:32', 1, NULL, NULL, 'null'),
+('15110343', 'Trần Nguyên Trọng', 1, 1, 'H Đức Phổ, Quảng Ngãi', '1997-02-19', 1, '212279427', '0979402544', 1, 1, NULL, 1, '2019-04-11 07:45:33', '2019-04-11 07:45:33', 1, NULL, NULL, 'null'),
+('15110344', 'Lê Vĩnh Trung', 3, 1, '14, Thị trấn Mỹ Thọ, H Cao Lãnh, Đồng Tháp', '1997-03-10', 1, '341932078', '', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110345', 'Lưu Quang Trung', 3, 1, 'Kim Dinh, TX Bà Rịa, Bà Rịa - Vũng Tàu', '1997-09-22', 1, '273646698', '01657690869', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110346', 'Nguyễn Chí Trung', 1, 1, 'Bình Trung, H Thăng Bình, Quảng Nam', '1997-04-22', 1, '205969565', '01665293553', 1, 1, NULL, 1, '2019-04-11 07:45:33', '2019-04-11 07:45:33', 1, NULL, NULL, 'null'),
+('15110347', 'Nguyễn Tạ Minh Trung', 1, 1, 'Tam Quang, H Núi Thành, Quảng Nam', '1997-03-25', 1, '206220235', '01684648350', 1, 1, NULL, 1, '2019-04-11 07:45:33', '2019-04-11 07:45:33', 1, NULL, NULL, '42872964_697133664019478_8375899294850351104_n.jpg'),
+('15110348', 'Phạm Quang Trung', 2, 1, 'Xuân Tây, H Cẩm Mỹ, Đồng Nai', '1997-12-10', 1, '272565689', '', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110349', 'Nguyễn Thị Trúc', 2, 1, 'Thạch Kênh, H Thạch Hà, Hà Tĩnh', '1997-12-09', 2, '184185750', '0948880903', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110350', 'Nguyễn Xuân Trúc', 3, 1, '13/8b, khu phố 8, phường tân phong,Biên hòa,Đồng nai, Đồng Nai', '1997-11-30', 1, '272649955', '', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110351', 'Đoàn Ngọc Xuyên Trường', 3, 1, '61/50, số 1, Phường 10, Q Tân Bình, TP. Hồ Chí Minh', '1997-04-20', 1, '025599931', '', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110352', 'Nguyễn Nhật Trường', 2, 1, '408, Thành Long, H Châu Thành, Tây Ninh', '1997-11-07', 1, '291144008', '01627385952', 1, 1, NULL, 1, '2019-04-11 07:47:49', '2019-04-11 07:47:49', 1, NULL, NULL, 'null'),
+('15110353', 'Trần Nhật Trường', 4, 1, NULL, '1997-06-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
+('15110354', 'Bùi Đỗ Trung Trực', 3, 1, 'Hành Tín Đông, H Nghĩa Hành, Quảng Ngãi', '1997-09-16', 1, '212798733', '01629529124', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110355', 'Hồ Ngọc Tuấn', 4, 1, NULL, '1997-02-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
+('15110356', 'Mai Thanh Tuấn', 3, 1, 'Eam\'doal, H M\'Đrăk, Đăk Lăk', '1995-10-20', 1, '241431763', '0965598393', 1, 1, NULL, 1, '2019-04-11 07:56:12', '2019-04-11 07:56:12', 1, NULL, NULL, 'null'),
+('15110357', 'Vũ Minh Tuấn', 4, 1, NULL, '1997-12-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
+('15110358', 'Hà Vũ Kim Tuyền', 3, 1, 'Tiêu Mỹ, H Tiên Phước, Quảng Nam', '1997-08-29', 2, '206028223', '', 1, 1, NULL, 1, '2019-04-11 07:56:13', '2019-04-11 07:56:13', 1, NULL, NULL, 'null'),
+('15110359', 'Lữ Văn Tùng', 2, 1, 'Tân bình, H Đồng Xoài, Bình Phước', '1997-02-10', 1, '285699696', '0965629279', 1, 1, NULL, 1, '2019-04-11 07:47:50', '2019-04-11 07:47:50', 1, NULL, NULL, 'null'),
+('15110360', 'Trần Ngọc Tùng', 1, 1, 'Bình Hòa, H Thuận An, Bình Dương', '1997-11-15', 1, '281120546', '01626223711', 1, 1, NULL, 1, '2019-04-11 07:45:33', '2019-04-11 07:45:33', 1, NULL, NULL, 'null'),
+('15110361', 'Trần Thị Tố Uyên', 2, 1, 'H Nghĩa Hành, Quảng Ngãi', '1996-07-30', 2, '212796438', '', 1, 1, NULL, 1, '2019-04-11 07:47:50', '2019-04-11 07:47:50', 1, NULL, NULL, 'null'),
+('15110362', 'Bùi Quốc Việt', 2, 1, 'Cát Khánh, H Phù Cát, Bình Định', '1997-02-26', 1, '215416382', '01699720244', 1, 1, NULL, 1, '2019-04-11 07:47:50', '2019-04-11 07:47:50', 1, NULL, NULL, 'null'),
+('15110363', 'Đỗ Quốc Việt', 2, 1, 'Lộc Thọ, TP Nha Trang, Khánh Hòa', '1997-06-18', 1, '225592750', '0167218804', 1, 1, NULL, 1, '2019-04-11 07:47:50', '2019-04-11 07:47:50', 1, NULL, NULL, 'null'),
+('15110364', 'Huỳnh Công Viên', 1, 1, '161, Ngô Gia Tự, Phú Đông, TX Tuy Hòa, Phú Yên', '1997-09-05', 1, '221447065', '01696900717', 1, 1, NULL, 1, '2019-04-11 07:45:33', '2019-04-11 07:45:33', 1, NULL, NULL, 'null'),
+('15110365', 'Lê Trung Việt', 1, 1, '328, Phường Lê Hồng Phong, TP Qui Nhơn, Bình Định', '1997-03-03', 1, '215408660', '0964031585', 1, 1, NULL, 1, '2019-04-11 07:45:33', '2019-04-11 07:45:33', 1, NULL, NULL, 'null'),
+('15110366', 'Hồ Hoàng Vinh', 3, 1, '10/5, Lê Hồng Phong, Phước Tân, TP Nha Trang, Khánh Hòa', '1997-09-09', 1, '225599276', '01884905025', 1, 1, NULL, 1, '2019-04-11 07:56:13', '2019-04-11 07:56:13', 1, NULL, NULL, 'null'),
+('15110367', 'Huỳnh Tấn Vinh', 3, 1, 'Hòa Trị, H Phú Hòa, Phú Yên', '1997-06-30', 1, '221458515', '01672643294', 1, 1, NULL, 1, '2019-04-11 07:56:13', '2019-04-11 07:56:13', 1, NULL, NULL, 'null'),
+('15110368', 'Ngô Quang Vinh', 1, 1, 'Nhơn Phong, H An Nhơn, Bình Định', '1997-10-17', 1, '215424330', '01658236822', 1, 1, NULL, 1, '2019-04-11 07:45:33', '2019-04-11 07:45:33', 1, NULL, NULL, 'null'),
+('15110369', 'Nguyễn Thế Vinh', 2, 1, '35, Tăng Nhơn Phú B, Quận 9, TP. Hồ Chí Minh', '1997-06-14', 1, '025741728', '0964123143', 1, 1, NULL, 1, '2019-04-11 07:47:50', '2019-04-11 07:47:50', 1, NULL, NULL, 'null'),
+('15110370', 'Phạm Hửu Vinh', 3, 1, '452, Tình lộ 954, Tt Chợ Vàm, H Phú Tân, An Giang', '1997-01-19', 1, '352323136', '01296824724', 1, 1, NULL, 1, '2019-04-11 07:56:13', '2019-04-11 07:56:13', 1, NULL, NULL, 'null'),
+('15110371', 'Võ Thế Vinh', 2, 1, 'Bình Hòa, H Vĩnh Cửu, Đồng Nai', '1997-09-30', 1, '272739121', '01657184324', 1, 1, NULL, 1, '2019-04-11 07:47:50', '2019-04-11 07:47:50', 1, NULL, NULL, 'null'),
+('15110372', 'Thòng Thanh Vĩ', 3, 1, 'Sông Xoài, H Tân Thành, Bà Rịa - Vũng Tàu', '1997-11-13', 1, '273589026', '01632965962', 1, 1, NULL, 1, '2019-04-11 07:56:13', '2019-04-11 07:56:13', 1, NULL, NULL, 'null'),
+('15110373', 'Đào Hoàn Vũ', 3, 1, 'Xóm 7, Xã Bình Nghi, H Tây Sơn, Bình Định', '1997-04-30', 1, '215399363', '01673853307', 1, 1, NULL, 1, '2019-04-11 07:56:13', '2019-04-11 07:56:13', 1, NULL, NULL, 'null'),
+('15110375', 'Nguyễn Thanh Thiên Vương', 1, 1, 'Tây Sơn, TP Pleiku, Gia Lai', '1997-12-12', 1, '231121212', '0947600125', 1, 1, NULL, 1, '2019-04-11 07:45:33', '2019-04-11 07:45:33', 1, NULL, NULL, 'null'),
+('15110376', 'Huỳnh Ngọc Thanh Xuân', 4, 1, NULL, '1997-12-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
+('15110377', 'Trần Xuân', 3, 1, 'Hòa Hội, H Xuyên Mộc, Bà Rịa - Vũng Tàu', '1997-02-23', 1, '273655097', '01654348522', 1, 1, NULL, 1, '2019-04-11 07:56:13', '2019-04-11 07:56:13', 1, NULL, NULL, 'null'),
+('15110378', 'Trần Nguyễn Thanh Như Ý', 1, 1, 'Nhơn Thọ, H An Nhơn, Bình Định', '1997-08-16', 1, '215422510', '', 1, 1, NULL, 1, '2019-04-11 07:45:33', '2019-04-11 07:45:33', 1, NULL, NULL, 'null'),
+('15110379', 'Võ Trường Duy', 4, 1, NULL, '1997-05-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
+('15110380', 'Nguyễn Đình Thái', 3, 1, '33A, xã Thái Mỹ, H Củ Chi, TP. Hồ Chí Minh', '1997-01-15', 1, '025759460', '01657426721', 1, 1, NULL, 1, '2019-04-11 07:56:13', '2019-04-11 07:56:13', 1, NULL, NULL, 'null'),
+('15110385', 'Ka` Huừs Tam Bou', 4, 1, NULL, '1996-11-06', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:12', '2019-04-11 07:58:12', 1, NULL, NULL, 'null'),
+('15110386', 'Trương Phó Công', 1, 1, 'Lộc phú, H Lộc Ninh, Bình Phước', '1996-11-04', 1, '285504634', '01686763315', 1, 1, NULL, 1, '2019-04-11 07:45:34', '2019-04-11 07:45:34', 1, NULL, NULL, 'null'),
+('15110387', 'H Ba Kpor', 1, 1, 'Êa B Hôk, H Cư M Gar, Đăk Lăk', '1996-09-24', 2, '241710159', '0987984910', 1, 1, NULL, 1, '2019-04-11 07:45:34', '2019-04-11 07:45:34', 1, NULL, NULL, 'null'),
+('15110389', 'Long Thị Phương', 1, 1, 'EaTam, H Krông Năng, Đăk Lăk', '1995-01-12', 2, '241606519', '016880367422', 1, 1, NULL, 1, '2019-04-11 07:45:34', '2019-04-11 07:45:34', 1, NULL, NULL, 'null'),
+('15110390', 'Vi Văn Sang', 4, 1, NULL, '1996-11-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 07:58:13', '2019-04-11 07:58:13', 1, NULL, NULL, 'null'),
+('15110391', 'Phạm Văn Dũng', 1, 1, 'Nam Dong, H Cư Jút, Đăk Nông', '1997-03-13', 1, '245301104', '', 1, 1, NULL, 1, '2019-04-11 07:45:34', '2019-04-11 07:45:34', 1, NULL, NULL, 'null'),
+('15110701', 'Phạm Ngọc Minh Huy', 1, 1, '166/32, 03, Q Gò Vấp, TP. Hồ Chí Minh', '1997-02-09', 1, '025546672', '01867637010', 1, 1, NULL, 1, '2019-04-11 07:45:34', '2019-04-11 07:45:34', 1, NULL, NULL, 'null'),
+('15110702', 'Nguyễn Hà My', 1, 1, '6N/1, Ngô Tất Tố, 22, Q Bình Thạnh, TP. Hồ Chí Minh', '1997-10-06', 1, '025550746', '0302722907', 1, 1, NULL, 1, '2019-04-11 07:45:34', '2019-04-11 07:45:34', 1, NULL, NULL, 'null'),
+('16110281', 'Nguyễn Duy Bảo', 5, 2, NULL, '1998-12-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:21', '2019-04-11 08:00:21', 1, NULL, NULL, 'null'),
+('16110282', 'Huỳnh Công Chiến', 5, 2, NULL, '1998-08-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:21', '2019-04-11 08:00:21', 1, NULL, NULL, 'null'),
+('16110284', 'Huỳnh Ngọc Chính', 5, 2, NULL, '1998-05-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:21', '2019-04-11 08:00:21', 1, NULL, NULL, 'null'),
+('16110286', 'Lê Hoàng Công', 5, 2, NULL, '1998-02-06', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:00:21', '2019-04-11 08:00:21', 1, NULL, NULL, 'null'),
+('16110291', 'Phạm Ngọc Diêu', 6, 2, NULL, '1998-12-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:29', '2019-04-11 08:01:29', 1, NULL, NULL, 'null'),
+('16110294', 'Nguyễn Thị Kim Dung', 7, 2, NULL, '1998-09-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 09:41:39', '2019-04-11 09:41:39', NULL, NULL, NULL, '53856560_618402595297916_1482701256941109248_n.jpg'),
+('16110297', 'Trần Khương Duy', 5, 2, NULL, '1995-10-14', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:00:21', '2019-04-11 08:00:21', 1, NULL, NULL, 'null'),
+('16110299', 'Đặng Thị Duyên', 7, 2, NULL, '1998-01-07', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:14', '2019-04-11 08:03:14', 1, NULL, NULL, '52883801_2257054381235085_4124496285925376000_n.jpg'),
+('16110302', 'Nguyễn Triều Dương', 5, 2, NULL, '1998-01-24', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:00:22', '2019-04-11 08:00:22', 1, NULL, NULL, 'null'),
+('16110303', 'Phan Thị Thùy Dương', 7, 2, NULL, '1998-03-26', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:14', '2019-04-11 08:03:14', 1, NULL, NULL, 'null'),
+('16110304', 'Nguyễn Đình Đạt', 5, 2, NULL, '1997-04-26', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:00:22', '2019-04-11 08:00:22', 1, NULL, NULL, 'null'),
+('16110305', 'Nguyễn Thành Đạt', 5, 2, NULL, '1998-03-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:22', '2019-04-11 08:00:22', 1, NULL, NULL, 'null'),
+('16110306', 'Nguyễn Tuấn Đạt', 5, 2, NULL, '1995-02-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:22', '2019-04-11 08:00:22', 1, NULL, NULL, 'null'),
+('16110308', 'Trần Thành Đạt', 5, 2, NULL, '1998-03-07', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:00:22', '2019-04-11 08:00:22', 1, NULL, NULL, 'null'),
+('16110309', 'Nguyễn Lê Điền', 7, 2, NULL, '1998-11-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:14', '2019-04-11 08:03:14', 1, NULL, NULL, 'null'),
+('16110311', 'Nguyễn Thành Đồng', 5, 2, NULL, '1998-11-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:22', '2019-04-11 08:00:22', 1, NULL, NULL, 'null'),
+('16110313', 'Đỗ Văn Đức', 7, 2, NULL, '1998-02-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:14', '2019-04-11 08:03:14', 1, NULL, NULL, 'null'),
+('16110316', 'Chu Thị Hương Giang', 5, 2, NULL, '1998-10-13', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:22', '2019-04-11 08:00:22', 1, NULL, NULL, 'null'),
+('16110317', 'Nguyễn Thanh Giàu', 6, 2, NULL, '1998-04-26', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:01:29', '2019-04-11 08:01:29', 1, NULL, NULL, 'null'),
+('16110318', 'Nguyễn Văn Hải', 5, 2, NULL, '1998-03-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:22', '2019-04-11 08:00:22', 1, NULL, NULL, 'null'),
+('16110321', 'Mai Đình Hậu', 6, 2, NULL, '1998-01-31', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:29', '2019-04-11 08:01:29', 1, NULL, NULL, 'null'),
+('16110322', 'Thổ Văn Hiền', 7, 2, NULL, '1998-06-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:14', '2019-04-11 08:03:14', 1, NULL, NULL, 'null'),
+('16110323', 'Phan Vũ Minh Hiển', 6, 2, NULL, '1998-04-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:30', '2019-04-11 08:01:30', 1, NULL, NULL, 'null'),
+('16110324', 'Bùi Công Hiếu', 6, 2, NULL, '1998-03-10', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:01:30', '2019-04-11 08:01:30', 1, NULL, NULL, '50534642_296936624502734_6815052825945440256_n.jpg'),
+('16110326', 'Lê Thanh Hiếu', 6, 2, NULL, '1998-01-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:30', '2019-04-11 08:01:30', 1, NULL, NULL, 'null'),
+('16110327', 'Nguyễn Minh Hiếu', 6, 2, NULL, '1998-01-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:30', '2019-04-11 08:01:30', 1, NULL, NULL, 'null'),
+('16110329', 'Phan Hữu Hiếu', 6, 2, NULL, '1998-10-02', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:01:30', '2019-04-11 08:01:30', 1, NULL, NULL, 'null'),
+('16110330', 'Nguyễn Hoàng Hiệp', 5, 2, NULL, '1998-06-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:23', '2019-04-11 08:00:23', 1, NULL, NULL, 'null'),
+('16110331', 'Phùng Đại Hiệp', 6, 2, NULL, '1998-07-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:30', '2019-04-11 08:01:30', 1, NULL, NULL, 'null'),
+('16110335', 'Võ Huy Hoàng', 6, 2, NULL, '1998-01-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:30', '2019-04-11 08:01:30', 1, NULL, NULL, 'null'),
+('16110337', 'Lê Minh Hổ', 6, 2, NULL, '1998-05-20', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:01:30', '2019-04-11 08:01:30', 1, NULL, NULL, 'null'),
+('16110338', 'Võ Văn Hội', 7, 2, NULL, '1998-11-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:15', '2019-04-11 08:03:15', 1, NULL, NULL, 'null');
+INSERT INTO `students` (`student_id`, `name`, `class_id`, `school_year_id`, `address`, `birthday`, `sex`, `identity_card`, `phone_no`, `is_youth_union_member`, `is_study`, `date_on_union`, `is_payed_union_fee`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`, `image`) VALUES
+('16110341', 'Nguyễn Đức Hoàng Huy', 6, 2, NULL, '1998-03-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:30', '2019-04-11 08:01:30', 1, NULL, NULL, 'null'),
+('16110346', 'Phạm Kim Hùng', 5, 2, NULL, '1998-11-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:23', '2019-04-11 08:00:23', 1, NULL, NULL, 'null'),
+('16110347', 'Huỳnh Lê Hữu Hưng', 6, 2, NULL, '1998-02-22', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:01:31', '2019-04-11 08:01:31', 1, NULL, NULL, 'null'),
+('16110348', 'Lê Hoàng Hưng', 5, 2, NULL, '1998-08-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:23', '2019-04-11 08:00:23', 1, NULL, NULL, 'null'),
+('16110350', 'Trần Phát Hưng', 6, 2, NULL, '1998-01-08', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:01:31', '2019-04-11 08:01:31', 1, NULL, NULL, 'null'),
+('16110351', 'Phạm Thị Ngọc Hường', 7, 2, NULL, '1998-12-16', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:15', '2019-04-11 08:03:15', 1, NULL, NULL, 'null'),
+('16110355', 'Lê Quang Kha', 5, 2, NULL, '1998-01-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:23', '2019-04-11 08:00:23', 1, NULL, NULL, 'null'),
+('16110356', 'Huỳnh Nhật Khang', 5, 2, NULL, '1998-08-07', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:00:23', '2019-04-11 08:00:23', 1, NULL, NULL, 'null'),
+('16110357', 'Nguyễn Bá Khải', 5, 2, NULL, '1998-12-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:23', '2019-04-11 08:00:23', 1, NULL, NULL, 'null'),
+('16110363', 'Võ Đình Khởi', 5, 2, NULL, '1998-09-13', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:23', '2019-04-11 08:00:23', 1, NULL, NULL, 'null'),
+('16110364', 'Huỳnh Kim Kiên', 5, 2, NULL, '1998-09-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:23', '2019-04-11 08:00:23', 1, NULL, NULL, 'null'),
+('16110366', 'Kim Tuấn Kiệt', 5, 2, NULL, '1998-07-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:24', '2019-04-11 08:00:24', 1, NULL, NULL, 'null'),
+('16110367', 'Nguyễn Tuấn Kiệt', 7, 2, NULL, '1998-08-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:15', '2019-04-11 08:03:15', 1, NULL, NULL, 'null'),
+('16110369', 'Huỳnh Nhật Lâm', 7, 2, NULL, '1998-09-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:15', '2019-04-11 08:03:15', 1, NULL, NULL, 'null'),
+('16110370', 'Nguyễn Hải Lâm', 5, 2, NULL, '1998-04-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:24', '2019-04-11 08:00:24', 1, NULL, NULL, 'null'),
+('16110373', 'Ngô Tuấn LĩNh', 5, 2, NULL, '1998-01-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:24', '2019-04-11 08:00:24', 1, NULL, NULL, 'null'),
+('16110374', 'Lê Cao Liêm', 5, 2, NULL, '1998-09-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:24', '2019-04-11 08:00:24', 1, NULL, NULL, 'null'),
+('16110375', 'Thái Thanh Liêm', 6, 2, NULL, '1998-04-27', 1, NULL, NULL, 1, 2, NULL, 1, '2019-04-11 08:01:31', '2019-04-11 08:01:31', 1, NULL, NULL, 'null'),
+('16110376', 'Trần Thị Liên', 5, 2, NULL, '1998-08-01', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:24', '2019-04-11 08:00:24', 1, NULL, NULL, '52550197_1041853299335782_3274780394171400192_n.jpg'),
+('16110377', 'Phan Hoàng Nhật Linh', 5, 2, NULL, '1998-10-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:24', '2019-04-11 08:00:24', 1, NULL, NULL, 'null'),
+('16110379', 'Nguyễn Cảnh Lịch', 5, 2, NULL, '1998-03-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:24', '2019-04-11 08:00:24', 1, NULL, NULL, 'null'),
+('16110381', 'Trịnh Văn Long', 5, 2, NULL, '1997-05-10', 1, NULL, NULL, 1, 2, NULL, 1, '2019-04-11 08:00:24', '2019-04-11 08:00:24', 1, NULL, NULL, 'null'),
+('16110382', 'Nguyễn Thị Khánh Lộc', 6, 2, NULL, '1998-02-03', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:31', '2019-04-11 08:01:31', 1, NULL, NULL, 'null'),
+('16110385', 'Trần Văn Luyện', 6, 2, NULL, '1998-09-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:31', '2019-04-11 08:01:31', 1, NULL, NULL, 'null'),
+('16110386', 'Phan Văn Lực', 7, 2, NULL, '1997-07-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:15', '2019-04-11 08:03:15', 1, NULL, NULL, 'null'),
+('16110389', 'Lê Văn Minh', 7, 2, NULL, '1997-05-24', 1, NULL, NULL, 1, 2, NULL, 1, '2019-04-11 08:03:15', '2019-04-11 08:03:15', 1, NULL, NULL, 'null'),
+('16110390', 'Lý Quang Minh', 5, 2, NULL, '1998-05-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:24', '2019-04-11 08:00:24', 1, NULL, NULL, 'null'),
+('16110392', 'Đinh Quang Nam', 5, 2, NULL, '1998-04-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:25', '2019-04-11 08:00:25', 1, NULL, NULL, 'null'),
+('16110393', 'Nguyễn Hoài Nam', 5, 2, NULL, '1997-04-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:25', '2019-04-11 08:00:25', 1, NULL, NULL, 'null'),
+('16110394', 'Lê Thị Hồng Nga', 6, 2, NULL, '1998-04-24', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:31', '2019-04-11 08:01:31', 1, NULL, NULL, 'null'),
+('16110396', 'Lê Thị Thanh Ngân', 7, 2, NULL, '1998-04-30', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:15', '2019-04-11 08:03:15', 1, NULL, NULL, 'null'),
+('16110402', 'Lê Sĩ Nguyên', 6, 2, NULL, '1998-11-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:31', '2019-04-11 08:01:31', 1, NULL, NULL, 'null'),
+('16110405', 'Nguyễn Trọng Nhân', 6, 2, NULL, '1998-10-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:31', '2019-04-11 08:01:31', 1, NULL, NULL, 'null'),
+('16110407', 'Phạm Văn Nhất', 5, 2, NULL, '1998-01-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:25', '2019-04-11 08:00:25', 1, NULL, NULL, 'null'),
+('16110409', 'Huỳnh Thị Tuyết Nhi', 5, 2, NULL, '1998-08-10', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:25', '2019-04-11 08:00:25', 1, NULL, NULL, 'null'),
+('16110410', 'Trần Thị Nhựt', 5, 2, NULL, '1998-06-02', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:25', '2019-04-11 08:00:25', 1, NULL, NULL, 'null'),
+('16110411', 'Lê Văn Tấn Phát', 7, 2, NULL, '1998-08-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:15', '2019-04-11 08:03:15', 1, NULL, NULL, 'null'),
+('16110415', 'Đinh Ngọc Phú', 5, 2, NULL, '1998-07-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:25', '2019-04-11 08:00:25', 1, NULL, NULL, 'null'),
+('16110416', 'Nguyễn Quang Phú', 5, 2, NULL, '1998-11-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:25', '2019-04-11 08:00:25', 1, NULL, NULL, 'null'),
+('16110417', 'Hoàng Thị Diễm Phúc', 7, 2, NULL, '1998-01-03', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:15', '2019-04-11 08:03:15', 1, NULL, NULL, 'null'),
+('16110419', 'Phạm Hoàng Phúc', 5, 2, NULL, '1998-11-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:25', '2019-04-11 08:00:25', 1, NULL, NULL, 'null'),
+('16110422', 'Trịnh Vĩnh Phúc', 7, 2, NULL, '1998-10-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:16', '2019-04-11 08:03:16', 1, NULL, NULL, 'null'),
+('16110423', 'Võ Hồng Phúc', 5, 2, NULL, '1998-02-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:25', '2019-04-11 08:00:25', 1, NULL, NULL, '51659961_1759679654177967_3989973074081480704_n.jpg'),
+('16110426', 'Võ Văn Phước', 5, 2, NULL, '1998-03-31', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:26', '2019-04-11 08:00:26', 1, NULL, NULL, 'null'),
+('16110427', 'Liên Minh Quang', 6, 2, NULL, '1998-06-13', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:31', '2019-04-11 08:01:31', 1, NULL, NULL, 'null'),
+('16110429', 'Hồ Nguyễn Hoàng Quân', 5, 2, NULL, '1998-07-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:26', '2019-04-11 08:00:26', 1, NULL, NULL, 'null'),
+('16110433', 'Hoàng Thúy Quyên', 5, 2, NULL, '1998-08-22', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:26', '2019-04-11 08:00:26', 1, NULL, NULL, 'null'),
+('16110438', 'Nguyễn Văn Rum', 6, 2, NULL, '1998-11-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:32', '2019-04-11 08:01:32', 1, NULL, NULL, 'null'),
+('16110439', 'Hoàng Phong Sang', 6, 2, NULL, '1998-10-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:32', '2019-04-11 08:01:32', 1, NULL, NULL, 'null'),
+('16110440', 'Nguyễn Anh Sang', 6, 2, NULL, '1998-01-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:32', '2019-04-11 08:01:32', 1, NULL, NULL, '31171447_1245486088919860_7009438364248047616_n.jpg'),
+('16110447', 'Võ Phước Sơn', 6, 2, NULL, '1998-01-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:32', '2019-04-11 08:01:32', 1, NULL, NULL, 'null'),
+('16110451', 'Hồ Thiện Tâm', 5, 2, NULL, '1998-06-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:26', '2019-04-11 08:00:26', 1, NULL, NULL, 'null'),
+('16110454', 'Hoàng Trọng Tấn', 7, 2, NULL, '1996-09-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:16', '2019-04-11 08:03:16', 1, NULL, NULL, 'null'),
+('16110460', 'Mai Vĩnh Thành', 5, 2, NULL, '1998-10-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:26', '2019-04-11 08:00:26', 1, NULL, NULL, 'null'),
+('16110464', 'Bùi Quang Thăng', 5, 2, NULL, '1998-07-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:26', '2019-04-11 08:00:26', 1, NULL, NULL, 'null'),
+('16110467', 'Dương Thanh Thân', 5, 2, NULL, '1998-10-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:26', '2019-04-11 08:00:26', 1, NULL, NULL, 'null'),
+('16110468', 'Nguyễn Duy Thiên', 6, 2, NULL, '1998-08-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:32', '2019-04-11 08:01:32', 1, NULL, NULL, 'null'),
+('16110469', 'Võ Văn Thiên', 5, 2, NULL, '1998-12-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:26', '2019-04-11 08:00:26', 1, NULL, NULL, 'null'),
+('16110472', 'Nguyễn Hữu Thiện', 5, 2, NULL, '1998-02-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:27', '2019-04-11 08:00:27', 1, NULL, NULL, 'null'),
+('16110474', 'Phan Văn Phước Thịnh', 6, 2, NULL, '1998-01-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:32', '2019-04-11 08:01:32', 1, NULL, NULL, 'null'),
+('16110475', 'Phạm Gia Thịnh', 6, 2, NULL, '1998-01-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:32', '2019-04-11 08:01:32', 1, NULL, NULL, 'null'),
+('16110476', 'Nguyễn Quang Thọ', 5, 2, NULL, '1998-04-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:27', '2019-04-11 08:00:27', 1, NULL, NULL, 'null'),
+('16110478', 'Nguyễn Thị Thanh Thuỷ', 5, 2, NULL, '1998-06-25', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:27', '2019-04-11 08:00:27', 1, NULL, NULL, 'null'),
+('16110480', 'Phan Thị Quang Thư', 6, 2, NULL, '1998-11-19', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:32', '2019-04-11 08:01:32', 1, NULL, NULL, 'null'),
+('16110482', 'Nguyễn Đình Thượng Thượng', 6, 2, NULL, '1998-03-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:32', '2019-04-11 08:01:32', 1, NULL, NULL, 'null'),
+('16110487', 'Trần Phạm Minh Tín', 6, 2, NULL, '1998-09-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:33', '2019-04-11 08:01:33', 1, NULL, NULL, 'null'),
+('16110488', 'Lê Thị Thùy Trang', 7, 2, NULL, '1998-05-15', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:16', '2019-04-11 08:03:16', 1, NULL, NULL, 'null'),
+('16110489', 'Nguyễn Trường Tráng', 7, 2, NULL, '1998-03-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:16', '2019-04-11 08:03:16', 1, NULL, NULL, 'null'),
+('16110490', 'Lê Thị Huyền Trân', 5, 2, NULL, '1998-03-09', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:27', '2019-04-11 08:00:27', 1, NULL, NULL, 'null'),
+('16110492', 'Đặng Mậu Triết', 5, 2, NULL, '1998-04-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:27', '2019-04-11 08:00:27', 1, NULL, NULL, 'null'),
+('16110493', 'Hồ Ngọc Triết', 5, 2, NULL, '1997-12-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:27', '2019-04-11 08:00:27', 1, NULL, NULL, 'null'),
+('16110494', 'Lê Thị Trinh', 6, 2, NULL, '1998-02-25', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:33', '2019-04-11 08:01:33', 1, NULL, NULL, 'null'),
+('16110495', 'Phan Minh Trí', 7, 2, NULL, '1998-04-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:16', '2019-04-11 08:03:16', 1, NULL, NULL, 'null'),
+('16110496', 'Phan Văn Trí', 5, 2, NULL, '1998-05-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:27', '2019-04-11 08:00:27', 1, NULL, NULL, 'null'),
+('16110499', 'Trần Hoàng Trọng', 6, 2, NULL, '1998-08-29', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:33', '2019-04-11 08:01:33', 1, NULL, NULL, 'null'),
+('16110500', 'Trần Ngọc Trọng', 6, 2, NULL, '1998-03-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:33', '2019-04-11 08:01:33', 1, NULL, NULL, 'null'),
+('16110509', 'Mai Đức Tuấn', 7, 2, NULL, '1998-10-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:16', '2019-04-11 08:03:16', 1, NULL, NULL, 'null'),
+('16110514', 'Nguyễn Thị Thanh Tuyền', 5, 2, NULL, '1998-07-13', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:27', '2019-04-11 08:00:27', 1, NULL, NULL, 'null'),
+('16110516', 'Trần Minh Tùng', 6, 2, NULL, '1998-09-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:33', '2019-04-11 08:01:33', 1, NULL, NULL, 'null'),
+('16110517', 'Hồ Anh Tú', 6, 2, NULL, '1998-09-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:33', '2019-04-11 08:01:33', 1, NULL, NULL, 'null'),
+('16110523', 'Lâm Thế Vinh', 6, 2, NULL, '1998-01-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:33', '2019-04-11 08:01:33', 1, NULL, NULL, 'null'),
+('16110525', 'Phạm Thái Vĩnh', 6, 2, NULL, '1998-04-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:33', '2019-04-11 08:01:33', 1, NULL, NULL, 'null'),
+('16110526', 'Cao Nguyễn Hoàng Vũ', 6, 2, NULL, '1998-07-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:34', '2019-04-11 08:01:34', 1, NULL, NULL, 'null'),
+('16110527', 'Nguyễn Tuấn Vũ', 6, 2, NULL, '1998-11-23', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:34', '2019-04-11 08:01:34', 1, NULL, NULL, 'null'),
+('16110528', 'Nguyễn Văn Vũ', 5, 2, NULL, '1998-09-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:28', '2019-04-11 08:00:28', 1, NULL, NULL, 'null'),
+('16110530', 'Nguyễn Ngọc Hoàng Vy', 5, 2, NULL, '1998-02-04', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:28', '2019-04-11 08:00:28', 1, NULL, NULL, 'null'),
+('16110531', 'Nguyễn Trường Yên', 7, 2, NULL, '1998-07-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:03:16', '2019-04-11 08:03:16', 1, NULL, NULL, 'null'),
+('16110532', 'Trương Lưu Sỹ Đức', 5, 2, NULL, '1998-06-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:28', '2019-04-11 08:00:28', 1, NULL, NULL, 'null'),
+('16110533', 'Hồ Ngọc Sơn Hà', 5, 2, NULL, '1998-08-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:28', '2019-04-11 08:00:28', 1, NULL, NULL, 'null'),
+('16110534', 'Trương Phương Hằng', 5, 2, NULL, '1998-03-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:28', '2019-04-11 08:00:28', 1, NULL, NULL, 'null'),
+('16110536', 'Nguyễn Ngọc Trúc Linh', 5, 2, NULL, '1998-07-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:28', '2019-04-11 08:00:28', 1, NULL, NULL, 'null'),
+('16110538', 'Hồ Sỹ Luận', 6, 2, NULL, '1998-07-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:34', '2019-04-11 08:01:34', 1, NULL, NULL, 'null'),
+('16110539', 'Nguyễn Xuân Nguyên', 5, 2, NULL, '1998-02-26', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:28', '2019-04-11 08:00:28', 1, NULL, NULL, '49575813_1060580784125253_3048326512617979904_n.jpg'),
+('16110540', 'Nguyễn Trọng Phú', 5, 2, NULL, '1998-10-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:28', '2019-04-11 08:00:28', 1, NULL, NULL, 'null'),
+('16110541', 'Nguyễn Thanh Tân', 6, 2, NULL, '1998-07-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:34', '2019-04-11 08:01:34', 1, NULL, NULL, 'null'),
+('16110543', 'Trần Thị Ngọc Trâm', 6, 2, NULL, '1998-01-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:34', '2019-04-11 08:01:34', 1, NULL, NULL, 'null'),
+('16110584', 'Nguyễn Bá Thuận', 6, 2, NULL, '1998-05-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:01:34', '2019-04-11 08:01:34', 1, NULL, NULL, 'null'),
+('16110588', 'Trần Văn Nam', 5, 2, NULL, '1996-03-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:28', '2019-04-11 08:00:28', 1, NULL, NULL, 'null'),
+('16110590', 'Đào Đức Thiện', 5, 2, NULL, '1995-03-13', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:00:29', '2019-04-11 08:00:29', 1, NULL, NULL, 'null'),
+('17110259', 'Nguyễn Tiến Anh', 9, 3, NULL, '1999-03-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:55', '2019-04-11 08:06:55', 1, NULL, NULL, 'null'),
+('17110261', 'Phạm Tô Bảo', 8, 3, NULL, '1999-04-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:49', '2019-04-11 08:05:49', 1, NULL, NULL, 'null'),
+('17110262', 'Nguyễn Hoàng Ca', 8, 3, NULL, '1999-10-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:49', '2019-04-11 08:05:49', 1, NULL, NULL, 'null'),
+('17110263', 'Trần Ngọc Chiến', 9, 3, NULL, '1998-08-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:56', '2019-04-11 08:06:56', 1, NULL, NULL, 'null'),
+('17110264', 'Huỳnh Mai Chung', 8, 3, NULL, '1999-08-08', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:05:49', '2019-04-11 08:05:49', 1, NULL, NULL, 'null'),
+('17110266', 'Quách Văn Chương', 9, 3, NULL, '1999-02-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:56', '2019-04-11 08:06:56', 1, NULL, NULL, 'null'),
+('17110267', 'Võ Thế Công', 9, 3, NULL, '1999-07-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:56', '2019-04-11 08:06:56', 1, NULL, NULL, 'null'),
+('17110268', 'Nguyễn Đỗ Cường', 8, 3, NULL, '1999-10-30', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:05:49', '2019-04-11 08:05:49', 1, NULL, NULL, 'null'),
+('17110269', 'Nguyễn Thị Phương Doanh', 9, 3, NULL, '1999-11-10', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:56', '2019-04-11 08:06:56', 1, NULL, NULL, 'null'),
+('17110270', 'Nguyễn Thị Kim Dung', 9, 3, NULL, '1999-09-30', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:56', '2019-04-11 08:06:56', 1, NULL, NULL, 'null'),
+('17110271', 'Dương Trí Dũng', 9, 3, NULL, '1999-10-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:56', '2019-04-11 08:06:56', 1, NULL, NULL, 'null'),
+('17110272', 'Nguyễn Đình Dũng', 9, 3, NULL, '1998-01-14', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:06:56', '2019-04-11 08:06:56', 1, NULL, NULL, 'null'),
+('17110273', 'Phạm Thái Dương', 8, 3, NULL, '1999-10-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:49', '2019-04-11 08:05:49', 1, NULL, NULL, 'null'),
+('17110274', 'Đoàn Ngọc Đại', 8, 3, NULL, '1999-06-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:50', '2019-04-11 08:05:50', 1, NULL, NULL, 'null'),
+('17110275', 'Nguyễn Ngọc Đại', 9, 3, NULL, '1999-07-17', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:06:56', '2019-04-11 08:06:56', 1, NULL, NULL, 'null'),
+('17110276', 'Lê Hồng Đạo', 8, 3, NULL, '1999-10-16', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:05:50', '2019-04-11 08:05:50', 1, NULL, NULL, 'null'),
+('17110277', 'Đinh Xuân Đạt', 9, 3, NULL, '1999-02-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:56', '2019-04-11 08:06:56', 1, NULL, NULL, 'null'),
+('17110278', 'Lý Thành Đạt', 9, 3, NULL, '1999-04-06', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:06:57', '2019-04-11 08:06:57', 1, NULL, NULL, 'null'),
+('17110279', 'Nguyễn Tiến Đạt', 8, 3, NULL, '1999-02-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:50', '2019-04-11 08:05:50', 1, NULL, NULL, 'null'),
+('17110280', 'Võ Thành Đạt', 9, 3, NULL, '1999-11-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:57', '2019-04-11 08:06:57', 1, NULL, NULL, 'null'),
+('17110281', 'Trần Hồng Điệp', 8, 3, NULL, '1999-08-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:50', '2019-04-11 08:05:50', 1, NULL, NULL, 'null'),
+('17110282', 'Đào Văn Đức', 8, 3, NULL, '1999-06-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:50', '2019-04-11 08:05:50', 1, NULL, NULL, 'null'),
+('17110283', 'Nguyễn Hoàng Hữu Đức', 8, 3, NULL, '1999-12-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:50', '2019-04-11 08:05:50', 1, NULL, NULL, 'null'),
+('17110284', 'Phạm Xuân Đức', 10, 3, NULL, '1999-01-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:10', '2019-04-11 08:08:10', 1, NULL, NULL, 'null'),
+('17110285', 'Võ Hữu Đức', 10, 3, NULL, '1999-05-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:10', '2019-04-11 08:08:10', 1, NULL, NULL, 'null'),
+('17110287', 'Nguyễn Hoàng Giang', 8, 3, NULL, '1999-07-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:50', '2019-04-11 08:05:50', 1, NULL, NULL, 'null'),
+('17110288', 'Nguyễn Thạch Trường Giảng', 8, 3, NULL, '1999-05-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:50', '2019-04-11 08:05:50', 1, NULL, NULL, 'null'),
+('17110289', 'Đoàn Nhật Hào', 8, 3, NULL, '1999-06-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:51', '2019-04-11 08:05:51', 1, NULL, NULL, 'null'),
+('17110290', 'Đinh Sơn Hải', 9, 3, NULL, '1999-05-13', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:57', '2019-04-11 08:06:57', 1, NULL, NULL, 'null'),
+('17110291', 'Mai Chí Hải', 8, 3, NULL, '1999-10-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:51', '2019-04-11 08:05:51', 1, NULL, NULL, 'null'),
+('17110292', 'Ngô Văn Hải', 8, 3, NULL, '1999-07-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:51', '2019-04-11 08:05:51', 1, NULL, NULL, 'null'),
+('17110293', 'Nguyễn Minh Hải', 9, 3, NULL, '1999-02-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:57', '2019-04-11 08:06:57', 1, NULL, NULL, 'null'),
+('17110294', 'Chế Hoàng Hảo', 9, 3, NULL, '1999-07-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:57', '2019-04-11 08:06:57', 1, NULL, NULL, 'null'),
+('17110295', 'Nguyễn Trung Hảo', 9, 3, NULL, '1998-12-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:57', '2019-04-11 08:06:57', 1, NULL, NULL, 'null'),
+('17110296', 'Nguyễn Đình Hậu', 8, 3, NULL, '1999-04-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:51', '2019-04-11 08:05:51', 1, NULL, NULL, 'null'),
+('17110298', 'Nguyễn Trung Hiếu', 10, 3, NULL, '1999-05-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:10', '2019-04-11 08:08:10', 1, NULL, NULL, 'null'),
+('17110299', 'Võ Trọng Hiếu', 10, 3, NULL, '1999-10-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:11', '2019-04-11 08:08:11', 1, NULL, NULL, 'null'),
+('17110300', 'Hoàng Thái Hòa', 8, 3, NULL, '1999-03-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:51', '2019-04-11 08:05:51', 1, NULL, NULL, 'null'),
+('17110301', 'Đoàn Quốc Huy', 9, 3, NULL, '1999-10-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:57', '2019-04-11 08:06:57', 1, NULL, NULL, 'null'),
+('17110302', 'Đỗ Chí Huy', 9, 3, NULL, '1999-03-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:57', '2019-04-11 08:06:57', 1, NULL, NULL, 'null'),
+('17110303', 'Nguyễn Tấn Huy', 8, 3, NULL, '1999-11-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:51', '2019-04-11 08:05:51', 1, NULL, NULL, 'null'),
+('17110304', 'Phan Phú Huy', 8, 3, NULL, '1999-12-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:51', '2019-04-11 08:05:51', 1, NULL, NULL, 'null'),
+('17110305', 'Phạm Đức Huy', 10, 3, NULL, '1999-09-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:11', '2019-04-11 08:08:11', 1, NULL, NULL, 'null'),
+('17110306', 'Từ Đăng Huy', 8, 3, NULL, '1999-10-31', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:51', '2019-04-11 08:05:51', 1, NULL, NULL, 'null'),
+('17110307', 'Trương Hà Huy Hùng', 8, 3, NULL, '1999-11-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:52', '2019-04-11 08:05:52', 1, NULL, NULL, 'null'),
+('17110308', 'Trần Ngọc Hưng', 8, 3, NULL, '1998-03-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:52', '2019-04-11 08:05:52', 1, NULL, NULL, 'null'),
+('17110309', 'Lê Đức Khang', 8, 3, NULL, '1999-06-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:52', '2019-04-11 08:05:52', 1, NULL, NULL, 'null'),
+('17110311', 'Nguyễn Công Khanh', 9, 3, NULL, '1999-12-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:58', '2019-04-11 08:06:58', 1, NULL, NULL, 'null'),
+('17110312', 'Nguyễn Hoàng Gia Khanh', 10, 3, NULL, '1999-02-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:11', '2019-04-11 08:08:11', 1, NULL, NULL, 'null'),
+('17110313', 'Vương Tuấn Khanh', 10, 3, NULL, '1999-11-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:11', '2019-04-11 08:08:11', 1, NULL, NULL, 'null'),
+('17110314', 'Đỗ Tường Khải', 8, 3, NULL, '1999-09-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:52', '2019-04-11 08:05:52', 1, NULL, NULL, 'null'),
+('17110315', 'Dương Cơ Khánh', 8, 3, NULL, '1999-03-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:52', '2019-04-11 08:05:52', 1, NULL, NULL, 'null'),
+('17110317', 'Nguyễn Toàn Khoa', 8, 3, NULL, '1999-03-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:52', '2019-04-11 08:05:52', 1, NULL, NULL, 'null'),
+('17110318', 'Võ Bùi Đăng Khoa', 8, 3, NULL, '1999-10-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:52', '2019-04-11 08:05:52', 1, NULL, NULL, 'null'),
+('17110319', 'Võ Đăng Khoa', 8, 3, NULL, '1999-06-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:52', '2019-04-11 08:05:52', 1, NULL, NULL, 'null'),
+('17110320', 'Bảo Khôi', 10, 3, NULL, '1999-03-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:11', '2019-04-11 08:08:11', 1, NULL, NULL, 'null'),
+('17110321', 'Trương Đình Khôi', 8, 3, NULL, '1999-07-13', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:52', '2019-04-11 08:05:52', 1, NULL, NULL, 'null'),
+('17110322', 'Trần Phước Khương', 9, 3, NULL, '1999-02-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:58', '2019-04-11 08:06:58', 1, NULL, NULL, 'null'),
+('17110323', 'Vũ Trung Kiên', 8, 3, NULL, '1999-05-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:53', '2019-04-11 08:05:53', 1, NULL, NULL, 'null'),
+('17110324', 'Nguyễn Thanh Lâm', 8, 3, NULL, '1999-12-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:53', '2019-04-11 08:05:53', 1, NULL, NULL, 'null'),
+('17110325', 'Nguyễn Đức Linh', 10, 3, NULL, '1999-01-13', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:11', '2019-04-11 08:08:11', 1, NULL, NULL, 'null'),
+('17110326', 'Hà Hải Long', 8, 3, NULL, '1999-11-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:53', '2019-04-11 08:05:53', 1, NULL, NULL, 'null'),
+('17110327', 'Lưu Luyến Tuyên Long', 8, 3, NULL, '1999-07-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:53', '2019-04-11 08:05:53', 1, NULL, NULL, 'null'),
+('17110328', 'Trần Quang Long', 9, 3, NULL, '1999-09-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:58', '2019-04-11 08:06:58', 1, NULL, NULL, 'null'),
+('17110329', 'Tô Vĩnh Lợi', 9, 3, NULL, '1999-09-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:58', '2019-04-11 08:06:58', 1, NULL, NULL, 'null'),
+('17110330', 'Bùi Đình Mạnh', 9, 3, NULL, '1999-07-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:58', '2019-04-11 08:06:58', 1, NULL, NULL, 'null'),
+('17110331', 'Lương Quang Minh', 8, 3, NULL, '1999-08-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:53', '2019-04-11 08:05:53', 1, NULL, NULL, 'null'),
+('17110332', 'Nguyễn Thị Huyền My', 10, 3, NULL, '1999-04-21', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:11', '2019-04-11 08:08:11', 1, NULL, NULL, 'null'),
+('17110333', 'Đặng Phương Nam', 8, 3, NULL, '1999-10-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:53', '2019-04-11 08:05:53', 1, NULL, NULL, 'null'),
+('17110334', 'Nguyễn Xuân Nam', 9, 3, NULL, '1999-01-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:58', '2019-04-11 08:06:58', 1, NULL, NULL, 'null'),
+('17110335', 'Phan Hoàng Nam', 10, 3, NULL, '1999-11-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:11', '2019-04-11 08:08:11', 1, NULL, NULL, 'null'),
+('17110336', 'Võ Thị Ngọc Nga', 10, 3, NULL, '1999-08-13', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:11', '2019-04-11 08:08:11', 1, NULL, NULL, 'null'),
+('17110337', 'Huỳnh Văn Ngoãn', 10, 3, NULL, '1999-09-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:12', '2019-04-11 08:08:12', 1, NULL, NULL, '54728826_2256594451279846_7773109061582585856_n.jpg'),
+('17110338', 'Lê Minh Ngọc', 9, 3, NULL, '1999-09-28', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:58', '2019-04-11 08:06:58', 1, NULL, NULL, 'null'),
+('17110339', 'Lăng Trọng Ngôn', 8, 3, NULL, '1999-07-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:53', '2019-04-11 08:05:53', 1, NULL, NULL, 'null'),
+('17110340', 'Huỳnh Châu Thanh Nhân', 9, 3, NULL, '1999-08-23', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:58', '2019-04-11 08:06:58', 1, NULL, NULL, '56184183_118393759331492_8895119918488354816_n.jpg'),
+('17110341', 'Bùi Minh Nhật', 9, 3, NULL, '1999-07-13', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:58', '2019-04-11 08:06:58', 1, NULL, NULL, 'null'),
+('17110342', 'Ngô Quang Nhật', 9, 3, NULL, '1999-04-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:59', '2019-04-11 08:06:59', 1, NULL, NULL, 'null'),
+('17110343', 'Lê Quang Nhựt', 10, 3, NULL, '1999-07-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:12', '2019-04-11 08:08:12', 1, NULL, NULL, 'null'),
+('17110344', 'Huỳnh Thị Kiều Oanh', 8, 3, NULL, '1999-04-03', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:53', '2019-04-11 08:05:53', 1, NULL, NULL, 'null'),
+('17110345', 'Hoàng Minh Hoài Phong', 9, 3, NULL, '1999-11-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:59', '2019-04-11 08:06:59', 1, NULL, NULL, 'null'),
+('17110346', 'Huỳnh Trần Phú', 8, 3, NULL, '1999-12-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:53', '2019-04-11 08:05:53', 1, NULL, NULL, 'null'),
+('17110347', 'Sơn Minh Phú', 8, 3, NULL, '1999-06-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:54', '2019-04-11 08:05:54', 1, NULL, NULL, 'null'),
+('17110348', 'Lã Thiên Phúc', 9, 3, NULL, '1999-07-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:59', '2019-04-11 08:06:59', 1, NULL, NULL, 'null'),
+('17110349', 'Mai Gia Phúc', 9, 3, NULL, '1999-05-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:59', '2019-04-11 08:06:59', 1, NULL, NULL, 'null'),
+('17110350', 'Nguyễn Huỳnh Phúc', 10, 3, NULL, '1999-09-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:12', '2019-04-11 08:08:12', 1, NULL, NULL, 'null'),
+('17110351', 'Nguyễn Minh Phụng', 10, 3, NULL, '1999-09-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:12', '2019-04-11 08:08:12', 1, NULL, NULL, 'null'),
+('17110352', 'Nguyễn Đỗ Đăng Quang', 8, 3, NULL, '1999-11-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:54', '2019-04-11 08:05:54', 1, NULL, NULL, 'null'),
+('17110353', 'Nguyễn Nhật Quang', 8, 3, NULL, '1999-04-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:54', '2019-04-11 08:05:54', 1, NULL, NULL, 'null'),
+('17110354', 'Nguyễn Anh Quân', 9, 3, NULL, '1999-03-31', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:59', '2019-04-11 08:06:59', 1, NULL, NULL, 'null'),
+('17110355', 'Lưu Văn Quận', 9, 3, NULL, '1999-09-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:59', '2019-04-11 08:06:59', 1, NULL, NULL, 'null'),
+('17110356', 'Huỳnh Ngọc Quốc', 10, 3, NULL, '1999-01-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:12', '2019-04-11 08:08:12', 1, NULL, NULL, '53517984_1607877159351086_664922823604568064_n.jpg'),
+('17110357', 'Thọ Kim Quang Quyền', 8, 3, NULL, '1999-01-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:54', '2019-04-11 08:05:54', 1, NULL, NULL, 'null'),
+('17110358', 'Nguyễn Quang Quý', 9, 3, NULL, '1999-10-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:59', '2019-04-11 08:06:59', 1, NULL, NULL, 'null'),
+('17110359', 'Phan Đình Sơn', 8, 3, NULL, '1999-06-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:54', '2019-04-11 08:05:54', 1, NULL, NULL, 'null'),
+('17110360', 'Võ Phúc Sơn', 8, 3, NULL, '1997-06-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:54', '2019-04-11 08:05:54', 1, NULL, NULL, 'null'),
+('17110361', 'Tăng Phát Tài', 10, 3, NULL, '1999-06-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:12', '2019-04-11 08:08:12', 1, NULL, NULL, 'null'),
+('17110362', 'Trần Hữu Thiện Tâm', 8, 3, NULL, '1999-04-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:54', '2019-04-11 08:05:54', 1, NULL, NULL, 'null'),
+('17110363', 'Phan Nhật Tân', 9, 3, NULL, '1999-03-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:59', '2019-04-11 08:06:59', 1, NULL, NULL, 'null'),
+('17110364', 'Phạm Văn Minh Tân', 10, 3, NULL, '1999-03-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:12', '2019-04-11 08:08:12', 1, NULL, NULL, 'null'),
+('17110365', 'Lê Hồng Thái', 8, 3, NULL, '1998-06-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:54', '2019-04-11 08:05:54', 1, NULL, NULL, 'null'),
+('17110367', 'Nguyễn Huy Thắng', 8, 3, NULL, '1999-06-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:54', '2019-04-11 08:05:54', 1, NULL, NULL, 'null'),
+('17110368', 'Nguyễn Văn Thắng', 8, 3, NULL, '1999-06-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:55', '2019-04-11 08:05:55', 1, NULL, NULL, 'null'),
+('17110370', 'Phạm Việt Hoàng Thi', 8, 3, NULL, '1999-05-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:55', '2019-04-11 08:05:55', 1, NULL, NULL, 'null'),
+('17110371', 'Huỳnh Ngọc Hưng Thịnh', 8, 3, NULL, '1999-12-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:55', '2019-04-11 08:05:55', 1, NULL, NULL, 'null'),
+('17110372', 'Nguyễn Hoàng Thịnh', 9, 3, NULL, '1997-10-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:06:59', '2019-04-11 08:06:59', 1, NULL, NULL, 'null'),
+('17110373', 'Trần Minh Thịnh', 10, 3, NULL, '1999-11-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:12', '2019-04-11 08:08:12', 1, NULL, NULL, 'null'),
+('17110374', 'Ngô Minh Thu', 8, 3, NULL, '1998-07-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:55', '2019-04-11 08:05:55', 1, NULL, NULL, 'null'),
+('17110375', 'Đặng Thị Thư', 8, 3, NULL, '1999-05-26', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:55', '2019-04-11 08:05:55', 1, NULL, NULL, 'null'),
+('17110376', 'Võ Trung Thường', 8, 3, NULL, '1999-06-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:55', '2019-04-11 08:05:55', 1, NULL, NULL, 'null'),
+('17110377', 'Phan Nguyễn Thủy Tiên', 10, 3, NULL, '1999-10-06', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:12', '2019-04-11 08:08:12', 1, NULL, NULL, 'null'),
+('17110378', 'Thái Lý Tiến', 9, 3, NULL, '1999-10-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:00', '2019-04-11 08:07:00', 1, NULL, NULL, 'null'),
+('17110380', 'Trần Hưng Tiến', 8, 3, NULL, '1999-07-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:55', '2019-04-11 08:05:55', 1, NULL, NULL, 'null'),
+('17110381', 'Trương Quang Tịnh', 8, 3, NULL, '1999-03-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:55', '2019-04-11 08:05:55', 1, NULL, NULL, 'null'),
+('17110382', 'Trịnh Việt Toàn', 9, 3, NULL, '1999-11-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:00', '2019-04-11 08:07:00', 1, NULL, NULL, 'null'),
+('17110383', 'Phạm Hoàng Toán', 10, 3, NULL, '1999-07-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:13', '2019-04-11 08:08:13', 1, NULL, NULL, 'null'),
+('17110384', 'Huỳnh Thế Tông', 9, 3, NULL, '1999-06-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:00', '2019-04-11 08:07:00', 1, NULL, NULL, 'null'),
+('17110385', 'Vương Thị Thu Trang', 10, 3, NULL, '1999-04-17', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:13', '2019-04-11 08:08:13', 1, NULL, NULL, 'null'),
+('17110386', 'Nguyễn Văn Triều', 8, 3, NULL, '1999-06-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:56', '2019-04-11 08:05:56', 1, NULL, NULL, '52038601_2057867544510426_4927630800632938496_n.jpg'),
+('17110387', 'Huỳnh Minh Triết', 8, 3, NULL, '1999-12-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:56', '2019-04-11 08:05:56', 1, NULL, NULL, 'null'),
+('17110388', 'Nguyễn Văn Khánh Trình', 9, 3, NULL, '1999-08-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:00', '2019-04-11 08:07:00', 1, NULL, NULL, 'null'),
+('17110389', 'Huỳnh Hữu Trí', 9, 3, NULL, '1999-01-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:00', '2019-04-11 08:07:00', 1, NULL, NULL, 'null'),
+('17110390', 'Phạm Minh Trí', 8, 3, NULL, '1999-01-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:56', '2019-04-11 08:05:56', 1, NULL, NULL, 'null'),
+('17110391', 'Lê Đức Trọng', 8, 3, NULL, '1999-11-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:56', '2019-04-11 08:05:56', 1, NULL, NULL, 'null'),
+('17110392', 'Nguyễn Đình Trọng', 10, 3, NULL, '1999-03-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:13', '2019-04-11 08:08:13', 1, NULL, NULL, 'null'),
+('17110393', 'Ngô Quốc Trung', 9, 3, NULL, '1999-09-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:00', '2019-04-11 08:07:00', 1, NULL, NULL, '53160486_405026156917128_8985841808307126272_n.jpg'),
+('17110394', 'Phạm Thành Trung', 9, 3, NULL, '1999-08-23', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:00', '2019-04-11 08:07:00', 1, NULL, NULL, 'null'),
+('17110395', 'Phạm Toàn Trung', 8, 3, NULL, '1999-06-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:56', '2019-04-11 08:05:56', 1, NULL, NULL, 'null'),
+('17110396', 'Đàm Nguyễn Trung Trường', 8, 3, NULL, '1999-05-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:56', '2019-04-11 08:05:56', 1, NULL, NULL, 'null'),
+('17110397', 'Nguyễn Anh Tuấn', 8, 3, NULL, '1999-02-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:56', '2019-04-11 08:05:56', 1, NULL, NULL, 'null'),
+('17110398', 'Trần Minh Tuấn', 9, 3, NULL, '1999-10-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:00', '2019-04-11 08:07:00', 1, NULL, NULL, '22406260_342727006173933_6277443215278403262_n.jpg'),
+('17110399', 'Trần Quang Tùng', 8, 3, NULL, '1999-06-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:56', '2019-04-11 08:05:56', 1, NULL, NULL, 'null'),
+('17110400', 'Hồ Minh Tú', 8, 3, NULL, '1999-07-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:56', '2019-04-11 08:05:56', 1, NULL, NULL, 'null'),
+('17110401', 'Nguyễn Hùng Vĩ', 9, 3, NULL, '1999-04-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:01', '2019-04-11 08:07:01', 1, NULL, NULL, 'null'),
+('17110402', 'Nguyễn Minh Vũ', 8, 3, NULL, '1999-09-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:57', '2019-04-11 08:05:57', 1, NULL, NULL, 'null'),
+('17110403', 'Trần Lê Anh Vũ', 10, 3, NULL, '1999-01-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:08:13', '2019-04-11 08:08:13', 1, NULL, NULL, 'null'),
+('17110404', 'Hoàng Lê Vương', 8, 3, NULL, '1999-12-29', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:57', '2019-04-11 08:05:57', 1, NULL, NULL, 'null'),
+('17110406', 'Hồ Thị Yến', 9, 3, NULL, '1999-10-10', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:01', '2019-04-11 08:07:01', 1, NULL, NULL, 'null'),
+('17110407', 'Vy Chí Hòa', 8, 3, NULL, '1997-05-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:57', '2019-04-11 08:05:57', 1, NULL, NULL, 'null'),
+('17110408', 'Hoàng Thị Thu Mai', 8, 3, NULL, '1998-01-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:05:57', '2019-04-11 08:05:57', 1, NULL, NULL, 'null'),
+('17110409', 'Lê Trung Quốc', 9, 3, NULL, '1999-10-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:01', '2019-04-11 08:07:01', 1, NULL, NULL, 'null'),
+('17110411', 'Hoàng Thị Hiền', 9, 3, NULL, '1998-01-21', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:01', '2019-04-11 08:07:01', 1, NULL, NULL, 'null'),
+('17110412', 'Triệu Thị Huyền Trang', 9, 3, NULL, '1998-01-05', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:07:01', '2019-04-11 08:07:01', 1, NULL, NULL, 'null'),
+('17133002', 'Trần Gia Bảo', 11, 3, NULL, '1999-10-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:15', '2019-04-11 08:09:15', 1, NULL, NULL, 'null'),
+('17133003', 'Phạm Hoàng Quang Cảnh', 11, 3, NULL, '1999-09-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:15', '2019-04-11 08:09:15', 1, NULL, NULL, 'null'),
+('17133004', 'Vỏ Phú Cường', 11, 3, NULL, '1999-10-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:15', '2019-04-11 08:09:15', 1, NULL, NULL, 'null'),
+('17133005', 'Ngô Thành Danh', 11, 3, NULL, '1999-09-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:15', '2019-04-11 08:09:15', 1, NULL, NULL, 'null'),
+('17133006', 'Võ Trọng Diện', 11, 3, NULL, '1999-03-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:16', '2019-04-11 08:09:16', 1, NULL, NULL, 'null'),
+('17133007', 'Nguyễn Khánh Duy', 11, 3, NULL, '1999-07-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:16', '2019-04-11 08:09:16', 1, NULL, NULL, 'null'),
+('17133008', 'Nguyễn Tiến Duy', 11, 3, NULL, '1997-08-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:16', '2019-04-11 08:09:16', 1, NULL, NULL, 'null'),
+('17133009', 'Nguyễn Ngọc Dương', 11, 3, NULL, '1999-06-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:16', '2019-04-11 08:09:16', 1, NULL, NULL, 'null'),
+('17133010', 'Vũ Anh Thái Dương', 11, 3, NULL, '1995-04-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:16', '2019-04-11 08:09:16', 1, NULL, NULL, 'null'),
+('17133011', 'Bùi Đình Tiến Đạt', 11, 3, NULL, '1999-02-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:16', '2019-04-11 08:09:16', 1, NULL, NULL, 'null'),
+('17133012', 'Đỗ Lê Tiến Đạt', 11, 3, NULL, '1999-06-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:16', '2019-04-11 08:09:16', 1, NULL, NULL, 'null'),
+('17133013', 'Phạm Quốc Đệ', 11, 3, NULL, '1999-10-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:16', '2019-04-11 08:09:16', 1, NULL, NULL, 'null'),
+('17133014', 'Lê Ngọc Đoan', 11, 3, NULL, '1999-06-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:16', '2019-04-11 08:09:16', 1, NULL, NULL, 'null'),
+('17133015', 'Vũ Đặng Quỳnh Giang', 11, 3, NULL, '1999-03-14', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:17', '2019-04-11 08:09:17', 1, NULL, NULL, 'null'),
+('17133016', 'Phạm Xuân Hà', 11, 3, NULL, '1999-07-10', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:17', '2019-04-11 08:09:17', 1, NULL, NULL, 'null'),
+('17133017', 'Đỗ Viết Hải', 11, 3, NULL, '1996-07-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:17', '2019-04-11 08:09:17', 1, NULL, NULL, 'null'),
+('17133018', 'Lê Phúc Hạo', 11, 3, NULL, '1999-02-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:17', '2019-04-11 08:09:17', 1, NULL, NULL, 'null'),
+('17133019', 'Nguyễn Quý Trọng Hiếu', 11, 3, NULL, '1999-03-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:17', '2019-04-11 08:09:17', 1, NULL, NULL, 'null'),
+('17133021', 'Ngô Ngọc Hoài', 11, 3, NULL, '1999-06-20', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:17', '2019-04-11 08:09:17', 1, NULL, NULL, 'null'),
+('17133022', 'Bồ Xuân Hoàng', 11, 3, NULL, '1999-08-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:17', '2019-04-11 08:09:17', 1, NULL, NULL, 'null'),
+('17133023', 'Nguyễn Văn Hoàng', 11, 3, NULL, '1999-04-13', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:17', '2019-04-11 08:09:17', 1, NULL, NULL, 'null'),
+('17133024', 'Phùng Huy Hoàng', 11, 3, NULL, '1999-03-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:17', '2019-04-11 08:09:17', 1, NULL, NULL, 'null'),
+('17133025', 'Đường Lê Minh Học', 11, 3, NULL, '1999-07-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:18', '2019-04-11 08:09:18', 1, NULL, NULL, 'null'),
+('17133026', 'Đinh Quang Huy', 11, 3, NULL, '1999-08-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:18', '2019-04-11 08:09:18', 1, NULL, NULL, 'null'),
+('17133027', 'Trần Hoàng Huy', 11, 3, NULL, '1999-10-31', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:18', '2019-04-11 08:09:18', 1, NULL, NULL, 'null'),
+('17133029', 'Lê Minh Hùng', 11, 3, NULL, '1999-10-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:18', '2019-04-11 08:09:18', 1, NULL, NULL, 'null'),
+('17133030', 'Lê Kha', 11, 3, NULL, '1999-12-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:18', '2019-04-11 08:09:18', 1, NULL, NULL, 'null'),
+('17133031', 'Lâm Duy Khang', 11, 3, NULL, '1999-06-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:18', '2019-04-11 08:09:18', 1, NULL, NULL, 'null'),
+('17133032', 'Lê Khắc Trí Khang', 11, 3, NULL, '1999-12-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:18', '2019-04-11 08:09:18', 1, NULL, NULL, 'null'),
+('17133033', 'Vũ Ngọc Khang', 11, 3, NULL, '1997-10-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:18', '2019-04-11 08:09:18', 1, NULL, NULL, 'null'),
+('17133034', 'Lê Hữu Khuê', 11, 3, NULL, '1999-02-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:19', '2019-04-11 08:09:19', 1, NULL, NULL, 'null'),
+('17133037', 'Nguyễn Hữu Minh', 11, 3, NULL, '1999-09-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:19', '2019-04-11 08:09:19', 1, NULL, NULL, 'null'),
+('17133038', 'Uông Quang Minh', 11, 3, NULL, '1999-03-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:19', '2019-04-11 08:09:19', 1, NULL, NULL, 'null'),
+('17133039', 'Mai Bình Nam', 11, 3, NULL, '1999-01-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:19', '2019-04-11 08:09:19', 1, NULL, NULL, 'null'),
+('17133040', 'Trần Trọng Nghĩa', 11, 3, NULL, '1999-10-23', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:19', '2019-04-11 08:09:19', 1, NULL, NULL, 'null'),
+('17133041', 'Nguyễn Thị Ngọc', 11, 3, NULL, '1999-05-03', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:19', '2019-04-11 08:09:19', 1, NULL, NULL, 'null'),
+('17133042', 'Võ Hoàng Ngôi', 11, 3, NULL, '1999-09-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:19', '2019-04-11 08:09:19', 1, NULL, NULL, 'null'),
+('17133043', 'Nguyễn Quang Nhật', 11, 3, NULL, '1999-09-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:19', '2019-04-11 08:09:19', 1, NULL, NULL, 'null'),
+('17133044', 'Nguyễn Hiền Nhung', 11, 3, NULL, '1999-03-08', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:20', '2019-04-11 08:09:20', 1, NULL, NULL, 'null'),
+('17133045', 'Nhâm Nhật Oanh', 11, 3, NULL, '1999-07-11', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:20', '2019-04-11 08:09:20', 1, NULL, NULL, 'null'),
+('17133046', 'Nguyễn Triệu Phát', 11, 3, NULL, '1999-04-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:20', '2019-04-11 08:09:20', 1, NULL, NULL, 'null'),
+('17133047', 'Phạm Trường Phát', 11, 3, NULL, '1999-06-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:20', '2019-04-11 08:09:20', 1, NULL, NULL, 'null'),
+('17133048', 'Nguyễn Thái Phong', 11, 3, NULL, '1999-04-29', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:20', '2019-04-11 08:09:20', 1, NULL, NULL, 'null'),
+('17133049', 'Nguyễn Thế Phong', 11, 3, NULL, '1999-05-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:20', '2019-04-11 08:09:20', 1, NULL, NULL, 'null'),
+('17133051', 'Trần Hùng Quân', 11, 3, NULL, '1999-02-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:20', '2019-04-11 08:09:20', 1, NULL, NULL, 'null'),
+('17133052', 'Đỗ Lê Quí', 11, 3, NULL, '1999-10-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:20', '2019-04-11 08:09:20', 1, NULL, NULL, 'null'),
+('17133053', 'Phạm Văn Quỹ', 11, 3, NULL, '1999-10-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:20', '2019-04-11 08:09:20', 1, NULL, NULL, 'null'),
+('17133055', 'Nguyễn Phước Sang', 11, 3, NULL, '1998-02-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:21', '2019-04-11 08:09:21', 1, NULL, NULL, 'null'),
+('17133056', 'Lê Công Sanh', 11, 3, NULL, '1999-11-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:21', '2019-04-11 08:09:21', 1, NULL, NULL, 'null'),
+('17133057', 'Nguyễn Đức Tây', 11, 3, NULL, '1999-02-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:21', '2019-04-11 08:09:21', 1, NULL, NULL, 'null'),
+('17133058', 'Huỳnh Thảo Tất', 11, 3, NULL, '1999-08-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:21', '2019-04-11 08:09:21', 1, NULL, NULL, 'null'),
+('17133060', 'Phan Tấn Thịnh', 11, 3, NULL, '1999-11-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:21', '2019-04-11 08:09:21', 1, NULL, NULL, 'null'),
+('17133063', 'Nguyễn Thị Thu Thủy', 11, 3, NULL, '1999-10-23', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:21', '2019-04-11 08:09:21', 1, NULL, NULL, 'null'),
+('17133064', 'Uông Thị Thanh Thủy', 11, 3, NULL, '1999-05-25', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:21', '2019-04-11 08:09:21', 1, NULL, NULL, 'null'),
+('17133065', 'Huỳnh Thị Thiên Thư', 11, 3, NULL, '1999-06-30', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:21', '2019-04-11 08:09:21', 1, NULL, NULL, 'null'),
+('17133066', 'Nguyễn Văn Tiến', 11, 3, NULL, '1999-11-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:21', '2019-04-11 08:09:21', 1, NULL, NULL, 'null'),
+('17133067', 'Phạm Bảo Trân', 11, 3, NULL, '1999-04-23', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:22', '2019-04-11 08:09:22', 1, NULL, NULL, 'null'),
+('17133068', 'Đỗ Thị Nhã Trúc', 11, 3, NULL, '1999-07-29', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:22', '2019-04-11 08:09:22', 1, NULL, NULL, 'null'),
+('17133069', 'Nguyễn Chí Trường', 11, 3, NULL, '1999-08-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:22', '2019-04-11 08:09:22', 1, NULL, NULL, 'null'),
+('17133071', 'Hoàng Thị Cẩm Tú', 11, 3, NULL, '1999-08-16', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:22', '2019-04-11 08:09:22', 1, NULL, NULL, 'null'),
+('17133072', 'Phan Hoàng Việt', 11, 3, NULL, '1999-10-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:22', '2019-04-11 08:09:22', 1, NULL, NULL, 'null'),
+('17133073', 'Phan Đăng Vui', 11, 3, NULL, '1999-06-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:22', '2019-04-11 08:09:22', 1, NULL, NULL, 'null'),
+('17133074', 'Võ Hùng Vỹ', 11, 3, NULL, '1999-10-23', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:22', '2019-04-11 08:09:22', 1, NULL, NULL, 'null'),
+('17133075', 'Phạm Hồng Ý', 11, 3, NULL, '1999-02-16', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:09:22', '2019-04-11 08:09:22', 1, NULL, NULL, 'null'),
+('18110245', 'Lê Nhật Thu An', 12, 4, NULL, '2000-08-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:51', '2019-04-11 08:10:51', 1, NULL, NULL, 'null'),
+('18110246', 'Nguyễn Trường An', 12, 4, NULL, '2000-05-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:51', '2019-04-11 08:10:51', 1, NULL, NULL, 'null'),
+('18110248', 'Nguyễn Việt Anh', 12, 4, NULL, '2000-06-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:51', '2019-04-11 08:10:51', 1, NULL, NULL, 'null'),
+('18110249', 'Trần Văn Ân', 13, 4, NULL, '2000-09-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:54', '2019-04-11 08:11:54', 1, NULL, NULL, 'null'),
+('18110250', 'Dương Trung Bảo', 12, 4, NULL, '2000-04-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:51', '2019-04-11 08:10:51', 1, NULL, NULL, 'null'),
+('18110251', 'Lê Nguyễn Gia Bảo', 13, 4, NULL, '2000-05-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:54', '2019-04-11 08:11:54', 1, NULL, NULL, 'null'),
+('18110253', 'Lê Duy Bách', 13, 4, NULL, '2000-12-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:55', '2019-04-11 08:11:55', 1, NULL, NULL, 'null'),
+('18110254', 'Nguyễn Thanh Bằng', 13, 4, NULL, '2000-12-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:55', '2019-04-11 08:11:55', 1, NULL, NULL, 'null'),
+('18110255', 'Khổng Gia Bình', 12, 4, NULL, '2000-12-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:52', '2019-04-11 08:10:52', 1, NULL, NULL, 'null');
+INSERT INTO `students` (`student_id`, `name`, `class_id`, `school_year_id`, `address`, `birthday`, `sex`, `identity_card`, `phone_no`, `is_youth_union_member`, `is_study`, `date_on_union`, `is_payed_union_fee`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`, `image`) VALUES
+('18110256', 'Trương Thị Cam', 12, 4, NULL, '2000-08-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:52', '2019-04-11 08:10:52', 1, NULL, NULL, 'null'),
+('18110257', 'Nguyễn Võ Chinh', 13, 4, NULL, '2000-09-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:55', '2019-04-11 08:11:55', 1, NULL, NULL, 'null'),
+('18110258', 'Lưu Văn Cụi', 12, 4, NULL, '2000-05-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:52', '2019-04-11 08:10:52', 1, NULL, NULL, '56408543_2275040649416514_5750598499355852800_n.jpg'),
+('18110259', 'Nguyễn Tấn Cường', 12, 4, NULL, '2000-04-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:52', '2019-04-11 08:10:52', 1, NULL, NULL, 'null'),
+('18110260', 'Nguyễn Khánh Duy', 12, 4, NULL, '2000-09-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:52', '2019-04-11 08:10:52', 1, NULL, NULL, 'null'),
+('18110261', 'Nguyễn Quang Duy', 13, 4, NULL, '2000-11-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:55', '2019-04-11 08:11:55', 1, NULL, NULL, 'null'),
+('18110262', 'Trần Nhất Duy', 12, 4, NULL, '2000-09-20', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:53', '2019-04-11 08:10:53', 1, NULL, NULL, 'null'),
+('18110263', 'Đặng Vũ Dũng', 13, 4, NULL, '2000-12-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:55', '2019-04-11 08:11:55', 1, NULL, NULL, 'null'),
+('18110264', 'Tạ Tiến Dũng', 12, 4, NULL, '2000-10-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:53', '2019-04-11 08:10:53', 1, NULL, NULL, 'null'),
+('18110265', 'Vũ Trung Dũng', 12, 4, NULL, '2000-05-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:53', '2019-04-11 08:10:53', 1, NULL, NULL, 'null'),
+('18110266', 'Trần Quang Đại', 12, 4, NULL, '2000-01-05', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:53', '2019-04-11 08:10:53', 1, NULL, NULL, 'null'),
+('18110267', 'Lê Tấn Đạt', 13, 4, NULL, '2000-03-23', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:55', '2019-04-11 08:11:55', 1, NULL, NULL, 'null'),
+('18110268', 'Nguyễn Hải Đăng', 12, 4, NULL, '2000-01-25', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:53', '2019-04-11 08:10:53', 1, NULL, NULL, 'null'),
+('18110269', 'Trần Văn Hân Minh Đính', 13, 4, NULL, '2000-02-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:55', '2019-04-11 08:11:55', 1, NULL, NULL, 'null'),
+('18110270', 'Võ Thành Đô', 13, 4, NULL, '2000-08-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:55', '2019-04-11 08:11:55', 1, NULL, NULL, 'null'),
+('18110271', 'Thân Trọng Đông', 13, 4, NULL, '2000-11-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:55', '2019-04-11 08:11:55', 1, NULL, NULL, 'null'),
+('18110272', 'Luân Văn Đức', 13, 4, NULL, '2000-01-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:56', '2019-04-11 08:11:56', 1, NULL, NULL, 'null'),
+('18110273', 'Từ Hữu Hà Đức', 12, 4, NULL, '2000-09-03', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:53', '2019-04-11 08:10:53', 1, NULL, NULL, 'null'),
+('18110274', 'Lê Quỳnh Giang', 12, 4, NULL, '2000-10-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:53', '2019-04-11 08:10:53', 1, NULL, NULL, 'null'),
+('18110275', 'Nguyễn Trường Giang', 13, 4, NULL, '2000-02-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:56', '2019-04-11 08:11:56', 1, NULL, NULL, 'null'),
+('18110276', 'Võ Hồng Tiên Giang', 13, 4, NULL, '2000-07-17', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:11:56', '2019-04-11 08:11:56', 1, NULL, NULL, 'null'),
+('18110277', 'Lê Thanh Hải', 13, 4, NULL, '2000-10-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:56', '2019-04-11 08:11:56', 1, NULL, NULL, 'null'),
+('18110278', 'Nguyễn Ngọc Hải', 12, 4, NULL, '2000-11-26', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:53', '2019-04-11 08:10:53', 1, NULL, NULL, 'null'),
+('18110279', 'Thạch Ngọc Hải', 13, 4, NULL, '2000-01-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:56', '2019-04-11 08:11:56', 1, NULL, NULL, 'null'),
+('18110280', 'Đỗ Ngọc Hiền', 13, 4, NULL, '2000-09-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:56', '2019-04-11 08:11:56', 1, NULL, NULL, 'null'),
+('18110281', 'Đoàn Mạnh Hiếu', 12, 4, NULL, '2000-11-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:54', '2019-04-11 08:10:54', 1, NULL, NULL, 'null'),
+('18110282', 'Hồ Văn Hiếu', 12, 4, NULL, '2000-02-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:54', '2019-04-11 08:10:54', 1, NULL, NULL, 'null'),
+('18110283', 'Nguyễn Ngọc Trung Hiếu', 12, 4, NULL, '2000-11-16', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:54', '2019-04-11 08:10:54', 1, NULL, NULL, 'null'),
+('18110284', 'Hồ Huy Hoàng', 12, 4, NULL, '2000-04-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:54', '2019-04-11 08:10:54', 1, NULL, NULL, 'null'),
+('18110285', 'Nguyễn Thị Minh Hoàng', 12, 4, NULL, '2000-11-22', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:54', '2019-04-11 08:10:54', 1, NULL, NULL, 'null'),
+('18110286', 'Phan Minh Hoàng', 13, 4, NULL, '2000-01-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:56', '2019-04-11 08:11:56', 1, NULL, NULL, 'null'),
+('18110287', 'Phạm Minh Hoàng', 12, 4, NULL, '2000-11-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:54', '2019-04-11 08:10:54', 1, NULL, NULL, 'null'),
+('18110288', 'Trần Ngọc Hoàng', 12, 4, NULL, '2000-09-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:54', '2019-04-11 08:10:54', 1, NULL, NULL, 'null'),
+('18110289', 'Trần Văn Hoàng', 12, 4, NULL, '2000-03-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:54', '2019-04-11 08:10:54', 1, NULL, NULL, 'null'),
+('18110290', 'Nguyễn Đức Hòa', 12, 4, NULL, '2000-11-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:55', '2019-04-11 08:10:55', 1, NULL, NULL, 'null'),
+('18110291', 'Đỗ Tân Hợp', 12, 4, NULL, '2000-08-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:55', '2019-04-11 08:10:55', 1, NULL, NULL, 'null'),
+('18110292', 'Lê Trần Đức Huy', 12, 4, NULL, '2000-10-06', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:55', '2019-04-11 08:10:55', 1, NULL, NULL, 'null'),
+('18110293', 'Nguyễn Hoàng Huy', 12, 4, NULL, '2000-12-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:55', '2019-04-11 08:10:55', 1, NULL, NULL, 'null'),
+('18110294', 'Nguyễn Hoàng Huy', 12, 4, NULL, '2000-06-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:55', '2019-04-11 08:10:55', 1, NULL, NULL, 'null'),
+('18110295', 'Đỗ Quang Hùng', 12, 4, NULL, '2000-10-01', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:55', '2019-04-11 08:10:55', 1, NULL, NULL, 'null'),
+('18110296', 'Hoàng Dương Hùng', 12, 4, NULL, '2000-08-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:55', '2019-04-11 08:10:55', 1, NULL, NULL, 'null'),
+('18110298', 'Tạ Thị Mai Hương', 12, 4, NULL, '2000-05-25', 2, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:55', '2019-04-11 08:10:55', 1, NULL, NULL, 'null'),
+('18110299', 'Nguyễn Đông Hướng', 12, 4, NULL, '2000-01-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:55', '2019-04-11 08:10:55', 1, NULL, NULL, 'null'),
+('18110300', 'Nguyễn Đào Khang Hy', 12, 4, NULL, '2000-02-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:56', '2019-04-11 08:10:56', 1, NULL, NULL, 'null'),
+('18110301', 'Nguyễn Tài Kha', 12, 4, NULL, '1999-01-04', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:56', '2019-04-11 08:10:56', 1, NULL, NULL, 'null'),
+('18110302', 'Phạm Thúc Kha', 13, 4, NULL, '2000-06-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:56', '2019-04-11 08:11:56', 1, NULL, NULL, 'null'),
+('18110303', 'Hồ Quốc Khánh', 12, 4, NULL, '2000-05-01', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:56', '2019-04-11 08:10:56', 1, NULL, NULL, 'null'),
+('18110304', 'Lâm Quốc Khánh', 12, 4, NULL, '2000-09-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:56', '2019-04-11 08:10:56', 1, NULL, NULL, 'null'),
+('18110305', 'Nguyễn Ngọc Khánh', 13, 4, NULL, '2000-02-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:57', '2019-04-11 08:11:57', 1, NULL, NULL, 'null'),
+('18110306', 'Mai Đăng Khoa', 13, 4, NULL, '2000-02-06', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:11:57', '2019-04-11 08:11:57', 1, NULL, NULL, 'null'),
+('18110307', 'Phan Duy Khoa', 13, 4, NULL, '2000-04-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:57', '2019-04-11 08:11:57', 1, NULL, NULL, 'null'),
+('18110308', 'Nguyễn Hải An Khương', 13, 4, NULL, '2000-04-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:57', '2019-04-11 08:11:57', 1, NULL, NULL, 'null'),
+('18110309', 'Trần Trung Kiên', 13, 4, NULL, '2000-03-02', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:11:57', '2019-04-11 08:11:57', 1, NULL, NULL, 'null'),
+('18110310', 'Nguyễn Tuấn Kiệt', 13, 4, NULL, '1999-12-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:57', '2019-04-11 08:11:57', 1, NULL, NULL, 'null'),
+('18110311', 'Nguyễn Văn Linh', 13, 4, NULL, '2000-05-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:57', '2019-04-11 08:11:57', 1, NULL, NULL, 'null'),
+('18110312', 'Hồ Phi Long', 12, 4, NULL, '2000-01-17', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:10:56', '2019-04-11 08:10:56', 1, NULL, NULL, 'null'),
+('18110313', 'Nguyễn Thành Long', 13, 4, NULL, '2000-11-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:57', '2019-04-11 08:11:57', 1, NULL, NULL, 'null'),
+('18110314', 'Phạm Hoàng Long', 13, 4, NULL, '2000-03-11', 1, NULL, NULL, 1, 3, NULL, 1, '2019-04-11 08:11:57', '2019-04-11 08:11:57', 1, NULL, NULL, 'null'),
+('18110315', 'Trần Hoàng Long', 13, 4, NULL, '2000-02-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:58', '2019-04-11 08:11:58', 1, NULL, NULL, 'null'),
+('18110316', 'Trần Thành Long', 13, 4, NULL, '2000-07-29', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:58', '2019-04-11 08:11:58', 1, NULL, NULL, 'null'),
+('18110317', 'Mai Văn Lượng', 13, 4, NULL, '2000-10-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:58', '2019-04-11 08:11:58', 1, NULL, NULL, 'null'),
+('18110318', 'Phạm Nhật Minh', 13, 4, NULL, '2000-08-28', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:11:58', '2019-04-11 08:11:58', 1, NULL, NULL, 'null'),
+('18110319', 'Vũ Nhật Minh', 13, 4, NULL, '2000-02-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:58', '2019-04-11 08:11:58', 1, NULL, NULL, 'null'),
+('18110320', 'Vũ Trần Quốc Minh', 13, 4, NULL, '2000-05-31', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:58', '2019-04-11 08:11:58', 1, NULL, NULL, 'null'),
+('18110321', 'Nguyễn Hoài Nam', 12, 4, NULL, '2000-08-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:56', '2019-04-11 08:10:56', 1, NULL, NULL, 'null'),
+('18110322', 'Trần Hà Nam', 13, 4, NULL, '1999-10-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:58', '2019-04-11 08:11:58', 1, NULL, NULL, 'null'),
+('18110323', 'Trần Quốc Nam', 12, 4, NULL, '2000-06-01', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:10:56', '2019-04-11 08:10:56', 1, NULL, NULL, 'null'),
+('18110324', 'Bùi Văn Nghĩa', 12, 4, NULL, '2000-01-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:56', '2019-04-11 08:10:56', 1, NULL, NULL, 'null'),
+('18110325', 'Đặng Văn Nghĩa', 12, 4, NULL, '2000-06-06', 1, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:10:56', '2019-04-11 08:10:56', 1, NULL, NULL, 'null'),
+('18110326', 'Huỳnh Trọng Nghĩa', 12, 4, NULL, '2000-06-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:57', '2019-04-11 08:10:57', 1, NULL, NULL, 'null'),
+('18110327', 'Trương Thị Thảo Nguyên', 12, 4, NULL, '2000-03-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:57', '2019-04-11 08:10:57', 1, NULL, NULL, 'null'),
+('18110328', 'Nguyễn Thanh Nhân', 12, 4, NULL, '2000-05-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:57', '2019-04-11 08:10:57', 1, NULL, NULL, 'null'),
+('18110329', 'Nguyễn Võ Tuấn Nhân', 12, 4, NULL, '2000-05-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:57', '2019-04-11 08:10:57', 1, NULL, NULL, 'null'),
+('18110330', 'Chung Thiên Nhi', 12, 4, NULL, '2000-02-26', 2, NULL, NULL, 1, 4, NULL, 1, '2019-04-11 08:10:57', '2019-04-11 08:10:57', 1, NULL, NULL, 'null'),
+('18110331', 'Phạm Xuân Nhuận', 12, 4, NULL, '2000-01-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:57', '2019-04-11 08:10:57', 1, NULL, NULL, 'null'),
+('18110332', 'Nguyễn Quốc Ninh', 12, 4, NULL, '2000-11-19', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:57', '2019-04-11 08:10:57', 1, NULL, NULL, 'null'),
+('18110333', 'Nguyễn Văn Pháp', 12, 4, NULL, '2000-09-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:57', '2019-04-11 08:10:57', 1, NULL, NULL, 'null'),
+('18110335', 'Phan Thanh Phát', 12, 4, NULL, '2000-01-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:57', '2019-04-11 08:10:57', 1, NULL, NULL, 'null'),
+('18110336', 'Bùi Lê Tấn Phi', 12, 4, NULL, '2000-02-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:58', '2019-04-11 08:10:58', 1, NULL, NULL, 'null'),
+('18110337', 'Cao Phạm Hoàng Phúc', 13, 4, NULL, '2000-03-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:58', '2019-04-11 08:11:58', 1, NULL, NULL, 'null'),
+('18110338', 'Huỳnh Ngọc Phúc', 12, 4, NULL, '2000-01-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:58', '2019-04-11 08:10:58', 1, NULL, NULL, 'null'),
+('18110339', 'Nguyễn Trần Phúc', 12, 4, NULL, '2000-10-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:58', '2019-04-11 08:10:58', 1, NULL, NULL, 'null'),
+('18110340', 'Phan Văn Phúc', 13, 4, NULL, '2000-10-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:58', '2019-04-11 08:11:58', 1, NULL, NULL, 'null'),
+('18110341', 'Nguyễn Thị Bích Phương', 12, 4, NULL, '2000-02-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:58', '2019-04-11 08:10:58', 1, NULL, NULL, 'null'),
+('18110342', 'Tô Minh Phước', 13, 4, NULL, '2000-08-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:59', '2019-04-11 08:11:59', 1, NULL, NULL, 'null'),
+('18110343', 'Gian Thiệu Quân', 12, 4, NULL, '2000-05-29', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:58', '2019-04-11 08:10:58', 1, NULL, NULL, 'null'),
+('18110344', 'Võ Trần Minh Quân', 12, 4, NULL, '2000-09-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:58', '2019-04-11 08:10:58', 1, NULL, NULL, 'null'),
+('18110345', 'Nguyễn Anh Quốc', 13, 4, NULL, '2000-04-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:59', '2019-04-11 08:11:59', 1, NULL, NULL, 'null'),
+('18110346', 'Nguyễn Đức Minh Quốc', 12, 4, NULL, '2000-01-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:58', '2019-04-11 08:10:58', 1, NULL, NULL, 'null'),
+('18110347', 'Đào Thị Mỹ Quyên', 12, 4, NULL, '2000-06-28', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:58', '2019-04-11 08:10:58', 1, NULL, NULL, 'null'),
+('18110348', 'Hoàng Thái Như Quỳnh', 13, 4, NULL, '2000-08-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:59', '2019-04-11 08:11:59', 1, NULL, NULL, 'null'),
+('18110349', 'Lê Trình Diễm Quỳnh', 12, 4, NULL, '2000-07-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:59', '2019-04-11 08:10:59', 1, NULL, NULL, 'null'),
+('18110350', 'Lê Tấn Qúi', 12, 4, NULL, '2000-05-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:59', '2019-04-11 08:10:59', 1, NULL, NULL, 'null'),
+('18110351', 'Châu Hoàng Sa', 12, 4, NULL, '2000-11-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:59', '2019-04-11 08:10:59', 1, NULL, NULL, 'null'),
+('18110352', 'Đặng Văn Sang', 12, 4, NULL, '2000-03-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:59', '2019-04-11 08:10:59', 1, NULL, NULL, 'null'),
+('18110353', 'Nguyễn Khắc Thành Sang', 12, 4, NULL, '2000-08-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:59', '2019-04-11 08:10:59', 1, NULL, NULL, 'null'),
+('18110354', 'Nguyễn Quyết Sinh', 12, 4, NULL, '2000-02-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:59', '2019-04-11 08:10:59', 1, NULL, NULL, 'null'),
+('18110355', 'Nguyễn Phan Sự', 13, 4, NULL, '2000-02-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:59', '2019-04-11 08:11:59', 1, NULL, NULL, 'null'),
+('18110356', 'Lê Hửu Tâm', 12, 4, NULL, '2000-07-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:59', '2019-04-11 08:10:59', 1, NULL, NULL, 'null'),
+('18110357', 'Lương Hữu Tâm', 12, 4, NULL, '2000-10-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:59', '2019-04-11 08:10:59', 1, NULL, NULL, 'null'),
+('18110359', 'Trần Đăng Tâm', 12, 4, NULL, '2000-04-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:10:59', '2019-04-11 08:10:59', 1, NULL, NULL, 'null'),
+('18110360', 'Lê Đức Tân', 13, 4, NULL, '2000-01-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:59', '2019-04-11 08:11:59', 1, NULL, NULL, 'null'),
+('18110361', 'Nguyễn Văn Tân', 13, 4, NULL, '2000-09-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:59', '2019-04-11 08:11:59', 1, NULL, NULL, 'null'),
+('18110362', 'Cao Thị Hoài Thanh', 13, 4, NULL, '2000-03-29', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:59', '2019-04-11 08:11:59', 1, NULL, NULL, '56262420_819696941696568_3756931923876773888_n.jpg'),
+('18110363', 'Đỗ Minh Thanh', 12, 4, NULL, '2000-01-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:00', '2019-04-11 08:11:00', 1, NULL, NULL, 'null'),
+('18110364', 'Nguyễn Đoàn Quốc Thanh', 12, 4, NULL, '2000-08-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:00', '2019-04-11 08:11:00', 1, NULL, NULL, 'null'),
+('18110365', 'Thòng Chủ Thành', 12, 4, NULL, '2000-11-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:00', '2019-04-11 08:11:00', 1, NULL, NULL, 'null'),
+('18110366', 'Lê Thị Phương Thảo', 12, 4, NULL, '2000-10-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:00', '2019-04-11 08:11:00', 1, NULL, NULL, 'null'),
+('18110367', 'Nguyễn Thị Thảo', 13, 4, NULL, '2000-01-20', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:59', '2019-04-11 08:11:59', 1, NULL, NULL, 'null'),
+('18110368', 'Ngô Xuân Thắng', 12, 4, NULL, '2000-02-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:00', '2019-04-11 08:11:00', 1, NULL, NULL, 'null'),
+('18110369', 'Nguyễn Đăng Thắng', 13, 4, NULL, '2000-09-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:00', '2019-04-11 08:12:00', 1, NULL, NULL, 'null'),
+('18110370', 'Ngô Đồng Thiện', 13, 4, NULL, '2000-02-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:00', '2019-04-11 08:12:00', 1, NULL, NULL, 'null'),
+('18110371', 'Trần Ngọc Minh Thiện', 13, 4, NULL, '2000-01-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:00', '2019-04-11 08:12:00', 1, NULL, NULL, '52898452_1178690272306209_5647291462006603776_n.jpg'),
+('18110372', 'Nguyễn Trường Thịnh', 13, 4, NULL, '2000-08-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:00', '2019-04-11 08:12:00', 1, NULL, NULL, 'null'),
+('18110373', 'Trần Hoài Lệ Thương', 12, 4, NULL, '1993-10-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:00', '2019-04-11 08:11:00', 1, NULL, NULL, 'null'),
+('18110374', 'Trần Thủy Tiên', 12, 4, NULL, '1997-12-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:00', '2019-04-11 08:11:00', 1, NULL, NULL, 'null'),
+('18110375', 'Nguyễn Minh Tiền', 13, 4, NULL, '2000-10-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:00', '2019-04-11 08:12:00', 1, NULL, NULL, 'null'),
+('18110376', 'Lưu Quang Tiến', 13, 4, NULL, '2000-09-18', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:00', '2019-04-11 08:12:00', 1, NULL, NULL, 'null'),
+('18110377', 'Nguyễn Huỳnh Minh Tiến', 12, 4, NULL, '2000-09-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:00', '2019-04-11 08:11:00', 1, NULL, NULL, 'null'),
+('18110378', 'Nguyễn Minh Tiến', 12, 4, NULL, '2000-03-29', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:01', '2019-04-11 08:11:01', 1, NULL, NULL, 'null'),
+('18110379', 'Nguyễn Bùi Tiệp', 13, 4, NULL, '2000-04-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:00', '2019-04-11 08:12:00', 1, NULL, NULL, 'null'),
+('18110380', 'Trần Quang Tỉnh', 12, 4, NULL, '2000-02-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:01', '2019-04-11 08:11:01', 1, NULL, NULL, 'null'),
+('18110381', 'Nguyễn Trung Tín', 13, 4, NULL, '2000-09-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:00', '2019-04-11 08:12:00', 1, NULL, NULL, 'null'),
+('18110382', 'Trần Thanh Toàn', 12, 4, NULL, '2000-05-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:01', '2019-04-11 08:11:01', 1, NULL, NULL, 'null'),
+('18110384', 'Hồ Văn Trường', 13, 4, NULL, '2000-05-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:00', '2019-04-11 08:12:00', 1, NULL, NULL, 'null'),
+('18110385', 'Phạm Nhựt Trường', 12, 4, NULL, '2000-09-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:01', '2019-04-11 08:11:01', 1, NULL, NULL, 'null'),
+('18110386', 'Nguyễn Đức Tuấn', 13, 4, NULL, '2000-10-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:01', '2019-04-11 08:12:01', 1, NULL, NULL, 'null'),
+('18110387', 'Nguyễn Thanh Tú', 12, 4, NULL, '2000-01-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:01', '2019-04-11 08:11:01', 1, NULL, NULL, 'null'),
+('18110388', 'Trương Ngọc Vĩnh Tú', 13, 4, NULL, '2000-04-23', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:01', '2019-04-11 08:12:01', 1, NULL, NULL, 'null'),
+('18110389', 'Nguyễn Văn Từ', 12, 4, NULL, '2000-09-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:01', '2019-04-11 08:11:01', 1, NULL, NULL, 'null'),
+('18110390', 'Nguyễn Vũ Ngọc Uyên', 12, 4, NULL, '2000-09-29', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:01', '2019-04-11 08:11:01', 1, NULL, NULL, 'null'),
+('18110393', 'Lã Quốc Việt', 12, 4, NULL, '2000-11-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:01', '2019-04-11 08:11:01', 1, NULL, NULL, 'null'),
+('18110394', 'Kiều Xuân Vinh', 13, 4, NULL, '2000-09-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:01', '2019-04-11 08:12:01', 1, NULL, NULL, 'null'),
+('18110395', 'Lê Khánh Vinh', 12, 4, NULL, '2000-07-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:01', '2019-04-11 08:11:01', 1, NULL, NULL, 'null'),
+('18110396', 'Vương Quốc Vinh', 13, 4, NULL, '2000-12-21', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:01', '2019-04-11 08:12:01', 1, NULL, NULL, 'null'),
+('18110397', 'Huỳnh Văn Vĩ', 13, 4, NULL, '2000-08-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:01', '2019-04-11 08:12:01', 1, NULL, NULL, 'null'),
+('18110399', 'Thi Lý Vũ', 12, 4, NULL, '2000-01-09', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:02', '2019-04-11 08:11:02', 1, NULL, NULL, 'null'),
+('18110400', 'Huỳnh Thị Thúy Vy', 13, 4, NULL, '2000-05-20', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:12:01', '2019-04-11 08:12:01', 1, NULL, NULL, 'null'),
+('18110401', 'Nguyễn Tô Thuyết Y', 12, 4, NULL, '2000-07-06', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:02', '2019-04-11 08:11:02', 1, NULL, NULL, 'null'),
+('18110402', 'Lê Thị Ngọc Yến', 12, 4, NULL, '2000-08-30', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:02', '2019-04-11 08:11:02', 1, NULL, NULL, 'null'),
+('18110403', 'Lương Thế Anh', 12, 4, NULL, '1999-03-08', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:02', '2019-04-11 08:11:02', 1, NULL, NULL, 'null'),
+('18110404', 'Thông Đoan', 12, 4, NULL, '1999-12-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:02', '2019-04-11 08:11:02', 1, NULL, NULL, 'null'),
+('18110406', 'Thạch Thị Si Nên', 12, 4, NULL, '1998-11-12', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:02', '2019-04-11 08:11:02', 1, NULL, NULL, 'null'),
+('18110407', 'Nại Quảng Hồng Nhi', 12, 4, NULL, '1999-08-28', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:11:02', '2019-04-11 08:11:02', 1, NULL, NULL, 'null'),
+('18133002', 'Trần Quang Bách', 14, 4, NULL, '2000-02-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:18', '2019-04-11 08:13:18', 1, NULL, NULL, 'null'),
+('18133003', 'Trần Hoàng An Bình', 14, 4, NULL, '2000-01-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:18', '2019-04-11 08:13:18', 1, NULL, NULL, 'null'),
+('18133004', 'Nguyễn Thành Công', 14, 4, NULL, '2000-10-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:18', '2019-04-11 08:13:18', 1, NULL, NULL, 'null'),
+('18133006', 'Phan Thành Đạt', 14, 4, NULL, '2000-09-26', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:18', '2019-04-11 08:13:18', 1, NULL, NULL, 'null'),
+('18133007', 'Trần Tiến Đức', 14, 4, NULL, '2000-07-29', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:18', '2019-04-11 08:13:18', 1, NULL, NULL, 'null'),
+('18133009', 'Lê Nam Hải', 14, 4, NULL, '2000-08-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:19', '2019-04-11 08:13:19', 1, NULL, NULL, 'null'),
+('18133010', 'Nguyễn Hoàng Đại Hải', 14, 4, NULL, '2000-09-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:19', '2019-04-11 08:13:19', 1, NULL, NULL, 'null'),
+('18133011', 'Nguyễn Huỳnh Phúc Hậu', 14, 4, NULL, '2000-10-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:19', '2019-04-11 08:13:19', 1, NULL, NULL, 'null'),
+('18133012', 'Lê Chí Hiếu', 14, 4, NULL, '2000-02-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:19', '2019-04-11 08:13:19', 1, NULL, NULL, 'null'),
+('18133013', 'Nguyễn Xuân Hiệu', 14, 4, NULL, '2000-07-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:19', '2019-04-11 08:13:19', 1, NULL, NULL, 'null'),
+('18133014', 'Nguyễn Ngọc Hòa', 14, 4, NULL, '2000-03-10', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:19', '2019-04-11 08:13:19', 1, NULL, NULL, 'null'),
+('18133015', 'Ngô Trí Huy', 14, 4, NULL, '2000-04-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:19', '2019-04-11 08:13:19', 1, NULL, NULL, 'null'),
+('18133016', 'Nguyễn Quang Hùng', 14, 4, NULL, '2000-07-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:19', '2019-04-11 08:13:19', 1, NULL, NULL, 'null'),
+('18133017', 'Phạm Ngọc Hùng', 14, 4, NULL, '2000-10-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:19', '2019-04-11 08:13:19', 1, NULL, NULL, 'null'),
+('18133018', 'Phạm Văn Hùng', 14, 4, NULL, '2000-10-29', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:20', '2019-04-11 08:13:20', 1, NULL, NULL, 'null'),
+('18133019', 'Đỗ Hải Hưng', 14, 4, NULL, '2000-01-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:20', '2019-04-11 08:13:20', 1, NULL, NULL, 'null'),
+('18133020', 'Nguyễn Khánh Hưng', 14, 4, NULL, '2000-04-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:20', '2019-04-11 08:13:20', 1, NULL, NULL, 'null'),
+('18133021', 'Lê Đình Khang', 14, 4, NULL, '2000-03-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:20', '2019-04-11 08:13:20', 1, NULL, NULL, 'null'),
+('18133022', 'Nguyễn Đăng Khoa', 14, 4, NULL, '2000-06-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:20', '2019-04-11 08:13:20', 1, NULL, NULL, 'null'),
+('18133023', 'Lê Thị Thùy Linh', 14, 4, NULL, '2000-04-29', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:20', '2019-04-11 08:13:20', 1, NULL, NULL, 'null'),
+('18133024', 'Ngô Phi Lít', 14, 4, NULL, '2000-07-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:20', '2019-04-11 08:13:20', 1, NULL, NULL, 'null'),
+('18133025', 'Huỳnh Thiên Long', 14, 4, NULL, '2000-04-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:20', '2019-04-11 08:13:20', 1, NULL, NULL, 'null'),
+('18133026', 'Lương Uy Long', 14, 4, NULL, '2000-06-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:21', '2019-04-11 08:13:21', 1, NULL, NULL, 'null'),
+('18133029', 'Huỳnh Thị Hương Ly', 14, 4, NULL, '2000-03-07', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:21', '2019-04-11 08:13:21', 1, NULL, NULL, 'null'),
+('18133030', 'Lê Đỗ Trà My', 14, 4, NULL, '2000-02-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:21', '2019-04-11 08:13:21', 1, NULL, NULL, 'null'),
+('18133031', 'Nguyễn Duy Nam', 14, 4, NULL, '2000-01-28', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:21', '2019-04-11 08:13:21', 1, NULL, NULL, 'null'),
+('18133032', 'Trương Vạn Nam', 14, 4, NULL, '2000-09-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:21', '2019-04-11 08:13:21', 1, NULL, NULL, 'null'),
+('18133033', 'Võ Thị Thanh Ngân', 14, 4, NULL, '2000-12-24', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:21', '2019-04-11 08:13:21', 1, NULL, NULL, 'null'),
+('18133034', 'Đinh Quang Ngọc', 14, 4, NULL, '2000-08-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:21', '2019-04-11 08:13:21', 1, NULL, NULL, 'null'),
+('18133035', 'Lương Bá Nguyên', 14, 4, NULL, '2000-09-04', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:21', '2019-04-11 08:13:21', 1, NULL, NULL, 'null'),
+('18133036', 'Trần Gia Nguyên', 14, 4, NULL, '2000-09-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:21', '2019-04-11 08:13:21', 1, NULL, NULL, 'null'),
+('18133037', 'Nguyễn Hữu Nhật', 14, 4, NULL, '2000-02-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:22', '2019-04-11 08:13:22', 1, NULL, NULL, 'null'),
+('18133038', 'Phạm Đình Nhiên', 14, 4, NULL, '2000-11-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:22', '2019-04-11 08:13:22', 1, NULL, NULL, 'null'),
+('18133039', 'Nguyễn Tuấn Phi', 14, 4, NULL, '2000-09-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:22', '2019-04-11 08:13:22', 1, NULL, NULL, 'null'),
+('18133040', 'Đỗ Đình Phùng', 14, 4, NULL, '2000-02-23', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:22', '2019-04-11 08:13:22', 1, NULL, NULL, 'null'),
+('18133041', 'Nguyễn Hoàng Phúc', 14, 4, NULL, '1999-10-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:22', '2019-04-11 08:13:22', 1, NULL, NULL, 'null'),
+('18133042', 'Nguyễn Tấn Phúc', 14, 4, NULL, '2000-09-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:22', '2019-04-11 08:13:22', 1, NULL, NULL, 'null'),
+('18133043', 'Nguyễn Minh Phụng', 14, 4, NULL, '2000-08-14', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:22', '2019-04-11 08:13:22', 1, NULL, NULL, 'null'),
+('18133044', 'Nguyễn Thị Như Quỳnh', 14, 4, NULL, '2000-02-05', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:22', '2019-04-11 08:13:22', 1, NULL, NULL, 'null'),
+('18133045', 'Nguyễn Minh Sang', 14, 4, NULL, '2000-04-20', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:22', '2019-04-11 08:13:22', 1, NULL, NULL, 'null'),
+('18133046', 'Đặng Ngọc Sơn', 14, 4, NULL, '2000-07-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:23', '2019-04-11 08:13:23', 1, NULL, NULL, 'null'),
+('18133047', 'Võ Hà Nhật Tân', 14, 4, NULL, '2000-01-30', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:23', '2019-04-11 08:13:23', 1, NULL, NULL, 'null'),
+('18133048', 'Nguyễn Hoàn Thai', 14, 4, NULL, '1999-03-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:23', '2019-04-11 08:13:23', 1, NULL, NULL, 'null'),
+('18133050', 'Đào Văn Thắng', 14, 4, NULL, '2000-01-27', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:23', '2019-04-11 08:13:23', 1, NULL, NULL, 'null'),
+('18133051', 'Phạm Văn Thắng', 14, 4, NULL, '2000-01-02', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:23', '2019-04-11 08:13:23', 1, NULL, NULL, 'null'),
+('18133052', 'Phạm Việt Thắng', 14, 4, NULL, '2000-01-12', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:23', '2019-04-11 08:13:23', 1, NULL, NULL, 'null'),
+('18133053', 'Nguyễn Minh Thiện', 14, 4, NULL, '2000-02-24', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:23', '2019-04-11 08:13:23', 1, NULL, NULL, 'null'),
+('18133054', 'Trần Như Thuận', 14, 4, NULL, '2000-11-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:23', '2019-04-11 08:13:23', 1, NULL, NULL, 'null'),
+('18133055', 'Đào Minh Thy', 14, 4, NULL, '2000-09-27', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:24', '2019-04-11 08:13:24', 1, NULL, NULL, 'null'),
+('18133056', 'Nguyễn Đăng Phước Tín', 14, 4, NULL, '2000-02-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:24', '2019-04-11 08:13:24', 1, NULL, NULL, 'null'),
+('18133057', 'Bùi Sỹ Toàn', 14, 4, NULL, '2000-12-17', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:24', '2019-04-11 08:13:24', 1, NULL, NULL, 'null'),
+('18133058', 'Nguyễn Anh Triều', 14, 4, NULL, '2000-08-25', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:24', '2019-04-11 08:13:24', 1, NULL, NULL, 'null'),
+('18133059', 'Phan Thành Trung', 14, 4, NULL, '2000-07-16', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:24', '2019-04-11 08:13:24', 1, NULL, NULL, 'null'),
+('18133060', 'Trần Minh Tú Trung', 14, 4, NULL, '2000-08-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:24', '2019-04-11 08:13:24', 1, NULL, NULL, 'null'),
+('18133061', 'Trịnh Công Viễn', 14, 4, NULL, '2000-10-03', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:24', '2019-04-11 08:13:24', 1, NULL, NULL, 'null'),
+('18133062', 'Lâm Hoàng Việt', 14, 4, NULL, '2000-05-15', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:24', '2019-04-11 08:13:24', 1, NULL, NULL, 'null'),
+('18133063', 'Nguyễn Văn Quốc Vĩ', 14, 4, NULL, '2000-06-01', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:24', '2019-04-11 08:13:24', 1, NULL, NULL, 'null'),
+('18133064', 'Nguyễn Tuấn Vũ', 14, 4, NULL, '2000-01-22', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:25', '2019-04-11 08:13:25', 1, NULL, NULL, '52486625_1022051824655633_6155410355393658880_n.jpg'),
+('18133065', 'Võ Việt Vỹ', 14, 4, NULL, '2000-10-11', 1, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:25', '2019-04-11 08:13:25', 1, NULL, NULL, 'null'),
+('18133066', 'Trần Thị Lệ Xuân', 14, 4, NULL, '2000-04-30', 2, NULL, NULL, 1, 1, NULL, 1, '2019-04-11 08:13:25', '2019-04-11 08:13:25', 1, NULL, NULL, 'null'),
+('19110000', 'Nguyễn Văn Test', 1, 1, 'Bình Điền, Long An', '2001-01-31', 1, NULL, NULL, 1, 1, '2019-06-16', 1, '2019-06-30 00:48:06', '2019-06-30 00:49:43', NULL, NULL, NULL, 'null');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `users`
 --
 
@@ -1036,7 +2547,7 @@ INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id
 (184, '15110217@student.hcmute.edu.vn', NULL, '$2y$10$K02FLgonRa3wyDY4Nkt.ruVxJIRw2twwNVb5ZSXf7uQnnLju5eULi', '15110217', 0, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
 (185, '15110222@student.hcmute.edu.vn', NULL, '$2y$10$Iebh2n/NHijOvJMqWsL9MevqB9FtPYfk92DtkqDUYu7rqpwLcSmZO', '15110222', 0, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
 (186, '15110224@student.hcmute.edu.vn', NULL, '$2y$10$zPG9VNlc0YQUmE9QB3ZJk.o0ZRp8DJ1L0V62WZuRsrxDVK1EU21fa', '15110224', 0, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
-(187, '15110237@student.hcmute.edu.vn', NULL, '$2y$10$faIkODO9T.YHyj179wlAGOFu2H.qtumn2MtQsOgTPRwbYXsT.Hani', '15110237', 1, 1, NULL, 'GrKsDUN6WLJwiz6P5MvWXW8TLyicUl5uJoWrkrenb56aJbOz7GixCKoBkemY', '2019-04-11 07:56:09', '2019-07-04 07:16:20', NULL),
+(187, '15110237@student.hcmute.edu.vn', NULL, '$2y$10$NNbJ4e851Lq/MAldoQEL3ezVCSucdbkxzSJ6.gk299Hbuv.eBuG56', '15110237', 1, 1, NULL, 'GrKsDUN6WLJwiz6P5MvWXW8TLyicUl5uJoWrkrenb56aJbOz7GixCKoBkemY', '2019-04-11 07:56:09', '2019-07-18 18:41:07', NULL),
 (188, '15110238@student.hcmute.edu.vn', NULL, '$2y$10$ZqS/f4nJ8ytSzphCkjovhOnzGVFw22GOOJMjZ4wG.kpVZA.juAos6', '15110238', 0, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
 (189, '15110244@student.hcmute.edu.vn', NULL, '$2y$10$1y8dtPgO5R2UJzrRxvDK8.vq6Ct.yPSxWZ6wCMw5AMmLT8M3W2wje', '15110244', 0, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
 (190, '15110248@student.hcmute.edu.vn', NULL, '$2y$10$EUEoRWKD/i90opYZwfb2re5wtlxjEmdU5ezjvL6i3y65DFUD9jay2', '15110248', 0, 1, NULL, NULL, '2019-04-11 07:56:09', '2019-04-11 07:56:09', NULL),
@@ -1655,9 +3166,205 @@ INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `student_id
 (801, '16110294@student.hcmute.edu.vn', NULL, '$2y$10$MKnWYXoPYK.QzlVF4IHvDuxWHYtnWBzehChsOn5gDzy.0T8UwZeBm', '16110294', 0, NULL, NULL, NULL, '2019-04-11 09:41:39', '2019-04-11 09:41:39', NULL),
 (802, '19110000@student.hcmute.edu.vn', NULL, '$2y$10$RC3QQQgC3X3ZqIEliHGqUuHxTb2jf38ErKvpOXIsUVBSfW27cKebG', '19110000', 0, 187, NULL, NULL, '2019-06-30 00:48:06', '2019-06-30 00:48:06', NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `workflows`
+--
+
+CREATE TABLE `workflows` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `activity_id` int(10) UNSIGNED NOT NULL,
+  `student_id` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `deadline` date NOT NULL,
+  `content` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `progress` int(11) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `workflows`
+--
+
+INSERT INTO `workflows` (`id`, `activity_id`, `student_id`, `deadline`, `content`, `progress`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(1, 7, '15110176', '2019-05-31', 'Các bạn đứng thành vòng tròn để múa, mỗi bạn múa một kiểu, không ai giống ai, múa xong sẽ hát. Sau đó tất cả sẽ đi ăn cơm, ăn cơm xong sẽ đi ngủ, ngủ xong sẽ thức dậy đi đái.', 0, '2019-06-10 08:10:23', '2019-06-14 10:04:51', 1, 1, '2019-06-14 10:04:51'),
+(2, 7, '15110237', '2019-06-27', 'Nhảy đầm', 0, '2019-06-10 08:10:23', '2019-06-14 10:02:35', 1, 1, '2019-06-14 10:02:35'),
+(3, 8, '18110371', '2019-06-22', 'Chuẩn bị bánh kẹo cho chương trình', 37, '2019-06-14 10:09:28', '2019-06-16 01:40:53', 1, 1, '2019-06-16 01:40:53'),
+(4, 3, '15110268', '2019-06-15', 'aaa', 15, '2019-06-14 21:03:35', '2019-07-08 06:54:26', 1, 187, NULL),
+(5, 7, '15110237', '2019-06-15', 'Hậu cần', 22, '2019-06-14 21:07:13', '2019-07-06 00:59:24', 1, 187, NULL),
+(6, 7, '18110258', '2019-06-08', 'Văn nghệ', 45, '2019-06-14 21:07:13', '2019-06-14 22:59:36', 1, 1, NULL),
+(7, 3, '15110237', '2019-07-13', 'Chuẩn bị hậu cần', 56, '2019-07-08 06:56:01', '2019-07-08 08:07:10', 187, 187, NULL),
+(8, 11, '15110176', '2019-07-15', 'Chuẩn bị hậu cần', 0, '2019-07-14 20:34:45', '2019-07-14 20:34:45', 187, NULL, NULL),
+(9, 11, '15110237', '2019-07-15', 'Chuẩn bị văn nghệ', 43, '2019-07-14 20:35:09', '2019-07-18 18:43:41', 187, 187, NULL),
+(10, 12, '15110237', '2019-07-18', 'Chuẩn bị máy tính', 0, '2019-07-18 06:34:23', '2019-07-18 06:34:23', 187, NULL, NULL),
+(11, 12, '18110258', '2019-07-18', 'Chuẩn bị dụng cụ', 0, '2019-07-18 06:35:15', '2019-07-18 06:35:15', 187, NULL, NULL),
+(12, 12, '15110268', '2019-07-18', 'Chuẩn bị Đề thi', 0, '2019-07-18 06:35:15', '2019-07-18 06:35:15', 187, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `workflow_details`
+--
+
+CREATE TABLE `workflow_details` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `workflow_id` int(10) UNSIGNED NOT NULL,
+  `content` text COLLATE utf8_unicode_ci,
+  `progress` int(11) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED NOT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `workflow_details`
+--
+
+INSERT INTO `workflow_details` (`id`, `workflow_id`, `content`, `progress`, `created_at`, `updated_at`, `created_by`, `updated_by`, `deleted_at`) VALUES
+(6, 2, 'Nhảy đầm xòe', 50, NULL, '2019-06-14 10:01:55', 1, 0, '0000-00-00 00:00:00'),
+(12, 1, 'Múa lửa', 10, '2019-06-14 09:31:42', '2019-06-14 10:04:51', 1, NULL, '2019-06-14 10:04:51'),
+(13, 1, 'Lắc vòng', 25, '2019-06-14 09:31:42', '2019-06-14 10:04:51', 1, NULL, '2019-06-14 10:04:51'),
+(14, 2, 'Nhảy zuiii', 40, '2019-06-14 09:32:22', '2019-06-14 10:02:35', 1, NULL, '2019-06-14 10:02:35'),
+(15, 3, 'Mua bánh 1', 20, '2019-06-14 20:10:57', '2019-06-16 01:40:53', 1, NULL, '2019-06-16 01:40:53'),
+(16, 3, 'Mua nước 1', 50, '2019-06-14 20:10:57', '2019-06-16 01:40:53', 1, NULL, '2019-06-16 01:40:53'),
+(17, 3, 'Mua bánh 2', 70, '2019-06-14 20:10:57', '2019-06-16 01:40:53', 1, NULL, '2019-06-16 01:40:53'),
+(18, 5, 'Mua dụng cụ', 10, '2019-06-14 21:08:20', '2019-07-06 00:59:24', 187, NULL, NULL),
+(19, 5, 'Dây điện', 20, '2019-06-14 21:08:20', '2019-07-06 00:59:24', 187, NULL, NULL),
+(20, 5, 'Hub mạng', 50, NULL, '2019-07-06 00:59:24', 187, NULL, NULL),
+(21, 3, 'Bánh 2', 10, '2019-06-14 22:09:28', '2019-06-16 01:40:53', 1, NULL, '2019-06-16 01:40:53'),
+(22, 6, 'hát', 80, '2019-06-14 22:10:38', '2019-06-14 22:10:38', 1, NULL, NULL),
+(23, 5, 'Bột màu', 10, '2019-06-14 22:44:33', '2019-07-06 00:59:24', 187, NULL, NULL),
+(24, 5, 'Nước', 20, '2019-06-14 22:44:33', '2019-07-06 00:59:24', 187, NULL, NULL),
+(25, 6, 'Múa', 10, '2019-06-14 22:59:36', '2019-06-14 22:59:36', 1, NULL, NULL),
+(26, 4, 'Nước uống', 10, '2019-07-08 06:54:26', '2019-07-08 06:54:26', 187, NULL, NULL),
+(27, 4, 'bánh kẹo', 20, '2019-07-08 06:54:26', '2019-07-08 06:54:26', 187, NULL, NULL),
+(28, 7, 'Dây điện', 20, '2019-07-08 06:56:44', '2019-07-08 06:56:44', 187, NULL, NULL),
+(29, 7, 'Cáp mạng', 50, '2019-07-08 06:56:44', '2019-07-08 06:56:44', 187, NULL, NULL),
+(30, 7, 'Lalâ', 100, '2019-07-08 08:07:10', '2019-07-08 08:07:10', 187, NULL, NULL),
+(31, 9, 'Tiết mục múa', 50, '2019-07-14 20:36:06', '2019-07-18 18:43:41', 187, NULL, NULL),
+(32, 9, 'Tiết mục hát đơn ca', 50, '2019-07-14 20:36:06', '2019-07-14 20:36:06', 187, NULL, NULL),
+(33, 9, 'Tiết mục nhảy đương đại', 30, '2019-07-14 20:36:06', '2019-07-18 06:33:24', 187, NULL, NULL);
+
 --
 -- Chỉ mục cho các bảng đã đổ
 --
+
+--
+-- Chỉ mục cho bảng `activities`
+--
+ALTER TABLE `activities`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `activities_student_foregin` (`leader`);
+
+--
+-- Chỉ mục cho bảng `activity_funds`
+--
+ALTER TABLE `activity_funds`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `activity_funds_activities_foregin` (`activity_id`);
+
+--
+-- Chỉ mục cho bảng `activity_fund_details`
+--
+ALTER TABLE `activity_fund_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `activity_fund_details_activity_funds_foregin` (`fund_id`);
+
+--
+-- Chỉ mục cho bảng `association_ec`
+--
+ALTER TABLE `association_ec`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `association_student_foregin` (`student_id`);
+
+--
+-- Chỉ mục cho bảng `attenders`
+--
+ALTER TABLE `attenders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `attenders_activities_foregin` (`activity_id`),
+  ADD KEY `attenders_students_foregin` (`student_id`);
+
+--
+-- Chỉ mục cho bảng `checkin`
+--
+ALTER TABLE `checkin`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `checkin_activity_foregin` (`activity_id`);
+
+--
+-- Chỉ mục cho bảng `checkin_details`
+--
+ALTER TABLE `checkin_details`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `checkin_student` (`checkin_id`,`student_id`),
+  ADD KEY `checkin_checkin_id_foregin` (`checkin_id`);
+
+--
+-- Chỉ mục cho bảng `classes`
+--
+ALTER TABLE `classes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `classes_school_years_foregin` (`school_year_id`);
+
+--
+-- Chỉ mục cho bảng `collaborators`
+--
+ALTER TABLE `collaborators`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `collaborators_student_foregin` (`student_id`);
+
+--
+-- Chỉ mục cho bảng `exec_comm`
+--
+ALTER TABLE `exec_comm`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `exec_comm_student_foregin` (`student_id`);
+
+--
+-- Chỉ mục cho bảng `logs`
+--
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `news`
+--
+ALTER TABLE `news`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `news_news_types_foregin` (`type_id`),
+  ADD KEY `news_users_foregin` (`created_by`);
+
+--
+-- Chỉ mục cho bảng `news_types`
+--
+ALTER TABLE `news_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `notifications_user_id_foreign` (`user_id`);
+
+--
+-- Chỉ mục cho bảng `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
 
 --
 -- Chỉ mục cho bảng `roles`
@@ -1674,6 +3381,21 @@ ALTER TABLE `role_user`
   ADD KEY `user_roles_roles_foregin` (`role_id`);
 
 --
+-- Chỉ mục cho bảng `school_years`
+--
+ALTER TABLE `school_years`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`student_id`),
+  ADD UNIQUE KEY `student_id_UNIQUE` (`student_id`),
+  ADD KEY `students_classes_foregin` (`class_id`),
+  ADD KEY `students_school_years_foregin` (`school_year_id`);
+
+--
 -- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
@@ -1682,8 +3404,113 @@ ALTER TABLE `users`
   ADD KEY `users_student_id_foregin` (`student_id`);
 
 --
+-- Chỉ mục cho bảng `workflows`
+--
+ALTER TABLE `workflows`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `workflows_activities_foregin` (`activity_id`),
+  ADD KEY `workflows_student_foregin` (`student_id`);
+
+--
+-- Chỉ mục cho bảng `workflow_details`
+--
+ALTER TABLE `workflow_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `detail_workflow_foregin` (`workflow_id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
+
+--
+-- AUTO_INCREMENT cho bảng `activities`
+--
+ALTER TABLE `activities`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT cho bảng `activity_funds`
+--
+ALTER TABLE `activity_funds`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT cho bảng `activity_fund_details`
+--
+ALTER TABLE `activity_fund_details`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
+--
+-- AUTO_INCREMENT cho bảng `association_ec`
+--
+ALTER TABLE `association_ec`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT cho bảng `attenders`
+--
+ALTER TABLE `attenders`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+
+--
+-- AUTO_INCREMENT cho bảng `checkin`
+--
+ALTER TABLE `checkin`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT cho bảng `checkin_details`
+--
+ALTER TABLE `checkin_details`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
+-- AUTO_INCREMENT cho bảng `classes`
+--
+ALTER TABLE `classes`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT cho bảng `collaborators`
+--
+ALTER TABLE `collaborators`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `exec_comm`
+--
+ALTER TABLE `exec_comm`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT cho bảng `logs`
+--
+ALTER TABLE `logs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
+--
+-- AUTO_INCREMENT cho bảng `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT cho bảng `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT cho bảng `news_types`
+--
+ALTER TABLE `news_types`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `roles`
@@ -1698,14 +3525,106 @@ ALTER TABLE `role_user`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1600;
 
 --
+-- AUTO_INCREMENT cho bảng `school_years`
+--
+ALTER TABLE `school_years`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=803;
 
 --
+-- AUTO_INCREMENT cho bảng `workflows`
+--
+ALTER TABLE `workflows`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT cho bảng `workflow_details`
+--
+ALTER TABLE `workflow_details`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
 -- Các ràng buộc cho các bảng đã đổ
 --
+
+--
+-- Các ràng buộc cho bảng `activities`
+--
+ALTER TABLE `activities`
+  ADD CONSTRAINT `activities_student_foregin` FOREIGN KEY (`leader`) REFERENCES `students` (`student_id`);
+
+--
+-- Các ràng buộc cho bảng `activity_funds`
+--
+ALTER TABLE `activity_funds`
+  ADD CONSTRAINT `activity_funds_activities_foregin` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`);
+
+--
+-- Các ràng buộc cho bảng `activity_fund_details`
+--
+ALTER TABLE `activity_fund_details`
+  ADD CONSTRAINT `activity_fund_details_activity_funds_foregin` FOREIGN KEY (`fund_id`) REFERENCES `activity_funds` (`id`);
+
+--
+-- Các ràng buộc cho bảng `association_ec`
+--
+ALTER TABLE `association_ec`
+  ADD CONSTRAINT `association_ec_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+
+--
+-- Các ràng buộc cho bảng `attenders`
+--
+ALTER TABLE `attenders`
+  ADD CONSTRAINT `attenders_activities_foregin` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`),
+  ADD CONSTRAINT `attenders_students_foregin` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+
+--
+-- Các ràng buộc cho bảng `checkin`
+--
+ALTER TABLE `checkin`
+  ADD CONSTRAINT `checkin_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`);
+
+--
+-- Các ràng buộc cho bảng `checkin_details`
+--
+ALTER TABLE `checkin_details`
+  ADD CONSTRAINT `checkin_checkin_id_foregin` FOREIGN KEY (`checkin_id`) REFERENCES `checkin` (`id`);
+
+--
+-- Các ràng buộc cho bảng `classes`
+--
+ALTER TABLE `classes`
+  ADD CONSTRAINT `classes_school_years_foregin` FOREIGN KEY (`school_year_id`) REFERENCES `school_years` (`id`);
+
+--
+-- Các ràng buộc cho bảng `collaborators`
+--
+ALTER TABLE `collaborators`
+  ADD CONSTRAINT `collaborators_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+
+--
+-- Các ràng buộc cho bảng `exec_comm`
+--
+ALTER TABLE `exec_comm`
+  ADD CONSTRAINT `exec_comm_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+
+--
+-- Các ràng buộc cho bảng `news`
+--
+ALTER TABLE `news`
+  ADD CONSTRAINT `news_news_types_foregin` FOREIGN KEY (`type_id`) REFERENCES `news_types` (`id`),
+  ADD CONSTRAINT `news_users_foregin` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+
+--
+-- Các ràng buộc cho bảng `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `role_user`
@@ -1715,10 +3634,30 @@ ALTER TABLE `role_user`
   ADD CONSTRAINT `user_roles_users_foregin` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
+-- Các ràng buộc cho bảng `students`
+--
+ALTER TABLE `students`
+  ADD CONSTRAINT `students_classes_foregin` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
+  ADD CONSTRAINT `students_school_years_foregin` FOREIGN KEY (`school_year_id`) REFERENCES `school_years` (`id`);
+
+--
 -- Các ràng buộc cho bảng `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_student_id_foregin` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+
+--
+-- Các ràng buộc cho bảng `workflows`
+--
+ALTER TABLE `workflows`
+  ADD CONSTRAINT `workflows_activities_foregin` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`),
+  ADD CONSTRAINT `workflows_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+
+--
+-- Các ràng buộc cho bảng `workflow_details`
+--
+ALTER TABLE `workflow_details`
+  ADD CONSTRAINT `workflow_details_ibfk_1` FOREIGN KEY (`workflow_id`) REFERENCES `workflows` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

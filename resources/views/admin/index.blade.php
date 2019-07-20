@@ -115,6 +115,9 @@ Dashboard
             <div class="mb-0 font-weight-bold">
                 <i class="far fa-hand-point-right"></i><a href="{{ route('st_student_school_year') }}" class="text-gray-800"> Tình trạng sinh viên</a>
             </div>
+            <div class="mb-0 font-weight-bold">
+                <i class="far fa-hand-point-right"></i><a href="{{ route('st_union_fee') }}" class="text-gray-800"> Tình trạng đóng đoàn phí</a>
+            </div>
           </div>
           <div class="col-auto">
             <i class="fas fa-chart-pie fa-2x text-primary"></i>
