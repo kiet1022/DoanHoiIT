@@ -59,6 +59,13 @@ class ActivityController extends Controller
     
     public function attendActivity(Request $req){
         $attender = new Attender;
+        $now = Carbon::now()->format('Y-m-d');
+        $activity = Activity::find($req->activity_id);
+        error_log($activity->end_regis_date);
+        error_log($now);
+        if ($activity->end_regis_date<$now) {
+           return redirect()->back()->with(config('constants.ERROR'),'Hết thời gian đăng kí');
+        }
         $attender->activity_id = $req->activity_id;
         $attender->student_id = Auth::user()->student->student_id;
         $attender->save();
@@ -71,6 +78,11 @@ class ActivityController extends Controller
     }
     
     public function cancelRegisActivity(Request $req){
+        $activity = Activity::find($req->activity_id);
+        $now = Carbon::now()->format('Y-m-d');
+        if ($activity->end_regis_date<$now) {
+           return redirect()->back()->with(config('constants.ERROR'),'Hết thời gian chỉnh sửa đăng kí');
+        }
         $attender = Attender::where('activity_id',$req->activity_id)->where('student_id',Auth::user()->student->student_id)->get();
         foreach ($attender as $at) {
             $at->delete();

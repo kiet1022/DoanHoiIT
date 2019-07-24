@@ -1,7 +1,5 @@
 @extends('student.layout.index')
-@section('title')
-{{$activity->name}}
-@endsection
+@section('title', $activity->name)
 @section('style')
 <link rel="stylesheet" href="{{ asset('pages/css/new.css') }}">
 @endsection
@@ -9,7 +7,9 @@
 
 <!-- section -->
 <!-- Page Header -->
-<div id="post-header" class="page-header" style="padding-top: 10%; padding-bottom: 10%;">
+<section id="news">
+  <div class="section" style="padding-top: 0">
+<div id="post-header" class="page-header" style="padding-top: 50px; padding-bottom: 50px;">
   <div class="background-img" style="background-image: url('{{ asset('assets/fileupload/activities/images/'.$activity->image) }}');"></div>
   {{-- {{ asset('images/news/'.$detail->image) }} --}}
   <div class="container">
@@ -30,44 +30,44 @@
   <!-- row -->
   <div class="row">
     <!-- Post content -->
-    <div class="col-md-8">
+    <div class="col-md-8 col-sm-12">
       <div class="section-row sticky-container">
         <div class="main-post">
           <h3 style="color: #4e73df">Thông tin chương trình</h3>
-          <table class="table table-striped">
+          <table >
             <tbody>
-              <tr>
-                <th>Tên chương trình</th>
-                <td>{{ $activity->name }}</td>
+              <tr >
+                <th class="col-sm-6">Tên chương trình</th>
+                <td class="col-sm-6">{{ $activity->name }}</td>
               </tr>
               <tr>
-                <th>Thời hạn đăng ký</th>
-                <td>Từ ngày {{date('d/m/Y',strtotime($activity->start_regis_date))}} đến ngày {{date('d/m/Y',strtotime($activity->end_regis_date))}}</td>
-              </tr>
-              
-              <tr>
-                <th>Số lượng đăng ký hiện tại</th>
-                <td>{{ $activity->register_number }}</td>
+                <th class="col-sm-6">Thời hạn đăng ký</th>
+                <td class="col-sm-6">Từ ngày {{date('d/m/Y',strtotime($activity->start_regis_date))}} đến ngày {{date('d/m/Y',strtotime($activity->end_regis_date))}}</td>
               </tr>
               
               <tr>
-                <th>Số lượng đăng ký tối đa</th>
-                <td>{{ $activity->max_regis }}</td>
+                <th class="col-sm-6">Số lượng đăng ký hiện tại</th>
+                <td class="col-sm-6">{{ $activity->register_number }}</td>
+              </tr>
+              
+              <tr>
+                <th class="col-sm-6">Số lượng đăng ký tối đa</th>
+                <td class="col-sm-6">{{ $activity->max_regis }}</td>
               </tr>
 
               <tr>
-                <th>Thời gian diễn ra chương trình</th>
-                <td>Từ ngày {{date('d/m/Y',strtotime($activity->start_date))}} đến ngày {{date('d/m/Y',strtotime($activity->end_date))}}</td>
+                <th class="col-sm-6">Thời gian diễn ra chương trình</th>
+                <td class="col-sm-6">Từ ngày {{date('d/m/Y',strtotime($activity->start_date))}} đến ngày {{date('d/m/Y',strtotime($activity->end_date))}}</td>
               </tr>
               
               <tr>
-                <th>Nội dung</th>
-                <td>{!! $activity->content !!}</td>
+                <th class="col-sm-6">Nội dung</th>
+                <td class="col-sm-6">{!! $activity->content !!}</td>
               </tr>
               
               <tr>
-                <th>Điểm cộng</th>
-                <td>
+                <th class="col-sm-6">Điểm cộng</th>
+                <td class="col-sm-6">
                   @if ($activity->practise_marks > 0)
                       {{ $activity->practise_marks }} ĐRL
                   @elseif ($activity->social_marks > 0)
@@ -76,8 +76,8 @@
                 </td>
               </tr>
               <tr>
-                <th>Liên hệ</th>
-              <td>{{ $activity->leadBy->name }} <br> Email: {{ $activity->leadBy->user->email }}</td>
+                <th class="col-sm-6">Liên hệ</th>
+              <td class="col-sm-6">{{ $activity->leadBy->name }} <br> Email: {{ $activity->leadBy->user->email }}</td>
               </tr>
               <tr>
                 @auth
@@ -198,6 +198,7 @@
 </div>
 <!-- /container -->
 </div>
+</div></section>
 <!-- /section -->
 @endsection
 @section('js')
