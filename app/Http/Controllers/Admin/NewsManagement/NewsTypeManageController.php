@@ -35,7 +35,7 @@ class NewsTypeManageController extends Controller
     }
     public function postAddNewsType(Request $request){
         // Check user role
-		$request->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
+		// $request->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         $newstype = new NewsType;
         // $success = false;
         // DB::beginTransaction();
@@ -91,7 +91,7 @@ class NewsTypeManageController extends Controller
 
     public function deleteAll(Request $request){
         // Check user role
-		$request->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
+		// $request->user()->authorizeRoles([config('constants.FULL_ROLES'), config('constants.NEWS_MANAGE_ROLE')]);
         $deleteType = "Xóa loại tin: ";
         foreach($request->id as $sid){
             $newsType = NewsType::find($sid);

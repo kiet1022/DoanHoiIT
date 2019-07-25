@@ -101,7 +101,7 @@ Danh sách chương trình
                   <td>{{date('d/m/Y',strtotime($activity->start_date))}} - {{date('d/m/Y',strtotime($activity->end_date))}}</td>
                   <td>{{$activity->leadBy->name}} - {{$activity->leadBy->student_id}}</td>
                   <td class="text-center">{!! changeActivityStatus($activity->start_date, $activity->end_date) !!}</td>
-                  <td>{!! "0" !!}</td>
+                  <td>{{ $activity->register_number }}</td>
                   <td class="text-center">
                       <a class="cm-label text-info detailToggle" data-id="{{$activity->id}}" data-toggle="modal"><i class="fas fa-list" title="Chi tiết chương trình" data-toggle="tooltip" data-placement="top"></i></a>
                       <a href="{{ route('get_edit_activity',['id'=>$activity->id]) }}"><i class="fas fa-edit cm-label text-primary" title="Chỉnh sửa chương trình" data-toggle="tooltip" data-placement="top"></i></a>
