@@ -325,12 +325,25 @@ class StudentManageController extends Controller
     */
     public function deleteStudent(Request $req){
         // Check user role
-        
-        foreach($req->student_id as $sid){
-            $student = Student::find($sid);
-            $student->delete();
+        try {
+            foreach($req->student_id as $sid){
+                $student = Student::find($sid);
+                // $user = User::find9
+                $user = User::where('student_id',$sid)->first();
+                $user->updated_by = Auth::user()->id;
+                $user->updated_at = time();
+                $user->save();
+                $user->delete();
+                $student->delete();
+                DB::commit();
+            }
+            return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Xóa sinh viên thành công!"]);
+        } catch (Exception $e) {
+            return response()->json(["status"=>config('constants.ERROR'),"message"=>$e]);
         }
-        return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Thành công!"]);
+        
+        
+        // return response()->json(["status"=>config('constants.SUCCESS'),"message"=>"Thành công!"]);
     }
     
     /**
