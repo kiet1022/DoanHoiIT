@@ -407,7 +407,7 @@ class ActivityController extends Controller
       $activity->updated_by = Auth::user()->id;
       $activity->save();
       
-      Log::AddToLog('Chỉnh sửa chương trình', $oldData, $newData);
+      // Log::AddToLog('Chỉnh sửa chương trình', $oldData, $newData);
       DB::commit();
       return redirect()->back()->with(config('constants.SUCCESS'),'Sửa thông tin chương trình thành công!');
     } catch (Exception $e) {

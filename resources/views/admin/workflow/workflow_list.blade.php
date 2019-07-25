@@ -11,7 +11,7 @@
                 <li class="breadcrumb-item"><i class="fas fa-home"></i><a href="{{ route('admin_dashboard') }}"> Dashboard</a></li>
                 <li class="breadcrumb-item"><i class="fas fa-angle-right"></i> Quản lý chương trình</li>
                 <li class="breadcrumb-item"><i class="fas fa-angle-right"></i><a href="{{ route('get_list_activity') }}"> Danh sách chương trình</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Tiến độ công việc chương trình {{ $workflows[0]->ofActivity->name }}</li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-angle-right"></i> Tiến độ công việc</li>
             </ol>
         </nav>
     </div>

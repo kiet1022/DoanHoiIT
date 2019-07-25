@@ -34,7 +34,7 @@
       <div class="section-row sticky-container">
         <div class="main-post">
           <h3 style="color: #4e73df">Thông tin chương trình</h3>
-          <table >
+          <table class="table table-striped">
             <tbody>
               <tr >
                 <th class="col-sm-6">Tên chương trình</th>
