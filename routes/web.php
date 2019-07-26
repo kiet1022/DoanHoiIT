@@ -379,9 +379,7 @@ Route::get('/test', function(){
 */
 Route::middleware(['student'])->prefix('user')->group(function(){
 
-    Route::prefix('news')->group(function(){
-        Route::get('/{id}.php', 'User\NewsController@getNewDetail')->name('get_new_detail');
-    });
+
 
     Route::prefix('activities')->group(function(){
         Route::post('attend.php','User\ActivityController@attendActivity')->name('attend_activity');
@@ -410,6 +408,9 @@ Route::middleware(['student'])->prefix('user')->group(function(){
 });
 
 Route::get('activities/detail/{id}.php','User\ActivityController@getActivityInfo')->name('user_get_activity_detail');
+Route::prefix('news')->group(function(){
+    Route::get('/{id}.php', 'User\NewsController@getNewDetail')->name('get_new_detail');
+});
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
